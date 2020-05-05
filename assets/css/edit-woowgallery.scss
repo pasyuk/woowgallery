@@ -1,0 +1,1229 @@
+/** Loads on WoowGallery Create/Edit Screen
+ *
+ * Any styles that will be used by the main Gallery editor screen should be added to this file
+ */
+/** Imports */
+@import "vars", "mixins", "checkbox-toggle";
+@import "skin-select", "skin-config";
+
+/** Edit Gallery page */
+body.post-type-woowgallery,
+body.post-type-woowgallery-album,
+body.post-type-woowgallery-dynamic {
+  .misc-pub-section:not(.misc-pub-post-status) {
+    display: none;
+  }
+}
+
+/** hide "post_content_filtered" textarea */
+#woowgallery-data {
+  display: none;
+}
+
+.wg-hints {
+  cursor: pointer;
+
+  &.show-hints {
+    color: $success_button_color;
+  }
+}
+
+span.wg-posttype-icon {
+  display: inline-block;
+  margin: 0 10px 0 0;
+  width: 1.15em;
+  height: 1.15em;
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+}
+
+.additional-preview-data {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 2;
+  pointer-events: none;
+  font-size: 21px;
+
+  .item-gallery-count {
+    opacity: 0.7;
+    padding: 7px 4px;
+    background: #0073aa;
+    line-height: 1;
+    border: 1px solid black;
+    box-shadow: -1px 1px 0 0 #eee, -2px 2px 0 0 #000, -3px 3px 0 0 #eee, -4px 4px 0 0 #000;
+    border-radius: 4px;
+    color: #fff;
+    min-width: 2.2em;
+    text-align: center;
+  }
+
+  .item-posttype-icon {
+    transform: translate(-6px, 6px);
+
+    .wg-posttype-icon {
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      background-color: #fff;
+      margin: 0;
+    }
+  }
+}
+
+/** .postbox-container */
+#woowgallery {
+  box-sizing: border-box;
+
+  * {
+    box-sizing: inherit;
+  }
+
+  #wp-description-wrap {
+    margin-top: -10px;
+  }
+
+  #wp-description-editor-tools {
+    box-sizing: content-box;
+  }
+
+  .inside {
+    padding: 10px 20px;
+    margin: 0;
+  }
+
+  .woowgallery-postbox .inside {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  h3 {
+    margin: 10px 0;
+    flex: 1;
+  }
+
+  /**
+   * Tabs
+   */
+  ul#woowgallery-tabs-nav {
+    flex: 0 0 160px;
+    align-self: stretch;
+    margin: 0;
+    padding: 0;
+    border-right: 1px solid #ddd;
+    background-color: #f7f7f7;
+    list-style: none;
+
+    li {
+      margin: 0 -1px 0 0;
+      padding: 0;
+      position: relative;
+
+      a {
+        display: block;
+        padding: 20px 0 20px 30px;
+        text-decoration: none;
+        color: #999;
+        border-right: 1px solid #ddd;
+        background-position: left center;
+        background-repeat: no-repeat;
+        transition: all 0.3s;
+
+        .dashicons {
+          color: #999;
+        }
+
+        /**
+        * Focus State
+        * - Remove WordPress' blue focus box from tabs
+        */
+        &:focus {
+          box-shadow: none;
+        }
+
+        &::before,
+        &::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: -1px;
+          height: 1px;
+          width: 100%;
+          overflow: hidden;
+          background-color: #ddd;
+          transform: scaleX(0.8);
+          transition: transform 0.3s;
+        }
+
+        &::after {
+          top: auto;
+          bottom: 0;
+        }
+
+        /**
+        * Hover and Active States
+        */
+        &:hover,
+        &.woowgallery-active {
+          text-decoration: none;
+          color: #444;
+          background-color: #fafafa;
+
+          .dashicons {
+            color: #444;
+          }
+
+          &::before,
+          &::after {
+            transform: scaleX(1);
+          }
+        }
+
+        &.woowgallery-active {
+          border-right: 1px solid $white;
+          background-color: $white;
+        }
+      }
+
+      /**
+      * Tab Icons
+      */
+      &.woowgallery {
+        a {
+          //background-image: url(images/icons/leaf.svg);
+          background-size: 16px 16px;
+        }
+      }
+
+      &.woowgallery-config {
+        a {
+          //background-image: url(images/icons/configuration.svg);
+          background-size: 16px 16px;
+        }
+      }
+
+      &.woowgallery-misc {
+        a {
+          //background-image: url(images/icons/misc.svg);
+          background-size: 16px 16px;
+        }
+      }
+    }
+  }
+
+  #woowgallery-tabs {
+    flex: 1 1 auto;
+    padding: 0 12px;
+    /**
+    * All Tabs
+    */
+    .woowgallery-tab {
+      padding: 10px;
+
+      &:not(.woowgallery-active) {
+        display: none;
+      }
+    }
+
+    /**
+    * Full width textareas
+    */
+    textarea {
+      width: 100%;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      max-width: 500px;
+    }
+  }
+
+  .woowgallery-empty-gallery {
+    text-align: center;
+    padding: 100px 0;
+    margin: 10px 0;
+    background-color: #f6f5f6;
+
+    h2 {
+      font-size: 30px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  }
+
+  /**
+   * Intro Text
+   */
+  .woowgallery-intro {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    position: relative;
+    margin: 0 0 10px;
+    border-bottom: 1px solid #ddd;
+
+    h3 {
+      max-width: 100%;
+      text-align: left;
+    }
+
+    .grid-actions {
+      display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap-reverse;
+      margin: 6px 0 6px auto;
+    }
+
+    .woowgallery-pager {
+      position: static;
+    }
+
+    .woowgallery-view-switch {
+      display: flex;
+      margin-left: 20px;
+    }
+  }
+
+  .woowgallery-dynamic-query {
+
+    .woowgallery-intro {
+      display: block;
+      text-align: center;
+
+      .wg-radio-group {
+        font-size: 15px;
+        border-radius: 6px;
+      }
+    }
+  }
+
+  .gallery-filter {
+    margin-left: 24px;
+    width: 165px !important;
+    font-size: 14px;
+  }
+
+  .woowgallery-sort-options {
+    margin-left: 20px;
+    text-align: right;
+
+    select {
+      font-size: 1em;
+    }
+  }
+
+  /**
+   * Inline Navigation
+   * - Select All
+   * - List View / Grid View
+   * - Edit / Delete Selected Items
+   */
+  nav {
+    &.woowgallery-options {
+      position: relative;
+      padding: 10px 0;
+      margin-top: -10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      min-height: 50px;
+    }
+
+    .woowgallery-select-all {
+      margin-right: 10px;
+    }
+
+    /**
+     * Edit / Delete Selected
+     * - Hidden by default, shown by JS when image(s) are selected
+     */
+    .woowgallery-select-options {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      margin-left: auto;
+
+      .woowgallery-label {
+        display: inline-block;
+        font-weight: 600;
+      }
+
+      a {
+        margin: 2px 0 2px 7px;
+        vertical-align: inherit;
+      }
+    }
+  }
+
+  input.multiselect__input {
+    min-width: auto !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  span.multiselect__sep {
+    display: inline-block;
+    padding: 4px 0;
+    margin-right: 5px;
+    line-height: 1;
+    margin-bottom: 5px;
+    overflow: hidden;
+  }
+
+  span.ms_taxname {
+    font-size: 85%;
+    color: #def4ff;
+  }
+
+  .multiselect__tag {
+    background: #00a0d2;
+
+    &.ms_tag_missed {
+      opacity: 0.6;
+    }
+  }
+
+  .multiselect__tag-icon {
+    &:after {
+      color: #006799;
+    }
+
+    &:focus,
+    &:hover {
+      background: #1d8cbe;
+
+      &:after {
+        color: #fff;
+      }
+    }
+  }
+}
+
+.woowgallery-error-message {
+  color: indianred;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.woowgallery-dynamic-query {
+
+  h4 {
+    font-size: 1.3em;
+    margin: 40px 0 10px;
+  }
+
+  .wg-fetch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    margin-top: 50px;
+
+    .spinner {
+      margin: 0;
+    }
+
+    .button {
+      font-size: 18px;
+      margin: 0 30px 0 10px;
+      padding: 5px 20px;
+      height: auto;
+      line-height: 1;
+    }
+  }
+}
+
+/**
+ * Image Grid / List
+ */
+.woowgallery-preview {
+  min-height: 300px;
+
+  .woowgallery-dynamic-query & {
+    min-height: auto;
+  }
+
+  > div {
+    opacity: 1;
+    transition: opacity 1s;
+  }
+
+  .woowgallery-loading & {
+    background: url('../images/spinner-cube.gif') 50% 75px no-repeat;
+
+    > div {
+      opacity: 0;
+    }
+  }
+
+  .woowgallery-attachments-wrapper {
+
+    ul.attachments {
+      display: grid;
+      grid-template-columns: 1fr;
+      padding: 0;
+      margin: 10px -8px 0 -8px;
+
+      .woowgallery-bulk-edit-modal & {
+        margin: 10px 0 0 0;
+      }
+
+      .attachment-preview {
+        cursor: auto;
+      }
+
+      &.sorting-allowed li {
+
+        .attachment-preview {
+          position: relative;
+          z-index: 0;
+
+          .thumbnail {
+            z-index: 1;
+            overflow: visible;
+            cursor: move;
+
+            &::before {
+              content: "::::::";
+              display: block;
+              position: absolute;
+              transform: translate(-100%, -1px) rotate(90deg);
+              border: 1px solid #dfdfdf;
+              line-height: 1;
+              height: 11px;
+              left: 3px;
+              z-index: -1;
+              top: 100%;
+              padding: 0 3px;
+              cursor: move;
+              transform-origin: right top;
+              background-color: #f7f7f7;
+              font-size: 10px;
+              color: #000;
+            }
+          }
+        }
+      }
+    }
+
+    li {
+      position: relative;
+      width: 100%;
+      z-index: 1;
+      margin: 0;
+      padding: 8px;
+      border: 2px solid #ffffff;
+      list-style: none;
+      vertical-align: top;
+      background-clip: padding-box;
+      background: #ffffff;
+      cursor: auto;
+
+      &.selected {
+        box-shadow: inset 0 0 0 3px #ffffff, inset 0 0 0 7px #5b9dd9;
+        outline: none;
+        opacity: 1 !important;
+
+        &.selected-last {
+
+          .check {
+            background-color: #1aaa00;
+          }
+        }
+
+        .check {
+          background-color: #0073aa;
+          box-shadow: 0 0 0 1px #fff, 0 0 0 2px #0073aa;
+
+          .media-modal-icon {
+            background-position: -21px 0;
+          }
+
+          &:hover .media-modal-icon {
+            background-position: -60px 0;
+          }
+        }
+      }
+
+      &.sort-chosen {
+        .attachment-preview::after {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          display: block;
+          pointer-events: none;
+          transform: translate(-50%, -50%);
+          font-size: 40px;
+          font-weight: bold;
+          color: #fff;
+          background: rgba(0, 0, 0, 0.6);
+          line-height: 100%;
+          padding: 2px 7px;
+          box-shadow: 1px 1px 0 0 rgba(255, 255, 255, 0.5), 2px 2px 0 0 rgba(0, 0, 0, 0.5),
+          3px 3px 0 0 rgba(255, 255, 255, 0.5), 4px 4px 0 0 rgba(0, 0, 0, 0.5);
+        }
+      }
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+
+        &.icon {
+          left: 50% !important;
+          top: 50% !important;
+          transform: translate(-50%, -50%);
+          max-height: 100%;
+          width: auto;
+          height: auto;
+          object-fit: initial;
+        }
+      }
+
+      /**
+       * Metadata
+       */
+      div.meta {
+        flex: 1;
+        width: auto;
+        overflow: hidden;
+        border: 1px solid #dfdfdf;
+        background-color: #f7f7f7;
+        user-select: auto;
+        cursor: auto;
+        /**
+        * Title
+        */
+        div.title {
+          font-size: 12px;
+          font-weight: 700;
+          width: 100%;
+          box-sizing: border-box;
+          min-height: 18px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        /**
+         * Additional metadata
+         */
+        div.more:empty {
+          display: none;
+        }
+      }
+
+      /**
+       * Action Buttons
+       */
+      .actions {
+        overflow: hidden;
+        display: flex;
+        justify-content: flex-end;
+
+        .dashicons {
+          display: block;
+          width: 25px;
+          height: 25px;
+          line-height: 25px;
+          font-size: 18px; /* Controls the icon size */
+          outline: none;
+          z-index: 20;
+          border-radius: 2px;
+
+          &.dashicons-trash {
+            background: #e02626;
+            color: $white;
+            transition-delay: 0ms;
+          }
+
+          &.dashicons-edit {
+            background: #0085ba;
+            color: $white;
+            transition-delay: 50ms;
+          }
+
+          &.woowgallery-item-status {
+            color: $white;
+            transition-delay: 100ms;
+          }
+
+          &.dashicons-unlock,
+          &.dashicons-shield {
+            background-color: #74b445;
+          }
+
+          &.dashicons-lock,
+          &.dashicons-shield-alt {
+            background-color: #ffa93b;
+          }
+        }
+
+      }
+    }
+
+    .subtype-video:not(.type-attachment)::after {
+      content: "";
+      width: 2em;
+      height: 2em;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M23.467,5.762c-0.118-0.045-0.232-0.068-0.342-0.068c-0.246,0-0.451,0.087-0.615,0.26l-3.76,3.217v5.766l3.76,3.578c0.164,0.173,0.369,0.26,0.615,0.26c0.109,0,0.223-0.023,0.342-0.068C23.822,18.552,24,18.284,24,17.901V6.57C24,6.186,23.822,5.917,23.467,5.762z'%3E%3C/path%3E%3Cpath d='M16.33,4.412c-0.77-0.769-1.696-1.154-2.78-1.154H3.934c-1.084,0-2.01,0.385-2.78,1.154C0.385,5.182,0,6.108,0,7.192v9.616c0,1.084,0.385,2.01,1.154,2.78c0.77,0.77,1.696,1.154,2.78,1.154h9.616c1.084,0,2.01-0.385,2.78-1.154c0.77-0.77,1.154-1.696,1.154-2.78v-3.076v-3.478V7.192C17.484,6.108,17.099,5.182,16.33,4.412z M8.742,17.229c-2.888,0-5.229-2.341-5.229-5.229c0-2.888,2.341-5.229,5.229-5.229S13.971,9.112,13.971,12C13.971,14.888,11.63,17.229,8.742,17.229z'%3E%3C/path%3E%3Ccircle cx='8.742' cy='12' r='3.5'%3E%3C/circle%3E%3C/svg%3E");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
+
+    .subtype-carousel::after {
+      content: "";
+      width: 2em;
+      height: 2em;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 45.964 45.964'%3E%3Cpath d='M32.399,40.565H11.113v1.297c0,2.24,1.838,4.051,4.076,4.051h26.733c2.239,0,4.042-1.811,4.042-4.051V15.13c0-2.237-1.803-4.068-4.042-4.068h-1.415v21.395C40.507,36.904,36.845,40.566,32.399,40.565z'%3E%3C/path%3E%3Cpath d='M0,4.102l0,28.355c0,2.241,1.814,4.067,4.051,4.067h28.365c2.237,0,4.066-1.826,4.066-4.067l0-28.356c0-2.238-1.828-4.051-4.066-4.051H4.051C1.814,0.05,0,1.862,0,4.102z'%3E%3C/path%3E%3C/svg%3E");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
+
+    .woowgallery-bulk-edit-modal & .attachment-preview {
+      cursor: auto;
+    }
+  }
+
+  /**
+   * Image Grid
+   */
+  &.grid {
+
+    ul.attachments {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+
+      body.post-type-woowgallery-album & {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      }
+    }
+
+    li {
+      display: block;
+
+      &.attachment-placeholder {
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+      }
+
+      .meta {
+        border-top: none;
+
+        .title {
+          white-space: nowrap;
+          padding: 8px 5px;
+        }
+      }
+
+      .actions {
+        position: absolute;
+        left: 10px;
+        right: 10px;
+        transform: translateY(-100%);
+        pointer-events: none;
+
+        a {
+          pointer-events: auto;
+        }
+
+        &.visible .dashicons {
+          transform: translateY(0);
+        }
+
+        .dashicons {
+          margin: 4px 2px;
+          transform: translateY(100%);
+          transition-property: transform;
+          transition-duration: 100ms;
+
+          &.dashicons-trash {
+            transition-delay: 0ms;
+          }
+
+          &.dashicons-edit {
+            transition-delay: 50ms;
+          }
+
+          &.woowgallery-item-status {
+            transition-delay: 100ms;
+          }
+        }
+      }
+
+      &:hover {
+        .dashicons {
+          transform: translateY(0);
+        }
+      }
+    }
+
+    ul.sort-group {
+      li.selected:not(.sort-chosen) {
+        z-index: 0;
+      }
+    }
+
+    .sorting {
+      li.sort-chosen,
+      li:not(.selected):hover {
+        .actions .dashicons {
+          transform: translateY(100%);
+        }
+      }
+    }
+  }
+
+  /**
+   * Image List
+   */
+  &.list {
+    ul.attachments {
+      grid-template-columns: 1fr;
+    }
+
+    li {
+      display: flex;
+      width: 100%;
+
+      .woowgallery-checkbox {
+        position: absolute;
+        left: 0;
+        top: 0;
+
+        .check {
+          left: 0;
+        }
+      }
+
+      .attachment-preview {
+        width: 120px;
+        align-self: flex-start;
+
+        body.post-type-woowgallery-album & {
+          width: 180px;
+          max-width: 35%;
+        }
+      }
+
+      .meta {
+        flex: 1 1 auto;
+        padding: 8px 20px;
+        border-left: none;
+        text-align: left;
+
+        .title {
+          padding: 0;
+          margin-bottom: 8px;
+        }
+
+        .caption {
+          max-height: 200px;
+          overflow: auto;
+          border-bottom: 1px solid #ddd;
+          padding-bottom: 10px;
+          margin-bottom: 10px;
+
+          &:empty {
+            padding: 0;
+          }
+        }
+      }
+
+      .actions {
+        position: relative;
+        padding: 0 0 0 8px;
+        order: 10;
+        flex-direction: column-reverse;
+
+        .dashicons {
+          margin: 0 0 4px;
+        }
+      }
+    }
+  }
+
+}
+
+/** Retina */
+@media (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
+  /**
+   * WP media-views.css doesn't use .wp-core-ui for the x2 icons, therefore they never get applied
+   */
+  .wp-core-ui button.check .media-modal-icon {
+    background-image: url("../../../../../wp-includes/images/uploader-icons-2x.png") !important;
+    -webkit-background-size: 134px 15px;
+    background-size: 134px 15px;
+  }
+}
+
+/** Edit Item Details Modal */
+#woowgallery-portal {
+  .preview {
+    box-sizing: border-box;
+    padding: 16px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  img.details-image,
+  video.details-video {
+    margin: 0;
+    max-height: 100%;
+  }
+
+  .details-audio {
+    width: 300px;
+    max-height: 100%;
+    max-width: 100%;
+
+    .wg-audio-cover {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .wg-audio-player {
+      width: 100%;
+      transform: translateY(-50%);
+    }
+  }
+
+  .edit-attachment-frame {
+
+    .attachment-details {
+      display: flex;
+    }
+
+    .attachment-media-view {
+      position: relative;
+      flex: 1 1 65%;
+      width: auto;
+      float: none;
+    }
+
+    .attachment-info {
+      padding-bottom: 10px;
+      width: auto;
+      min-width: 320px;
+      flex: 1 1 35%;
+
+      .settings {
+        padding-bottom: 0;
+        margin-bottom: 10px;
+        border-bottom: none;
+        overflow: visible;
+      }
+    }
+  }
+
+  .woowgallery-setting {
+    margin-bottom: 10px;
+    padding: 10px 0 20px;
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+  }
+
+  .sub-setting {
+    margin-top: 10px;
+  }
+
+  .wg-input-like {
+    border: 1px solid #ddd;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.07);
+    background-color: #eee;
+    display: block;
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    border-radius: 5px;
+    padding: 6px 8px;
+    line-height: 16px;
+    text-decoration: none;
+  }
+
+  .switcher {
+    float: left;
+    margin: 7px 20px 0 0;
+    white-space: nowrap;
+    font-weight: normal;
+    font-size: 1em;
+    padding: 0;
+
+    select {
+      width: auto;
+      height: auto;
+      display: inline-block;
+      vertical-align: baseline;
+      font-size: 1em;
+    }
+  }
+
+  label {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 5px 0;
+    display: inline-block;
+
+    &.inline-label {
+      margin: 0 10px 0 0;
+      font-weight: normal;
+      display: inline-block;
+      min-width: 80px;
+      text-align: right;
+    }
+  }
+
+  select,
+  textarea,
+  input[type="text"] {
+    display: block;
+    float: none;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    border-radius: 5px;
+  }
+
+  input[type="checkbox"] {
+    margin: 0 7px;
+    vertical-align: bottom;
+    flex: 0 0 auto;
+  }
+
+  .description {
+    display: block;
+    margin: 7px 0 0;
+    padding: 0;
+    float: none;
+    font-style: italic;
+    text-align: right;
+  }
+
+  .button.tagadd {
+    margin-left: 10px;
+  }
+
+  .tagchecklist:empty {
+    display: none;
+  }
+
+  .woowgallery-bulk-edit-modal {
+
+    .attachment-info {
+      flex: 1 1 35%;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+
+      .settings {
+        padding: 12px 16px 10px;
+        overflow: auto;
+        margin: 0;
+      }
+
+      .actions {
+        padding: 10px 16px;
+        margin: 0;
+        text-align: right;
+        border-top: 1px solid #ddd;
+        background-color: #fcfcfc;
+        box-shadow: 0 4px 4px 4px rgba(0, 0, 0, 0.1);
+
+        .spinner {
+          float: none;
+        }
+      }
+    }
+  }
+
+  #qt_item-caption_toolbar.woowgallery-disabled {
+    display: none;
+  }
+
+  #tagcloud-media_tag {
+    margin-top: 7px;
+  }
+
+  .details-carousel {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    .details-image {
+      visibility: hidden;
+    }
+
+    .swiper-container {
+      position: absolute;
+      width: 100%;
+      max-height: 100%;
+      max-width: 640px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+
+      img,
+      video {
+        max-width: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .attachment-view-details {
+    font-size: 14px;
+
+    .item-counters {
+      display: flex;
+      flex-wrap: wrap;
+      font-size: 18px;
+
+      .item-counter {
+        margin-right: 15px;
+      }
+    }
+  }
+
+  span.hashtag {
+    color: steelblue;
+  }
+}
+
+.wg-add-media-toggle {
+  display: inline-block;
+  cursor: pointer;
+  user-select: none;
+
+  input[type="checkbox"] {
+    display: none !important;
+
+    &:not(:checked) {
+      ~ .prepend-mode,
+      ~ .selected-hide {
+        display: none;
+      }
+
+      ~ .append-mode,
+      ~ .selected-show {
+        display: inline-block;
+      }
+    }
+
+    &:checked {
+      ~ .prepend-mode,
+      ~ .selected-hide {
+        display: inline-block;
+      }
+
+      ~ .append-mode,
+      ~ .selected-show {
+        display: none;
+      }
+    }
+  }
+
+  span {
+    vertical-align: middle;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+
+    object {
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    &.append-mode {
+      transform: rotate(180deg);
+    }
+
+    &.selected-hide {
+      opacity: 0.5;
+    }
+  }
+
+}
+
+label object {
+  width: 32px;
+  height: 32px;
+}
+
+@media screen and (max-width: 1150px) {
+  #woowgallery {
+
+    ul#woowgallery-tabs-nav {
+      flex-basis: 40px;
+
+      li {
+
+        a {
+          padding: 10px;
+        }
+
+        .tab-label {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .woowgallery-top-buttons {
+
+    .wg-media-buttons {
+      font-size: 1em;
+
+      .button {
+        padding: 0.3em 1em 0.3em 1em;
+
+        span:first-child + span {
+          display: none;
+        }
+      }
+    }
+  }
+
+  #woowgallery-portal {
+
+    .edit-attachment-frame {
+
+      .attachment-details {
+        flex-direction: column;
+        position: relative;
+        min-height: 100%;
+      }
+
+      .attachment-media-view {
+        flex: 0 1 auto;
+        max-width: 320px;
+        height: auto;
+        min-height: initial;
+        margin: 0 auto;
+      }
+    }
+  }
+}
+

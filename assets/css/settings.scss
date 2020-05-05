@@ -1,0 +1,55 @@
+/** Loads on WoowGallery Create/Edit Screen
+ *
+ * Any styles that will be used by the main Gallery editor screen should be added to this file
+ */
+/** Imports */
+@import "vars", "mixins", "helpers", "checkbox-toggle";
+@import "skin-select", "skin-config";
+
+.woowgallery-wrap {
+  box-sizing: border-box;
+
+  * {
+    box-sizing: inherit;
+  }
+
+  .inside {
+    padding: 10px 20px;
+    margin: 0;
+
+    > .form-group:first-child {
+      border-top: none;
+    }
+
+    &::after {
+      content: "";
+      display: table;
+      clear: both;
+      height: 0;
+      overflow: hidden;
+    }
+  }
+
+  .woowgallery-postbox .inside {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  h3 {
+    margin: 10px 0;
+  }
+
+  //.license-active {
+  //  [data-action="activate"] {
+  //    display: none
+  //  }
+  //}
+  //
+  //.license-inactive {
+  //  [data-action="deactivate"] {
+  //    display: none
+  //  }
+  //}
+}

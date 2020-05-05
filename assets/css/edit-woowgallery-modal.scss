@@ -1,0 +1,16 @@
+/**
+Styles for edit WoowGallery pages in modal iframe (wpless)
+ */
+
+#wpbody-content {
+  .wrap {
+    margin: 10px 20px 0;
+  }
+
+  #minor-publishing,
+  #delete-action,
+  #woowgallery-tips,
+  #woowgallery-code {
+    display: none;
+  }
+}

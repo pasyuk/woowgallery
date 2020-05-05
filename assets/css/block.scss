@@ -1,0 +1,112 @@
+/* Gutenberg Block Editor CSS */
+.wp-block {
+  .woowgallery-wrapper {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      left: 0;
+      top:0;
+      right: 0;
+      bottom: 0;
+      content: '';
+      cursor: crosshair;
+      z-index: 10;
+    }
+  }
+
+  &.is-selected:not(.is-reusable) {
+    .woowgallery-wrapper::after {
+      display: none;
+    }
+  }
+}
+
+.woowgallery-select-block {
+  .button.woowgallery-modal-button {
+    margin: 0 auto 20px auto;
+    display: flex;
+    align-items: center;
+  }
+
+  .woowgallery-details {
+    margin: 20px 0;
+    padding: 10px 0;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .wg-title {
+      font-size: 1.1em;
+      font-weight: bold;
+      margin: 5px 0;
+    }
+
+    .wg-date {
+      font-size: 0.9em;
+    }
+
+    .wg-count {
+      font-size: 0.95em;
+    }
+
+    .wg-edit {
+      text-align: center;
+    }
+
+    .button.woowgallery-edit-button {
+      display: inline-flex;
+      align-items: center;
+      margin: 5px auto;
+    }
+  }
+
+  .woowgallery-flexblock {
+    display: flex;
+
+    > div:first-child {
+      flex: 1;
+      margin-right: 12px;
+    }
+  }
+}
+
+.woowgallery-block-edit {
+  border: 1px solid #ddd;
+  background: linear-gradient(-45deg, #f4f4f5, #fff);
+
+  .woowgallery-block-edit-header {
+    background: #00a0d2 url("../images/woowgallery-logo.png") 34px 100% no-repeat;
+    background-size: auto 68px;
+    height: 80px;
+    color: #fff;
+    display: flex;
+    align-items: flex-end;
+    padding-left: 110px;
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 1;
+    padding-bottom: 18px;
+  }
+
+  .button.woowgallery-modal-button {
+    margin: 45px auto;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.button.woowgallery-modal-button,
+.button.woowgallery-edit-button {
+
+  .dashicons {
+    margin-right: 5px;
+  }
+}

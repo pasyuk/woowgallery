@@ -1,0 +1,280 @@
+/** admin.css loads on all WoowGallery Administration Screens. */
+/** Imports */
+@import "vars";
+@import "mixins";
+
+#wpcontent {
+  #wpbody {
+    &,
+    #wpbody-content {
+      overflow: visible !important;
+    }
+  }
+}
+
+body.post-type-woowgallery,
+body.post-type-woowgallery-dynamic,
+body.post-type-woowgallery-album {
+
+  th#image,
+  th.column-image {
+    width: 100px;
+  }
+
+  td.column-image {
+    img {
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 10px;
+    }
+    span {
+      display: inline-block;
+      margin-top: 5px;
+    }
+  }
+
+  th#posts,
+  th.column-posts,
+  td.column-posts {
+    width: 12%;
+    text-align: left;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  th#modified,
+  th.column-modified {
+    width: 10%;
+  }
+
+  .wp-list-table tr td.check-column::before,
+  .wp-list-table tr td.column-image::before {
+    display: none !important;
+  }
+
+  @media screen and (max-width: 782px) {
+    .wp-list-table tr th.column-image {
+      display: none !important;
+    }
+  }
+
+  /** Subheading */
+  .subheading {
+    background-color: $white;
+    height: 45px;
+    margin-left: -20px;
+    @include mq(xs) {
+      height: auto;
+      padding-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 45px;
+      margin: 0 0 0 20px;
+      padding-left: 20px;
+    }
+  }
+
+  /** Wrapper */
+  div.wrap {
+    /** Screen Title */
+    > h1 {
+      position: relative;
+      overflow: visible;
+      padding-top: 5px;
+      margin-bottom: 20px;
+
+      &::before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: -10px;
+        box-shadow: 0px -100vw 0 100vw $white;
+        background: $white;
+      }
+    }
+  }
+
+  #wpbody-content #screen-meta-links {
+    display: none;
+  }
+}
+
+/** Header */
+#woowgallery-screen-meta-block {
+  position: relative;
+  margin-left: -20px;
+  padding-left: 20px;
+  background-color: $blue;
+}
+
+#woowgallery-header {
+  background-color: $blue;
+  height: $header-height;
+  margin-left: -20px;
+  padding-left: 20px;
+  padding-top: 10px;
+  box-shadow: 1000px -1000px 0 1000px $blue;
+
+  @include mq(xxs) {
+    padding-top: 50px;
+    height: $header-height / 2;
+  }
+
+  h1.woowgallery-logo {
+    margin: 0;
+    line-height: $header-height;
+    color: $white;
+    font-weight: 700;
+    text-transform: uppercase;
+
+    @include mq(xxs) {
+      line-height: $header-height / 2;
+    }
+
+    img {
+      height: $header-height;
+      width: auto;
+      vertical-align: top;
+      margin-right: 10px;
+
+      @include mq(xxs) {
+        height: $header-height / 2;
+      }
+    }
+  }
+}
+
+/** Code Snippets */
+div.woowgallery-code {
+  position: relative;
+  margin: 0 0 10px 0;
+
+  code {
+    display: block;
+    font-size: 11px;
+    padding: 5px 20px 5px 5px;
+  }
+
+  /** Copy to Clipboard */
+  a.woowgallery-clipboard {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    overflow: hidden;
+    transition: color 0.3s;
+    color: $blue;
+
+    &:hover {
+      color: darken($blue, 20);
+    }
+
+    span {
+      display: block;
+      text-indent: -9999px;
+    }
+  }
+}
+
+/** Button Styles */
+.button {
+  /** Red Button */
+  &.button-danger {
+    background: $danger_button_color;
+    border-color: $danger_button_color;
+    color: $white;
+
+    &:hover {
+      background: $danger_button_color_hover;
+      border-color: $danger_button_color_hover;
+      color: $white;
+    }
+  }
+}
+
+#wpbody {
+  @include mq(xxs) {
+    padding-top: 0;
+  }
+}
+
+.woowgallery-pro-feature {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f7f7f7;
+  text-align: center;
+  padding: 20px 10px;
+
+  h6 {
+    font-size: 14px;
+    margin: 0 0 12px;
+  }
+
+  .dashicons {
+    margin-top: 3px;
+    margin-right: 5px;
+  }
+}
+
+.CodeMirror.CodeMirror-wrap {
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+}
+
+#woowgallery-iframe-content {
+  padding: 0 20px;
+  margin-top: -3px;
+
+  #woowgallery {
+    padding: 0 !important;
+
+    > h1 {
+      display: none;
+    }
+  }
+
+  #woowgallery-skins {
+    display: none;
+  }
+
+  &.choose-skin #woowgallery-skins {
+    display: block;
+  }
+}
+
+.ui-autocomplete {
+  z-index: 999999;
+}
+
+[v-cloak] {
+  display: none;
+}
+
+.woowgallery-disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.woowgallery-flex {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  &.align-top {
+    align-items: flex-start;
+  }
+
+  &.space-between {
+    justify-content: space-between;
+  }
+}
+
+.form-control {
+  border-radius: 5px;
+  box-sizing: border-box;
+}

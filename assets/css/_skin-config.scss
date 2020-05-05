@@ -1,0 +1,422 @@
+/** Skin Config */
+.woowgallery-skin-settings {
+  padding: 10px 20px;
+  width: 100%;
+
+  #woowgallery-tab-config & {
+    padding: 0;
+  }
+
+  .woowgallery-skin-sreenshot {
+    float: left;
+
+    img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 65px;
+      margin-right: 10px;
+    }
+
+    #woowgallery-iframe-content & {
+      display: block;
+    }
+    #woowgallery-iframe-content.choose-skin & {
+      display: none;
+    }
+  }
+
+  .woowgallery-config-wrapper {
+    display: flex;
+  }
+
+  .woowgallery-config-tabs-nav {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 150px;
+    max-width: 220px;
+    padding: 0;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    margin-top: -11px;
+    margin-bottom: -10px;
+    background-color: #f7f7f7;
+
+    a {
+      display: block;
+      background: #f7f7f7;
+      color: #010101;
+      text-decoration: none;
+      font-weight: bold;
+      border: 1px solid #dddddd;
+      border-top: none;
+      border-left: none;
+      margin: 0 -1px 0 0;
+      padding: 20px 5px 20px 20px;
+      box-shadow: inset -2px 0px 4px -2px #ddd;
+
+      &.woowgallery-active {
+        background: #fff;
+        border-right-color: #fff;
+        box-shadow: none;
+      }
+    }
+  }
+
+  .woowgallery-config-tabs {
+    flex: 1 1 70%;
+
+    fieldset {
+      padding-top: 8px;
+      padding-right: 0;
+
+      h4 {
+        font-size: 1.4em;
+        line-height: 1.2;
+        margin: 0 0 20px 0;
+      }
+    }
+  }
+
+  .form-control {
+    min-height: 26px;
+    width: 100%;
+  }
+}
+
+.woowgallery-wrap {
+
+  .woowgallery-skin-intro {
+    position: relative;
+    margin: 0 0 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+
+    > p {
+      min-width: 200px;
+      overflow: hidden;
+    }
+  }
+
+  .woowgallery-load-preset.form-control {
+    min-height: auto;
+    max-width: 150px;
+    float: right;
+    margin: 4px 0 10px 10px;
+
+    &.activity {
+      color: transparent;
+      background: url('../images/loader-wave.gif') center center repeat-x;
+    }
+
+    .woowgallery_page_woowgallery-settings & {
+      display: none;
+    }
+  }
+
+  fieldset {
+    padding: 16px;
+    display: none;
+
+    &.woowgallery-active {
+      display: block;
+    }
+  }
+
+  .form-group {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 16px 0;
+    min-height: 34px;
+    box-sizing: content-box !important;
+    align-items: center;
+    border-top: 1px solid #eee;
+
+    &:first-child {
+      border-top: none;
+    }
+
+    > * {
+      margin-top: 4px;
+      margin-bottom: 4px;
+    }
+
+    label {
+      flex: 1 1 175px;
+      font-weight: bold;
+      font-size: 14px;
+      margin-right: 10px;
+
+      select,
+      input {
+        width: auto;
+      }
+    }
+
+    select,
+    input[type="text"],
+    input[type="number"],
+    input[type="color"] {
+      min-width: 50px;
+      max-width: none;
+      width: 100%;
+    }
+  }
+
+  .woowgallery-intro + .form-group {
+    border-top: none;
+  }
+
+  .form-group.field-textarea {
+    align-items: flex-start;
+
+    label {
+      margin-top: 10px;
+    }
+  }
+
+  .field-wrap {
+    flex: 4 1 320px;
+
+    .wrapper {
+      width: 100%;
+      max-width: 420px;
+      box-sizing: border-box !important;
+    }
+
+    .woowgallery-pro-feature {
+      display: inline-block;
+    }
+
+    &.with-button {
+      display: flex;
+
+      .field-button {
+        margin-left: 10px;
+        align-self: flex-start;
+
+        &.activity {
+          background: url('../images/loader-wave.gif') center center repeat-x;
+
+          button {
+            visibility: hidden;
+            pointer-events: none;
+          }
+        }
+      }
+    }
+
+    .wg-flexbox {
+      display: flex;
+      max-width: 420px;
+      width: 100%;
+      align-items: center;
+
+      .inline-field {
+        position: relative;
+        flex: 1 1 auto;
+        margin-left: 10px;
+
+        &:first-child {
+          margin-left: 0;
+        }
+
+        label {
+          position: absolute;
+          font-size: 90% !important;
+          top: 100%;
+          left: 5px;
+        }
+      }
+    }
+  }
+
+  div.help {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 0.3em;
+    position: relative;
+    z-index: 4;
+
+    .icon {
+      display: inline-block;
+      width: 16px;
+      height: 14px;
+      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAA+UlEQVQ4ja3TS0oDQRAG4C8+lq7ceICICoLGK7iXuNBbeAMJuPVOIm7cqmDiIncIggg+cMZFaqCnZyYKWtB0df31V1VXdfNH6S2wD9CP8xT3KH8T9BiTcE7XBMOfyBcogvCFO9ziLWwFRosyV+QxthNsA9dJkEYlvazsQdi3sBv6Ol6TBLX+HWT3fcQZ3vGM5fBLk+ynAU41m1biCXvhs4OPBDuBpa6GxF0P8YAj3GA1d1qJfdoS4DOIcIm1DK9x8iaWeDF/SP3QU6zRROpjLDFLsFlibx1jJaMkSIGrWKntvItcyTBKzCcybsvc9ZmYz3kz9Ooz/b98A8yvW13B3ch6AAAAAElFTkSuQmCC");
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+
+    .helpText {
+      background-color: #444;
+      bottom: 30px;
+      color: #fff;
+      display: block;
+      left: 0;
+      opacity: 0;
+      padding: 7px 10px;
+      pointer-events: none;
+      position: absolute;
+      text-align: justify;
+      font-size: 80%;
+      width: 300px;
+      transition: all 0.25s ease-out;
+      box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+      border-radius: 6px;
+
+      a {
+        font-weight: bold;
+        text-decoration: underline;
+      }
+    }
+
+    /* This bridges the gap so you can mouse into the tooltip without it disappearing */
+    .helpText:before {
+      bottom: -20px;
+      content: " ";
+      display: block;
+      height: 20px;
+      left: 0;
+      position: absolute;
+      width: 100%;
+    }
+
+    &:hover .helpText {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0px);
+    }
+  }
+
+  .hint {
+    padding: 12px 0 4px 0;
+    font-style: italic;
+    width: 100%;
+
+    code {
+      font-style: initial;
+    }
+  }
+
+  .field-checkbox {
+    .field-wrap .wrapper {
+      display: inline-block;
+      width: auto;
+
+      ~ .hint {
+        display: inline-block;
+        padding: 0 0 0 7px;
+      }
+    }
+  }
+
+  /* Color Picker */
+  .sp-preview-inner {
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+    width: 100%;
+    border: 1px solid #eee;
+    border-radius: 50%;
+    background-image: none;
+    cursor: pointer;
+  }
+
+  .sp-replacer {
+
+    &,
+    &:hover,
+    &.sp-active {
+      border: none;
+      padding: 0;
+      background: transparent;
+      overflow: visible;
+    }
+
+    .sp-preview {
+      background: transparent;
+      border: none;
+      display: inline-block;
+      height: 28px;
+      width: 28px;
+      margin-right: 14px;
+      vertical-align: top;
+      transform: scale(1);
+      transition: 100ms transform ease;
+    }
+
+    .sp-preview:hover,
+    &.sp-active .sp-preview {
+      transform: scale(1.2);
+    }
+
+    .sp-dd {
+      display: none;
+    }
+
+    .sp-preview-inner::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+/* Color Picker */
+.sp-container {
+  border-radius: 4px;
+  background-color: #fdfdfd;
+  border-color: #ccc;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+
+  button.sp-choose {
+    background: #0085ba;
+    border-color: #0073aa #006799 #006799;
+    box-shadow: 0 1px 0 #006799;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 -1px 1px #006799, 1px 0 1px #006799, 0 1px 1px #006799, -1px 0 1px #006799;
+    text-transform: capitalize;
+    font-size: 12px;
+    line-height: 1;
+    padding: 5px 12px 4px;
+
+    &:hover,
+    &:active {
+      background: #008ec2;
+      border-color: #006799;
+      color: #fff;
+    }
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .woowgallery-skin-settings {
+
+    div.help {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .woowgallery-skin-settings {
+
+    .woowgallery-config-wrapper {
+      flex-wrap: wrap;
+    }
+
+    .woowgallery-config-tabs {
+      margin-top: 30px;
+
+      fieldset {
+        padding-left: 0;
+      }
+    }
+  }
+}

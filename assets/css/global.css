@@ -1,0 +1,60 @@
+.woowgallery-icon { width: 18px; height: 20px; display: inline-block; vertical-align: middle; background: url("../images/woowgallery-icon.png") center top no-repeat; background-size: 18px 18px; }
+
+/* Helper styles */
+.woowgallery-hidden { display: none !important; }
+
+.wg-clearfix::before, .wg-clearfix::after { content: " "; display: table; clear: both; height: 0; overflow: hidden; }
+
+/** Pager */
+.woowgallery-pager { display: -webkit-inline-box; display: -webkit-inline-flex; display: inline-flex; line-height: 18px; font-size: 12px; height: 22px; }
+
+.woowgallery-pager .woowgallery-btn { display: inline-block; font-size: 14px; font-weight: 400; text-align: center; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; border: 1px solid #b4b9be; border-radius: 3px; text-decoration: none; padding: 0 7px; min-width: 18px; }
+
+.woowgallery-pager .woowgallery-btn:hover { text-decoration: none; }
+
+.woowgallery-pager .woowgallery-btn:active { box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); }
+
+.woowgallery-pager .woowgallery-btn.disabled { pointer-events: none; cursor: not-allowed; filter: alpha(opacity=65); box-shadow: none; opacity: .65; }
+
+.woowgallery-pager .woowgallery-btn-group { display: -webkit-inline-box; display: -webkit-inline-flex; display: inline-flex; }
+
+.woowgallery-pager .woowgallery-btn-group .woowgallery-btn { border-radius: 0; margin-left: -1px; }
+
+.woowgallery-pager .woowgallery-btn-group .woowgallery-btn:first-child { margin-left: 0; border-top-left-radius: 3px; border-bottom-left-radius: 3px; }
+
+.woowgallery-pager .woowgallery-btn-group .woowgallery-btn:last-child { border-top-right-radius: 3px; border-bottom-right-radius: 3px; }
+
+.woowgallery-pager .woowgallery-page-of { margin: 0 10px; }
+
+.woowgallery-pager .woowgallery-page-of .woowgallery-pager-current-page { padding: 1px 4px; margin: 0; height: 100%; width: 45px; text-align: center; font-size: 13px; }
+
+.woowgallery-pager .woowgallery-page-of .woowgallery-btn-addon { border: 1px solid #ccc; padding: 1px 7px; background: #f1f1f1; }
+
+.woowgallery-pager .woowgallery-page-of .woowgallery-btn-addon:first-child { border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-right: none; }
+
+.woowgallery-pager .woowgallery-page-of .woowgallery-btn-addon:last-child { border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-left: none; }
+
+.woowgallery-simple-pager { line-height: 18px; padding: 10px 0; border-top: 1px solid #ddd; }
+
+.woowgallery-dynamic-query .woowgallery-simple-pager { border: none; }
+
+.woowgallery-simple-pager .woowgallery-label { display: inline-block; font-weight: 600; margin-right: 10px; }
+
+.woowgallery-simple-pager .woowgallery-btn-page { display: inline-block; font-weight: 400; text-align: center; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; border: 1px solid #b4b9be; border-radius: 3px; text-decoration: none; padding: 4px 3px; min-width: 34px; cursor: pointer; }
+
+.woowgallery-simple-pager .woowgallery-btn-page:hover { box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); text-decoration: none; }
+
+.woowgallery-simple-pager .woowgallery-btn-page:active { box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.25); }
+
+.woowgallery-simple-pager .woowgallery-btn-page.current { box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); background-color: #5a9dd9; color: #fff; cursor: default; }
+
+.woowgallery-simple-pager .woowgallery-btn-page.disabled { pointer-events: none; cursor: not-allowed; filter: alpha(opacity=65); box-shadow: none; opacity: .65; }
+
+.woowgallery-simple-pager .woowgallery-btn-group { display: -webkit-inline-box; display: -webkit-inline-flex; display: inline-flex; }
+
+.woowgallery-simple-pager .woowgallery-btn-group .woowgallery-btn-page { border-radius: 0; margin-left: -1px; }
+
+.woowgallery-simple-pager .woowgallery-btn-group :first-child { margin-left: 0; border-top-left-radius: 3px; border-bottom-left-radius: 3px; }
+
+.woowgallery-simple-pager .woowgallery-btn-group :last-child { border-top-right-radius: 3px; border-bottom-right-radius: 3px; }
+/*# sourceMappingURL=global.css.map */

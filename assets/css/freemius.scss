@@ -1,0 +1,39 @@
+@import "vars", "mixins";
+
+#wpbody {
+
+  #fs_connect {
+    margin: 0 10px 0 0;
+    width: auto;
+    max-width: 720px;
+    background: #fff;
+
+    .fs-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      > * {
+        position: relative;
+        left: 0;
+        top: 0;
+        margin: 0;
+      }
+
+      > .dashicons-plus {
+        width: auto;
+        height: auto;
+        margin: 0 10px;
+
+        @include mq(xxs) {
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  .fs-secure-notice {
+    position: sticky;
+    margin-left: -20px;
+  }
+}
