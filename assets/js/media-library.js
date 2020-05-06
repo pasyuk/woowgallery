@@ -122,7 +122,8 @@ window.wp = window.wp || {};
     createToolbar: function() {
       // Make sure to load the original toolbar.
       original.AttachmentsBrowser.createToolbar.call(this);
-      var self = this;
+      var self = this,
+          i = 1;
 
       $.each(l10n.taxonomies, function(taxonomy, values) {
 
