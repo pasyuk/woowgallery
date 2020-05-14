@@ -18,27 +18,11 @@ defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 class Shortcodes {
 
 	/**
-	 * Iterator for shortcodes on the page.
+	 * Holds the class object.
 	 *
-	 * @var int
+	 * @var Skins object
 	 */
-	public $counter = 1;
-
-	/**
-	 * Array of galleries with data
-	 *
-	 * @var array
-	 */
-	public $galleries = [];
-
-	/**
-	 * Gallery output HTML
-	 *
-	 * @var mixed
-	 * @access public
-	 */
-	public $gallery_markup;
-
+	public static $instance;
 	/**
 	 * Is mobile
 	 *
@@ -46,6 +30,25 @@ class Shortcodes {
 	 * @access public
 	 */
 	public $is_mobile;
+	/**
+	 * Iterator for shortcodes on the page.
+	 *
+	 * @var int
+	 */
+	protected $counter = 1;
+	/**
+	 * Array of galleries with data
+	 *
+	 * @var array
+	 */
+	protected $galleries = [];
+	/**
+	 * Gallery output HTML
+	 *
+	 * @var mixed
+	 * @access public
+	 */
+	protected $gallery_markup;
 
 	/**
 	 * Primary class constructor.
@@ -66,6 +69,19 @@ class Shortcodes {
 		/* Yoast SEO */
 		add_filter( 'wpseo_sitemap_urlimages', [ $this, 'woowgallery_filter_wpseo_sitemap_urlimages' ], 10, 2 );
 
+	}
+
+	/**
+	 * Returns the singleton instance of the class.
+	 *
+	 * @return Skins object
+	 */
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Skins ) ) {
+			self::$instance = new Skins();
+		}
+
+		return self::$instance;
 	}
 
 	/**
@@ -90,7 +106,17 @@ class Shortcodes {
 		}
 
 		if ( ! empty( $style ) ) {
-			return wp_kses( $style, [ 'style' => [ 'type', 'id' ] ] ) . $gallery_markup;
+			$style = wp_kses(
+				$style,
+				[
+					'style' => [
+						'type' => [],
+						'id'   => [],
+					],
+				]
+			);
+
+			return $style . $gallery_markup;
 		}
 
 		return $gallery_markup;
@@ -108,7 +134,15 @@ class Shortcodes {
 			// Build out the custom CSS.
 			$style = '<style type="text/css" id="woowgallery-global-custom-styles">' . woowgallery_minify( html_entity_decode( stripslashes( $custom_css ), ENT_QUOTES ), false ) . '</style>';
 
-			return wp_kses( $style, [ 'style' => [ 'type', 'id' ] ] );
+			return wp_kses(
+				$style,
+				[
+					'style' => [
+						'type' => [],
+						'id'   => [],
+					],
+				]
+			);
 		}
 
 		return '';
@@ -312,6 +346,8 @@ class Shortcodes {
 		$wg        = new Gallery( $gallery_id, $type );
 		$classes   = $wg->get_settings( 'classes', [] );
 		$classes[] = 'woowgallery-wrapper';
+		$classes[] = 'wg-id-' . $gallery_id;
+		$classes[] = 'type-' . $type;
 
 		// Allow filtering of classes and then return what's left.
 		$classes = apply_filters( 'woowgallery_shortcode_classes', $classes, $gallery_id );
@@ -501,4 +537,12 @@ class Shortcodes {
 		return '<strong>Execution Time</strong>: ' . $r . ' seconds<br />';
 	}
 
+	/**
+	 * Get on page galleries array data.
+	 *
+	 * @return array
+	 */
+	public function get_galleries() {
+		return $this->galleries;
+	}
 }

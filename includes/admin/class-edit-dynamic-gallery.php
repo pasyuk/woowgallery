@@ -60,6 +60,8 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 		wp_enqueue_style( WOOWGALLERY_SLUG . '-edit-woowgallery-style' );
 		wp_enqueue_script( WOOWGALLERY_SLUG . '-edit-dynamic-gallery-script' );
 
+		Settings::enqueue_code_editor();
+
 		// Fire a hook to load custom metabox scripts.
 		do_action( 'woowgallery_edit_gallery_scripts' );
 
@@ -180,8 +182,8 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 			$cache = absint( $wg->get_settings( 'cache', Settings::get_settings( 'cache' ) ) );
 
 			if ( $cache ) {
-				$content_updated = update_post_meta( $post->ID, Gallery::GALLERY_CONTENT_META_KEY, $query_content['posts'] );
-				$update_value    = $content_updated ? time() + $cache * HOUR_IN_SECONDS : 1;
+				update_post_meta( $post->ID, Gallery::GALLERY_CONTENT_META_KEY, $query_content['posts'] );
+				$update_value = time() + $cache * HOUR_IN_SECONDS;
 			} else {
 				$update_value = 1;
 			}

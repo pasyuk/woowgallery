@@ -89,7 +89,9 @@ class Assets {
 			plugins_url( 'assets/js/admin.min.js', WOOWGALLERY_FILE ),
 			[
 				'jquery',
+				'underscore',
 				'clipboard',
+				'wp-i18n',
 			],
 			WOOWGALLERY_VERSION,
 			true
@@ -103,7 +105,6 @@ class Assets {
 			plugins_url( 'assets/js/settings.min.js', WOOWGALLERY_FILE ),
 			[
 				WOOWGALLERY_SLUG . '-admin-script',
-				'jquery',
 				'vuejs',
 				'vue-toasted',
 				'backbone',
@@ -122,10 +123,8 @@ class Assets {
 			plugins_url( 'assets/js/editor-modal.js', WOOWGALLERY_FILE ),
 			[
 				WOOWGALLERY_SLUG . '-admin-script',
-				'jquery',
 				'vuejs',
 				'backbone',
-				'wp-i18n',
 			],
 			WOOWGALLERY_VERSION,
 			true

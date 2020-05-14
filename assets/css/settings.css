@@ -62,23 +62,23 @@
 
 .wg-toggle-labels input[type="checkbox"]:disabled, .wg-toggle-labels input[type="checkbox"]:disabled + span { cursor: not-allowed; }
 
-.wg-toggle { position: relative; display: inline-block; margin-right: 16px; box-sizing: border-box !important; color: #6c7781; }
+.wg-toggle { position: relative; display: inline-block; margin-right: 16px; box-sizing: border-box !important; color: #6c7781; vertical-align: middle; font-size: 13px; }
 
 .wg-toggle input[type="checkbox"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; margin: 0; padding: 0; z-index: 1; border: none; }
 
 .wg-toggle .wg-toggle__track { content: ""; display: inline-block; vertical-align: top; background-color: #fff; border: 0.2em solid currentColor; width: 4em; height: 2em; border-radius: 1em; transition: 0.2s background ease; }
 
+.wg-toggle .wg-toggle__track::after { content: ""; display: block; overflow: hidden; position: absolute; top: 0.65em; right: 0.65em; box-sizing: border-box; height: 0.65em; width: 0.65em; border: 0.17em solid currentColor; border-radius: 50%; }
+
 .wg-toggle .wg-toggle__thumb { display: block; position: absolute; top: 0.45em; left: 0.45em; width: 1.1em; height: 1.1em; border-radius: 50%; transition: 0.1s transform ease; background-color: currentColor; border: 0.55em solid currentColor; }
 
-.wg-toggle::after { content: ""; display: block; overflow: hidden; position: absolute; top: 0.65em; right: 0.65em; box-sizing: border-box; height: 0.65em; width: 0.65em; border: 0.17em solid currentColor; border-radius: 50%; }
+.wg-toggle.is-checked, .wg-toggle input:checked ~ span { color: #fff; }
 
-.wg-toggle.is-checked { color: #fff; }
+.wg-toggle.is-checked .wg-toggle__track, .wg-toggle input:checked ~ .wg-toggle__track { background-color: #11a0d2; border: 1em solid transparent; }
 
-.wg-toggle.is-checked .wg-toggle__track { background-color: #11a0d2; border: 1em solid transparent; }
+.wg-toggle.is-checked .wg-toggle__track::after, .wg-toggle input:checked ~ .wg-toggle__track::after { left: 0.88em; right: auto; width: 0.2em; border-radius: 0; }
 
-.wg-toggle.is-checked .wg-toggle__thumb { background-color: currentColor; border-width: 0; transform: translateX(2em); }
-
-.wg-toggle.is-checked::after { left: 0.88em; right: auto; width: 0.2em; border-radius: 0; }
+.wg-toggle.is-checked .wg-toggle__thumb, .wg-toggle input:checked ~ .wg-toggle__thumb { background-color: currentColor; border-width: 0; transform: translateX(2em); }
 
 .wg-radio-group { border: solid 1px #dddddd; display: inline-flex; margin: 20px; border-radius: 20px; overflow: hidden; background-color: #f7f7f7; }
 
@@ -89,6 +89,41 @@
 .wg-radio-group input[type=radio]:checked + label { color: #fff; background: #0fa0d2; }
 
 .wg-radio-group label + input[type=radio] + label { border-left: solid 1px #dddddd; }
+
+/** Tabs */
+ul#woowgallery-tabs-nav { flex: 0 0 160px; align-self: stretch; margin: 0; padding: 0; border-right: 1px solid #ddd; background-color: #f7f7f7; list-style: none; }
+
+ul#woowgallery-tabs-nav li { margin: 0 -1px 0 0; padding: 0; position: relative; }
+
+ul#woowgallery-tabs-nav li a { display: block; padding: 20px 0 20px 30px; text-decoration: none; color: #999; border-right: 1px solid #ddd; background-position: left center; background-repeat: no-repeat; transition: all 0.3s; /** Focus State - Remove WordPress' blue focus box from tabs */ /** Hover and Active States */ }
+
+ul#woowgallery-tabs-nav li a .dashicons { color: #999; vertical-align: middle; }
+
+ul#woowgallery-tabs-nav li a .tab-label { margin-left: 7px; }
+
+ul#woowgallery-tabs-nav li a:focus { box-shadow: none; }
+
+ul#woowgallery-tabs-nav li a::before, ul#woowgallery-tabs-nav li a::after { content: ''; position: absolute; left: 0; top: -1px; height: 1px; width: 100%; overflow: hidden; background-color: #ddd; transform: scaleX(0.8); transition: transform 0.3s; }
+
+ul#woowgallery-tabs-nav li a::after { top: auto; bottom: 0; }
+
+ul#woowgallery-tabs-nav li a:hover, ul#woowgallery-tabs-nav li a.woowgallery-active { text-decoration: none; color: #444; background-color: #fafafa; }
+
+ul#woowgallery-tabs-nav li a:hover .dashicons, ul#woowgallery-tabs-nav li a.woowgallery-active .dashicons { color: #444; }
+
+ul#woowgallery-tabs-nav li a:hover::before, ul#woowgallery-tabs-nav li a:hover::after, ul#woowgallery-tabs-nav li a.woowgallery-active::before, ul#woowgallery-tabs-nav li a.woowgallery-active::after { transform: scaleX(1); }
+
+ul#woowgallery-tabs-nav li a.woowgallery-active { border-right: 1px solid #ffffff; background-color: #ffffff; }
+
+#woowgallery-tabs { flex: 1 1 auto; padding: 0 12px; /** All Tabs */ /** Full width textareas */ }
+
+#woowgallery-tabs .woowgallery-tab { padding: 10px; }
+
+#woowgallery-tabs .woowgallery-tab:not(.woowgallery-active) { display: none; }
+
+#woowgallery-tabs textarea { width: 100%; }
+
+#woowgallery-tabs input[type="text"] { width: 100%; max-width: 500px; }
 
 /** Skins */
 #woowgallery-skin-select { position: relative; width: 100%; overflow: hidden; margin: 0; z-index: 1; border-bottom: 1px solid #dfdfdf; }
@@ -189,7 +224,7 @@
 
 .woowgallery-skin-settings .woowgallery-config-tabs fieldset h4 { font-size: 1.4em; line-height: 1.2; margin: 0 0 20px 0; }
 
-.woowgallery-skin-settings .form-control { min-height: 26px; width: 100%; }
+.woowgallery-skin-settings .form-control { width: 100%; }
 
 .woowgallery-wrap { /* Color Picker */ }
 
@@ -247,6 +282,8 @@
 
 .woowgallery-wrap .field-wrap .wg-flexbox .inline-field label { position: absolute; font-size: 90% !important; top: 100%; left: 5px; }
 
+.woowgallery-wrap .form-control { min-height: 28px; }
+
 .woowgallery-wrap div.help { display: inline-block; vertical-align: middle; margin-left: 0.3em; position: relative; z-index: 4; /* This bridges the gap so you can mouse into the tooltip without it disappearing */ }
 
 .woowgallery-wrap div.help .icon { display: inline-block; width: 16px; height: 14px; background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAA+UlEQVQ4ja3TS0oDQRAG4C8+lq7ceICICoLGK7iXuNBbeAMJuPVOIm7cqmDiIncIggg+cMZFaqCnZyYKWtB0df31V1VXdfNH6S2wD9CP8xT3KH8T9BiTcE7XBMOfyBcogvCFO9ziLWwFRosyV+QxthNsA9dJkEYlvazsQdi3sBv6Ol6TBLX+HWT3fcQZ3vGM5fBLk+ynAU41m1biCXvhs4OPBDuBpa6GxF0P8YAj3GA1d1qJfdoS4DOIcIm1DK9x8iaWeDF/SP3QU6zRROpjLDFLsFlibx1jJaMkSIGrWKntvItcyTBKzCcybsvc9ZmYz3kz9Ooz/b98A8yvW13B3ch6AAAAAElFTkSuQmCC"); background-repeat: no-repeat; background-position: center center; }
@@ -292,6 +329,10 @@
   .woowgallery-skin-settings .woowgallery-config-tabs { margin-top: 30px; }
   .woowgallery-skin-settings .woowgallery-config-tabs fieldset { padding-left: 0; } }
 
+ul#woowgallery-tabs-nav { flex-basis: auto; font-size: 16px; margin-bottom: -1px; position: relative; z-index: 2; }
+
+ul#woowgallery-tabs-nav li a { padding-right: 30px; }
+
 .woowgallery-wrap { box-sizing: border-box; }
 
 .woowgallery-wrap * { box-sizing: inherit; }
@@ -305,5 +346,25 @@
 .woowgallery-wrap .woowgallery-postbox .inside { padding: 0; margin: 0; display: flex; flex-wrap: wrap; }
 
 .woowgallery-wrap h3 { margin: 10px 0; }
+
+.woowgallery-wrap .settings-actions { background-color: #f7f7f7; border-top: 1px solid #ddd; }
+
+.woowgallery-wrap .wg-add-media-toggle { display: inline-block; cursor: pointer; user-select: none; border: 1px solid #ddd; box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.07); border-radius: 6px; padding: 3px 12px 3px 7px; }
+
+.woowgallery-wrap .wg-add-media-toggle input[type="checkbox"] { display: none !important; }
+
+.woowgallery-wrap .wg-add-media-toggle input[type="checkbox"]:not(:checked) ~ .wg-checked { display: none; }
+
+.woowgallery-wrap .wg-add-media-toggle input[type="checkbox"]:not(:checked) ~ .wg-unchecked { display: inline-block; }
+
+.woowgallery-wrap .wg-add-media-toggle input[type="checkbox"]:checked ~ .wg-checked { display: inline-block; }
+
+.woowgallery-wrap .wg-add-media-toggle input[type="checkbox"]:checked ~ .wg-unchecked { display: none; }
+
+.woowgallery-wrap .wg-add-media-toggle span { vertical-align: middle; display: inline-block; overflow: hidden; }
+
+.woowgallery-wrap .wg-add-media-toggle span img { vertical-align: middle; }
+
+.woowgallery-wrap .wg-add-media-toggle span.append-mode img { transform: rotate(180deg); }
 
 /*# sourceMappingURL=settings.css.map */

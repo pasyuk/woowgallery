@@ -106,7 +106,8 @@
       this.premium = !!woowgallery.premium;
       this.default_skin = woowgallery.l10n.default_skin;
 
-      let selected_skin = woowgallery.l10n.selected_skin || woowgallery.l10n.default_skin;
+      // let selected_skin = woowgallery.l10n.selected_skin || woowgallery.l10n.default_skin;
+      let selected_skin = woowgallery.l10n.selected_skin;
       if (selected_skin) {
         let skin = selected_skin.split(': ');
         this.skin = skin[0];
@@ -293,7 +294,7 @@
               // Display some success message
               this.$toasted.success(response.data, {duration: 2000});
 
-              this.updateSkinsListSetting();
+              // this.updateSkinsListSetting();
             }
             else if (response && response.data) {
               // Display some error here
@@ -323,8 +324,10 @@
             preset: preset
           };
 
-        let default_skin = this.default_skin.split(': ');
-        if (default_skin[1] === preset || 'default' === preset) {
+        // let default_skin = this.default_skin.split(': '),
+        //     is_default_preset = default_skin[1] === preset || 'default' === preset;
+        let is_default_preset = 'default' === preset;
+        if (is_default_preset) {
           this.$toasted.error(woowgallery.l10n.delete_default_preset_error, {duration: 2000});
           this.activity = false;
           return;
@@ -344,7 +347,7 @@
               // Display some success message
               this.$toasted.success(response.data, {duration: 2000});
 
-              this.updateSkinsListSetting();
+              // this.updateSkinsListSetting();
             }
             else if (response && response.data) {
               // Display some error here
@@ -371,28 +374,28 @@
         this.model = $.extend({}, this.defaults);
       },
 
-      // reset skin settings to default
-      updateSkinsListSetting: function() {
-        // WoowBox Settings page.
-        let default_skin = $('select#woowgallery-default-skin');
-        if (default_skin.length) {
-
-          let options = '';
-          $.each(window.woowgallery_skin, (skin, data) => {
-            options += '<option value="' + skin + '">' + data.info.name + '</option>';
-            $.each(data.model, (presetName, presetData) => {
-              if ('default' === presetName) {
-                return;
-              }
-              options += '<option value="' + skin + ': ' + presetName + '">' + data.info.name + ': ' + presetName + '</option>';
-            });
-          });
-
-          default_skin.find('option').not('[value=""]').remove();
-          default_skin.append(options);
-          default_skin.val(this.default_skin);
-        }
-      }
+      // // reset skin settings to default
+      // updateSkinsListSetting: function() {
+      //   // WoowBox Settings page.
+      //   let default_skin = $('select#woowgallery-default-skin');
+      //   if (default_skin.length) {
+      //
+      //     let options = '';
+      //     $.each(window.woowgallery_skin, (skin, data) => {
+      //       options += '<option value="' + skin + '">' + data.info.name + '</option>';
+      //       $.each(data.model, (presetName, presetData) => {
+      //         if ('default' === presetName) {
+      //           return;
+      //         }
+      //         options += '<option value="' + skin + ': ' + presetName + '">' + data.info.name + ': ' + presetName + '</option>';
+      //       });
+      //     });
+      //
+      //     default_skin.find('option').not('[value=""]').remove();
+      //     default_skin.append(options);
+      //     default_skin.val(this.default_skin);
+      //   }
+      // }
 
     }
   });

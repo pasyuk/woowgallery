@@ -170,6 +170,7 @@ if ( function_exists( 'woow_fs' ) ) {
 			}
 
 			new Gutenberg();
+			new Frontend();
 
 			// Run hook once WoowGallery has been initialized.
 			do_action( 'woowgallery_init' );

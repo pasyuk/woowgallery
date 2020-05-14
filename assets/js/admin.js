@@ -74,6 +74,8 @@
   return r.patterns = t, r.serializeObject = function() {return new r(i, this).addPairs(this.serializeArray()).serialize();}, r.serializeJSON = function() {return new r(i, this).addPairs(this.serializeArray()).serializeJSON();}, 'undefined' != typeof i.fn && (i.fn.serializeObject = r.serializeObject, i.fn.serializeJSON = r.serializeJSON), e.FormSerializer = r, r;
 });
 
+window.wp = window.wp || {};
+
 /**
  * Handles:
  * - Copy to Clipboard functionality
@@ -81,6 +83,8 @@
  * @since 1.0.0
  */
 jQuery(function($) {
+
+  const {__} = wp.i18n;
 
   $('#screen-meta, #screen-meta-links').appendTo('#woowgallery-screen-meta-block');
 
@@ -107,4 +111,25 @@ jQuery(function($) {
   else {
     $('.woowgallery-clipboard').hide();
   }
+
+  $('.cache-clear').on('click', function(e) {
+    e.preventDefault();
+    let id = $(this).attr('value');
+
+    $(this).prop('disabled', true);
+    $.post(
+      ajaxurl,
+      {
+        action: 'woowgallery_cache_clear',
+        id: id
+      }
+    ).done((response) => {
+      if (response && response.success) {
+        $(this).parent().find('.cache-updated').text(__('Not cached yet', 'wgtd'));
+        $(this).remove();
+      }
+    }).always(() => {
+      $(this).prop('disabled', false);
+    });
+  });
 });

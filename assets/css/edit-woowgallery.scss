@@ -4,14 +4,18 @@
  */
 /** Imports */
 @import "vars", "mixins", "checkbox-toggle";
-@import "skin-select", "skin-config";
+@import "tab-content", "skin-select", "skin-config";
 
 /** Edit Gallery page */
 body.post-type-woowgallery,
 body.post-type-woowgallery-album,
 body.post-type-woowgallery-dynamic {
-  .misc-pub-section:not(.misc-pub-post-status) {
-    display: none;
+
+  &.standalone-off {
+
+    .misc-pub-section:not(.misc-pub-post-status) {
+      display: none;
+    }
   }
 }
 
@@ -103,142 +107,6 @@ span.wg-posttype-icon {
   h3 {
     margin: 10px 0;
     flex: 1;
-  }
-
-  /**
-   * Tabs
-   */
-  ul#woowgallery-tabs-nav {
-    flex: 0 0 160px;
-    align-self: stretch;
-    margin: 0;
-    padding: 0;
-    border-right: 1px solid #ddd;
-    background-color: #f7f7f7;
-    list-style: none;
-
-    li {
-      margin: 0 -1px 0 0;
-      padding: 0;
-      position: relative;
-
-      a {
-        display: block;
-        padding: 20px 0 20px 30px;
-        text-decoration: none;
-        color: #999;
-        border-right: 1px solid #ddd;
-        background-position: left center;
-        background-repeat: no-repeat;
-        transition: all 0.3s;
-
-        .dashicons {
-          color: #999;
-        }
-
-        /**
-        * Focus State
-        * - Remove WordPress' blue focus box from tabs
-        */
-        &:focus {
-          box-shadow: none;
-        }
-
-        &::before,
-        &::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          top: -1px;
-          height: 1px;
-          width: 100%;
-          overflow: hidden;
-          background-color: #ddd;
-          transform: scaleX(0.8);
-          transition: transform 0.3s;
-        }
-
-        &::after {
-          top: auto;
-          bottom: 0;
-        }
-
-        /**
-        * Hover and Active States
-        */
-        &:hover,
-        &.woowgallery-active {
-          text-decoration: none;
-          color: #444;
-          background-color: #fafafa;
-
-          .dashicons {
-            color: #444;
-          }
-
-          &::before,
-          &::after {
-            transform: scaleX(1);
-          }
-        }
-
-        &.woowgallery-active {
-          border-right: 1px solid $white;
-          background-color: $white;
-        }
-      }
-
-      /**
-      * Tab Icons
-      */
-      &.woowgallery {
-        a {
-          //background-image: url(images/icons/leaf.svg);
-          background-size: 16px 16px;
-        }
-      }
-
-      &.woowgallery-config {
-        a {
-          //background-image: url(images/icons/configuration.svg);
-          background-size: 16px 16px;
-        }
-      }
-
-      &.woowgallery-misc {
-        a {
-          //background-image: url(images/icons/misc.svg);
-          background-size: 16px 16px;
-        }
-      }
-    }
-  }
-
-  #woowgallery-tabs {
-    flex: 1 1 auto;
-    padding: 0 12px;
-    /**
-    * All Tabs
-    */
-    .woowgallery-tab {
-      padding: 10px;
-
-      &:not(.woowgallery-active) {
-        display: none;
-      }
-    }
-
-    /**
-    * Full width textareas
-    */
-    textarea {
-      width: 100%;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      max-width: 500px;
-    }
   }
 
   .woowgallery-empty-gallery {
@@ -848,6 +716,7 @@ span.wg-posttype-icon {
         padding: 0 0 0 8px;
         order: 10;
         flex-direction: column-reverse;
+        overflow: visible;
 
         .dashicons {
           margin: 0 0 4px;

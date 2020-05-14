@@ -648,28 +648,28 @@ if ( ! function_exists( 'woowgallery_get_resize_dimensions' ) ) {
 			$wg   = new Gallery( $gallery->ID, $gallery->post_type );
 			$dims = [
 				'thumb' => [
-					'width'  => (int) $wg->get_settings( 'thumb_width', Settings::get_settings( 'thumb_width' ) ) ?: 9999,
-					'height' => (int) $wg->get_settings( 'thumb_height', Settings::get_settings( 'thumb_height' ) ) ?: 9999,
+					'width'  => (int) $wg->get_settings( 'thumb_width' ) ?: Settings::get_settings( 'thumb_width', 9999 ),
+					'height' => (int) $wg->get_settings( 'thumb_height' ) ?: Settings::get_settings( 'thumb_height', 9999 ),
 				],
 				'image' => [
-					'width'  => (int) $wg->get_settings( 'image_width', Settings::get_settings( 'image_width' ) ) ?: 9999,
-					'height' => (int) $wg->get_settings( 'image_height', Settings::get_settings( 'image_height' ) ) ?: 9999,
+					'width'  => (int) $wg->get_settings( 'image_width' ) ?: Settings::get_settings( 'image_width', 9999 ),
+					'height' => (int) $wg->get_settings( 'image_height' ) ?: Settings::get_settings( 'image_height', 9999 ),
 				],
 			];
 		} else {
 			$dims = [
 				'thumb' => [
-					'width'  => (int) Settings::get_settings( 'thumb_width' ) ?: 9999,
-					'height' => (int) Settings::get_settings( 'thumb_height' ) ?: 9999,
+					'width'  => (int) Settings::get_settings( 'thumb_width', 9999 ),
+					'height' => (int) Settings::get_settings( 'thumb_height', 9999 ),
 				],
 				'image' => [
-					'width'  => (int) Settings::get_settings( 'image_width' ) ?: 9999,
-					'height' => (int) Settings::get_settings( 'image_height' ) ?: 9999,
+					'width'  => (int) Settings::get_settings( 'image_width', 9999 ),
+					'height' => (int) Settings::get_settings( 'image_height', 9999 ),
 				],
 			];
 		}
-		$dims['thumb']['quality'] = (int) Settings::get_settings( 'thumb_quality' );
-		$dims['image']['quality'] = (int) Settings::get_settings( 'image_quality' );
+		$dims['thumb']['quality'] = (int) Settings::get_settings( 'thumb_quality', 85 );
+		$dims['image']['quality'] = (int) Settings::get_settings( 'image_quality', 85 );
 
 		return $dims;
 	}

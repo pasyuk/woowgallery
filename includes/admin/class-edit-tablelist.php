@@ -130,8 +130,10 @@ abstract class Edit_Tablelist {
 				echo '<span>';
 				$count_items = (int) get_post_meta( $post->ID, Gallery::GALLERY_MEDIA_COUNT_META_KEY, true );
 				if ( Posttypes::GALLERY_POSTTYPE === $this->post_type || Posttypes::DYNAMIC_POSTTYPE === $this->post_type ) {
+					// translators: number of media items.
 					echo esc_html( sprintf( _n( '%d Media Item', '%d Media Items', $count_items, 'wgtd' ), $count_items ) );
 				} elseif ( Posttypes::ALBUM_POSTTYPE === $this->post_type ) {
+					// translators: number of galleries in album.
 					echo esc_html( sprintf( _n( '%d Gallery', '%d Galleries', $count_items, 'wgtd' ), $count_items ) );
 					$total_items  = 0;
 					$gallery_data = (array) json_decode( $post->post_content_filtered );
@@ -139,6 +141,7 @@ abstract class Edit_Tablelist {
 						$count_items = (int) get_post_meta( (int) $gallery_item->id, Gallery::GALLERY_MEDIA_COUNT_META_KEY, true ) ?: 0;
 						$total_items = $total_items + $count_items;
 					}
+					// translators: number of media items.
 					echo '<br />' . esc_html( sprintf( _n( '%d Media Item', '%d Media Items', $total_items, 'wgtd' ), $total_items ) );
 				}
 				echo '</span>';
@@ -178,7 +181,8 @@ abstract class Edit_Tablelist {
 				global $mode;
 
 				if ( '0000-00-00 00:00:00' === $post->post_modified ) {
-					$t_time = $h_time = __( 'Unpublished', 'wgtd' );
+					$t_time = __( 'Unpublished', 'wgtd' );
+					$h_time = $t_time;
 				} else {
 					$t_time = get_the_modified_time( __( 'Y/m/d g:i:s a' ) );
 					$m_time = $post->post_modified;
@@ -187,21 +191,39 @@ abstract class Edit_Tablelist {
 					$time_diff = time() - $time;
 
 					if ( $time_diff > 0 && $time_diff < DAY_IN_SECONDS ) {
+						// translators: time ago.
 						$h_time = sprintf( __( '%s ago', 'wgtd' ), human_time_diff( $time ) );
 					} else {
 						$h_time = mysql2date( __( 'Y/m/d' ), $m_time );
 					}
 				}
-				echo '<abbr title="' . $t_time . '">' . apply_filters( 'post_date_column_time', $h_time, $post, 'date', $mode ) . '</abbr>';
+				echo '<abbr title="' . esc_attr( $t_time ) . '">' . esc_html( apply_filters( 'post_date_column_time', $h_time, $post, 'date', $mode ) ) . '</abbr>';
 
-
-				$cache = (int) get_post_meta( $post->ID, Gallery::GALLERY_UPDATE_META_KEY, true );
-				if ( $cache && 1 < $cache ) {
+				if ( Posttypes::DYNAMIC_POSTTYPE === $post->post_type ) {
 					$wg      = new Gallery( $post->ID, $post->post_type );
-					$updated = $cache - absint( $wg->get_settings( 'cache', Settings::get_settings( 'cache' ) ) ) * HOUR_IN_SECONDS;
-					echo '<br /><span class="cache-update">' . wp_kses( sprintf( _x( 'Cache updated: <br />%s ago', 'wgtd' ), human_time_diff( $updated ) ), [ 'br' => [] ] ) . '</span>';
-				}
+					$cache_h = absint( $wg->get_settings( 'cache', Settings::get_settings( 'cache' ) ) );
+					if ( $cache_h ) {
+						// translators: time in hours.
+						echo '<p><span class="cache-time">' . esc_html( sprintf( _n( 'Cache time: %d hour', 'Cache time: %d hours', $cache_h, 'wgtd' ), $cache_h ) ) . '</span></p>';
 
+						$cache_expire = (int) get_post_meta( $post->ID, Gallery::GALLERY_UPDATE_META_KEY, true );
+						if ( $cache_expire && 1 < $cache_expire ) {
+							$updated   = $cache_expire - $cache_h * HOUR_IN_SECONDS;
+							$time_diff = time() - $updated;
+							if ( $time_diff > $cache_h * HOUR_IN_SECONDS ) {
+								echo '<span class="cache-updated">' . esc_html__( 'Cache expired', 'wgtd' ) . '</span>';
+							} else {
+								// translators: time ago.
+								echo '<span class="cache-updated">' . esc_html( sprintf( __( 'Cached: %s ago', 'wgtd' ), human_time_diff( $updated ) ) ) . '</span>';
+								echo '<br /><button name="wg_cache_clear" value="' . absint( $post->ID ) . '" class="button button-small button-secondary cache-clear">' . esc_attr__( 'Clear cache', 'wgtd' ) . '</button>';
+							}
+						} else {
+							echo '<span class="cache-updated">' . esc_html__( 'Not cached yet', 'wgtd' ) . '</span>';
+						}
+					} else {
+						echo '<span class="cache-time">' . esc_html__( 'Cache disabled', 'wgtd' ) . '</span>';
+					}
+				}
 
 				break;
 		}

@@ -44,12 +44,11 @@ class Edit_Woowgallery {
 		add_action( 'wg_admin_footer', [ $this, 'footer_templates' ] );
 		add_action( 'admin_footer', [ $this, 'footer_templates' ] );
 
-		// Remove gallery association with Albums.
-		add_action( 'before_delete_post', [ $this, 'gallery_delete' ] );
-
 		add_action( 'wp_trash_post', [ $this, 'trash_post' ] );
 		add_action( 'untrash_post', [ $this, 'untrash_post' ] );
 		add_action( 'delete_post', [ $this, 'delete_post' ] );
+
+		add_filter( "theme_{$post_type}_templates", [ $this, 'theme_templates' ], 10, 4 );
 	}
 
 	/**
@@ -139,6 +138,8 @@ class Edit_Woowgallery {
 			add_meta_box( 'woowgallery-code', __( 'WoowGallery Code', 'woowgallery' ), [ $this, 'meta_box_gallery_code' ], $this->post_type, 'side', 'default' );
 		}
 
+		add_filter( 'admin_body_class', [ $this, 'wg_admin_body_class' ] );
+
 		add_filter( 'teeny_mce_plugins', [ $this, 'mce_plugins' ] );
 		add_filter( 'tiny_mce_plugins', [ $this, 'mce_plugins' ] );
 		add_filter( 'mce_css', '__return_empty_string' );
@@ -175,11 +176,12 @@ class Edit_Woowgallery {
 		// These are the metabox IDs you want to pass over. They don't have to match exactly. preg_match will be run on them.
 		$pass_over_defaults = [ 'submitdiv', 'postimagediv', 'woowgallery' ];
 
-		//if ( Settings::get_setting( 'standalone_gallery' ) ) {
-		//	$pass_over_defaults[] = 'slugdiv';
-		//	$pass_over_defaults[] = 'authordiv';
-		//	$pass_over_defaults[] = 'wpseo_meta';
-		//}
+		$standalone = Settings::get_settings( 'standalone_' . $post_type );
+		if ( ! empty( $standalone ) ) {
+			$pass_over_defaults[] = 'authordiv';
+			$pass_over_defaults[] = 'pageparentdiv';
+			$pass_over_defaults[] = 'wpseo_meta';
+		}
 
 		$pass_over = apply_filters( 'woowgallery_metabox_ids', $pass_over_defaults, $post_type );
 
@@ -315,45 +317,6 @@ class Edit_Woowgallery {
 	public function tab_misc( $post ) {
 		// Load view.
 		Admin::load_template( 'gallery-misc-settings', compact( 'post' ) );
-	}
-
-	/**
-	 * Deletes gallery data from albums once the gallery being deleted.
-	 *
-	 * @param int $post_id The gallery ID being deleted.
-	 */
-	public function gallery_delete( $post_id ) {
-		if ( ! in_array( $this->post_type, [ Posttypes::GALLERY_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE ], true ) || get_post_type( $post_id ) !== $this->post_type ) {
-			return;
-		}
-
-		$albums = get_post_meta( $post_id, '_woowgallery', true );
-		// Only proceed if the gallery is attached to any WoowGallery albums.
-		if ( empty( $albums ) ) {
-			return;
-		}
-
-		foreach ( (array) $albums as $album_id ) {
-			$album = get_post( (int) $album_id );
-			if ( empty( $album ) || Posttypes::ALBUM_POSTTYPE !== $album->post_type ) {
-				continue;
-			}
-
-			$update_album = false;
-			$album_data   = (array) json_decode( $album->post_content_filtered );
-			// Remove the gallery association.
-			foreach ( $album_data as $i => $data ) {
-				if ( (int) $data->id === $post_id && Posttypes::GALLERY_POSTTYPE === $data->subtype ) {
-					unset( $album_data[ $i ] );
-					$update_album = true;
-				}
-			}
-
-			if ( $update_album ) {
-				$album->post_content_filtered = wg_json_encode( array_values( $album_data ) );
-				wp_update_post( $album );
-			}
-		}
 	}
 
 	/**
@@ -539,5 +502,39 @@ class Edit_Woowgallery {
 
 			set_post_thumbnail( $post, $thumbnail_id );
 		}
+	}
+
+	/**
+	 * Filters the CSS classes for the body tag in the admin.
+	 *
+	 * @param string $classes Space-separated list of CSS classes.
+	 *
+	 * @return string
+	 */
+	public function wg_admin_body_class( $classes ) {
+		// Check if standalone is enabled.
+		$standalone = Settings::get_settings( 'standalone_' . $this->post_type );
+		if ( ! empty( $standalone ) ) {
+			return "$classes standalone-on";
+		}
+
+		return "$classes standalone-off";
+	}
+
+	/**
+	 * Add list of page templates for a theme to WoowGallery CPT.
+	 *
+	 * @param array        $post_templates Array of page templates. Keys are filenames,
+	 *                                     values are translated names.
+	 * @param \WP_Theme    $theme          The theme object.
+	 * @param WP_Post|null $post           The post being edited, provided for context, or null.
+	 * @param string       $post_type      Post type to get the templates for.
+	 *
+	 * @return array
+	 */
+	public function theme_templates( $post_templates, $theme, $post, $post_type ) {
+		$page_templates = get_page_templates();
+
+		return array_unique( array_merge( $post_templates, $page_templates ) );
 	}
 }

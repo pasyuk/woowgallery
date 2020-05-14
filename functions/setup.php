@@ -194,8 +194,7 @@ function woowgallery_upgrade() {
  */
 function woowgallery_settings_default() {
 	$settings = [
-		//'license'               => '',
-		'default_skin'          => 'masonry',
+		'default_skin'          => 'pe-grid',
 		'cache'                 => '12',
 		'custom_css'            => '',
 		'edit_gallery_view'     => 'grid',
@@ -203,10 +202,10 @@ function woowgallery_settings_default() {
 		'selection_prepend'     => '0',
 		'thumb_width'           => '400',
 		'thumb_height'          => '400',
-		'thumb_quality'         => '80',
+		'thumb_quality'         => '82',
 		'image_width'           => '2200',
 		'image_height'          => '2200',
-		'image_quality'         => '85',
+		'image_quality'         => '82',
 		'media_delete'          => '0',
 	];
 

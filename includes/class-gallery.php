@@ -15,7 +15,7 @@ use WoowGallery\Admin\Notice;
 use WoowGallery\Admin\Settings;
 
 /**
- * Class Taxonomies
+ * Class Gallery
  */
 class Gallery {
 
@@ -58,8 +58,8 @@ class Gallery {
 	/**
 	 * Gallery constructor.
 	 *
-	 * @param int|string $id Gallery ID or slug.
-	 * @param null       $post_type
+	 * @param int|string $id        Gallery ID or slug.
+	 * @param string     $post_type Post type.
 	 */
 	public function __construct( $id, $post_type = Posttypes::GALLERY_POSTTYPE ) {
 		$this->post_type = $post_type;
@@ -173,6 +173,7 @@ class Gallery {
 
 			$skin = Skins::get_instance()->get_skin( $gallery_skin );
 			if ( $skin->slug !== $gallery_skin && is_admin() ) {
+				// translators: Gallery ID.
 				Notice::add_message( sprintf( __( 'Broken or removed Skin! Please re-save gallery ID#%d with a new Skin.', 'wgtd' ), $this->id ) );
 			}
 

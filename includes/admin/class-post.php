@@ -12,6 +12,7 @@ defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 use WoowGallery\Gallery;
 use WoowGallery\Posttypes;
+use WP_Post;
 
 /**
  * Class Post
@@ -27,15 +28,21 @@ class Post {
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
 
 		// Add a custom media button to the editor.
-		add_filter( 'media_buttons_context', [ $this, 'media_button' ] );
+		add_action( 'media_buttons', [ $this, 'media_button' ] );
 
 		// Associate Post with WoowGallery shortcode to the Gallery.
 		add_action( 'save_post', [ $this, 'update_in_post_galleries' ], 9999, 3 );
-		// Remove Post association with the Gallery.
-		add_action( 'before_delete_post', [ $this, 'delete_post_id_in_galleries' ] );
 		// Update post thumbnail in galleries.
 		add_action( 'updated_postmeta', [ $this, 'updated_postmeta' ], 10, 4 );
 		add_action( 'set_object_terms', [ $this, 'set_object_terms' ], 10, 6 );
+
+		// Update galleries data on post update.
+		add_action( 'post_updated', [ $this, 'post_updated' ], 10, 3 );
+
+		// Remove post association with galleries.
+		add_action( 'before_delete_post', [ $this, 'delete_post_id_in_galleries' ] );
+		add_action( 'before_delete_post', [ $this, 'before_delete_post' ] );
+		add_action( 'delete_attachment', [ $this, 'before_delete_post' ] );
 
 		// Add modal template to the Edit Post page.
 		add_action( 'wg_admin_footer', [ $this, 'add_modal_tpl' ] );
@@ -70,11 +77,9 @@ class Post {
 	/**
 	 * Adds a custom gallery insert button beside the media uploader button.
 	 *
-	 * @param string $buttons The media buttons context HTML.
-	 *
-	 * @return string $buttons Amended media buttons context HTML.
+	 * @param string $editor_id Unique editor identifier, e.g. 'content'.
 	 */
-	public function media_button( $buttons ) {
+	public function media_button( $editor_id ) {
 
 		// Get current screen.
 		$screen = get_current_screen();
@@ -82,19 +87,14 @@ class Post {
 		$post_types = apply_filters( 'woowgallery_posttypes', [ Posttypes::GALLERY_POSTTYPE, Posttypes::ALBUM_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE ] );
 		// Bail if we're on the WoowGallery Post Type screen.
 		if ( in_array( $screen->post_type, $post_types, true ) ) {
-			return $buttons;
+			return;
 		}
 
 		// Create the media button.
-		$button = '<a id="woowgallery-modal-button" href="#" class="button woowgallery-modal-button" data-modal="shortcode" data-posttype="' . esc_attr( Posttypes::GALLERY_POSTTYPE ) . '" title="' . esc_attr__( 'WoowGallery Galleries', 'woowgallery' ) . '" >
-            <span class="woowgallery-icon"></span> ' . __( 'WoowGallery', 'woowgallery' ) . '</a>';
+		echo '<a id="woowgallery-modal-button" href="#" class="button woowgallery-modal-button" data-modal="shortcode" data-posttype="' . esc_attr( Posttypes::GALLERY_POSTTYPE ) . '" title="' . esc_attr__( 'WoowGallery Galleries', 'woowgallery' ) . '" >
+            <span class="woowgallery-icon"></span> ' . esc_html__( 'WoowGallery', 'woowgallery' ) . '</a>';
 
-		// Filter the button.
-		$button = apply_filters( 'woowgallery_media_button', $button, $buttons );
-
-		// Append the button.
-		return $buttons . $button;
-
+		add_action( 'woowgallery_media_button', $editor_id, $screen->post_type );
 	}
 
 	/**
@@ -247,7 +247,7 @@ class Post {
 	}
 
 	/**
-	 * Update Post Thumbnail in WoowGalleries
+	 * Update Post terms in WoowGalleries
 	 *
 	 * @param int    $object_id  Object ID.
 	 * @param array  $terms      An array of object terms.
@@ -268,6 +268,62 @@ class Post {
 
 		foreach ( $gallery_ids as $gallery_id ) {
 			update_post_meta( $gallery_id, Gallery::GALLERY_UPDATE_META_KEY, 1 );
+		}
+	}
+
+	/**
+	 * Update gallery data if updated post has gallery
+	 *
+	 * @param int     $post_id     Post ID.
+	 * @param WP_Post $post_after  Post object following the update.
+	 * @param WP_Post $post_before Post object before the update.
+	 */
+	public function post_updated( $post_id, $post_after, $post_before ) {
+		$galleries = get_post_meta( $post_id, '_woowgallery', true );
+
+		if ( empty( $galleries ) ) {
+			return;
+		}
+
+		foreach ( (array) $galleries as $gallery_id ) {
+			update_post_meta( $gallery_id, Gallery::GALLERY_UPDATE_META_KEY, 1 );
+		}
+	}
+
+	/**
+	 * Deletes post data from galleries once the post being deleted.
+	 *
+	 * @param int $post_id The gallery ID being deleted.
+	 */
+	public function before_delete_post( $post_id ) {
+
+		$galleries = get_post_meta( $post_id, '_woowgallery', true );
+		// Only proceed if the post is attached to any WoowGallery galleries.
+		if ( empty( $galleries ) ) {
+			return;
+		}
+
+		$post_type = get_post_type( $post_id );
+		foreach ( (array) $galleries as $gallery_id ) {
+			$gallery = get_post( (int) $gallery_id );
+			if ( empty( $gallery ) ) {
+				continue;
+			}
+
+			$update_gallery = false;
+			$gallery_data   = (array) json_decode( $gallery->post_content_filtered );
+			// Remove post from the gallery.
+			foreach ( $gallery_data as $i => $data ) {
+				if ( (int) $data->id === $post_id && ( 'attachment' === $data->type || ( 'post' === $data->type && $post_type === $data->subtype ) ) ) {
+					unset( $gallery_data[ $i ] );
+					$update_gallery = true;
+				}
+			}
+
+			if ( $update_gallery ) {
+				$gallery->post_content_filtered = wg_json_encode( array_values( $gallery_data ) );
+				wp_update_post( $gallery );
+			}
 		}
 	}
 

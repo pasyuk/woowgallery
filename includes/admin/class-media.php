@@ -10,10 +10,6 @@ namespace WoowGallery\Admin;
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
-use WoowGallery\Gallery;
-use WoowGallery\Posttypes;
-use WP_Post;
-
 /**
  * Class Media
  */
@@ -24,70 +20,9 @@ class Media {
 	 */
 	public function __construct() {
 
-		// Update galleries data on attachment update.
-		add_action( 'attachment_updated', [ $this, 'attachment_updated' ], 10, 3 );
-		// Delete attachment data from gallery on attachment deletion.
-		add_action( 'delete_attachment', [ $this, 'attachment_delete' ] );
-
-
 		add_filter( 'wp_prepare_attachment_for_js', [ $this, 'wpmedia_add_woowgallery_data' ], 10, 3 );
 		add_filter( 'wp_handle_upload', [ $this, 'fix_image_orientation' ] );
 
-	}
-
-	/**
-	 * Update gallery data if updated attachment has gallery
-	 *
-	 * @param int     $post_id     Post ID.
-	 * @param WP_Post $post_after  Post object following the update.
-	 * @param WP_Post $post_before Post object before the update.
-	 */
-	public function attachment_updated( $post_id, $post_after, $post_before ) {
-		$galleries = get_post_meta( $post_id, '_woowgallery', true );
-
-		if ( empty( $galleries ) ) {
-			return;
-		}
-
-		foreach ( (array) $galleries as $gallery_id ) {
-			update_post_meta( $gallery_id, Gallery::GALLERY_UPDATE_META_KEY, 1 );
-		}
-	}
-
-	/**
-	 * Deletes attachment data from galleries once the image being deleted.
-	 *
-	 * @param int $post_ID The attachment ID being deleted.
-	 */
-	public function attachment_delete( $post_ID ) {
-
-		$galleries = get_post_meta( $post_ID, '_woowgallery', true );
-		// Only proceed if the image is attached to any WoowGallery galleries.
-		if ( empty( $galleries ) ) {
-			return;
-		}
-
-		foreach ( (array) $galleries as $gallery_id ) {
-			$gallery = get_post( (int) $gallery_id );
-			if ( empty( $gallery ) || Posttypes::GALLERY_POSTTYPE !== $gallery->post_type ) {
-				continue;
-			}
-
-			$update_gallery = false;
-			$gallery_data   = (array) json_decode( $gallery->post_content_filtered );
-			// Remove attachment from the gallery.
-			foreach ( $gallery_data as $i => $data ) {
-				if ( (int) $data->id === $post_ID && 'attachment' === $data->type ) {
-					unset( $gallery_data[ $i ] );
-					$update_gallery = true;
-				}
-			}
-
-			if ( $update_gallery ) {
-				$gallery->post_content_filtered = wp_json_encode( array_values( $gallery_data ) );
-				wp_update_post( $gallery );
-			}
-		}
 	}
 
 	/**

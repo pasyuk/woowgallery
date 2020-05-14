@@ -33,7 +33,7 @@ class Edit_Gallery extends Edit_Woowgallery {
 		add_filter( 'wp_insert_post_data', [ $this, 'wp_insert_gallery_data' ], 10, 2 );
 		add_action( 'post_updated', [ $this, 'gallery_updated' ], 10, 3 );
 		add_action( "save_post_{$this->post_type}", [ $this, 'save_gallery' ], 10, 3 );
-		add_action( 'delete_post', [ $this, 'delete_woowgallery' ] );
+		add_action( 'delete_post', [ $this, 'delete_taxonomy_term' ] );
 
 		add_action( 'woowgallery_media_buttons', [ $this, 'media_buttons' ] );
 	}
@@ -65,6 +65,8 @@ class Edit_Gallery extends Edit_Woowgallery {
 
 		wp_enqueue_style( WOOWGALLERY_SLUG . '-editor-modal-style' );
 		wp_enqueue_script( WOOWGALLERY_SLUG . '-editor-modal-script' );
+
+		Settings::enqueue_code_editor();
 
 		// Fire a hook to load custom metabox scripts.
 		do_action( 'woowgallery_edit_gallery_scripts' );
@@ -374,7 +376,7 @@ class Edit_Gallery extends Edit_Woowgallery {
 	 *
 	 * @param int $postid Post ID.
 	 */
-	public function delete_post( $postid ) {
+	public function delete_taxonomy_term( $postid ) {
 		// Get post.
 		$wgpost = get_post( $postid );
 

@@ -8,6 +8,8 @@
 
 namespace WoowGallery;
 
+use WoowGallery\Admin\Settings;
+
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 /**
@@ -24,6 +26,8 @@ class Posttypes {
 	 */
 	public function __construct() {
 
+		add_filter( 'woowgallery_posttype_args', [ $this, 'standalone' ], 1, 2 );
+
 		$this->register_woowgallery_posttype();
 		$this->register_woowgallery_dynamic_posttype();
 		$this->register_woowgallery_album_posttype();
@@ -36,7 +40,6 @@ class Posttypes {
 
 			add_filter( 'custom_menu_order', [ $this, 'custom_menu_order' ] );
 		}
-
 	}
 
 	/**
@@ -54,7 +57,7 @@ class Posttypes {
 			'add_new_item'          => __( 'Add New Gallery', 'wgtd' ),
 			'add_new'               => __( 'Add New Gallery', 'wgtd' ),
 			'new_item'              => __( 'New Gallery', 'wgtd' ),
-			'edit_item'             => __( 'Edit Gallery', 'wgtd' ),
+			'edit_item'             => __( 'Edit WoowGallery', 'wgtd' ),
 			'update_item'           => __( 'Update Gallery', 'wgtd' ),
 			'view_item'             => __( 'View Gallery', 'wgtd' ),
 			'view_items'            => __( 'View Galleries', 'wgtd' ),
@@ -148,7 +151,7 @@ class Posttypes {
 			'add_new_item'          => __( 'Add New Dynamic Gallery', 'wgtd' ),
 			'add_new'               => __( 'Add New Dynamic Gallery', 'wgtd' ),
 			'new_item'              => __( 'New Dynamic Gallery', 'wgtd' ),
-			'edit_item'             => __( 'Edit Dynamic Gallery', 'wgtd' ),
+			'edit_item'             => __( 'Edit WoowGallery', 'wgtd' ),
 			'update_item'           => __( 'Update Dynamic Gallery', 'wgtd' ),
 			'view_item'             => __( 'View Dynamic Gallery', 'wgtd' ),
 			'view_items'            => __( 'View Dynamic Galleries', 'wgtd' ),
@@ -214,7 +217,7 @@ class Posttypes {
 			'add_new_item'          => __( 'Add New Album', 'wgtd' ),
 			'add_new'               => __( 'Add New Album', 'wgtd' ),
 			'new_item'              => __( 'New Album', 'wgtd' ),
-			'edit_item'             => __( 'Edit Album', 'wgtd' ),
+			'edit_item'             => __( 'Edit WoowGallery Album', 'wgtd' ),
 			'update_item'           => __( 'Update Album', 'wgtd' ),
 			'view_item'             => __( 'View Album', 'wgtd' ),
 			'view_items'            => __( 'View Albums', 'wgtd' ),
@@ -348,5 +351,38 @@ class Posttypes {
 
 		// Return the new submenu order.
 		return $custom;
+	}
+
+	/**
+	 * Filter post type arguments.
+	 *
+	 * @param array  $args     Post type arguments.
+	 * @param string $posttype Post type name.
+	 *
+	 * @return array
+	 */
+	public function standalone( $args, $posttype ) {
+		// Check if standalone is enabled.
+		$standalone = Settings::get_settings( 'standalone_' . $posttype );
+		if ( ! empty( $standalone ) ) {
+			// Get slug.
+			$slug = Settings::get_settings( 'permalink_base_' . $posttype, $posttype );
+
+			// Change the default post type args so that it can be publicly accessible.
+			$args['rewrite']             = [
+				'with_front' => false,
+				'slug'       => $slug,
+			];
+			$args['query_var']           = true;
+			$args['publicly_queryable']  = true;
+			$args['exclude_from_search'] = false;
+			$args['has_archive']         = true;
+			$args['public']              = true;
+			$args['show_in_nav_menus']   = true;
+			$args['supports'][]          = 'slug';
+			$args['supports'][]          = 'page-attributes';
+		}
+
+		return $args;
 	}
 }

@@ -79,7 +79,6 @@
   }
 
   .form-control {
-    min-height: 26px;
     width: 100%;
   }
 }
@@ -229,6 +228,10 @@
         }
       }
     }
+  }
+
+  .form-control {
+    min-height: 28px;
   }
 
   div.help {

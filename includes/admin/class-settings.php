@@ -113,11 +113,12 @@ class Settings {
 	 * Helper method for getting a setting's value. Falls back to the default
 	 * setting value if none exists in the options table.
 	 *
-	 * @param string $key The setting key to retrieve.
+	 * @param string $key     The setting key to retrieve.
+	 * @param mixed  $default The default setting key on failure.
 	 *
 	 * @return mixed settings value on success, null on failure.
 	 */
-	public static function get_settings( $key = null ) {
+	public static function get_settings( $key = null, $default = null ) {
 
 		// Get the settings.
 		$default_settings = (array) self::get_settings_default();
@@ -128,7 +129,7 @@ class Settings {
 		$settings = apply_filters( 'woowgallery_settings', $settings, $key );
 
 		if ( ! empty( $key ) ) {
-			return isset( $settings[ $key ] ) ? $settings[ $key ] : null;
+			return isset( $settings[ $key ] ) ? $settings[ $key ] : $default;
 		}
 
 		return $settings;
@@ -181,6 +182,16 @@ class Settings {
 		wp_enqueue_style( WOOWGALLERY_SLUG . '-settings-style' );
 		wp_enqueue_script( WOOWGALLERY_SLUG . '-settings-script' );
 
+		self::enqueue_code_editor();
+
+		// Run a hook to load in custom scripts.
+		do_action( 'woowgallery_settings_assets' );
+	}
+
+	/**
+	 * Register and enqueue settings page specific CSS/JS.
+	 */
+	public static function enqueue_code_editor() {
 		// Code Editor.
 		if ( ! defined( 'IFRAME_REQUEST' ) && function_exists( 'wp_enqueue_code_editor' ) ) {
 			$settings_css = wp_enqueue_code_editor( [ 'type' => 'text/css' ] );
@@ -190,13 +201,10 @@ class Settings {
 				// initialization.
 				wp_add_inline_script(
 					'code-editor',
-					sprintf( 'jQuery(function($){ if(document.getElementById("woowgallery-custom-css")){ wp.codeEditor.initialize("woowgallery-custom-css", %s); } });', wp_json_encode( $settings_css ) )
+					sprintf( 'jQuery(function($){ if(document.getElementById("wg-custom-css")){ window.wgCodeEditor_custom_css = wp.codeEditor.initialize("wg-custom-css", %s); } });', wp_json_encode( $settings_css ) )
 				);
 			}
 		}
-
-		// Run a hook to load in custom scripts.
-		do_action( 'woowgallery_settings_assets' );
 	}
 
 	/**
@@ -238,16 +246,62 @@ class Settings {
 
 		// Allow devs to filter.
 		$new_settings = apply_filters( 'woowgallery_settings_save', $new_settings, $key );
+		$old_settings = self::get_settings();
 
 		if ( $key ) {
-			$settings         = self::get_settings();
+			$settings         = $old_settings;
 			$settings[ $key ] = $new_settings;
 		} else {
 			$settings = $new_settings;
 		}
 
+		// Set flag to flush rewrite rules.
+		$flush_rewrite_rules = false;
+		$permalink_base      = [];
+
+		// Check if permalink base changed for WoowGallery post types.
+		$posttypes = [ Posttypes::GALLERY_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE, Posttypes::ALBUM_POSTTYPE ];
+		foreach ( $posttypes as $pt ) {
+			$_key              = 'permalink_base_' . $pt;
+			$settings[ $_key ] = trim( $settings[ $_key ] );
+			if ( empty( $settings[ $_key ] ) ) {
+				$settings[ $_key ] = $pt;
+			}
+			if ( empty( $old_settings[ $_key ] ) || $settings[ $_key ] !== $old_settings[ $_key ] ) {
+				$flush_rewrite_rules = true;
+			}
+			$permalink_base[] = $settings[ $_key ];
+		}
+
+		// Check if permalink base unique for each WoowGallery post type.
+		$permalink_base = array_unique( $permalink_base );
+		if ( count( $permalink_base ) < count( $posttypes ) ) {
+			foreach ( $posttypes as $pt ) {
+				$settings[ 'permalink_base_' . $pt ] = $pt;
+			}
+
+			// Output an admin notice so the user knows what happened.
+			Notice::add_message( __( 'Permalink base slugs must be unique for each post type.', 'wgtd' ) );
+		}
+
+		if ( ! $flush_rewrite_rules ) {
+			// Check if standalone option changed/enabled for WoowGallery post types.
+			foreach ( $posttypes as $pt ) {
+				$_key = 'standalone_' . $pt;
+				if ( ! empty( $settings[ $_key ] ) && empty( $old_settings[ $_key ] ) ) {
+					$flush_rewrite_rules = true;
+					break;
+				}
+			}
+		}
+
 		// Update option.
 		update_option( self::SETTINGS_KEY, $settings );
+
+		// Flush rewrite rules.
+		if ( $flush_rewrite_rules ) {
+			flush_rewrite_rules();
+		}
 	}
 
 	/**
@@ -266,10 +320,8 @@ class Settings {
 				'siteurl'                               => site_url(),
 				'_nonce_woowgallery_skin_settings_save' => wp_create_nonce( 'skin_settings_save' ),
 				'fill_preset_name'                      => __( 'Fill the Preset Name', 'wgtd' ),
-				'delete_default_preset_error'           => __( 'You can\'t delete skin/preset chosen by default', 'wgtd' ),
+				'delete_default_preset_error'           => __( 'You can\'t delete default skin preset.', 'wgtd' ),
 				'default_skin'                          => $data['default_skin'],
-				'txt_default_skin_sign'                 => ' ' . __( '(default)', 'wgtd' ),
-				'txt_default'                           => __( 'Default', 'wgtd' ),
 			]
 		);
 	}

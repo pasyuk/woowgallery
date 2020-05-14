@@ -10,6 +10,7 @@ namespace WoowGallery\Admin;
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
+use WoowGallery\Gallery;
 use WoowGallery\Posttypes;
 use WoowGallery\Skins;
 use WP_Query;
@@ -30,6 +31,7 @@ class Ajax {
 
 		add_action( 'wp_ajax_woowgallery_dynamic_refresh_taxonomy_terms', [ $this, 'refresh_taxonomy_terms' ] );
 		add_action( 'wp_ajax_woowgallery_dynamic_fetch_query', [ $this, 'dynamic_fetch_query' ] );
+		add_action( 'wp_ajax_woowgallery_cache_clear', [ $this, 'gallery_cache_clear' ] );
 
 		//add_action( 'wp_ajax_woowgallery_license', [ $this, 'woowgallery_license' ] ); // @TODO Freemius.
 
@@ -191,11 +193,26 @@ class Ajax {
 		$query = (array) json_decode( $json, true );
 		try {
 			$query_content = Edit_Dynamic_Gallery::get_dynamic_query( $query );
+			wp_send_json_success( $query_content );
 		} catch ( \Exception $e ) {
 			wp_send_json_error( $e->getMessage() );
 		}
+	}
 
-		wp_send_json_success( $query_content );
+	/**
+	 * Clear cache for gallery ID
+	 */
+	public function gallery_cache_clear() {
+
+		$cache_clear_id = (int) woowgallery_POST( 'id' );
+		if ( ! empty( $cache_clear_id ) ) {
+			if ( metadata_exists( 'post', $cache_clear_id, Gallery::GALLERY_UPDATE_META_KEY ) ) {
+				update_post_meta( $cache_clear_id, Gallery::GALLERY_UPDATE_META_KEY, 1 );
+			}
+			wp_send_json_success();
+		}
+
+		wp_send_json_error();
 	}
 
 

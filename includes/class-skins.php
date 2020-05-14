@@ -114,9 +114,14 @@ class Skins {
 			$settings = Settings::get_settings();
 			if ( ! empty( $settings['default_skin'] ) && $settings['default_skin'] !== $skin_slug ) {
 				return $this->get_skin( $settings['default_skin'] );
-			} else {
-				return false;
 			}
+
+			$default_settings = Settings::get_settings_default();
+			if ( ! empty( $default_settings['default_skin'] ) && $default_settings['default_skin'] !== $skin_slug ) {
+				return $this->get_skin( $settings['default_skin'] );
+			}
+
+			return new \WP_Error( 'skin_missed', __( 'Missed default skin. Set default skin on Settings page.', 'wgtd' ) );
 		}
 
 		if ( 'default' !== $preset_name && ! isset( $skins[ $skin_slug ]->model[ $preset_name ] ) ) {

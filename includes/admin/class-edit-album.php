@@ -64,6 +64,8 @@ class Edit_Album extends Edit_Woowgallery {
 		wp_enqueue_style( WOOWGALLERY_SLUG . '-editor-modal-style' );
 		wp_enqueue_script( WOOWGALLERY_SLUG . '-editor-modal-script' );
 
+		Settings::enqueue_code_editor();
+
 		// Fire a hook to load custom metabox scripts.
 		do_action( 'woowgallery_edit_album_scripts' );
 
