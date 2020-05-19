@@ -217,24 +217,22 @@ if ( ! function_exists( 'woowgallery_full_post_data' ) ) {
 		$att_images = woowgallery_get_attachment_images( $image_id, $gallery );
 		$attachment = $attachment + $att_images;
 
-		$attachment['has_password']  = ! empty( $post->post_password );
-		$attachment['tags_taxonomy'] = '';
+		$attachment['has_password'] = ! empty( $post->post_password );
+		$attachment['taxonomies']   = woowgallery_get_object_taxonomy_terms( $post );
 
-		$taxonomies = get_post_taxonomies( $post->ID );
-		if ( in_array( 'post_tag', $taxonomies, true ) ) {
+		if ( isset( $attachment['taxonomies']['post_tag'] ) ) {
 			$attachment['tags_taxonomy'] = 'post_tag';
-			$tags                        = wp_get_object_terms(
-				$post->ID,
-				'post_tag',
-				[
-					'orderby' => 'name',
-					'order'   => 'ASC',
-					'fields'  => 'names',
-				]
-			);
+			$tags                        = $attachment['taxonomies']['post_tag']['terms'];
+			unset( $attachment['taxonomies']['post_tag'] );
+		} elseif ( isset( $attachment['taxonomies'][ $post->post_type . '_tag' ] ) ) {
+			$attachment['tags_taxonomy'] = $post->post_type . '_tag';
+			$tags                        = $attachment['taxonomies'][ $post->post_type . '_tag' ]['terms'];
+			unset( $attachment['taxonomies'][ $post->post_type . '_tag' ] );
 		} else {
-			$tags = [];
+			$attachment['tags_taxonomy'] = '';
+			$tags                        = [];
 		}
+
 		if ( ! empty( $attachment['tags'] ) ) {
 			$attachment['tags'] = array_values(
 				array_unique(
@@ -251,14 +249,6 @@ if ( ! function_exists( 'woowgallery_full_post_data' ) ) {
 			);
 		} else {
 			$attachment['tags'] = $tags;
-		}
-
-		$other_taxonomies = woowgallery_get_taxonomy_terms( $post->post_type );
-		foreach ( $other_taxonomies as $taxterms ) {
-			$attachment['taxonomies'] = [
-				'taxonomy' => $taxterms['taxonomy'],
-				'terms'    => wp_list_pluck( $taxterms['terms'], 'name' ),
-			];
 		}
 
 		if ( in_array( $post->post_type, [ Posttypes::GALLERY_POSTTYPE, Posttypes::ALBUM_POSTTYPE ], true ) ) {

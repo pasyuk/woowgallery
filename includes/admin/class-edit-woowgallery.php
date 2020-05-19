@@ -87,6 +87,42 @@ class Edit_Woowgallery {
 	}
 
 	/**
+	 * Set Gallery Cover if it is not already set.
+	 *
+	 * @param WP_Post $post    The current post object.
+	 * @param array   $content Gallery data.
+	 */
+	public static function set_gallery_cover_from_content( $post, $content ) {
+		if ( has_post_thumbnail( $post ) || ! count( $content ) ) {
+			return;
+		}
+
+		$thumbnail_id = 0;
+		foreach ( $content as $item ) {
+			if ( empty( $item['image_id'] ) ) {
+				continue;
+			}
+			$thumbnail_id = (int) $item['image_id'];
+			break;
+		}
+
+		if ( $thumbnail_id ) {
+			$dims = woowgallery_get_resize_dimensions( $post );
+
+			Cropping::resize_image(
+				$thumbnail_id,
+				$dims['thumb']
+			);
+			Cropping::resize_image(
+				$thumbnail_id,
+				$dims['image']
+			);
+
+			set_post_thumbnail( $post, $thumbnail_id );
+		}
+	}
+
+	/**
 	 * Footer templates.
 	 */
 	public function footer_templates() {
@@ -465,42 +501,6 @@ class Edit_Woowgallery {
 			} else {
 				delete_post_meta( $id, '_woowgallery' );
 			}
-		}
-	}
-
-	/**
-	 * Set Gallery Cover if it is not already set.
-	 *
-	 * @param WP_Post $post    The current post object.
-	 * @param array   $content Gallery data.
-	 */
-	public function set_gallery_cover_from_content( $post, $content ) {
-		if ( has_post_thumbnail( $post ) || ! count( $content ) ) {
-			return;
-		}
-
-		$thumbnail_id = 0;
-		foreach ( $content as $item ) {
-			if ( empty( $item['image_id'] ) ) {
-				continue;
-			}
-			$thumbnail_id = (int) $item['image_id'];
-			break;
-		}
-
-		if ( $thumbnail_id ) {
-			$dims = woowgallery_get_resize_dimensions( $post );
-
-			Cropping::resize_image(
-				$thumbnail_id,
-				$dims['thumb']
-			);
-			Cropping::resize_image(
-				$thumbnail_id,
-				$dims['image']
-			);
-
-			set_post_thumbnail( $post, $thumbnail_id );
 		}
 	}
 

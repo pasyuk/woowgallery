@@ -258,7 +258,10 @@ class Post {
 	 */
 	public function set_object_terms( $object_id, $terms, $tt_ids, $taxonomy, $append, $old_tt_ids ) {
 		if ( ! in_array( $taxonomy, [ 'post_tag', 'media_tag' ], true ) ) {
-			return;
+			$post_type = get_post_type( $object_id );
+			if ( $post_type . '_tag' !== $taxonomy ) {
+				return;
+			}
 		}
 		// Get galleries ids from Post meta.
 		$gallery_ids = get_post_meta( $object_id, '_woowgallery', true );

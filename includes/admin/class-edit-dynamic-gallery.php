@@ -144,7 +144,7 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 		// Get initial gallery data.
 		$data    = (array) json_decode( $post->post_content_filtered, true );
 		$content = self::set_dynamic_content( $post_id, $data );
-		$this->set_gallery_cover_from_content( $post, $content );
+		parent::set_gallery_cover_from_content( $post, $content );
 
 		// Fire a hook for addons.
 		do_action( 'woowgallery_saved', $post_id, $post );

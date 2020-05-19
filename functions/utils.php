@@ -204,6 +204,41 @@ if ( ! function_exists( 'woowgallery_array_diff_key_recursive' ) ) {
 	}
 }
 
+if ( ! function_exists( 'woowgallery_get_object_taxonomy_terms' ) ) {
+	/**
+	 * Get array of taxonomy terms of current object.
+	 *
+	 * @param WP_Post $post The current post object.
+	 *
+	 * @return array
+	 */
+	function woowgallery_get_object_taxonomy_terms( $post ) {
+		$_taxonomies   = get_object_taxonomies( $post, 'objects' );
+		$wg_taxonomies = [];
+
+		foreach ( $_taxonomies as $_tax ) {
+			if ( empty( $_tax->public ) ) {
+				continue;
+			}
+
+			$wg_taxonomies[ $_tax->name ] = [
+				'taxonomy' => $_tax->label,
+				'terms'    => wp_get_object_terms(
+					$post->ID,
+					$_tax->name,
+					[
+						'orderby' => 'name',
+						'order'   => 'ASC',
+						'fields'  => 'names',
+					]
+				),
+			];
+		}
+
+		return $wg_taxonomies;
+	}
+}
+
 if ( ! function_exists( 'woowgallery_get_taxonomy_terms' ) ) {
 	/**
 	 * Get array of taxonomy terms by Post Type(s).

@@ -230,7 +230,7 @@ class Edit_Album extends Edit_Woowgallery {
 		update_post_meta( $post_id, Gallery::GALLERY_MEDIA_COUNT_META_KEY, count( $data ) );
 
 		$content = parent::set_gallery_content( $post_id, $data );
-		$this->set_gallery_cover_from_content( $post, $content );
+		parent::set_gallery_cover_from_content( $post, $content );
 
 		// Retrive attachmnet IDs from the $data.
 		$att_ids = array_map(
