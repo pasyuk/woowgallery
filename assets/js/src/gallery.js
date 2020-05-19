@@ -234,7 +234,8 @@
             },
             data: {
               'context': 'view',
-              'status': ['future', 'publish', 'private'],
+              // 'status': ['future', 'publish', 'private', 'draft', 'pending'],
+              'status': 'any',
               'include': fetch_ids,
               'per_page': this.per_page,
               'orderby': 'include',
@@ -249,6 +250,7 @@
               window.woowgallery_content_indexed = {...window.woowgallery_content_indexed, ...wg_data_indexed};
             }
             this.updateMediaTags();
+            this.updatePostStatus();
             this.setReady(post_type, true);
           });
         }
@@ -341,6 +343,15 @@
                 item.tags = _.uniq(_.compact([...content_item.tags, ...item.tags.split(',')])).join(',');
               }
             }
+          }
+        });
+      },
+
+      // Update post status
+      updatePostStatus: function() {
+        this.gallery = $.each(this.gallery, (i, item) => {
+          if ('post' === item.type) {
+            item.status = this.itemStatus(item);
           }
         });
       },
@@ -638,6 +649,16 @@
         }
 
         return '';
+      },
+
+      // Gallery item post status
+      itemStatus: function(item) {
+        let content_item = window.woowgallery_content_indexed[item.id];
+        if (content_item && 'publish' !== content_item.status && 'private' !== content_item.status) {
+          return content_item.status;
+        }
+
+        return item.status;
       },
 
       // Gallery item edit link

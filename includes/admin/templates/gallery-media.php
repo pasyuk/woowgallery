@@ -107,7 +107,7 @@ use WoowGallery\Posttypes;
 							</button>
 						</div>
 						<template>
-							<div class="attachment-preview sort-handle" :class="['type-' + item.type, 'subtype-' + item.subtype]">
+							<div class="attachment-preview sort-handle" :class="['type-' + item.type, 'subtype-' + item.subtype, 'status-' + item.status]">
 								<div class="thumbnail" @mouseup.left.exact="toggleSelectItem(item.id, $event)" @mouseup.left.shift.exact="selectItemsTo(item.id, $event)">
 									<img :src="item.thumb[0]" :alt="item.alt" :class="{icon: item.thumb[4]}"/>
 								</div>
@@ -124,6 +124,10 @@ use WoowGallery\Posttypes;
 								<template v-else>
 									<a v-if="'private' === item.status" @click="setStatus(item.id, 'publish', $event)" href="#" class="dashicons dashicons-lock woowgallery-item-status" data-status="private" title="<?php esc_attr_e( 'Status: Only for logged in users', 'wgtd' ); ?>"></a>
 									<a v-else-if="'publish' === item.status" @click="setStatus(item.id, 'private', $event)" href="#" class="dashicons dashicons-unlock woowgallery-item-status" data-status="publish" title="<?php esc_attr_e( 'Status: Visible for all', 'wgtd' ); ?>"></a>
+								</template>
+								<template v-if="'post' === item.type">
+									<span v-if="'future' === item.status" class="dashicons dashicons-clock woowgallery-item-status" data-status="future" title="<?php esc_attr_e( 'Status: Scheduled', 'wgtd' ); ?>"></span>
+									<span v-else-if="'draft' === item.status || 'pending' === item.status" class="dashicons dashicons-sos woowgallery-item-status" data-status="draft" title="<?php esc_attr_e( 'Status: Draft/Pending', 'wgtd' ); ?>"></span>
 								</template>
 								<a @click="editItemSet(item, $event)" href="#" class="dashicons dashicons-edit woowgallery-edit-media" title="<?php esc_attr_e( 'Edit Data', 'wgtd' ); ?>"></a>
 								<a @click="removeItem(item.id, $event)" href="#" class="dashicons dashicons-trash woowgallery-remove-media" title="<?php esc_attr_e( 'Remove from Gallery', 'wgtd' ); ?>" data-confirm="<?php esc_attr_e( 'Are you sure you want to remove this item from the gallery?', 'wgtd' ); ?>"></a>

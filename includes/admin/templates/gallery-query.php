@@ -275,7 +275,7 @@ $wg_meta_value = [
 					<label for="wgd-limit"><?php esc_html_e( 'limit result to', 'wgtd' ); ?></label>
 					<div class="field-wrap">
 						<div class="wrapper">
-							<input type="number" id="wgd-limit" class="form-control" v-model="wp.limit"/>
+							<input type="number" id="wgd-limit" class="form-control" min="0" v-model="wp.limit"/>
 						</div>
 					</div>
 					<div class="hint" v-show="hints"><?php esc_html_e( 'Set the required number to restrict the count of loaded posts. Leave this option `0` to show all available posts.', 'wgtd' ); ?></div>
@@ -285,7 +285,7 @@ $wg_meta_value = [
 					<label for="wgd-offset"><?php esc_html_e( 'with offset', 'wgtd' ); ?></label>
 					<div class="field-wrap">
 						<div class="wrapper">
-							<input type="number" id="wgd-offset" class="form-control" v-model="wp.offset"/>
+							<input type="number" id="wgd-offset" class="form-control" min="0" v-model="wp.offset"/>
 						</div>
 					</div>
 					<div class="hint" v-show="hints"><?php esc_html_e( 'The number of posts to offset in the query.', 'wgtd' ); ?></div>
@@ -487,11 +487,12 @@ $wg_meta_value = [
 									<div class="item-posttype-icon" v-if="'post' === item.type" v-html="subtypeIcon(item)"></div>
 								</div>
 							</div>
-							<template v-if="'instagram' !== query_type">
+							<template v-if="'wp' === query_type">
 								<div class="actions">
-									<span v-if="item.has_password" class="dashicons dashicons-shield woowgallery-item-status" data-status="protected" title="<?php esc_attr_e( 'Status: Password Protected', 'wgtd' ); ?>"></span>
-									<span v-else-if="'private' === item.status" class="dashicons dashicons-lock woowgallery-item-status" data-status="private" title="<?php esc_attr_e( 'Status: Only for logged in users with editor rights', 'wgtd' ); ?>"></span>
+									<span v-if="'future' === item.status" class="dashicons dashicons-clock woowgallery-item-status" data-status="future" title="<?php esc_attr_e( 'Status: Scheduled', 'wgtd' ); ?>"></span>
+									<span v-else-if="item.has_password" class="dashicons dashicons-shield woowgallery-item-status" data-status="protected" title="<?php esc_attr_e( 'Status: Password Protected', 'wgtd' ); ?>"></span>
 									<span v-else-if="'publish' === item.status" class="dashicons dashicons-unlock woowgallery-item-status" data-status="publish" title="<?php esc_attr_e( 'Status: Visible for all', 'wgtd' ); ?>"></span>
+									<span v-else-if="'private' === item.status" class="dashicons dashicons-lock woowgallery-item-status" data-status="private" title="<?php esc_attr_e( 'Status: Only for logged in users with editor rights', 'wgtd' ); ?>"></span>
 									<a :href="item.edit_link" target="_blank" class="dashicons dashicons-edit woowgallery-edit-media" :class="{'woowgallery-disabled': !item.edit_link}" title="<?php esc_attr_e( 'Edit Post', 'wgtd' ); ?>"></a>
 									<a @click="removeItem(item.id, $event)" href="#" class="dashicons dashicons-trash woowgallery-remove-media" title="<?php esc_attr_e( 'Exclude from Query', 'wgtd' ); ?>" data-confirm="<?php esc_attr_e( 'Confirm you want to exclude this post from the query.', 'wgtd' ); ?>"></a>
 									<div class="more"><?php do_action( 'woowgallery_dynamic_item_more_actions', $data['post'] ); ?></div>

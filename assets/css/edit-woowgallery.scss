@@ -521,11 +521,16 @@ span.wg-posttype-icon {
             transition-delay: 100ms;
           }
 
+          &.dashicons-sos {
+            background: #e02626;
+          }
+
           &.dashicons-unlock,
           &.dashicons-shield {
             background-color: #74b445;
           }
 
+          &.dashicons-clock,
           &.dashicons-lock,
           &.dashicons-shield-alt {
             background-color: #ffa93b;
@@ -604,7 +609,7 @@ span.wg-posttype-icon {
         transform: translateY(-100%);
         pointer-events: none;
 
-        a {
+        span, a {
           pointer-events: auto;
         }
 
