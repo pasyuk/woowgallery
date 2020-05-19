@@ -140,9 +140,10 @@ window.WoowGalleryAdmin = window.WoowGalleryAdmin || {l10n: {}};
           get_post_type: this.get_post_type
         };
         this.frame_title = title;
-        if(id) {
+        if (id) {
           this.modalIframeSrc = woowgallery.editModalSrc + '&post=' + id + '&action=edit';
-        } else {
+        }
+        else {
           this.modalIframeSrc = woowgallery.editModalSrc + '&post_type=' + post_type;
         }
         this.$el.classList.add('woowgallery-modal-active');
@@ -250,6 +251,17 @@ window.WoowGalleryAdmin = window.WoowGalleryAdmin || {l10n: {}};
         this.frame_title = this.previous_screen.frame_title;
         this.get_post_type = this.previous_screen.get_post_type;
         this.previous_screen = null;
+      },
+
+      mediaTitle: function(item) {
+        if ('private' === item.status) {
+          return i18n.sprintf(i18n.__('%s - Private', 'wgtd'), item.title);
+        }
+        else if ('future' === item.status) {
+          return i18n.sprintf(i18n.__('%s - Scheduled', 'wgtd'), item.title);
+        }
+
+        return item.title;
       },
 
       mediaCount: function(item) {

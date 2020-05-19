@@ -122,7 +122,7 @@ $hide_menu = ( Posttypes::ALBUM_POSTTYPE === $post->post_type ) ? 'hide-menu' : 
 														<div class="no-thumbnail" v-else><?php esc_html_e( 'No Featured Image', 'wgtd' ); ?></div>
 													</div>
 													<div class="meta">
-														<div class="title">{{ item.title }}</div>
+														<div class="title">{{ mediaTitle(item) }}</div>
 														<div class="wg-count" v-if="item.count">{{ mediaCount(item) }}</div>
 													</div>
 												</div>
@@ -147,7 +147,7 @@ $hide_menu = ( Posttypes::ALBUM_POSTTYPE === $post->post_type ) ? 'hide-menu' : 
 													<img :src="selected_last_item.thumb[0]" alt=""/>
 												</div>
 												<div class="meta">
-													<div class="title">{{ selected_last_item.title }}</div>
+													<div class="title">{{ mediaTitle(selected_last_item) }}</div>
 													<div class="date">{{ selected_last_item.date|mediaDate }}</div>
 													<div class="wg-count" v-if="selected_last_item.count">{{ mediaCount(selected_last_item) }}</div>
 													<div class="wg-tags" v-if="selected_last_item.tags.length">{{ selected_last_item.tags|mediaTags }}</div>
