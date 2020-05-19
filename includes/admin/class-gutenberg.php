@@ -42,17 +42,16 @@ class Gutenberg {
 		// Gutenberg assets.
 		wp_register_style(
 			WOOWGALLERY_SLUG . '-block-style',
-			plugins_url( 'assets/css/block.css', WOOWGALLERY_FILE ),
+			plugins_url( 'assets/css/blocks.style.build.css', WOOWGALLERY_FILE ),
 			[ 'wp-edit-blocks' ],
 			WOOWGALLERY_VERSION
 		);
 		wp_register_script(
 			WOOWGALLERY_SLUG . '-block-script',
-			plugins_url( 'assets/js/block.js', WOOWGALLERY_FILE ),
+			plugins_url( 'assets/js/blocks.build.js', WOOWGALLERY_FILE ),
 			[
 				WOOWGALLERY_SLUG . '-script',
 				WOOWGALLERY_SLUG . '-admin-script',
-				WOOWGALLERY_SLUG . '-editor-modal-script',
 				'wp-blocks',
 				'wp-components',
 				'wp-element',
@@ -71,46 +70,7 @@ class Gutenberg {
 			[
 				'editor_script'   => WOOWGALLERY_SLUG . '-block-script',
 				'editor_style'    => WOOWGALLERY_SLUG . '-block-style',
-				'attributes'      => [
-					'id'       => [
-						'type'    => 'number',
-						'default' => 0,
-					],
-					'posttype' => [
-						'type'    => 'string',
-						'default' => Posttypes::GALLERY_POSTTYPE,
-					],
-					'width'    => [
-						'type'    => 'object',
-						'default' => (object) [
-							'value' => 100,
-							'unit'  => '%',
-						],
-					],
-					'align'    => [
-						'type'    => 'string',
-						'default' => 'center',
-					],
-				],
-				'render_callback' => [ $this, 'render_block' ],
 			]
 		);
 	}
-
-	/**
-	 * Render the contents of the block
-	 *
-	 * @param array $args Attributes.
-	 *
-	 * @return string
-	 */
-	public function render_block( $args ) {
-		$id   = $args['id'];
-		$type = $args['posttype'];
-
-		$args['callback'] = 'wgSkinInit';
-
-		return woowgallery( $id, $type, $args, true );
-	}
-
 }
