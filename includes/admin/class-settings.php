@@ -300,7 +300,8 @@ class Settings {
 
 		// Flush rewrite rules.
 		if ( $flush_rewrite_rules ) {
-			flush_rewrite_rules();
+			// flush_rewrite_rules( false ); - Flush rewrite rules not working here, so we just clear the rules in DataBase.
+			update_option( 'rewrite_rules', '' );
 		}
 	}
 
