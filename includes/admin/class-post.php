@@ -312,7 +312,7 @@ class Post {
 				}
 
 				if ( $update_gallery ) {
-					$gallery->post_content_filtered = wg_json_encode( array_values( $gallery_data ) );
+					$gallery->post_content_filtered = wp_unslash( wg_json_encode( array_values( $gallery_data ) ) );
 					wp_update_post( $gallery );
 				}
 			}
@@ -350,7 +350,7 @@ class Post {
 			}
 
 			if ( $update_gallery ) {
-				$gallery->post_content_filtered = wg_json_encode( array_values( $gallery_data ) );
+				$gallery->post_content_filtered = wp_unslash( wg_json_encode( array_values( $gallery_data ) ) );
 				wp_update_post( $gallery );
 			}
 		}

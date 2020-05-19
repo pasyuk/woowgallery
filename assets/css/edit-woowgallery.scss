@@ -73,6 +73,21 @@ span.wg-posttype-icon {
       background-color: #fff;
       margin: 0;
     }
+
+    .dashicons-no {
+      position: relative;
+      color: #e40c15;
+
+      b {
+        font-size: 14px;
+        position: absolute;
+        left: 0;
+        bottom: 130%;
+        line-height: 1;
+        background: rgba(255,255,255,0.8);
+        padding: 0 5px 5px;
+      }
+    }
   }
 }
 

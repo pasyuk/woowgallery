@@ -127,7 +127,7 @@ use WoowGallery\Posttypes;
 								</template>
 								<template v-if="'post' === item.type">
 									<span v-if="'future' === item.status" class="dashicons dashicons-clock woowgallery-item-status" data-status="future" title="<?php esc_attr_e( 'Status: Scheduled', 'wgtd' ); ?>"></span>
-									<span v-else-if="'draft' === item.status || 'pending' === item.status" class="dashicons dashicons-sos woowgallery-item-status" data-status="draft" title="<?php esc_attr_e( 'Status: Draft/Pending', 'wgtd' ); ?>"></span>
+									<span v-else-if="'draft' === item.status || 'pending' === item.status" class="dashicons dashicons-sos woowgallery-item-status" :data-status="item.status" title="<?php esc_attr_e( 'Status: Draft/Pending', 'wgtd' ); ?>"></span>
 								</template>
 								<a @click="editItemSet(item, $event)" href="#" class="dashicons dashicons-edit woowgallery-edit-media" title="<?php esc_attr_e( 'Edit Data', 'wgtd' ); ?>"></a>
 								<a @click="removeItem(item.id, $event)" href="#" class="dashicons dashicons-trash woowgallery-remove-media" title="<?php esc_attr_e( 'Remove from Gallery', 'wgtd' ); ?>" data-confirm="<?php esc_attr_e( 'Are you sure you want to remove this item from the gallery?', 'wgtd' ); ?>"></a>

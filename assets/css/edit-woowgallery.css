@@ -316,6 +316,10 @@ span.wg-posttype-icon { display: inline-block; margin: 0 10px 0 0; width: 1.15em
 
 .additional-preview-data .item-posttype-icon .wg-posttype-icon { border: 1px solid #ddd; border-radius: 3px; background-color: #fff; margin: 0; }
 
+.additional-preview-data .item-posttype-icon .dashicons-no { position: relative; color: #e40c15; }
+
+.additional-preview-data .item-posttype-icon .dashicons-no b { font-size: 14px; position: absolute; left: 0; bottom: 130%; line-height: 1; background: rgba(255, 255, 255, 0.8); padding: 0 5px 5px; }
+
 /** .postbox-container */
 #woowgallery { box-sizing: border-box; /** Intro Text */ /** Inline Navigation - Select All - List View / Grid View - Edit / Delete Selected Items */ }
 

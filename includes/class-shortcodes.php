@@ -208,7 +208,7 @@ class Shortcodes {
 			$gallery['skin']['config'] = $overwrite_skin->model[ $overwrite_skin->preset_name ];
 		}
 
-		// Allow the gllery data to be filtered before it is used to create the gallery output.
+		// Allow the gallery data to be filtered before it is used to create the gallery output.
 		$gallery = apply_filters( 'woowgallery_pre_data', $gallery, $this->counter );
 
 		// If there is no data to output or the gallery is inactive, do nothing.

@@ -82,6 +82,9 @@
             item.image = this.itemImage(item);
             item.date = this.itemDate(item);
             item.tags = this.itemTags(item);
+            if ('post' === item.type) {
+              item.has_password = this.itemHasPassword(item);
+            }
             if ('woowgallery' === item.subtype) {
               item.count = this.itemGalleryCount(item);
             }
@@ -224,7 +227,7 @@
 
       // Fetch attachments data that are in gallery
       fetchWPPosts: function(fetch_ids, post_type) {
-        if (fetch_ids.length) {
+        if (fetch_ids.length && woowgallery.post_types[post_type]) {
           this.setReady(post_type, false);
           $.ajax({
             url: woowgallery.wpApiRoot + 'wp/v2/' + woowgallery.post_types[post_type].base,
@@ -352,7 +355,6 @@
         this.gallery = $.each(this.gallery, (i, item) => {
           if ('post' === item.type) {
             item.status = this.itemStatus(item);
-            item.has_password = this.itemHasPassword(item);
           }
         });
       },
@@ -687,6 +689,8 @@
         if ('post' === item.type) {
           if (woowgallery.post_types[item.subtype]) {
             return woowgallery.post_types[item.subtype].icon_html;
+          } else {
+            return `<span class="wg-posttype-icon dashicons dashicons-no"><b>${item.subtype}</b></span>`;
           }
         }
         else if ('attachment' === item.type && 'image' !== item.subtype) {
