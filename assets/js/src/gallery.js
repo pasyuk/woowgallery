@@ -352,6 +352,7 @@
         this.gallery = $.each(this.gallery, (i, item) => {
           if ('post' === item.type) {
             item.status = this.itemStatus(item);
+            item.has_password = this.itemHasPassword(item);
           }
         });
       },
@@ -659,6 +660,16 @@
         }
 
         return item.status;
+      },
+
+      // Gallery item has password
+      itemHasPassword: function(item) {
+        let content_item = window.woowgallery_content_indexed[item.id];
+        if (content_item && content_item.has_password) {
+          return content_item.has_password;
+        }
+
+        return false;
       },
 
       // Gallery item edit link

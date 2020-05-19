@@ -60,19 +60,26 @@ use WoowGallery\Posttypes;
 										<!-- Status -->
 										<div class="woowgallery-setting">
 											<label for="item-status"><?php esc_html_e( 'Status', 'wgtd' ); ?></label>
-											<select id="item-status" v-model="editItem.status">
-												<option value="private"><?php esc_html_e( 'Private', 'wgtd' ); ?></option>
-												<option value="publish"><?php esc_html_e( 'Publish', 'wgtd' ); ?></option>
-											</select>
-											<div class="description">
-												<?php
-												if ( Posttypes::ALBUM_POSTTYPE === $data['post']->post_type ) {
-													esc_html_e( 'Controls whether this individual gallery is Private or Published within the Album.', 'wgtd' );
-												} else {
-													esc_html_e( 'Controls whether this individual item is Private or Published within the Gallery.', 'wgtd' );
-												}
-												?>
-											</div>
+											<span v-if="editItem.has_password" class="item-has-password"><?php esc_html_e( '(password protected)', 'wgtd' ); ?></span>
+											<template v-if="'publish' === editItem.status || 'private' === editItem.status">
+												<select id="item-status" v-model="editItem.status">
+													<option value="private"><?php esc_attr_e( 'Private', 'wgtd' ); ?></option>
+													<option value="publish"><?php esc_attr_e( 'Publish', 'wgtd' ); ?></option>
+												</select>
+												<div class="description">
+													<?php
+													if ( Posttypes::ALBUM_POSTTYPE === $data['post']->post_type ) {
+														esc_html_e( 'Controls whether this individual gallery is Private or Published within the Album.', 'wgtd' );
+													} else {
+														esc_html_e( 'Controls whether this individual item is Private or Published within the Gallery.', 'wgtd' );
+													}
+													?>
+												</div>
+											</template>
+											<template v-else>
+												<input v-if="'future' === editItem.status" type="text" value="<?php esc_attr_e( 'Scheduled', 'wgtd' ); ?>" readonly />
+												<input v-else-if="'draft' === editItem.status || 'pending' === editItem.status" type="text" value="<?php esc_attr_e( 'Draft / Pending', 'wgtd' ); ?>" readonly />
+											</template>
 										</div>
 
 										<!-- Image Title -->

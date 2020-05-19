@@ -288,6 +288,35 @@ class Post {
 		foreach ( (array) $galleries as $gallery_id ) {
 			update_post_meta( $gallery_id, Gallery::GALLERY_UPDATE_META_KEY, 1 );
 		}
+
+		if ( $post_before->post_status !== $post_after->post_status ) {
+			$post_type = $post_after->post_type;
+			foreach ( (array) $galleries as $gallery_id ) {
+				$gallery = get_post( (int) $gallery_id );
+				if ( empty( $gallery ) ) {
+					continue;
+				}
+
+				$update_gallery = false;
+				$gallery_data   = (array) json_decode( $gallery->post_content_filtered );
+				// Update post status in gallery.
+				foreach ( $gallery_data as $i => $data ) {
+					if (
+						(int) $data->id === $post_id
+						&& ( 'post' === $data->type && $post_type === $data->subtype )
+						&& $data->status !== $post_after->post_status
+					) {
+						$gallery_data[ $i ]->status = $post_after->post_status;
+						$update_gallery             = true;
+					}
+				}
+
+				if ( $update_gallery ) {
+					$gallery->post_content_filtered = wg_json_encode( array_values( $gallery_data ) );
+					wp_update_post( $gallery );
+				}
+			}
+		}
 	}
 
 	/**

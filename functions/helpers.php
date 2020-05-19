@@ -175,6 +175,10 @@ if ( ! function_exists( 'woowgallery_full_post_data' ) ) {
 			return null;
 		}
 
+		if ( $attachment['status'] !== $post->post_status && in_array( $post->post_status, [ 'future', 'pending', 'draft' ], true ) ) {
+			$attachment['status'] = $post->post_status;
+		}
+
 		if ( 'title' === $attachment['title_src'] ) {
 			$attachment['title'] = $post->post_title;
 		}

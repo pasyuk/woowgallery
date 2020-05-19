@@ -159,7 +159,7 @@ class Edit_Gallery extends Edit_Woowgallery {
 			$attachments_ids = (array) get_posts(
 				[
 					'post_type'      => 'any',
-					'post_status'    => [ 'future', 'publish', 'inherit', 'private' ],
+					'post_status'    => [ 'future', 'publish', 'inherit', 'private', 'pending', 'draft' ],
 					'post__in'       => $insert_ids,
 					'posts_per_page' => - 1,
 					'fields'         => 'ids',

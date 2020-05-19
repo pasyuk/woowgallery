@@ -43,22 +43,20 @@ class Gutenberg {
 		wp_register_style(
 			WOOWGALLERY_SLUG . '-block-style',
 			plugins_url( 'assets/css/blocks.style.build.css', WOOWGALLERY_FILE ),
-			[ 'wp-edit-blocks' ],
+			[],
 			WOOWGALLERY_VERSION
 		);
 		wp_register_script(
 			WOOWGALLERY_SLUG . '-block-script',
 			plugins_url( 'assets/js/blocks.build.js', WOOWGALLERY_FILE ),
 			[
+				WOOWGALLERY_SLUG . '-editor-modal-script',
 				WOOWGALLERY_SLUG . '-script',
-				WOOWGALLERY_SLUG . '-admin-script',
 				'wp-blocks',
 				'wp-components',
 				'wp-element',
 				'wp-i18n',
 				'wp-editor',
-				'jquery',
-				'vuejs',
 			],
 			WOOWGALLERY_VERSION,
 			true
@@ -68,8 +66,8 @@ class Gutenberg {
 		register_block_type(
 			'woowplugins/woowgallery',
 			[
-				'editor_script'   => WOOWGALLERY_SLUG . '-block-script',
-				'editor_style'    => WOOWGALLERY_SLUG . '-block-style',
+				'editor_script' => WOOWGALLERY_SLUG . '-block-script',
+				'editor_style'  => WOOWGALLERY_SLUG . '-block-style',
 			]
 		);
 	}

@@ -131,36 +131,15 @@
 		"oS": 2,
 		"uL": 1
 		},
-	"/css/block.css": {
+	"/css/blocks.style.build.css": {
 		"aP": 1,
 		"bl": 0,
 		"ft": 16,
 		"ma": 0,
-		"oA": 0,
-		"oAP": "/css/block-min.css",
-		"oF": 0,
+		"oA": 1,
+		"oAP": "/css/blocks.style.build-min.css",
+		"oF": 1,
 		"oS": 3
-		},
-	"/css/block.css.map": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/css/block.css.map",
-		"oF": 0
-		},
-	"/css/block.scss": {
-		"aP": 1,
-		"bl": 0,
-		"dP": 10,
-		"dS": 0,
-		"ft": 4,
-		"ma": 1,
-		"oA": 0,
-		"oAP": "/css/block.css",
-		"oF": 0,
-		"oS": 2,
-		"uL": 1
 		},
 	"/css/edit-woowgallery-modal.css": {
 		"aP": 1,
@@ -641,35 +620,16 @@
 		"oAP": "/js/admin.min.js.map",
 		"oF": 0
 		},
-	"/js/block.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 1,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/js/block.min.js",
-		"oF": 2,
-		"sC": 0,
-		"tS": 0
-		},
-	"/js/block.min.js": {
+	"/js/blocks.build.js": {
 		"bF": 0,
 		"ft": 64,
 		"ma": 0,
 		"mi": 1,
-		"oA": 0,
-		"oAP": "/js/block.min.min.js",
-		"oF": 0,
+		"oA": 1,
+		"oAP": "/js/blocks.build.min.js",
+		"oF": 1,
 		"sC": 3,
 		"tS": 0
-		},
-	"/js/block.min.js.map": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/js/block.min.js.map",
-		"oF": 0
 		},
 	"/js/edit-album.js": {
 		"bF": 0,
