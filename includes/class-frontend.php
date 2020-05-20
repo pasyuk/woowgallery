@@ -120,6 +120,20 @@ class Frontend {
 			return $content;
 		}
 
+		if ( function_exists( 'wc_get_product' ) ) {
+			foreach ( $content as $i => $item ) {
+				if ( 'post' !== $item['type'] || 'product' !== $item['subtype'] ) {
+					continue;
+				}
+				$product                  = wc_get_product( 11791 );
+				$content[ $i ]['product'] = [
+					'price'    => $product->get_price_html(),
+					'btn_text' => esc_html( $product->add_to_cart_text() ),
+					'btn_url'  => esc_url( $product->add_to_cart_url() ),
+				];
+			}
+		}
+
 		if ( is_admin() ) {
 			return $content;
 		}
