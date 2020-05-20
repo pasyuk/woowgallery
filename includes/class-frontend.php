@@ -126,9 +126,11 @@ class Frontend {
 
 		$current_user_id   = get_current_user_id();
 		$is_user_logged_in = is_user_logged_in();
+		$filtered          = false;
 		foreach ( $content as $i => $item ) {
 			if ( ! $is_user_logged_in && 'publish' !== $item['status'] ) {
 				unset( $content[ $i ] );
+				$filtered = true;
 			} else {
 				if ( 'post' !== $item['type'] ) {
 					continue;
@@ -139,8 +141,13 @@ class Frontend {
 					|| ( $current_user_id !== $author_id && in_array( $item['status'], [ 'draft', 'pending' ], true ) )
 				) {
 					unset( $content[ $i ] );
+					$filtered = true;
 				}
 			}
+		}
+
+		if ( $filtered ) {
+			$content = array_values( $content );
 		}
 
 		return $content;
