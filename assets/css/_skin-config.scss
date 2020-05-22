@@ -178,13 +178,15 @@
     flex: 4 1 320px;
 
     .wrapper {
-      width: 100%;
-      max-width: 420px;
+      position: relative;
+      width: 420px;
+      max-width: 100%;
       box-sizing: border-box !important;
     }
 
-    .woowgallery-pro-feature {
-      display: inline-block;
+    .inline-field .wrapper {
+      width: 100%;
+      max-width: 420px;
     }
 
     &.with-button {
@@ -305,6 +307,7 @@
     .field-wrap .wrapper {
       display: inline-block;
       width: auto;
+      min-width: 420px;
 
       ~ .hint {
         display: inline-block;

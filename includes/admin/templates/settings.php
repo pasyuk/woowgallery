@@ -24,16 +24,16 @@ $skins    = $data['skins'];
 		<div class="woowgallery-flex align-top">
 			<!-- Tabs -->
 			<ul id="woowgallery-tabs-nav" class="woowgallery-tabs-nav" data-container="#woowgallery-tabs">
-				<li class="woowgallery-tab-nav-editor">
-					<a href="#woowgallery-tab-editor" class="woowgallery-active">
-						<span class="dashicons dashicons-edit-large"></span>
-						<span class="tab-label"><?php esc_html_e( 'Editor', 'wgtd' ); ?></span>
-					</a>
-				</li>
 				<li class="woowgallery-tab-nav-media">
-					<a href="#woowgallery-tab-media">
+					<a href="#woowgallery-tab-media" class="woowgallery-active">
 						<span class="dashicons dashicons-admin-media"></span>
 						<span class="tab-label"><?php esc_html_e( 'Media', 'wgtd' ); ?></span>
+					</a>
+				</li>
+				<li class="woowgallery-tab-nav-editor">
+					<a href="#woowgallery-tab-editor">
+						<span class="dashicons dashicons-edit-large"></span>
+						<span class="tab-label"><?php esc_html_e( 'Editor', 'wgtd' ); ?></span>
 					</a>
 				</li>
 				<li class="woowgallery-tab-nav-standalone">
@@ -53,37 +53,7 @@ $skins    = $data['skins'];
 			<!-- Settings -->
 			<div id="woowgallery-tabs" data-navigation="#woowgallery-tabs-nav">
 
-				<div id="woowgallery-tab-editor" class="woowgallery-tab inside woowgallery-active">
-					<div class="form-group field-checkbox">
-						<label for="wg-selection-prepend"><?php esc_html_e( 'Add New Media', 'wgtd' ); ?></label>
-						<div class="field-wrap">
-							<div class="wrapper">
-								<input type="hidden" name="settings[selection_prepend]" value="0"/>
-								<label id="wg-selection-prepend" class="wg-add-media-toggle">
-									<input type="checkbox" name="settings[selection_prepend]" value="1" <?php checked( $settings['selection_prepend'], '1' ); ?> />
-									<span class="wg-checked prepend-mode"><img src="<?php echo esc_url( plugins_url( 'assets/images/add-items.svg', WOOWGALLERY_FILE ) ); ?>" width="32" height="32" alt="prepend icon"/> <?php esc_html_e( 'Before Existing Media', 'wgtd' ); ?></span>
-									<span class="wg-unchecked append-mode"><img src="<?php echo esc_url( plugins_url( 'assets/images/add-items.svg', WOOWGALLERY_FILE ) ); ?>" width="32" height="32" alt="append icon"/> <?php esc_html_e( 'After Existing Media', 'wgtd' ); ?></span>
-								</label>
-							</div>
-						</div>
-						<div class="hint"><?php esc_html_e( 'When adding media to a Gallery, choose whether to add this media before or after any existing images. This can be changed in Media Browser popup window before you insert attachments to the gallery.', 'wgtd' ); ?></div>
-					</div>
-
-					<div class="form-group field-select">
-						<label for="wg-edit-view"><?php esc_html_e( 'Default Media View for Edit Gallery', 'wgtd' ); ?></label>
-						<div class="field-wrap">
-							<div class="wrapper">
-								<select name="settings[edit_gallery_view]" id="wg-edit-view" class="form-control">
-									<option value="grid" <?php selected( $settings['edit_gallery_view'], 'grid' ); ?>><?php esc_attr_e( 'Grid', 'wgtd' ); ?></option>
-									<option value="list" <?php selected( $settings['edit_gallery_view'], 'list' ); ?>><?php esc_attr_e( 'List', 'wgtd' ); ?></option>
-								</select>
-							</div>
-						</div>
-						<div class="hint"><?php esc_html_e( 'Select default view for media on edit gallery page.', 'wgtd' ); ?></div>
-					</div>
-				</div>
-
-				<div id="woowgallery-tab-media" class="woowgallery-tab inside">
+				<div id="woowgallery-tab-media" class="woowgallery-tab inside woowgallery-active">
 					<div class="form-group field-flexbox">
 						<label for="wg-thumb-size"><?php esc_html_e( 'Thumbnail Size', 'wgtd' ); ?></label>
 						<div class="field-wrap">
@@ -171,7 +141,47 @@ $skins    = $data['skins'];
 					</div>
 				</div>
 
+				<div id="woowgallery-tab-editor" class="woowgallery-tab inside">
+					<div class="form-group field-checkbox">
+						<label for="wg-selection-prepend"><?php esc_html_e( 'Add New Media', 'wgtd' ); ?></label>
+						<div class="field-wrap">
+							<div class="wrapper">
+								<input type="hidden" name="settings[selection_prepend]" value="0"/>
+								<label id="wg-selection-prepend" class="wg-add-media-toggle">
+									<input type="checkbox" name="settings[selection_prepend]" value="1" <?php checked( $settings['selection_prepend'], '1' ); ?> />
+									<span class="wg-checked prepend-mode"><img src="<?php echo esc_url( plugins_url( 'assets/images/add-items.svg', WOOWGALLERY_FILE ) ); ?>" width="32" height="32" alt="prepend icon"/> <?php esc_html_e( 'Before Existing Media', 'wgtd' ); ?></span>
+									<span class="wg-unchecked append-mode"><img src="<?php echo esc_url( plugins_url( 'assets/images/add-items.svg', WOOWGALLERY_FILE ) ); ?>" width="32" height="32" alt="append icon"/> <?php esc_html_e( 'After Existing Media', 'wgtd' ); ?></span>
+								</label>
+							</div>
+						</div>
+						<div class="hint"><?php esc_html_e( 'When adding media to a Gallery, choose whether to add this media before or after any existing images. This can be changed in Media Browser popup window before you insert attachments to the gallery.', 'wgtd' ); ?></div>
+					</div>
+
+					<div class="form-group field-select">
+						<label for="wg-edit-view"><?php esc_html_e( 'Default Media View for Edit Gallery', 'wgtd' ); ?></label>
+						<div class="field-wrap">
+							<div class="wrapper">
+								<select name="settings[edit_gallery_view]" id="wg-edit-view" class="form-control">
+									<option value="grid" <?php selected( $settings['edit_gallery_view'], 'grid' ); ?>><?php esc_attr_e( 'Grid', 'wgtd' ); ?></option>
+									<option value="list" <?php selected( $settings['edit_gallery_view'], 'list' ); ?>><?php esc_attr_e( 'List', 'wgtd' ); ?></option>
+								</select>
+							</div>
+						</div>
+						<div class="hint"><?php esc_html_e( 'Select default view for media on edit gallery page.', 'wgtd' ); ?></div>
+					</div>
+				</div>
+
 				<div id="woowgallery-tab-standalone" class="woowgallery-tab inside">
+					<div>
+						<h3>With Standalone Galleries you'll be able to:</h3>
+						<ol>
+							<li>Create galleries as a separate pages.</li>
+							<li>Apply theme's templates for galleries.</li>
+							<li>Add categories and tags for galleries.</li>
+							<li>Add WoowGallery Galleries and WoowGallery Albums to Dynamic Galleries.</li>
+							<li>Easily add Standalone Galleries to WordPress Menus.</li>
+						</ol>
+					</div>
 					<div class="form-group field-checkbox">
 						<label for="wg-standalone"><?php esc_html_e( 'Enable Standalone', 'wgtd' ); ?></label>
 						<div class="field-wrap">
@@ -212,9 +222,42 @@ $skins    = $data['skins'];
 										<?php esc_html_e( 'Albums', 'wgtd' ); ?>
 									</label>
 								</p>
+								<?php woowgallery_is_premium_feature(); ?>
 							</div>
 						</div>
 						<div class="hint"><?php esc_html_e( 'The standalone option allows you to access galleries created through the WoowGallery post type with unique URLs. Your galleries can have dedicated gallery pages!', 'wgtd' ); ?></div>
+					</div>
+
+					<div class="form-group field-input">
+						<label for="wg-taxonomies"><?php esc_html_e( 'Taxonomies', 'wgtd' ); ?></label>
+						<div class="field-wrap">
+							<div class="wrapper">
+								<p>
+									<input type="hidden" name="settings[woowgallery_categories]" value="0"/>
+									<label>
+										<span class="wg-toggle">
+											<input type="checkbox" id="wg-categories" name="settings[woowgallery_categories]" value="1" <?php checked( Settings::get_settings( 'woowgallery_categories' ), '1' ); ?>/>
+											<span class="wg-toggle__track"></span>
+											<span class="wg-toggle__thumb"></span>
+										</span>
+										<?php esc_html_e( 'Categories', 'wgtd' ); ?>
+									</label>
+								</p>
+								<p>
+									<input type="hidden" name="settings[woowgallery_tags]" value="0"/>
+									<label>
+										<span class="wg-toggle">
+											<input type="checkbox" id="wg-tags" name="settings[woowgallery_tags]" value="1" <?php checked( Settings::get_settings( 'woowgallery_tags' ), '1' ); ?>/>
+											<span class="wg-toggle__track"></span>
+											<span class="wg-toggle__thumb"></span>
+										</span>
+										<?php esc_html_e( 'Tags', 'wgtd' ); ?>
+									</label>
+								</p>
+								<?php woowgallery_is_premium_feature(); ?>
+							</div>
+						</div>
+						<div class="hint"><?php esc_html_e( 'Enable or Disable taxonomies for WoowGallery Post Types.', 'wgtd' ); ?></div>
 					</div>
 
 					<div class="form-group field-input">
@@ -223,6 +266,7 @@ $skins    = $data['skins'];
 							<div class="wrapper">
 								<?php $_key = 'permalink_base_' . Posttypes::GALLERY_POSTTYPE; ?>
 								<input type="text" name="settings[<?php echo esc_attr( $_key ); ?>]" id="wg-gallery-slug" class="form-control" value="<?php echo esc_attr( Settings::get_settings( $_key, Posttypes::GALLERY_POSTTYPE ) ); ?>"/>
+								<?php woowgallery_is_premium_feature(); ?>
 							</div>
 						</div>
 						<div class="hint"><?php esc_html_e( 'The slug to prefix all WoowGallery Galleries.', 'wgtd' ); ?></div>
@@ -234,6 +278,7 @@ $skins    = $data['skins'];
 							<div class="wrapper">
 								<?php $_key = 'permalink_base_' . Posttypes::DYNAMIC_POSTTYPE; ?>
 								<input type="text" name="settings[<?php echo esc_attr( $_key ); ?>]" id="wg-dynamic-slug" class="form-control" value="<?php echo esc_attr( Settings::get_settings( $_key, Posttypes::DYNAMIC_POSTTYPE ) ); ?>"/>
+								<?php woowgallery_is_premium_feature(); ?>
 							</div>
 						</div>
 						<div class="hint"><?php esc_html_e( 'The slug to prefix all WoowGallery Dynamic Galleries.', 'wgtd' ); ?></div>
@@ -245,6 +290,7 @@ $skins    = $data['skins'];
 							<div class="wrapper">
 								<?php $_key = 'permalink_base_' . Posttypes::ALBUM_POSTTYPE; ?>
 								<input type="text" name="settings[<?php echo esc_attr( $_key ); ?>]" id="wg-album-slug" class="form-control" value="<?php echo esc_attr( Settings::get_settings( $_key, Posttypes::ALBUM_POSTTYPE ) ); ?>"/>
+								<?php woowgallery_is_premium_feature(); ?>
 							</div>
 						</div>
 						<div class="hint"><?php esc_html_e( 'The slug to prefix all WoowGallery Albums.', 'wgtd' ); ?></div>
@@ -255,8 +301,9 @@ $skins    = $data['skins'];
 					<div class="form-group field-textarea">
 						<label for="wg-custom-css"><?php esc_html_e( 'Global Custom CSS', 'wgtd' ); ?></label>
 						<div class="field-wrap">
-							<div class="wrapper" style="max-width: 800px;">
+							<div class="wrapper" style="width: 800px;">
 								<textarea name="settings[custom_css]" id="wg-custom-css" class="form-control" rows="10" cols="60"><?php echo esc_textarea( stripslashes( $settings['custom_css'] ) ); ?></textarea>
+								<?php woowgallery_is_premium_feature(); ?>
 							</div>
 						</div>
 						<div class="hint">

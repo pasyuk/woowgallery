@@ -10,7 +10,6 @@ namespace WoowGallery\Admin;
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
-use _WP_Editors;
 use WoowGallery\Gallery;
 use WoowGallery\Posttypes;
 use WoowGallery\Tools\Cropping;
@@ -41,14 +40,61 @@ class Edit_Woowgallery {
 		add_action( "add_meta_boxes_{$this->post_type}", [ $this, 'sanitize_metaboxes' ], 1 );
 		add_action( "add_meta_boxes_{$this->post_type}", [ $this, 'add_meta_boxes' ], 5 );
 
-		add_action( 'wg_admin_footer', [ $this, 'footer_templates' ] );
-		add_action( 'admin_footer', [ $this, 'footer_templates' ] );
-
-		add_action( 'wp_trash_post', [ $this, 'trash_post' ] );
-		add_action( 'untrash_post', [ $this, 'untrash_post' ] );
-		add_action( 'delete_post', [ $this, 'delete_post' ] );
+		add_action( "load-{$this->post_type}", [ $this, 'load_woowgallery_post_type' ] );
 
 		add_filter( "theme_{$post_type}_templates", [ $this, 'theme_templates' ], 10, 4 );
+	}
+
+	/**
+	 * Set gallery data.
+	 *
+	 * @param int     $post_id Post ID.
+	 * @param WP_Post $post    The Post object.
+	 *
+	 * @return array Raw gallery data.
+	 */
+	public static function set_gallery_data( $post_id, $post ) {
+		self::set_gallery_meta( $post_id );
+
+		if ( empty( $post->post_content_filtered ) ) {
+			$post->post_content_filtered = woowgallery_POST( 'post_content_filtered', '[]' );
+		}
+		// Get initial gallery data.
+		$data    = (array) json_decode( $post->post_content_filtered, true );
+		$content = self::set_gallery_content( $post_id, $data );
+		self::set_gallery_cover_from_content( $post, $content );
+
+		return $data;
+	}
+
+	/**
+	 * Set gallery meta.
+	 *
+	 * @param int $post_id Post ID.
+	 */
+	public static function set_gallery_meta( $post_id ) {
+		$_woowgallery = woowgallery_POST( '_woowgallery', [] );
+
+		if ( isset( $_woowgallery['settings'] ) ) {
+			$gallery_settings = (array) $_woowgallery['settings'];
+			// Misc.
+			$gallery_settings['classes'] = array_filter( explode( ' ', preg_replace( '#[^a-z0-9-_ ]#', '', $gallery_settings['classes'] ) ) );
+			update_metadata( 'post', $post_id, Gallery::GALLERY_SETTINGS_META_KEY, apply_filters( 'woowgallery_save_gallery_settings', $gallery_settings, $post_id ) );
+		}
+
+		if ( isset( $_woowgallery['editor'] ) ) {
+			$gallery_editor_settings = (array) $_woowgallery['editor'];
+			update_post_meta( $post_id, Gallery::GALLERY_EDITOR_SETTINGS_META_KEY, $gallery_editor_settings );
+		}
+
+		if ( isset( $_woowgallery['skin'] ) ) {
+			$skin = preg_replace( '#[^a-z0-9-_]#', '', $_woowgallery['skin'] );
+			update_metadata( 'post', $post_id, Gallery::GALLERY_SKIN_META_KEY, $skin );
+
+			$skin_config           = (array) woowgallery_POST( '_woowgallery_skin', [] );
+			$skin_config['__skin'] = $skin;
+			update_metadata( 'post', $post_id, Gallery::GALLERY_SKIN_CONFIG_META_KEY, apply_filters( 'woowgallery_save_skin_config', $skin_config, $skin, $post_id ) );
+		}
 	}
 
 	/**
@@ -64,9 +110,16 @@ class Edit_Woowgallery {
 		if ( empty( $post ) ) {
 			return [];
 		}
-		if ( ! in_array( $post->post_type, [ Posttypes::GALLERY_POSTTYPE, Posttypes::ALBUM_POSTTYPE ], true ) ) {
-			if ( Posttypes::DYNAMIC_POSTTYPE === $post->post_type ) {
-				return Edit_Dynamic_Gallery::set_dynamic_content( $post_id, $data );
+
+		$real_post = $post;
+		$post_type = $post->post_type;
+		if ( wp_is_post_autosave( $post ) ) {
+			$real_post = get_post( $post->post_parent );
+			$post_type = $real_post->post_type;
+		}
+		if ( ! in_array( $post_type, [ Posttypes::GALLERY_POSTTYPE, Posttypes::ALBUM_POSTTYPE ], true ) ) {
+			if ( Posttypes::DYNAMIC_POSTTYPE === $post_type ) {
+				return Edit_Dynamic_Gallery::set_dynamic_content( $post, $data );
 			} else {
 				return [];
 			}
@@ -77,11 +130,11 @@ class Edit_Woowgallery {
 		}
 		$content = [];
 		foreach ( $data as $item ) {
-			$content[] = woowgallery_full_post_data( $item, $post );
+			$content[] = woowgallery_full_post_data( $item, $real_post );
 		}
 		$content = array_filter( $content );
-		update_post_meta( $post_id, Gallery::GALLERY_CONTENT_META_KEY, $content );
-		update_post_meta( $post_id, Gallery::GALLERY_UPDATE_META_KEY, 0 );
+		update_metadata( 'post', $post_id, Gallery::GALLERY_CONTENT_META_KEY, $content );
+		update_metadata( 'post', $post_id, Gallery::GALLERY_UPDATE_META_KEY, 0 );
 
 		return $content;
 	}
@@ -93,7 +146,7 @@ class Edit_Woowgallery {
 	 * @param array   $content Gallery data.
 	 */
 	public static function set_gallery_cover_from_content( $post, $content ) {
-		if ( has_post_thumbnail( $post ) || ! count( $content ) ) {
+		if ( wp_is_post_autosave( $post ) || has_post_thumbnail( $post ) || ! count( $content ) ) {
 			return;
 		}
 
@@ -123,36 +176,6 @@ class Edit_Woowgallery {
 	}
 
 	/**
-	 * Footer templates.
-	 */
-	public function footer_templates() {
-		if ( did_action( 'admin_footer' ) && did_action( 'wg_admin_footer' ) ) {
-			return;
-		}
-
-		global $post;
-
-		// Check we're on the WoowGallery CPT.
-		if ( ! $post || $this->post_type !== $post->post_type ) {
-			return;
-		}
-
-		if ( Posttypes::DYNAMIC_POSTTYPE !== $post->post_type ) {
-			// Adds wpLink dialog for internal linking.
-			if ( ! class_exists( '_WP_Editors', false ) ) {
-				require_once( ABSPATH . WPINC . '/class-wp-editor.php' );
-			}
-			_WP_Editors::wp_link_dialog();
-
-			if ( Posttypes::GALLERY_POSTTYPE === $post->post_type ) {
-				Admin::load_template( 'wp-media-insert-settings' );
-			}
-		}
-
-		Admin::load_template( 'modal-portal-vue' );
-	}
-
-	/**
 	 * Creates metaboxes for handling and managing galleries.
 	 *
 	 * @param WP_Post $post The Post.
@@ -170,7 +193,7 @@ class Edit_Woowgallery {
 
 		// Display the Gallery Code metabox if we're editing an existing Gallery.
 		if ( 'auto-draft' !== $post->post_status ) {
-			add_meta_box( 'woowgallery-tips', __( 'WoowGallery Tips', 'woowgallery' ), [ $this, 'meta_box_gallery_tips' ], $this->post_type, 'side', 'default' );
+			//add_meta_box( 'woowgallery-tips', __( 'WoowGallery Tips', 'woowgallery' ), [ $this, 'meta_box_gallery_tips' ], $this->post_type, 'side', 'default' );
 			add_meta_box( 'woowgallery-code', __( 'WoowGallery Code', 'woowgallery' ), [ $this, 'meta_box_gallery_code' ], $this->post_type, 'side', 'default' );
 		}
 
@@ -212,11 +235,15 @@ class Edit_Woowgallery {
 		// These are the metabox IDs you want to pass over. They don't have to match exactly. preg_match will be run on them.
 		$pass_over_defaults = [ 'submitdiv', 'postimagediv', 'woowgallery' ];
 
-		$standalone = Settings::get_settings( 'standalone_' . $post_type );
-		if ( ! empty( $standalone ) ) {
-			$pass_over_defaults[] = 'authordiv';
-			$pass_over_defaults[] = 'pageparentdiv';
-			$pass_over_defaults[] = 'wpseo_meta';
+		if ( woow_fs()->can_use_premium_code__premium_only() ) {
+			$standalone = Settings::get_settings( 'standalone_' . $post_type );
+			if ( ! empty( $standalone ) ) {
+				$pass_over_defaults[] = 'authordiv';
+				$pass_over_defaults[] = 'pageparentdiv';
+				$pass_over_defaults[] = 'categorydiv';
+				$pass_over_defaults[] = 'tagsdiv-post_tag';
+				$pass_over_defaults[] = 'wpseo_meta';
+			}
 		}
 
 		$pass_over = apply_filters( 'woowgallery_metabox_ids', $pass_over_defaults, $post_type );
@@ -353,111 +380,6 @@ class Edit_Woowgallery {
 	public function tab_misc( $post ) {
 		// Load view.
 		Admin::load_template( 'gallery-misc-settings', compact( 'post' ) );
-	}
-
-	/**
-	 * Flush caches when the woowgallery post type is trashed.
-	 *
-	 * @param int $id The post ID being trashed.
-	 */
-	public function trash_post( $id ) {
-
-		$wgpost = get_post( $id );
-
-		// Return early if not an WoowGallery.
-		if ( $this->post_type !== $wgpost->post_type ) {
-			return;
-		}
-
-		// Flush necessary gallery caches to ensure trashed galleries are not showing.
-		woowgallery_flush_caches( $wgpost->ID, $wgpost->post_name );
-
-		// Allow other addons to run routines when a Gallery is trashed.
-		do_action( 'woowgallery_trash', $wgpost );
-	}
-
-	/**
-	 * Flush caches when the woowgallery post type is untrashed.
-	 *
-	 * @param int $id The post ID being untrashed.
-	 */
-	public function untrash_post( $id ) {
-
-		$wgpost = get_post( $id );
-
-		// Return early if not an WoowGallery.
-		if ( $this->post_type !== $wgpost->post_type ) {
-			return;
-		}
-
-		// Flush necessary gallery caches to ensure trashed galleries are not showing.
-		woowgallery_flush_caches( $wgpost->ID, $wgpost->post_name );
-
-		// Allow other addons to run routines when a Gallery is untrashed.
-		do_action( 'woowgallery_untrash', $wgpost );
-	}
-
-	/**
-	 * Flush caches when the woowgallery post type is deleted.
-	 *
-	 * @param int $postid Post ID.
-	 */
-	public function delete_post( $postid ) {
-
-		// Get post.
-		$wgpost = get_post( $postid );
-
-		// Return early if not an WoowGallery.
-		if ( $this->post_type !== $wgpost->post_type ) {
-			return;
-		}
-
-		$data = json_decode( $wgpost->post_content_filtered );
-		// Retrive attachmnet IDs from the $data.
-		$att_array = array_map(
-			function ( $item ) {
-				return [
-					'id'   => (int) $item->id,
-					'type' => $item->type,
-				];
-			},
-			array_filter(
-				$data,
-				function ( $item ) {
-					return 'attachment' === $item->type || 'post' === $item->type;
-				}
-			)
-		);
-
-		$media_delete = (int) Settings::get_settings( 'media_delete' );
-
-		foreach ( $att_array as $att ) {
-			// Is attachment already in galleries?
-			$has_gallery = get_post_meta( $att['id'], '_woowgallery', true ) ?: [];
-			$has_gallery = array_diff( (array) $has_gallery, [ $postid ] );
-			if ( count( $has_gallery ) ) {
-				update_post_meta( $att['id'], '_woowgallery', $has_gallery );
-			} else {
-				delete_post_meta( $att['id'], '_woowgallery' );
-
-				// Check if the media_delete setting is enabled and delete only images that aren't in another gallery.
-				if ( ! empty( $media_delete ) && 'attachment' === $att['type'] ) {
-					// If attachment parent is the Gallery ID we're OK to delete the image.
-					$attachment = get_post( $att['id'] );
-					if ( $attachment->post_parent === $wgpost->ID ) {
-						wp_delete_attachment( $att['id'] );
-						continue;
-					}
-				}
-			}
-			delete_post_meta( $att['id'], "_woowgallery_{$postid}" );
-		}
-
-		// Flush necessary gallery caches to ensure trashed galleries are not showing.
-		woowgallery_flush_caches( $wgpost->ID, $wgpost->post_name );
-
-		// Allow other addons to run routines when a Gallery is deleted.
-		do_action( 'woowgallery_delete', $wgpost );
 	}
 
 	/**

@@ -48,7 +48,7 @@
 								<div class="field-wrap">
 									<div v-if="field.premium && !premium" class="woowgallery-pro-feature">
 										<h6><?php esc_html_e( 'This feature is available only in the WoowGallery Premium', 'wgtd' ); ?></h6>
-										<a class="button button-primary" href="https://woowgallery.com/woowbox/pricing/" target="_blank"><span class="dashicons dashicons-cart"></span> <?php esc_html_e( 'Get WoowGallery Premium', 'wgtd' ); ?></a>
+										<a class="button button-primary" href="<?php echo esc_url( woow_fs()->get_upgrade_url() ); ?>" target="_blank"><span class="dashicons dashicons-cart"></span> <?php esc_html_e( 'Get WoowGallery Premium', 'wgtd' ); ?></a>
 									</div>
 									<div v-else-if="'flexbox' === field.tag && field.fields" class="wg-flexbox">
 										<div class="inline-field" v-for="(subfield, subkey) in field.fields" v-if="fieldVisible(subfield)" :style="getFieldRowStyles(subfield)" :key="skin + '[' + preset + '][field]' + subkey">

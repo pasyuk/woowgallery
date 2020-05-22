@@ -9,6 +9,7 @@
 namespace WoowGallery;
 
 use WoowGallery\Admin\Settings;
+use WP_Post;
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
@@ -26,6 +27,7 @@ class Frontend {
 
 		add_filter( 'woowgallery_pre_data', [ $this, 'filter_woowgallery_data' ], 10, 2 );
 		add_filter( 'rest_woowgallery_full_post_content', [ $this, 'filter_woowgallery_content' ] );
+		add_filter( 'the_preview', [ $this, 'set_preview' ] );
 	}
 
 	/**
@@ -41,7 +43,7 @@ class Frontend {
 		}
 
 		$post_type  = get_query_var( 'post_type' );
-		$post_types = apply_filters( 'woowgallery_posttypes', [ Posttypes::GALLERY_POSTTYPE, Posttypes::ALBUM_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE ] );
+		$post_types = apply_filters( 'woowgallery_posttypes', [ Posttypes::GALLERY_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE, Posttypes::ALBUM_POSTTYPE ] );
 		// Bail if we're on the WoowGallery Post Type screen.
 		if ( ! in_array( $post_type, $post_types, true ) ) {
 			return;
@@ -63,7 +65,7 @@ class Frontend {
 		}
 
 		$post_type  = get_query_var( 'post_type' );
-		$post_types = apply_filters( 'woowgallery_posttypes', [ Posttypes::GALLERY_POSTTYPE, Posttypes::ALBUM_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE ] );
+		$post_types = apply_filters( 'woowgallery_posttypes', [ Posttypes::GALLERY_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE, Posttypes::ALBUM_POSTTYPE ] );
 		// Bail if we're on the WoowGallery Post Type screen.
 		if ( ! in_array( $post_type, $post_types, true ) ) {
 			return;
@@ -127,10 +129,19 @@ class Frontend {
 				}
 				$product = wc_get_product( (int) $item['id'] );
 				if ( ! empty( $product ) ) {
+					$btn_url = $product->add_to_cart_url();
+					if ( substr( $btn_url, 0, 1 ) === '?' ) {
+						$query = wp_parse_url( $btn_url, PHP_URL_QUERY );
+						if ( $query ) {
+							wp_parse_str( $query, $args );
+							$btn_url = add_query_arg( $args, $item['src'] );
+						}
+					}
 					$content[ $i ]['product'] = [
 						'price'    => $product->get_price_html(),
+						'on_sale'  => $product->is_on_sale(),
 						'btn_text' => esc_html( $product->add_to_cart_text() ),
-						'btn_url'  => esc_url( $product->add_to_cart_url() ),
+						'btn_url'  => $btn_url,
 					];
 				}
 			}
@@ -167,6 +178,31 @@ class Frontend {
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Sets up the post object for preview based on the post autosave.
+	 *
+	 * @param WP_Post $post The Post.
+	 *
+	 * @return WP_Post|false
+	 */
+	public function set_preview( $post ) {
+		if ( ! is_object( $post ) ) {
+			return $post;
+		}
+
+		$preview = wp_get_post_autosave( $post->ID );
+		if ( ! is_object( $preview ) ) {
+			return $post;
+		}
+
+		$preview = sanitize_post( $preview );
+
+		$post->post_content_filtered = $preview->post_content_filtered;
+		$post->preview_id            = $preview->ID;
+
+		return $post;
 	}
 
 }

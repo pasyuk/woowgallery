@@ -28,7 +28,14 @@ class Gallery {
 	const GALLERY_SKIN_CONFIG_META_KEY     = '_woowgallery_skin_config';
 
 	/**
-	 * WoowGallery ID
+	 * WoowGallery post ID
+	 *
+	 * @var int
+	 */
+	private $post_id;
+
+	/**
+	 * WoowGallery real ID
 	 *
 	 * @var int
 	 */
@@ -58,12 +65,12 @@ class Gallery {
 	/**
 	 * Gallery constructor.
 	 *
-	 * @param int|string $id        Gallery ID or slug.
+	 * @param int|string $post_id   Gallery ID or slug.
 	 * @param string     $post_type Post type.
 	 */
-	public function __construct( $id, $post_type = Posttypes::GALLERY_POSTTYPE ) {
+	public function __construct( $post_id, $post_type = Posttypes::GALLERY_POSTTYPE ) {
 		$this->post_type = $post_type;
-		$this->set_id( $id );
+		$this->set_id( $post_id );
 	}
 
 	/**
@@ -125,7 +132,8 @@ class Gallery {
 		$gallery     = wp_cache_get( $cache_key, $cache_group );
 		// Attempt to return the cache first, otherwise generate the new query to retrieve the data.
 		if ( false === $gallery ) {
-			$post    = get_post( $this->id );
+			$post    = get_post( $this->post_id );
+			$data    = ( $this->id === $this->post_id ) ? $post->post_content_filtered : get_post_field( 'post_content_filtered', $this->id, 'raw' );
 			$gallery = [
 				'id'          => $post->ID,
 				'type'        => $post->post_type,
@@ -139,9 +147,9 @@ class Gallery {
 					'slug'   => $this->get_skin_slug(),
 					'config' => $this->get_skin_config(),
 				],
-				'data'        => (array) json_decode( $post->post_content_filtered ),
+				'data'        => (array) json_decode( $data ),
 				'content'     => $this->get_gallery_content(),
-				'count'       => (int) get_post_meta( $this->id, self::GALLERY_MEDIA_COUNT_META_KEY, true ),
+				'count'       => (int) get_metadata( 'post', $this->id, self::GALLERY_MEDIA_COUNT_META_KEY, true ),
 			];
 
 			wp_cache_set( $cache_key, $gallery, $cache_group );
@@ -160,7 +168,7 @@ class Gallery {
 
 		if ( ! $this->skin_slug ) {
 			// Get config.
-			$gallery_skin = get_post_meta( $this->id, self::GALLERY_SKIN_META_KEY, true );
+			$gallery_skin = get_metadata( 'post', $this->id, self::GALLERY_SKIN_META_KEY, true );
 
 			// Check config key exists.
 			if ( empty( $gallery_skin ) ) {
@@ -174,7 +182,7 @@ class Gallery {
 			$skin = Skins::get_instance()->get_skin( $gallery_skin );
 			if ( $skin->slug !== $gallery_skin && is_admin() ) {
 				// translators: Gallery ID.
-				Notice::add_message( sprintf( __( 'Broken or removed Skin! Please re-save gallery ID#%d with a new Skin.', 'wgtd' ), $this->id ) );
+				Notice::add_message( sprintf( __( 'Broken or removed Skin! Please re-save gallery ID#%d with a new Skin.', 'wgtd' ), $this->post_id ) );
 			}
 
 			$this->skin_slug   = $skin->slug;
@@ -194,7 +202,7 @@ class Gallery {
 		$skin_slug = $this->get_skin_slug();
 
 		// Get config.
-		$gallery_skin_config = get_post_meta( $this->id, self::GALLERY_SKIN_CONFIG_META_KEY, true ) ?: [];
+		$gallery_skin_config = get_metadata( 'post', $this->id, self::GALLERY_SKIN_CONFIG_META_KEY, true ) ?: [];
 
 		// Check config key exists.
 		if ( ! empty( $gallery_skin_config['__skin'] ) && $gallery_skin_config['__skin'] === $skin_slug ) {
@@ -210,15 +218,15 @@ class Gallery {
 	 * @return array Array of gallery content.
 	 */
 	public function get_gallery_content() {
-		$update_required = get_post_meta( $this->id, self::GALLERY_UPDATE_META_KEY, true );
+		$update_required = get_metadata( 'post', $this->id, self::GALLERY_UPDATE_META_KEY, true );
 		if ( ! empty( $update_required ) && time() > (int) $update_required ) {
 			$post = get_post( $this->id );
 			$data = (array) json_decode( $post->post_content_filtered, true );
 
-			return Edit_Woowgallery::set_gallery_content( $post->ID, $data );
+			return Edit_Woowgallery::set_gallery_content( $this->id, $data );
 		}
 
-		return get_post_meta( $this->id, self::GALLERY_CONTENT_META_KEY, true ) ?: [];
+		return get_metadata( 'post', $this->id, self::GALLERY_CONTENT_META_KEY, true ) ?: [];
 	}
 
 	/**
@@ -227,32 +235,33 @@ class Gallery {
 	 * @return int
 	 */
 	public function get_id() {
-		return $this->id;
+		return $this->post_id;
 	}
 
 	/**
 	 * Set gallery ID.
 	 *
-	 * @param int|string $id Gallery ID or slug.
+	 * @param int|string $post_id Gallery ID or slug.
 	 */
-	public function set_id( $id ) {
+	public function set_id( $post_id ) {
 
-		if ( is_numeric( $id ) ) {
-			$this->id = (int) $id;
+		if ( is_numeric( $post_id ) ) {
+			$this->post_id = (int) $post_id;
+			$this->set_real_id();
 
 			return;
 		}
 
 		// Attempt to return the cache first, otherwise generate the new query to retrieve the data.
 		$cache_group = 'woowgallery_id';
-		$cache_key   = "{$this->post_type}_{$id}";
+		$cache_key   = "{$this->post_type}_{$post_id}";
 		$gallery_id  = wp_cache_get( $cache_key, $cache_group );
 		if ( false === $gallery_id ) {
 			// Get Polyview Gallery CPT by slug.
 			$posts = get_posts(
 				[
 					'post_type'      => $this->post_type,
-					'name'           => $id,
+					'name'           => $post_id,
 					'fields'         => 'ids',
 					'posts_per_page' => 1,
 				]
@@ -264,7 +273,17 @@ class Gallery {
 		}
 
 		// Return the gallery ID.
-		$this->id = $gallery_id;
+		$this->post_id = $gallery_id;
+		$this->set_real_id();
+	}
+
+	/**
+	 * Get gallery real ID.
+	 *
+	 * @return int
+	 */
+	public function get_real_id() {
+		return $this->id;
 	}
 
 	/**
@@ -298,7 +317,7 @@ class Gallery {
 	 */
 	public function get_all_settings() {
 
-		return get_post_meta( $this->id, self::GALLERY_SETTINGS_META_KEY, true );
+		return get_metadata( 'post', $this->id, self::GALLERY_SETTINGS_META_KEY, true );
 	}
 
 	/**
@@ -312,7 +331,7 @@ class Gallery {
 	public function get_editor_settings( $key, $default = false ) {
 
 		// Get settings.
-		$settings = get_post_meta( $this->id, self::GALLERY_EDITOR_SETTINGS_META_KEY, true );
+		$settings = get_post_meta( $this->post_id, self::GALLERY_EDITOR_SETTINGS_META_KEY, true );
 
 		// Check setting key exists.
 		if ( isset( $settings[ $key ] ) ) {
@@ -323,6 +342,23 @@ class Gallery {
 			return ( false !== $default ) ? $default : '';
 		}
 
+	}
+
+	/**
+	 * Set gallery real ID.
+	 */
+	private function set_real_id() {
+		if ( is_preview() && current_user_can( 'edit_post', $this->post_id ) ) {
+			$preview = wp_get_post_autosave( $this->post_id );
+			if ( is_object( $preview ) ) {
+				$preview  = sanitize_post( $preview );
+				$this->id = $preview->ID;
+
+				return;
+			}
+		}
+
+		$this->id = $this->post_id;
 	}
 
 }

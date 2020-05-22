@@ -229,9 +229,9 @@ ul#woowgallery-tabs-nav li a.woowgallery-active { border-right: 1px solid #fffff
 
 .woowgallery-wrap .field-wrap { flex: 4 1 320px; }
 
-.woowgallery-wrap .field-wrap .wrapper { width: 100%; max-width: 420px; box-sizing: border-box !important; }
+.woowgallery-wrap .field-wrap .wrapper { position: relative; width: 420px; max-width: 100%; box-sizing: border-box !important; }
 
-.woowgallery-wrap .field-wrap .woowgallery-pro-feature { display: inline-block; }
+.woowgallery-wrap .field-wrap .inline-field .wrapper { width: 100%; max-width: 420px; }
 
 .woowgallery-wrap .field-wrap.with-button { display: flex; }
 
@@ -267,7 +267,7 @@ ul#woowgallery-tabs-nav li a.woowgallery-active { border-right: 1px solid #fffff
 
 .woowgallery-wrap .hint code { font-style: initial; }
 
-.woowgallery-wrap .field-checkbox .field-wrap .wrapper { display: inline-block; width: auto; }
+.woowgallery-wrap .field-checkbox .field-wrap .wrapper { display: inline-block; width: auto; min-width: 420px; }
 
 .woowgallery-wrap .field-checkbox .field-wrap .wrapper ~ .hint { display: inline-block; padding: 0 0 0 7px; }
 
@@ -352,6 +352,8 @@ span.wg-posttype-icon { display: inline-block; margin: 0 10px 0 0; width: 1.15em
 #woowgallery .woowgallery-dynamic-query .woowgallery-intro { display: block; text-align: center; }
 
 #woowgallery .woowgallery-dynamic-query .woowgallery-intro .wg-radio-group { font-size: 15px; border-radius: 6px; }
+
+#woowgallery .woowgallery-query-builder { position: relative; margin-bottom: 10px; }
 
 #woowgallery .gallery-filter { margin-left: 24px; width: 165px !important; font-size: 14px; }
 

@@ -190,6 +190,7 @@ class Edit_Gallery extends Edit_Woowgallery {
 	 * @param WP_Post $post_before Post object before the update.
 	 */
 	public function gallery_updated( $post_id, $post_after, $post_before ) {
+
 		// Do nothing if it's not WoowGallery CPT.
 		if ( $this->post_type !== $post_after->post_type ) {
 			return;
@@ -218,6 +219,7 @@ class Edit_Gallery extends Edit_Woowgallery {
 		// Update Gallery Taxonomy.
 		$this->save_taxonomy( $post_after, $post_before->post_name );
 
+		// Check if gallery is in some albums and set flag to update that albums.
 		$albums = get_post_meta( $post_id, '_woowgallery', true );
 		if ( ! empty( $albums ) ) {
 			foreach ( (array) $albums as $album_id ) {
@@ -313,35 +315,8 @@ class Edit_Gallery extends Edit_Woowgallery {
 			$this->save_taxonomy( $post, $post->post_name );
 		}
 
-		$_woowgallery = woowgallery_POST( '_woowgallery', [] );
-
-		if ( isset( $_woowgallery['settings'] ) ) {
-			$gallery_settings = (array) $_woowgallery['settings'];
-			// Misc.
-			$gallery_settings['classes'] = array_filter( explode( ' ', preg_replace( '#[^a-z0-9-_ ]#', '', $gallery_settings['classes'] ) ) );
-			update_post_meta( $post_id, Gallery::GALLERY_SETTINGS_META_KEY, apply_filters( 'woowgallery_save_gallery_settings', $gallery_settings, $post ) );
-		}
-
-		if ( isset( $_woowgallery['editor'] ) ) {
-			$gallery_editor_settings = (array) $_woowgallery['editor'];
-			update_post_meta( $post_id, Gallery::GALLERY_EDITOR_SETTINGS_META_KEY, $gallery_editor_settings );
-		}
-
-		if ( isset( $_woowgallery['skin'] ) ) {
-			$skin = preg_replace( '#[^a-z0-9-_]#', '', $_woowgallery['skin'] );
-			update_post_meta( $post_id, Gallery::GALLERY_SKIN_META_KEY, $skin );
-
-			$skin_config           = (array) woowgallery_POST( '_woowgallery_skin', [] );
-			$skin_config['__skin'] = $skin;
-			update_post_meta( $post_id, Gallery::GALLERY_SKIN_CONFIG_META_KEY, apply_filters( 'woowgallery_save_skin_config', $skin_config, $skin, $post ) );
-		}
-
-		// Get initial gallery data.
-		$data = (array) json_decode( $post->post_content_filtered, true );
+		$data = parent::set_gallery_data( $post_id, $post );
 		update_post_meta( $post_id, Gallery::GALLERY_MEDIA_COUNT_META_KEY, count( $data ) );
-
-		$content = parent::set_gallery_content( $post_id, $data );
-		parent::set_gallery_cover_from_content( $post, $content );
 
 		// Retrive attachmnet IDs from the $data.
 		$att_ids = array_map(
@@ -374,11 +349,11 @@ class Edit_Gallery extends Edit_Woowgallery {
 	/**
 	 * Delete WoowGallery taxonomy on gallery delete.
 	 *
-	 * @param int $postid Post ID.
+	 * @param int $post_id Post ID.
 	 */
-	public function delete_taxonomy_term( $postid ) {
+	public function delete_taxonomy_term( $post_id ) {
 		// Get post.
-		$wgpost = get_post( $postid );
+		$wgpost = get_post( $post_id );
 
 		// Return early if not an WoowGallery.
 		if ( Taxonomies::GALLERY_TAXONOMY_NAME !== $wgpost->post_type ) {

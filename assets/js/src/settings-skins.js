@@ -11,7 +11,7 @@
 
 (function($) {
   let $skin_config = document.getElementById('woowgallery-skin-config');
-  if (!$skin_config) {
+  if (!$skin_config || !window.woowgallery_skin) {
     return;
   }
 

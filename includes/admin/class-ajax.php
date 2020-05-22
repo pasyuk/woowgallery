@@ -308,7 +308,7 @@ class Ajax {
 		}
 
 		$wgpost     = get_post( $id );
-		$post_types = apply_filters( 'woowgallery_posttypes', [ Posttypes::GALLERY_POSTTYPE, Posttypes::ALBUM_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE ] );
+		$post_types = apply_filters( 'woowgallery_posttypes', [ Posttypes::GALLERY_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE, Posttypes::ALBUM_POSTTYPE ] );
 		if ( ! in_array( $wgpost->post_type, $post_types, true ) ) {
 			wp_send_json_error();
 		}

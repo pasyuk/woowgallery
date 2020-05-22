@@ -100,6 +100,7 @@ ul#woowgallery-tabs-nav {
 
       img {
         vertical-align: middle;
+        filter: invert(30%) sepia(89%) saturate(8000%) hue-rotate(190deg);
       }
 
       &.append-mode img {

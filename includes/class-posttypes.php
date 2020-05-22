@@ -26,7 +26,9 @@ class Posttypes {
 	 */
 	public function __construct() {
 
-		add_filter( 'woowgallery_posttype_args', [ $this, 'standalone' ], 1, 2 );
+		if ( woow_fs()->can_use_premium_code__premium_only() ) {
+			add_filter( 'woowgallery_posttype_args', [ $this, 'standalone' ], 1, 2 );
+		}
 
 		$this->register_woowgallery_posttype();
 		$this->register_woowgallery_dynamic_posttype();
@@ -53,7 +55,7 @@ class Posttypes {
 			'singular_name'         => __( 'WoowGallery', 'wgtd' ),
 			'menu_name'             => __( 'WoowGallery', 'wgtd' ),
 			'name_admin_bar'        => __( 'WoowGallery', 'wgtd' ),
-			'all_items'             => __( 'All Galleries', 'wgtd' ),
+			'all_items'             => __( 'Galleries', 'wgtd' ),
 			'add_new_item'          => __( 'Add New Gallery', 'wgtd' ),
 			'add_new'               => __( 'Add New Gallery', 'wgtd' ),
 			'new_item'              => __( 'New Gallery', 'wgtd' ),
@@ -147,7 +149,7 @@ class Posttypes {
 			'singular_name'         => __( 'WoowGallery Dynamic', 'wgtd' ),
 			'menu_name'             => __( 'WoowGallery Dynamic', 'wgtd' ),
 			'name_admin_bar'        => __( 'WoowGallery Dynamic', 'wgtd' ),
-			'all_items'             => __( 'All Dynamic Galleries', 'wgtd' ),
+			'all_items'             => __( 'Dynamic Galleries', 'wgtd' ),
 			'add_new_item'          => __( 'Add New Dynamic Gallery', 'wgtd' ),
 			'add_new'               => __( 'Add New Dynamic Gallery', 'wgtd' ),
 			'new_item'              => __( 'New Dynamic Gallery', 'wgtd' ),
@@ -213,7 +215,7 @@ class Posttypes {
 			'singular_name'         => __( 'WoowGallery Album', 'wgtd' ),
 			'menu_name'             => __( 'WoowGallery Album', 'wgtd' ),
 			'name_admin_bar'        => __( 'WoowGallery Album', 'wgtd' ),
-			'all_items'             => __( 'All Albums', 'wgtd' ),
+			'all_items'             => __( 'Albums', 'wgtd' ),
 			'add_new_item'          => __( 'Add New Album', 'wgtd' ),
 			'add_new'               => __( 'Add New Album', 'wgtd' ),
 			'new_item'              => __( 'New Album', 'wgtd' ),
@@ -335,18 +337,23 @@ class Posttypes {
 			return $custom;
 		}
 
+		$wg_submenu    = $submenu[ 'edit.php?post_type=' . self::GALLERY_POSTTYPE ];
 		$wg_menu_order = [];
-		$i             = 1;
-		foreach ( $submenu[ 'edit.php?post_type=' . self::GALLERY_POSTTYPE ] as $details ) {
-			if ( 'post-new.php?post_type=' . self::DYNAMIC_POSTTYPE === $details[2] ) {
-				$wg_menu_order[16] = $details;
-			} else {
-				$key                   = ( $i ++ ) * 5;
-				$wg_menu_order[ $key ] = $details;
+		$wg_menu_last  = [];
+		foreach ( $wg_submenu as $details ) {
+			$url = (array) explode( '?', $details[2], 2 );
+			if ( 'edit.php' === $url[0] ) {
+				$details[0] = '<span style="margin-right: 10px;">' . $details[0] . '</span></a></li>';
+				$details[0] .= '<li style="position:absolute; right:0; transform: translateY(-100%);" class="wg-cpt-add-new"><a style="padding-left:5px; padding-right:3px;" href="post-new.php?' . $url[1] . '" title="' . esc_attr__( 'Add New', 'wgtd' ) . '"><span style="transform: translateY(2px);" class="dashicons dashicons-plus"></span>';
+
+				$wg_menu_order[ $url[1] ][] = $details;
+			} elseif ( 'post-new.php' !== $url[0] ) {
+				$wg_menu_last[] = $details;
 			}
 		}
-		// Reorder the menu based on the keys in ascending order.
-		ksort( $wg_menu_order );
+		$wg_menu_order['last'] = $wg_menu_last;
+		$wg_menu_order         = call_user_func_array( 'array_merge', $wg_menu_order );
+
 		$submenu[ 'edit.php?post_type=' . self::GALLERY_POSTTYPE ] = apply_filters( 'woowgallery_submenu_order', $wg_menu_order );
 
 		// Return the new submenu order.
@@ -362,25 +369,27 @@ class Posttypes {
 	 * @return array
 	 */
 	public function standalone( $args, $posttype ) {
-		// Check if standalone is enabled.
-		$standalone = Settings::get_settings( 'standalone_' . $posttype );
-		if ( ! empty( $standalone ) ) {
-			// Get slug.
-			$slug = Settings::get_settings( 'permalink_base_' . $posttype, $posttype );
+		if ( woow_fs()->can_use_premium_code__premium_only() ) {
+			// Check if standalone is enabled.
+			$standalone = Settings::get_settings( 'standalone_' . $posttype );
+			if ( ! empty( $standalone ) ) {
+				// Get slug.
+				$slug = Settings::get_settings( 'permalink_base_' . $posttype, $posttype );
 
-			// Change the default post type args so that it can be publicly accessible.
-			$args['rewrite']             = [
-				'with_front' => false,
-				'slug'       => $slug,
-			];
-			$args['query_var']           = true;
-			$args['publicly_queryable']  = true;
-			$args['exclude_from_search'] = false;
-			$args['has_archive']         = true;
-			$args['public']              = true;
-			$args['show_in_nav_menus']   = true;
-			$args['supports'][]          = 'slug';
-			$args['supports'][]          = 'page-attributes';
+				// Change the default post type args so that it can be publicly accessible.
+				$args['rewrite']             = [
+					'with_front' => false,
+					'slug'       => $slug,
+				];
+				$args['query_var']           = true;
+				$args['publicly_queryable']  = true;
+				$args['exclude_from_search'] = false;
+				$args['has_archive']         = true;
+				$args['public']              = true;
+				$args['show_in_nav_menus']   = true;
+				$args['supports'][]          = 'slug';
+				$args['supports'][]          = 'page-attributes';
+			}
 		}
 
 		return $args;

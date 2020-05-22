@@ -13,11 +13,11 @@ namespace WoowGallery\Tools;
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 if ( ! class_exists( 'WP_Async_Request', false ) ) {
-	include_once WOOWGALLERY_PATH . 'includes/libraries/wp-async-request.php';
+	include_once WOOWGALLERY_PATH . '/includes/libraries/wp-async-request.php';
 }
 
 if ( ! class_exists( 'WP_Background_Process', false ) ) {
-	include_once WOOWGALLERY_PATH . 'includes/libraries/wp-background-process.php';
+	include_once WOOWGALLERY_PATH . '/includes/libraries/wp-background-process.php';
 }
 
 /**

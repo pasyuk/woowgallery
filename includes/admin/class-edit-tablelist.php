@@ -57,7 +57,7 @@ abstract class Edit_Tablelist {
 		}
 
 		$post_type     = woowgallery_GET( 'post_type' );
-		$wg_post_types = apply_filters( 'woowgallery_posttypes', [ Posttypes::GALLERY_POSTTYPE, Posttypes::ALBUM_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE ] );
+		$wg_post_types = apply_filters( 'woowgallery_posttypes', [ Posttypes::GALLERY_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE, Posttypes::ALBUM_POSTTYPE ] );
 		// Bail if we're on the WoowGallery Post Type screen.
 		if ( ! in_array( $post_type, $wg_post_types, true ) ) {
 			return $where;

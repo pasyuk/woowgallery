@@ -7,6 +7,7 @@
  */
 
 use WoowGallery\Admin\Admin;
+use WoowGallery\Admin\Settings;
 use WoowGallery\Posttypes;
 
 /**
@@ -43,10 +44,15 @@ use WoowGallery\Posttypes;
 							<option value="custom"><?php esc_html_e( 'Custom Sorting', 'wgtd' ); ?></option>
 							<option value="title"><?php esc_html_e( 'Sort by Title', 'wgtd' ); ?></option>
 							<option value="caption"><?php esc_html_e( 'Sort by Caption', 'wgtd' ); ?></option>
-							<option value="alt"><?php esc_html_e( 'Sort by Alt', 'wgtd' ); ?></option>
-							<?php if ( Posttypes::ALBUM_POSTTYPE !== $data['post']->post_type ) { ?>
-								<option value="tags"><?php esc_html_e( 'Sort by Tags', 'wgtd' ); ?></option>
-							<?php } ?>
+							<?php
+							if ( Posttypes::ALBUM_POSTTYPE !== $data['post']->post_type ) {
+								echo '<option value="alt">' . esc_html__( 'Sort by Alt', 'wgtd' ) . '</option>';
+							}
+							if ( Posttypes::ALBUM_POSTTYPE !== $data['post']->post_type
+								|| ( woow_fs()->can_use_premium_code() && (int) Settings::get_settings( 'woowgallery_tags' ) ) ) {
+								echo '<option value="tags">' . esc_html__( 'Sort by Tags', 'wgtd' ) . '</option>';
+							}
+							?>
 							<option value="date"><?php esc_html_e( 'Sort by Date', 'wgtd' ); ?></option>
 							<option value="slug"><?php esc_html_e( 'Sort by Slug', 'wgtd' ); ?></option>
 						</select>
@@ -161,7 +167,7 @@ use WoowGallery\Posttypes;
 		?>
 	</div>
 
-	<textarea autocomplete="off" style="width: 100%; display:block;" name="post_content_filtered" id="woowgallery-data" aria-hidden="true"><?php echo esc_attr( $data['post']->post_content_filtered ); ?></textarea>
+	<textarea autocomplete="off" name="post_content_filtered" id="woowgallery-data" aria-hidden="true"><?php echo esc_attr( $data['post']->post_content_filtered ); ?></textarea>
 
 <?php
 wp_nonce_field( 'ajax', '_nonce_woowgallery_ajax', false );

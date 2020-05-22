@@ -118,17 +118,7 @@ $form_extra   .= "<input type='hidden' id='post_ID' name='post_ID' value='" . es
 
 // Detect if there exists an autosave newer than the post and if that autosave is different than the post.
 if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql2date( 'U', $post->post_modified_gmt, false ) ) {
-	foreach ( _wp_post_revision_fields( $post ) as $autosave_field => $_autosave_field ) {
-		if ( normalize_whitespace( $autosave->$autosave_field ) !== normalize_whitespace( $post->$autosave_field ) ) {
-			$notice = sprintf( __( 'There is an autosave of this post that is more recent than the version below. <a href="%s">View the autosave</a>' ), get_edit_post_link( $autosave->ID ) );
-			break;
-		}
-	}
-	// If this autosave isn't different from the current post, begone.
-	if ( ! $notice ) {
-		wp_delete_post_revision( $autosave->ID );
-	}
-	unset( $autosave_field, $_autosave_field );
+	wp_delete_post_revision( $autosave->ID );
 }
 
 $post_type_object = get_post_type_object( $post_type );
@@ -152,9 +142,6 @@ iframe_header( 'WoowGallery' );
 
 		<hr class="wp-header-end">
 
-		<?php if ( $notice ) : ?>
-			<div id="notice" class="notice notice-warning"><p id="has-newer-autosave"><?php echo $notice; ?></p></div>
-		<?php endif; ?>
 		<?php if ( $message ) : ?>
 			<div id="message" class="updated notice notice-success is-dismissible"><p><?php echo $message; ?></p></div>
 		<?php endif; ?>

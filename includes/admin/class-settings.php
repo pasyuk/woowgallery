@@ -27,7 +27,12 @@ class Settings {
 	 * Settings Page slug.
 	 */
 	const MENU_SLUG = 'woowgallery-settings';
-
+	/**
+	 * Holds the settings array.
+	 *
+	 * @var string
+	 */
+	private static $settings;
 	/**
 	 * Holds the submenu pagehook.
 	 *
@@ -120,19 +125,21 @@ class Settings {
 	 */
 	public static function get_settings( $key = null, $default = null ) {
 
-		// Get the settings.
-		$default_settings = (array) self::get_settings_default();
-		$stored_settings  = (array) get_option( self::SETTINGS_KEY, [] );
-		$settings         = array_merge( $default_settings, $stored_settings );
+		if ( empty( self::$settings ) ) {
+			// Get the settings.
+			$default_settings = (array) self::get_settings_default();
+			$stored_settings  = (array) get_option( self::SETTINGS_KEY, [] );
+			$settings         = array_merge( $default_settings, $stored_settings );
 
-		// Allow devs to filter.
-		$settings = apply_filters( 'woowgallery_settings', $settings, $key );
-
-		if ( ! empty( $key ) ) {
-			return isset( $settings[ $key ] ) ? $settings[ $key ] : $default;
+			// Allow devs to filter.
+			self::$settings = apply_filters( 'woowgallery_settings', $settings, $key );
 		}
 
-		return $settings;
+		if ( ! empty( $key ) ) {
+			return isset( self::$settings[ $key ] ) ? self::$settings[ $key ] : $default;
+		}
+
+		return self::$settings;
 	}
 
 	/**
@@ -295,6 +302,8 @@ class Settings {
 			}
 		}
 
+		// Clear cached variable.
+		self::$settings = null;
 		// Update option.
 		update_option( self::SETTINGS_KEY, $settings );
 

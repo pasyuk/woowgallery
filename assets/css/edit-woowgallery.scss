@@ -84,7 +84,7 @@ span.wg-posttype-icon {
         left: 0;
         bottom: 130%;
         line-height: 1;
-        background: rgba(255,255,255,0.8);
+        background: rgba(255, 255, 255, 0.8);
         padding: 0 5px 5px;
       }
     }
@@ -182,6 +182,11 @@ span.wg-posttype-icon {
         border-radius: 6px;
       }
     }
+  }
+
+  .woowgallery-query-builder {
+    position: relative;
+    margin-bottom: 10px;
   }
 
   .gallery-filter {

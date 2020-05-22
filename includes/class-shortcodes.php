@@ -64,7 +64,9 @@ class Shortcodes {
 		// Load hooks and filters.
 		add_filter( 'widget_text', 'do_shortcode' );
 		add_filter( 'style_loader_tag', [ $this, 'add_stylesheet_property_attribute' ] );
-		add_filter( 'woowgallery_shortcode_start', [ $this, 'inline_styles' ], 0, 2 );
+		if ( woow_fs()->can_use_premium_code__premium_only() ) {
+			add_filter( 'woowgallery_shortcode_start', [ $this, 'inline_styles' ], 0, 2 );
+		}
 
 		/* Yoast SEO */
 		add_filter( 'wpseo_sitemap_urlimages', [ $this, 'woowgallery_filter_wpseo_sitemap_urlimages' ], 10, 2 );
@@ -93,30 +95,32 @@ class Shortcodes {
 	 * @return string
 	 */
 	public function inline_styles( $gallery_markup, $gallery ) {
-		$style = '';
-		if ( 1 === $this->counter ) {
-			$style .= $this->get_global_inline_styles();
-		}
+		if ( woow_fs()->can_use_premium_code__premium_only() ) {
+			$style = '';
+			if ( 1 === $this->counter ) {
+				$style .= $this->get_global_inline_styles();
+			}
 
-		$wg         = new Gallery( $gallery['id'], $gallery['type'] );
-		$custom_css = $wg->get_settings( 'custom_css', '' );
-		if ( ! empty( $custom_css ) ) {
-			// Build out the custom CSS.
-			$style .= '<style type="text/css" id="woowgallery-' . sanitize_html_class( $gallery['uid'] ) . '-custom-styles">' . woowgallery_minify( html_entity_decode( stripslashes( $custom_css ), ENT_QUOTES ), false ) . '</style>';
-		}
+			$wg         = new Gallery( $gallery['id'], $gallery['type'] );
+			$custom_css = $wg->get_settings( 'custom_css', '' );
+			if ( ! empty( $custom_css ) ) {
+				// Build out the custom CSS.
+				$style .= '<style type="text/css" id="woowgallery-' . sanitize_html_class( $gallery['uid'] ) . '-custom-styles">' . woowgallery_minify( html_entity_decode( stripslashes( $custom_css ), ENT_QUOTES ), false ) . '</style>';
+			}
 
-		if ( ! empty( $style ) ) {
-			$style = wp_kses(
-				$style,
-				[
-					'style' => [
-						'type' => [],
-						'id'   => [],
-					],
-				]
-			);
+			if ( ! empty( $style ) ) {
+				$style = wp_kses(
+					$style,
+					[
+						'style' => [
+							'type' => [],
+							'id'   => [],
+						],
+					]
+				);
 
-			return $style . $gallery_markup;
+				return $style . $gallery_markup;
+			}
 		}
 
 		return $gallery_markup;
@@ -128,21 +132,22 @@ class Shortcodes {
 	 * @return string
 	 */
 	public function get_global_inline_styles() {
+		if ( woow_fs()->can_use_premium_code__premium_only() ) {
+			$custom_css = Settings::get_settings( 'custom_css' );
+			if ( ! empty( $custom_css ) ) {
+				// Build out the custom CSS.
+				$style = '<style type="text/css" id="woowgallery-global-custom-styles">' . woowgallery_minify( html_entity_decode( stripslashes( $custom_css ), ENT_QUOTES ), false ) . '</style>';
 
-		$custom_css = Settings::get_settings( 'custom_css' );
-		if ( ! empty( $custom_css ) ) {
-			// Build out the custom CSS.
-			$style = '<style type="text/css" id="woowgallery-global-custom-styles">' . woowgallery_minify( html_entity_decode( stripslashes( $custom_css ), ENT_QUOTES ), false ) . '</style>';
-
-			return wp_kses(
-				$style,
-				[
-					'style' => [
-						'type' => [],
-						'id'   => [],
-					],
-				]
-			);
+				return wp_kses(
+					$style,
+					[
+						'style' => [
+							'type' => [],
+							'id'   => [],
+						],
+					]
+				);
+			}
 		}
 
 		return '';
@@ -482,7 +487,7 @@ class Shortcodes {
 
 		// make filter magic happen here... if the post_id is an WoowGallery or album, great. if not, go back.
 		$post_type     = get_post_type( $post_id );
-		$wg_post_types = apply_filters( 'woowgallery_posttypes', [ Posttypes::GALLERY_POSTTYPE, Posttypes::ALBUM_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE ] );
+		$wg_post_types = apply_filters( 'woowgallery_posttypes', [ Posttypes::GALLERY_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE, Posttypes::ALBUM_POSTTYPE ] );
 		if ( in_array( $post_type, $wg_post_types, true ) ) {
 			$galleries_ids = [ $post_id ];
 		} else {

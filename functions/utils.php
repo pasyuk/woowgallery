@@ -239,6 +239,35 @@ if ( ! function_exists( 'woowgallery_get_object_taxonomy_terms' ) ) {
 	}
 }
 
+if ( ! function_exists( 'woowgallery_get_post_types' ) ) {
+	/**
+	 * Get array of supported Post Type(s).
+	 *
+	 * @param array $args Arguments.
+	 *
+	 * @return array
+	 */
+	function woowgallery_get_post_types( $args = [] ) {
+		$args       = array_merge( $args, [ 'public' => true ] );
+		$post_types = get_post_types(
+			$args,
+			'objects',
+			'and'
+		);
+
+		if ( ! woow_fs()->can_use_premium_code() ) {
+			$post_types = array_filter(
+				$post_types,
+				function ( $pt ) {
+					return ! in_array( $pt, [ 'product', 'download' ], true );
+				}
+			);
+		}
+
+		return apply_filters( 'woowgallery_supported_posttypes', $post_types );
+	}
+}
+
 if ( ! function_exists( 'woowgallery_get_taxonomy_terms' ) ) {
 	/**
 	 * Get array of taxonomy terms by Post Type(s).
@@ -250,30 +279,40 @@ if ( ! function_exists( 'woowgallery_get_taxonomy_terms' ) ) {
 	 */
 	function woowgallery_get_taxonomy_terms( $post_type, $shared = false ) {
 		if ( $shared || empty( $post_type ) ) {
-			$_taxonomies = woowgallery_get_shared_object_taxonomies( $post_type, 'objects' );
+			$taxonomies = woowgallery_get_shared_object_taxonomies( $post_type, 'objects' );
 		} else {
-			$_taxonomies = get_object_taxonomies( $post_type, 'objects' );
+			$taxonomies = get_object_taxonomies( $post_type, 'objects' );
 		}
 
+		if ( ! woow_fs()->can_use_premium_code() ) {
+			$taxonomies = array_filter(
+				$taxonomies,
+				function ( $tax ) {
+					return ! in_array( $tax, [ 'product_cat', 'product_tag', 'download_category', 'download_tag' ], true );
+				}
+			);
+		}
+
+		$taxonomies    = apply_filters( 'woowgallery_supported_taxonomies', $taxonomies );
 		$wg_taxonomies = [];
 
-		foreach ( $_taxonomies as $_tax ) {
-			if ( empty( $_tax->public ) ) {
+		foreach ( $taxonomies as $tax ) {
+			if ( empty( $tax->public ) || empty( $tax->show_ui ) ) {
 				continue;
 			}
 
-			$_terms      = get_terms( $_tax->name );
+			$terms       = get_terms( $tax->name );
 			$wg_taxonomy = [
-				'taxonomy' => $_tax->label,
+				'taxonomy' => $tax->label,
 				'terms'    => [],
 			];
-			foreach ( $_terms as $_t ) {
+			foreach ( $terms as $tt ) {
 				$wg_taxonomy['terms'][] = [
-					'id'       => $_t->term_id,
-					'slug'     => $_t->slug,
-					'name'     => $_t->name,
-					'taxname'  => $_tax->name,
-					'taxlabel' => $_tax->labels->singular_name,
+					'id'       => $tt->term_id,
+					'slug'     => $tt->slug,
+					'name'     => $tt->name,
+					'taxname'  => $tax->name,
+					'taxlabel' => $tax->labels->singular_name,
 				];
 			}
 			$wg_taxonomies[] = $wg_taxonomy;
@@ -345,5 +384,26 @@ if ( ! function_exists( 'woowgallery_convert_encoding' ) ) {
 		}
 
 		return wp_encode_emoji( $content );
+	}
+}
+
+if ( ! function_exists( 'woowgallery_is_premium_feature' ) ) {
+	/**
+	 * Print `Get Premium` message.
+	 *
+	 * @param string $msg The content of message.
+	 */
+	function woowgallery_is_premium_feature( $msg = '' ) {
+		if ( woow_fs()->can_use_premium_code() ) {
+			return;
+		}
+		?>
+		<div class="woowgallery-pro-feature wg-transparent">
+			<?php if ( $msg ) { ?>
+				<h6><?php echo wp_kses( $msg, '' ); ?></h6>
+			<?php } ?>
+			<a class="button button-primary" href="<?php echo esc_url( woow_fs()->get_upgrade_url() ); ?>" target="_blank"><span class="dashicons dashicons-cart"></span> <?php esc_html_e( 'Get WoowGallery Premium', 'wgtd' ); ?></a>
+		</div>
+		<?php
 	}
 }

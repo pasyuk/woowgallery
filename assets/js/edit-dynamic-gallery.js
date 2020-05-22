@@ -32,7 +32,7 @@
 
       query_type: null,
       woowgallery_type: 'dynamic',
-      hints: false,
+      hints: true,
       loading: false,
 
       wp_taxonomy_terms_options: {
@@ -141,7 +141,7 @@
       let query_str = $('#woowgallery-data').val();
       let query = query_str ? JSON.parse(query_str) : {};
 
-      this.query_type = query.query_type;
+      this.query_type = query.query_type || 'wp';
       if ('wp' === query.query_type) {
         this.wp_taxonomy_terms_options.data = JSON.parse(window.wp_taxonomy_terms_options);
         this.wp = $.extend({}, this.wp, query);

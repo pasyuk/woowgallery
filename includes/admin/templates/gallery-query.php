@@ -22,7 +22,7 @@ if ( empty( $gallery['data']['post_type'] ) ) {
 	$gallery_post_types = wp_list_pluck( $gallery['data']['post_type'], 'name' ) ?: [ 'post' ];
 }
 
-$_post_types   = get_post_types( [ 'public' => true ], 'objects', 'and' );
+$_post_types   = woowgallery_get_post_types();
 $wg_post_types = [];
 foreach ( $_post_types as $_pt ) {
 	$wg_post_types[] = [
@@ -341,7 +341,7 @@ $wg_meta_value = [
 							</div>
 						</div>
 					</div>
-					<div class="hint" v-show="hints"><?php esc_html_e( 'Off - query all Posts; No - query Posts without password; Yes - query Posts with password. <br />Note: Private Posts can\'t be password protected.', 'wgtd' ); ?></div>
+					<div class="hint" v-show="hints"><?php esc_html_e( 'Off - query all Posts; No - query Posts without password; Yes - query Posts with password.', 'wgtd' ); ?></div>
 				</div>
 
 				<div class="form-group field-text" v-show="'1' === wp.has_password">
@@ -389,6 +389,12 @@ $wg_meta_value = [
 						</div>
 					</div>
 					<div class="hint" v-show="hints"><?php esc_html_e( 'Comma separated list of Post IDs, which you need to exclude from Gallery.', 'wgtd' ); ?></div>
+				</div>
+
+				<hr/>
+				<div class="wg-fetch">
+					<span class="spinner" :class="{'is-active': loading}"></span>
+					<button type="button" class="button button-primary" @click.prevent="wp_fetchQuery()"><?php esc_html_e( 'Fetch Gallery Data', 'wgtd' ); ?></button>
 				</div>
 			</div>
 		</template>
@@ -446,15 +452,17 @@ $wg_meta_value = [
 					<div class="hint" v-show="hints"><?php esc_html_e( 'Set the required number to restrict the count of loaded posts. You can choose to limit result of all sources or for each source separately. Maximum: 100.', 'wgtd' ); ?></div>
 				</div>
 
+				<hr/>
+				<div class="wg-fetch">
+					<span class="spinner" :class="{'is-active': loading}"></span>
+					<button type="button" class="button button-primary" @click.prevent="wp_fetchQuery()"><?php esc_html_e( 'Fetch Gallery Data', 'wgtd' ); ?></button>
+				</div>
+
+				<?php woowgallery_is_premium_feature(); ?>
 			</div>
 		</template>
 
 		<div class="woowgallery-preview grid" v-if="query_type" v-cloak>
-			<hr/>
-			<div class="wg-fetch">
-				<span class="spinner" :class="{'is-active': loading}"></span>
-				<button type="button" class="button button-primary" @click.prevent="wp_fetchQuery()"><?php esc_html_e( 'Fetch Gallery Data', 'wgtd' ); ?></button>
-			</div>
 			<div class="woowgallery-error-message" v-if="error">{{ error }}</div>
 			<div class="woowgallery-content-images" v-if="gallery">
 				<!-- Title and Help -->
@@ -511,7 +519,7 @@ $wg_meta_value = [
 
 	</div>
 
-	<textarea autocomplete="off" style="width: 100%; display:block;" name="post_content_filtered" id="woowgallery-data" aria-hidden="true"><?php echo esc_attr( $data['post']->post_content_filtered ); ?></textarea>
+	<textarea autocomplete="off" name="post_content_filtered" id="woowgallery-data" aria-hidden="true"><?php echo esc_attr( $data['post']->post_content_filtered ); ?></textarea>
 
 <?php
 wp_nonce_field( 'ajax', '_nonce_woowgallery_ajax', false );

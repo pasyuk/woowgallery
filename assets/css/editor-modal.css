@@ -12,7 +12,7 @@
 /* ========================================================================== Modal Styles ========================================================================== */
 .attachments-browser .media-toolbar { display: -webkit-box; display: -webkit-flex; display: flex; -webkit-box-pack: justify; -webkit-justify-content: space-between; justify-content: space-between; -webkit-flex-wrap: wrap; flex-wrap: wrap; height: auto; overflow: visible; background-color: rgba(255, 255, 255, 0.5); }
 
-.attachments-browser .media-toolbar .media-toolbar-secondary { position: relative; display: -webkit-box; display: -webkit-flex; display: flex; -webkit-box-align: start; -webkit-align-items: flex-start; align-items: flex-start; -webkit-flex-wrap: wrap; flex-wrap: wrap; width: auto; max-width: initial; -webkit-box-flex: 1; -webkit-flex: 1; flex: 1; -webkit-box-pack: start; -webkit-justify-content: flex-start; justify-content: flex-start; min-width: 290px; }
+.attachments-browser .media-toolbar .media-toolbar-secondary { position: relative; display: -webkit-box; display: -webkit-flex; display: flex; -webkit-box-align: end; -webkit-align-items: flex-end; align-items: flex-end; -webkit-flex-wrap: wrap; flex-wrap: wrap; width: auto; max-width: initial; -webkit-box-flex: 1; -webkit-flex: 1; flex: 1; -webkit-box-pack: start; -webkit-justify-content: flex-start; justify-content: flex-start; min-width: 290px; }
 
 .attachments-browser .media-toolbar .media-toolbar-secondary select { width: auto; -webkit-box-flex: 0; -webkit-flex: 0 0 auto; flex: 0 0 auto; margin-right: 10px; }
 

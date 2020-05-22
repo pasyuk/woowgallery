@@ -38,7 +38,7 @@ class Skins {
 	 */
 	public function __construct() {
 
-		$skins_folders = glob( WOOWGALLERY_PATH . 'skins/*', GLOB_ONLYDIR | GLOB_NOSORT );
+		$skins_folders = glob( WOOWGALLERY_PATH . '/skins/*', GLOB_ONLYDIR | GLOB_NOSORT );
 		foreach ( $skins_folders as $path ) {
 			$this->load_file( $path . '/' . basename( $path ) . '.php' );
 		}

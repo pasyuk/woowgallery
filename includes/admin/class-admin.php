@@ -109,7 +109,7 @@ class Admin {
 
 		// Get the current screen, and check whether we're viewing the WoowGallery or WoowGallery Album Post Types.
 		$screen     = get_current_screen();
-		$post_types = apply_filters( 'woowgallery_posttypes', [ Posttypes::GALLERY_POSTTYPE, Posttypes::ALBUM_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE ] );
+		$post_types = apply_filters( 'woowgallery_posttypes', [ Posttypes::GALLERY_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE, Posttypes::ALBUM_POSTTYPE ] );
 		if ( ! in_array( $screen->post_type, $post_types, true ) ) {
 			return;
 		}
@@ -134,7 +134,7 @@ class Admin {
 	 */
 	public static function load_template( $template, $data = [] ) {
 
-		$dir      = WOOWGALLERY_PATH . 'includes/admin/templates/';
+		$dir      = WOOWGALLERY_PATH . '/includes/admin/templates/';
 		$template = sanitize_file_name( $template );
 		if ( file_exists( $dir . $template . '.php' ) ) {
 			require_once $dir . $template . '.php';
@@ -156,7 +156,7 @@ class Admin {
 
 		// Get current screen.
 		$screen     = get_current_screen();
-		$post_types = apply_filters( 'woowgallery_posttypes', [ Posttypes::GALLERY_POSTTYPE, Posttypes::ALBUM_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE ] );
+		$post_types = apply_filters( 'woowgallery_posttypes', [ Posttypes::GALLERY_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE, Posttypes::ALBUM_POSTTYPE ] );
 		// Bail if we're on the WoowGallery Post Type screen.
 		if ( ! in_array( $screen->post_type, $post_types, true ) ) {
 			return;

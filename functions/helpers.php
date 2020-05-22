@@ -33,7 +33,7 @@ if ( ! function_exists( 'woowgallery' ) ) {
 				$args_string .= ' ' . sanitize_key( $key ) . '="' . esc_attr( $value ) . '"';
 			}
 		}
-		if ( ! $type || ! in_array( $type, [ Posttypes::GALLERY_POSTTYPE, Posttypes::ALBUM_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE ], true ) ) {
+		if ( ! $type || ! in_array( $type, [ Posttypes::GALLERY_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE, Posttypes::ALBUM_POSTTYPE ], true ) ) {
 			$type = Posttypes::GALLERY_POSTTYPE;
 		}
 		$wg = new Gallery( $id, $type );
