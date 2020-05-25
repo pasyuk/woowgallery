@@ -1123,12 +1123,6 @@
 		"oAP": "/vendor/swiper/swiper.min.js.map",
 		"oF": 0
 		},
-	"/vendor/vue-form-generator": {
-		"ft": 65536,
-		"oA": 1,
-		"oAP": "/build/vendor/vue-form-generator",
-		"oF": 0
-		},
 	"/vendor/vue-multiselect/vue-multiselect.min.css": {
 		"aP": 1,
 		"bl": 0,

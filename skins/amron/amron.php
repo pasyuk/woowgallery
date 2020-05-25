@@ -110,7 +110,7 @@ class Amron {
 						],
 					],
 					'thumbSpacing'                   => [
-						'label'   => __( 'Space between thumbnails', 'wgtd' ),
+						'label'   => __( 'Space Between Thumbnails', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 10,
 						'attr'    => [
@@ -130,7 +130,7 @@ class Amron {
 						'default' => 1,
 					],
 					'tagCloudAll'       => [
-						'label'   => __( 'ALL - name', 'wgtd' ),
+						'label'   => __( 'ALL (text)', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'All',
 						'attr'    => [
@@ -138,7 +138,7 @@ class Amron {
 						],
 					],
 					'tagCloudTextColor' => [
-						'label'   => __( 'Text color', 'wgtd' ),
+						'label'   => __( 'Text Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,1)',
 						'attr'    => [
@@ -150,7 +150,7 @@ class Amron {
 						'text'    => __( 'Filter button', 'wgtd' ),
 					],
 					'tagCloudBgColor'   => [
-						'label'   => __( 'Background color', 'wgtd' ),
+						'label'   => __( 'Background Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(180,180,180,1)',
 						'attr'    => [
@@ -167,7 +167,7 @@ class Amron {
 				'label'  => __( 'Thumbnails Settings', 'wgtd' ),
 				'fields' => [
 					'collectionThumbHoverColor'               => [
-						'label'   => __( 'Hover color', 'wgtd' ),
+						'label'   => __( 'Hover Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,0.5)',
 						'options' => [
@@ -178,7 +178,7 @@ class Amron {
 						],
 					],
 					'collectionThumbContentBGColor'           => [
-						'label'   => __( 'Description bar background color', 'wgtd' ),
+						'label'   => __( 'Description Bar Background Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(220,220,220,1)',
 						'options' => [
@@ -194,7 +194,7 @@ class Amron {
 						'default' => 1,
 					],
 					'collectionThumbTitleColor'               => [
-						'label'   => __( 'Title Text color', 'wgtd' ),
+						'label'   => __( 'Title Text Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,1)',
 						'visible' => 'collectionThumbTitleShow',
@@ -206,7 +206,7 @@ class Amron {
 						],
 					],
 					'collectionThumbFontSize'                 => [
-						'label'   => __( 'Title font size', 'wgtd' ),
+						'label'   => __( 'Title Font Size', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 18,
 						'visible' => 'collectionThumbTitleShow',
@@ -234,7 +234,7 @@ class Amron {
 						],
 					],
 					'collectionThumbDescriptionFontSize'      => [
-						'label'   => __( 'Description font size', 'wgtd' ),
+						'label'   => __( 'Description Font Size', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 15,
 						'visible' => 'collectionThumbDescriptionShow',
@@ -245,7 +245,7 @@ class Amron {
 						],
 					],
 					'collectionReadMoreButtonLabel'           => [
-						'label'   => __( 'Read More button - Default Label Text', 'wgtd' ),
+						'label'   => __( 'Read More Button - Default Label Text', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'Read More',
 						'attr'    => [
@@ -253,7 +253,7 @@ class Amron {
 						],
 					],
 					'collectionReadMoreButtonBGColor'         => [
-						'label'   => __( 'Read More button color', 'wgtd' ),
+						'label'   => __( 'Read More Button Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,1)',
 						'options' => [
@@ -264,7 +264,7 @@ class Amron {
 						],
 					],
 					'collectionReadMoreButtonBGColorHover'    => [
-						'label'   => __( 'Read More button Hover color', 'wgtd' ),
+						'label'   => __( 'Read More Button Hover Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(180,180,180,1)',
 						'options' => [
@@ -275,7 +275,7 @@ class Amron {
 						],
 					],
 					'collectionReadMoreButtonLabelColor'      => [
-						'label'   => __( 'Read More button Label color', 'wgtd' ),
+						'label'   => __( 'Read More Button Label Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,1)',
 						'options' => [
@@ -286,7 +286,7 @@ class Amron {
 						],
 					],
 					'collectionReadMoreButtonLabelColorHover' => [
-						'label'   => __( 'Read More button Label Hover color', 'wgtd' ),
+						'label'   => __( 'Read More Button Label Hover Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,1)',
 						'options' => [
@@ -299,10 +299,10 @@ class Amron {
 				],
 			],
 			'modalSettings'      => [
-				'label'  => __( 'Modal Window Settings (Item Info Bar)', 'wgtd' ),
+				'label'  => __( 'Share View Settings', 'wgtd' ),
 				'fields' => [
 					'modaBgColor'                => [
-						'label'   => __( 'Overlap Color', 'wgtd' ),
+						'label'   => __( 'Overlay Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,0.9)',
 						'attr'    => [
@@ -324,7 +324,7 @@ class Amron {
 						],
 					],
 					'modalInfoBoxTitleTextColor' => [
-						'label'   => __( 'Info Bar Title text Color', 'wgtd' ),
+						'label'   => __( 'Info Bar Title Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,1)',
 						'attr'    => [
@@ -382,7 +382,7 @@ class Amron {
 						],
 					],
 					'sliderScrollNavi'                      => [
-						'label'   => __( 'Scroll to navigate (mouse wheel)', 'wgtd' ),
+						'label'   => __( 'Scroll to Navigate (mouse wheel)', 'wgtd' ),
 						'tag'     => 'checkbox',
 						'default' => 1,
 						'text'    => __( 'Using this disable mouse wheel scaling!', 'wgtd' ),
@@ -403,7 +403,7 @@ class Amron {
 						],
 					],
 					'sliderBgColor'                         => [
-						'label'   => __( 'Lightbox  background color', 'wgtd' ),
+						'label'   => __( 'Lightbox Background Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,0.9)',
 						'attr'    => [
@@ -427,7 +427,7 @@ class Amron {
 						'text'    => __( 'Set custom color for gallery', 'wgtd' ),
 					],
 					'sliderHeaderFooterBgColor'             => [
-						'label'   => __( 'Lightbox Header & Footer color', 'wgtd' ),
+						'label'   => __( 'Lightbox Header/Footer Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,0.4)',
 						'options' => [
@@ -451,7 +451,7 @@ class Amron {
 						'text'    => __( 'Buttons Background Color', 'wgtd' ),
 					],
 					'sliderNavigationColorOver'             => [
-						'label'   => __( 'Main Controls Color (over)', 'wgtd' ),
+						'label'   => __( 'Main Controls Hover Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,1)',
 						'attr'    => [
@@ -471,10 +471,10 @@ class Amron {
 						'options' => [
 							'showAlpha' => true,
 						],
-						'text'    => __( 'Icon Color', 'wgtd' ),
+						'text'    => __( 'Icon color', 'wgtd' ),
 					],
 					'sliderNavigationIconColorOver'         => [
-						'label'   => __( 'Main Controls Icon Color (over)', 'wgtd' ),
+						'label'   => __( 'Main Controls Icon Hover Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,1)',
 						'attr'    => [
@@ -506,7 +506,7 @@ class Amron {
 						'default' => 1,
 					],
 					'sliderItemTitleFontSize'               => [
-						'label'   => __( 'Item Title - font size', 'wgtd' ),
+						'label'   => __( 'Item Title - Font Size', 'wgtd' ),
 						'visible' => 'sliderItemTitleEnable == "1"',
 						'tag'     => 'input',
 						'default' => 18,
@@ -517,7 +517,7 @@ class Amron {
 						],
 					],
 					'sliderItemTitleTextColor'              => [
-						'label'   => __( 'Item Title - text color', 'wgtd' ),
+						'label'   => __( 'Item Title - Text Color', 'wgtd' ),
 						'visible' => 'sliderItemTitleEnable == "1"',
 						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,1)',
@@ -564,7 +564,7 @@ class Amron {
 						//'premium' => 1
 					],
 					'sliderThumbBarHoverColor'              => [
-						'label'   => __( 'Thumbnails Border Color (select mode)', 'wgtd' ),
+						'label'   => __( 'Active Thumbnail Border Color', 'wgtd' ),
 						'visible' => 'sliderThumbBarEnable == "1"',
 						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,1)',
@@ -582,7 +582,7 @@ class Amron {
 						'default' => 1,
 					],
 					'slideshowDelay'                        => [
-						'label'   => __( 'Slideshows Timer', 'wgtd' ),
+						'label'   => __( 'Slideshow Timer', 'wgtd' ),
 						'visible' => 'sliderPlayButton == "1"',
 						'tag'     => 'input',
 						'default' => 8,
@@ -593,7 +593,7 @@ class Amron {
 						],
 					],
 					'slideshowProgressBarColor'             => [
-						'label'   => __( 'Slideshow progress bar color', 'wgtd' ),
+						'label'   => __( 'Slideshow Progress Bar Color', 'wgtd' ),
 						'visible' => 'sliderPlayButton == "1"',
 						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,1)',
@@ -605,7 +605,7 @@ class Amron {
 						],
 					],
 					'slideshowProgressBarBGColor'           => [
-						'label'   => __( 'Slideshow progress bar Background color', 'wgtd' ),
+						'label'   => __( 'Slideshow Progress Bar Background Color', 'wgtd' ),
 						'visible' => 'sliderPlayButton == "1"',
 						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,0.6)',
@@ -629,7 +629,7 @@ class Amron {
 						//'premium' => 1
 					],
 					'sliderSocialShareEnabled'              => [
-						'label'   => __( 'Show Share Buttons', 'wgtd' ),
+						'label'   => __( 'Show Share Button', 'wgtd' ),
 						'tag'     => 'checkbox',
 						'default' => 1,
 						//'premium' => 1
@@ -642,7 +642,7 @@ class Amron {
 						//'premium' => 1
 					],
 					'sliderFullScreen'                      => [
-						'label'   => __( 'FullScreen Button Show', 'wgtd' ),
+						'label'   => __( 'Show Fullscreen Button', 'wgtd' ),
 						'tag'     => 'checkbox',
 						'default' => 1,
 						//'premium' => 1
@@ -654,7 +654,7 @@ class Amron {
 					// 	'premium' => 1
 					// ),
 					'sliderThumbSubMenuBackgroundColor'     => [
-						'label'   => __( 'Submenu button color', 'wgtd' ),
+						'label'   => __( 'Buttons Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0, 0, 0, 0)',
 						'options' => [
@@ -665,7 +665,7 @@ class Amron {
 						],
 					],
 					'sliderThumbSubMenuIconColor'           => [
-						'label'   => __( 'Submenu button Icon color', 'wgtd' ),
+						'label'   => __( 'Buttons Icon Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(255, 255, 255, 1)',
 						'options' => [
@@ -676,7 +676,7 @@ class Amron {
 						],
 					],
 					'sliderThumbSubMenuBackgroundColorOver' => [
-						'label'   => __( 'Submenu button Hover color', 'wgtd' ),
+						'label'   => __( 'Button Hover Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(255, 255, 255, 1)',
 						'options' => [
@@ -687,7 +687,7 @@ class Amron {
 						],
 					],
 					'sliderThumbSubMenuIconHoverColor'      => [
-						'label'   => __( 'Submenu button Icon Hover color', 'wgtd' ),
+						'label'   => __( 'Button Icon Hover Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0, 0, 0, 1)',
 						'options' => [
