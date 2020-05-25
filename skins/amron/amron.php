@@ -345,16 +345,11 @@ class Amron {
 							'showAlpha' => true,
 						],
 					],
-					'infoBarExifEnable'          => [
-						'label'   => __( 'Show Item EXIF Data', 'wgtd' ),
-						'tag'     => 'checkbox',
-						'default' => 1,
-					],
-					'infoBarDateInfoEnable'      => [
-						'label'   => __( 'Show Item Upload Date', 'wgtd' ),
-						'tag'     => 'checkbox',
-						'default' => 1,
-					],
+					// 'infoBarDateInfoEnable'      => [
+					// 	'label'   => __( 'Show Item Upload Date', 'wgtd' ),
+					// 	'tag'     => 'checkbox',
+					// 	'default' => 1,
+					// ],
 				],
 			],
 			'lightboxSettings'   => [
@@ -376,10 +371,7 @@ class Amron {
 						'label'   => __( 'Copyright Alert (right mouse click)', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'Hello, this photo is mine!',
-						'text'    => __( 'Alert about the ban on downloading photo', 'wgtd' ),
-						'attr'    => [
-							'type' => 'This message is displayed when a visitor clicks the right mouse button on a photo in a lightbox',
-						],
+						'text'    => __( 'This message is displayed when a visitor clicks the right mouse button on a photo in a lightbox', 'wgtd' ),
 					],
 					'sliderScrollNavi'                      => [
 						'label'   => __( 'Scroll to Navigate (mouse wheel)', 'wgtd' ),
@@ -627,6 +619,11 @@ class Amron {
 						'default' => 1,
 						'text'    => __( 'Enable description bar for item', 'wgtd' ),
 						//'premium' => 1
+					],
+					'infoBarExifEnable'          => [
+						'label'   => __( 'Show Item EXIF Data', 'wgtd' ),
+						'tag'     => 'checkbox',
+						'default' => 1,
 					],
 					'sliderSocialShareEnabled'              => [
 						'label'   => __( 'Show Share Button', 'wgtd' ),
