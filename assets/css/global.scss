@@ -21,6 +21,19 @@
   overflow: hidden;
 }
 
+/** Media Library */
+.upload-php .wp-filter {
+  .actions > * {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+  }
+
+  .media-toolbar-secondary > select {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}
+
 /** Pager */
 .woowgallery-pager {
   display: inline-flex;

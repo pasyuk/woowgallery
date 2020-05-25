@@ -383,8 +383,13 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 			|| 'auto-draft' === $post->post_status
 			// Bail out if the user doesn't have the correct permissions to update the slider.
 			|| ! current_user_can( 'edit_post', $post_id )
-			|| ( defined( 'DOING_AJAX' ) && DOING_AJAX )
 		) {
+			return;
+		}
+
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			woowgallery_flush_caches( $post_id, $post->post_name );
+
 			return;
 		}
 

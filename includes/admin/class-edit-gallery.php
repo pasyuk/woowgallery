@@ -33,7 +33,6 @@ class Edit_Gallery extends Edit_Woowgallery {
 		add_filter( 'wp_insert_post_data', [ $this, 'wp_insert_gallery_data' ], 10, 2 );
 		add_action( 'post_updated', [ $this, 'gallery_updated' ], 10, 3 );
 		add_action( "save_post_{$this->post_type}", [ $this, 'save_gallery' ], 10, 3 );
-		add_action( 'delete_post', [ $this, 'delete_taxonomy_term' ] );
 
 		add_action( 'woowgallery_media_buttons', [ $this, 'media_buttons' ] );
 	}
@@ -209,13 +208,6 @@ class Edit_Gallery extends Edit_Woowgallery {
 			return;
 		}
 
-		//if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-		//	// Check if this is a Quick Edit request.
-		//	if ( isset( $_POST['_inline_edit'] ) ) {
-		//		// Just update specific fields in the Quick Edit screen.
-		//	}
-		//}
-
 		// Update Gallery Taxonomy.
 		$this->save_taxonomy( $post_after, $post_before->post_name );
 
@@ -236,7 +228,7 @@ class Edit_Gallery extends Edit_Woowgallery {
 	 */
 	private function save_taxonomy( $post, $term_slug = '' ) {
 		// Bail out if it's a draft post without slug.
-		if ( ! $post->post_name || Taxonomies::GALLERY_TAXONOMY_NAME !== $post->post_type ) {
+		if ( ! $post->post_name || Taxonomies::GALLERY_TAXONOMY_NAME !== 'media_' . $post->post_type ) {
 			return;
 		}
 
@@ -246,7 +238,7 @@ class Edit_Gallery extends Edit_Woowgallery {
 			'slug'        => $post->post_name,
 			'description' => $post->post_excerpt,
 		];
-		$taxonomy  = $this->post_type;
+		$taxonomy  = Taxonomies::GALLERY_TAXONOMY_NAME;
 		$term      = get_term_by( 'slug', $term_slug, $taxonomy );
 
 		if ( ! $term ) {
@@ -305,7 +297,6 @@ class Edit_Gallery extends Edit_Woowgallery {
 			|| 'auto-draft' === $post->post_status
 			// Bail out if the user doesn't have the correct permissions to update the slider.
 			|| ! current_user_can( 'edit_post', $post_id )
-			|| ( defined( 'DOING_AJAX' ) && DOING_AJAX )
 		) {
 			return;
 		}
@@ -313,6 +304,22 @@ class Edit_Gallery extends Edit_Woowgallery {
 		// Save Gallery Taxonomy.
 		if ( ! $update ) {
 			$this->save_taxonomy( $post, $post->post_name );
+		}
+
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			woowgallery_flush_caches( $post_id, $post->post_name );
+
+			// Check if this is a Quick Edit request.
+			if ( isset( $_POST['_inline_edit'] ) ) {
+				// Here we can update specific fields in the Quick Edit screen.
+				return;
+			}
+
+			$data = (array) json_decode( $post->post_content_filtered, true );
+			update_post_meta( $post_id, Gallery::GALLERY_MEDIA_COUNT_META_KEY, count( $data ) );
+			update_metadata( 'post', $post_id, Gallery::GALLERY_UPDATE_META_KEY, 1 );
+
+			return;
 		}
 
 		$data = parent::set_gallery_data( $post_id, $post );
@@ -344,25 +351,6 @@ class Edit_Gallery extends Edit_Woowgallery {
 
 		// Finally, flush all gallery caches to ensure everything is up to date.
 		woowgallery_flush_caches( $post_id, $post->post_name );
-	}
-
-	/**
-	 * Delete WoowGallery taxonomy on gallery delete.
-	 *
-	 * @param int $post_id Post ID.
-	 */
-	public function delete_taxonomy_term( $post_id ) {
-		// Get post.
-		$wgpost = get_post( $post_id );
-
-		// Return early if not an WoowGallery.
-		if ( Taxonomies::GALLERY_TAXONOMY_NAME !== $wgpost->post_type ) {
-			return;
-		}
-		$term = get_term_by( 'slug', $wgpost->post_name, $wgpost->post_type );
-		if ( ! empty( $term ) ) {
-			wp_delete_term( $term->term_id, $term->taxonomy );
-		}
 	}
 
 	/**

@@ -69,7 +69,7 @@ class Media_Library {
 				/* translators: Taxonomy Name */
 				'show_option_not_in' => sprintf( '== ' . __( 'Not in %s', 'wgtd' ) . ' ==', $taxonomy->labels->singular_name ),
 				'taxonomy'           => $taxonomy->name,
-				'name'               => $taxonomy->name,
+				'name'               => $taxonomy->query_var,
 				'orderby'            => 'name',
 				'selected'           => $selected,
 				'hierarchical'       => true,
@@ -303,8 +303,11 @@ if ( ! class_exists( 'Walker_WG_Taxonomy_Uploader_Filter' ) ) {
 		public $tree_type = 'category';
 		public $db_fields = [ 'parent' => 'parent', 'id' => 'term_id' ];
 
-		public function start_lvl( &$output, $depth = 0, $args = [] ) {}
-		public function end_lvl( &$output, $depth = 0, $args = [] ) {}
+		public function start_lvl( &$output, $depth = 0, $args = [] ) {
+		}
+
+		public function end_lvl( &$output, $depth = 0, $args = [] ) {
+		}
 
 		public function start_el( &$output, $category, $depth = 0, $args = [], $id = 0 ) {
 			if ( ! is_array( $output ) ) {
@@ -320,6 +323,7 @@ if ( ! class_exists( 'Walker_WG_Taxonomy_Uploader_Filter' ) ) {
 			];
 		}
 
-		public function end_el( &$output, $category, $depth = 0, $args = [] ) {}
+		public function end_el( &$output, $category, $depth = 0, $args = [] ) {
+		}
 	}
 }

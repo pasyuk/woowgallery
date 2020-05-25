@@ -75,415 +75,415 @@ class Amron {
 	 */
 	public static function settings() {
 		$schema = [
-			'common'   => [
+			'common'             => [
 				'label'  => __( 'Common Settings', 'wgtd' ),
 				'fields' => [
-					'collectionPreloaderColor' => array(
-						'label' => __('Gallery Preloader Color', 'wgtd'),
-						'tag' => 'input',
+					'collectionPreloaderColor'       => [
+						'label'   => __( 'Gallery Preloader Color', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'rgba(180,180,180,1)',
-						'attr' => array(
+						'attr'    => [
 							'type' => 'color',
-						),
-						'options' => array(
-							'showAlpha' => true
-						),
-					),
-					'collectionThumbColumns'     => array(
+						],
+						'options' => [
+							'showAlpha' => true,
+						],
+					],
+					'collectionThumbColumns'         => [
 						'label'   => __( 'Gallery Columns', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 3,
-						'attr'    => array(
+						'attr'    => [
 							'type' => 'number',
 							'min'  => 1,
 							'max'  => 10,
-						),
-					),
-					'collectionThumbRecomendedWidth'     => array(
+						],
+					],
+					'collectionThumbRecomendedWidth' => [
 						'label'   => __( 'Thumbnail Min. Width', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 200,
-						'attr'    => array(
+						'attr'    => [
 							'type' => 'number',
 							'min'  => 100,
 							'max'  => 400,
-						),
-					),
-					'thumbSpacing'     => array(
+						],
+					],
+					'thumbSpacing'                   => [
 						'label'   => __( 'Space between thumbnails', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 10,
-						'attr'    => array(
+						'attr'    => [
 							'type' => 'number',
 							'min'  => 0,
 							'max'  => 20,
-						),
-					),
+						],
+					],
 				],
 			],
-			'tagFilter' => [
-				'label'  => __( 'Tag Filter', 'wgtd' ),
+			'tagFilter'          => [
+				'label'  => __( 'Tags Filter', 'wgtd' ),
 				'fields' => [
-					'tagsFilter'         => array(
-						'label'   => __( 'Album Filter enable', 'wgtd' ),
+					'tagsFilter'        => [
+						'label'   => __( 'Tags Filter', 'wgtd' ),
 						'tag'     => 'checkbox',
 						'default' => 1,
-					),
-					'tagCloudAll' => array(
-						'label' => __('ALL - name)', 'wgtd'),
-						'tag'   => 'input',
+					],
+					'tagCloudAll'       => [
+						'label'   => __( 'ALL - name', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'All',
-						'attr'    => array(
+						'attr'    => [
 							'type' => 'text',
-						)
-					),
-					'tagCloudTextColor' => array(
-						'label' => __('Text color', 'wgtd'),
-						'tag' => 'input',
+						],
+					],
+					'tagCloudTextColor' => [
+						'label'   => __( 'Text color', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,1)',
-						'attr' => array(
+						'attr'    => [
 							'type' => 'color',
-						),
-						'options' => array(
-							'showAlpha' => true
-						),
-						'text' => __('Filter button', 'wgtd'),
-					),
-					'tagCloudBgColor' => array(
-						'label' => __('Background color', 'wgtd'),
-						'tag' => 'input',
+						],
+						'options' => [
+							'showAlpha' => true,
+						],
+						'text'    => __( 'Filter button', 'wgtd' ),
+					],
+					'tagCloudBgColor'   => [
+						'label'   => __( 'Background color', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'rgba(180,180,180,1)',
-						'attr' => array(
+						'attr'    => [
 							'type' => 'color',
-						),
-						'options' => array(
-							'showAlpha' => true
-						),
-						'text' => __('Filter button', 'wgtd'),
-					),
+						],
+						'options' => [
+							'showAlpha' => true,
+						],
+						'text'    => __( 'Filter button', 'wgtd' ),
+					],
 				],
 			],
-			'thumbnailsSettings'   => [
+			'thumbnailsSettings' => [
 				'label'  => __( 'Thumbnails Settings', 'wgtd' ),
 				'fields' => [
-					'collectionThumbHoverColor'        => array(
+					'collectionThumbHoverColor'               => [
 						'label'   => __( 'Hover color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,0.5)',
-						'options' => array(
+						'options' => [
 							'showAlpha' => true,
-						),
-						'attr'    => array(
+						],
+						'attr'    => [
 							'type' => 'color',
-						),
-					),
-					'collectionThumbContentBGColor'        => array(
+						],
+					],
+					'collectionThumbContentBGColor'           => [
 						'label'   => __( 'Description bar background color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(220,220,220,1)',
-						'options' => array(
+						'options' => [
 							'showAlpha' => true,
-						),
-						'attr'    => array(
+						],
+						'attr'    => [
 							'type' => 'color',
-						),
-					),
-					'collectionThumbTitleShow'         => array(
+						],
+					],
+					'collectionThumbTitleShow'                => [
 						'label'   => __( 'Title', 'wgtd' ),
 						'tag'     => 'checkbox',
 						'default' => 1,
-					),
-					'collectionThumbTitleColor' => array(
+					],
+					'collectionThumbTitleColor'               => [
 						'label'   => __( 'Title Text color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,1)',
 						'visible' => 'collectionThumbTitleShow',
-						'options' => array(
+						'options' => [
 							'showAlpha' => true,
-						),
-						'attr'    => array(
+						],
+						'attr'    => [
 							'type' => 'color',
-						),
-					),
-					'collectionThumbFontSize'  => array(
+						],
+					],
+					'collectionThumbFontSize'                 => [
 						'label'   => __( 'Title font size', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 18,
 						'visible' => 'collectionThumbTitleShow',
-						'attr'    => array(
+						'attr'    => [
 							'type' => 'number',
 							'min'  => 10,
 							'max'  => 36,
-						),
-					),
-					'collectionThumbDescriptionShow'         => array(
+						],
+					],
+					'collectionThumbDescriptionShow'          => [
 						'label'   => __( 'Item Description', 'wgtd' ),
 						'tag'     => 'checkbox',
 						'default' => 1,
-					),
-					'collectionThumbDescriptionColor' => array(
+					],
+					'collectionThumbDescriptionColor'         => [
 						'label'   => __( 'Description Text color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,1)',
 						'visible' => 'collectionThumbDescriptionShow',
-						'options' => array(
+						'options' => [
 							'showAlpha' => true,
-						),
-						'attr'    => array(
+						],
+						'attr'    => [
 							'type' => 'color',
-						),
-					),
-					'collectionThumbDescriptionFontSize'  => array(
+						],
+					],
+					'collectionThumbDescriptionFontSize'      => [
 						'label'   => __( 'Description font size', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 15,
 						'visible' => 'collectionThumbDescriptionShow',
-						'attr'    => array(
+						'attr'    => [
 							'type' => 'number',
 							'min'  => 10,
 							'max'  => 36,
-						),
-					),
-					'collectionReadMoreButtonLabel' => array(
-						'label' => __('Read More button - Default Label Text', 'wgtd'),
-						'tag'   => 'input',
+						],
+					],
+					'collectionReadMoreButtonLabel'           => [
+						'label'   => __( 'Read More button - Default Label Text', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'Read More',
-						'attr'    => array(
+						'attr'    => [
 							'type' => 'text',
-						)
-					),
-					'collectionReadMoreButtonBGColor' => array(
+						],
+					],
+					'collectionReadMoreButtonBGColor'         => [
 						'label'   => __( 'Read More button color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,1)',
-						'options' => array(
+						'options' => [
 							'showAlpha' => true,
-						),
-						'attr'    => array(
+						],
+						'attr'    => [
 							'type' => 'color',
-						),
-					),
-					'collectionReadMoreButtonBGColorHover' => array(
+						],
+					],
+					'collectionReadMoreButtonBGColorHover'    => [
 						'label'   => __( 'Read More button Hover color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(180,180,180,1)',
-						'options' => array(
+						'options' => [
 							'showAlpha' => true,
-						),
-						'attr'    => array(
+						],
+						'attr'    => [
 							'type' => 'color',
-						),
-					),
-					'collectionReadMoreButtonLabelColor' => array(
+						],
+					],
+					'collectionReadMoreButtonLabelColor'      => [
 						'label'   => __( 'Read More button Label color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,1)',
-						'options' => array(
+						'options' => [
 							'showAlpha' => true,
-						),
-						'attr'    => array(
+						],
+						'attr'    => [
 							'type' => 'color',
-						),
-					),
-					'collectionReadMoreButtonLabelColorHover' => array(
+						],
+					],
+					'collectionReadMoreButtonLabelColorHover' => [
 						'label'   => __( 'Read More button Label Hover color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,1)',
-						'options' => array(
+						'options' => [
 							'showAlpha' => true,
-						),
-						'attr'    => array(
+						],
+						'attr'    => [
 							'type' => 'color',
-						),
-					),
+						],
+					],
 				],
 			],
-			'modalSettings'   => [
+			'modalSettings'      => [
 				'label'  => __( 'Modal Window Settings (Item Info Bar)', 'wgtd' ),
 				'fields' => [
-					'modaBgColor' => array(
-						'label' => __('Overlap Color', 'wgtd'),
-						'tag' => 'input',
+					'modaBgColor'                => [
+						'label'   => __( 'Overlap Color', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,0.9)',
-						'attr' => array(
+						'attr'    => [
 							'type' => 'color',
-						),
-						'options' => array(
-							'showAlpha' => true
-						)
-					),
-					'modalInfoBoxBgColor' => array(
-						'label' => __('Info Bar Color', 'wgtd'),
-						'tag' => 'input',
+						],
+						'options' => [
+							'showAlpha' => true,
+						],
+					],
+					'modalInfoBoxBgColor'        => [
+						'label'   => __( 'Info Bar Color', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,1)',
-						'attr' => array(
+						'attr'    => [
 							'type' => 'color',
-						),
-						'options' => array(
-							'showAlpha' => true
-						)
-					),
-					'modalInfoBoxTitleTextColor' => array(
-						'label' => __('Info Bar Title text Color', 'wgtd'),
-						'tag' => 'input',
+						],
+						'options' => [
+							'showAlpha' => true,
+						],
+					],
+					'modalInfoBoxTitleTextColor' => [
+						'label'   => __( 'Info Bar Title text Color', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,1)',
-						'attr' => array(
+						'attr'    => [
 							'type' => 'color',
-						),
-						'options' => array(
-							'showAlpha' => true
-						)
-					),
-					'modalInfoBoxTextColor' => array(
-						'label' => __('Info Bar Text Color', 'wgtd'),
-						'tag' => 'input',
+						],
+						'options' => [
+							'showAlpha' => true,
+						],
+					],
+					'modalInfoBoxTextColor'      => [
+						'label'   => __( 'Info Bar Text Color', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'rgba(90,90,90,1)',
-						'attr' => array(
+						'attr'    => [
 							'type' => 'color',
-						),
-						'options' => array(
-							'showAlpha' => true
-						)
-					),
-					'infoBarExifEnable' => array(
-						'label' => __('Show Item EXIF Data', 'wgtd'),
-						'tag' => 'checkbox',
+						],
+						'options' => [
+							'showAlpha' => true,
+						],
+					],
+					'infoBarExifEnable'          => [
+						'label'   => __( 'Show Item EXIF Data', 'wgtd' ),
+						'tag'     => 'checkbox',
 						'default' => 1,
-					),
-					'infoBarDateInfoEnable' => array(
-						'label' => __('Show Item Upload Date', 'wgtd'),
-						'tag' => 'checkbox',
+					],
+					'infoBarDateInfoEnable'      => [
+						'label'   => __( 'Show Item Upload Date', 'wgtd' ),
+						'tag'     => 'checkbox',
 						'default' => 1,
-					)
-				]
+					],
+				],
 			],
 			'lightboxSettings'   => [
 				'label'  => __( 'Lightbox Settings', 'wgtd' ),
 				'fields' => [
-					'lightBoxEnable' => array(
-						'label' => __('Lightbox', 'wgtd'),
-						'tag' => 'checkbox',
+					'lightBoxEnable'                        => [
+						'label'   => __( 'Lightbox', 'wgtd' ),
+						'tag'     => 'checkbox',
 						'default' => 1,
-						'text' => __('Show the item in the Lightbox by clicking on the thumbnail', 'wgtd'),
-					),
-					'copyR_Protection' => array(
-						'label' => __('Enable Download Protection', 'wgtd'),
-						'tag' => 'checkbox',
+						'text'    => __( 'Show the item in the Lightbox by clicking on the thumbnail', 'wgtd' ),
+					],
+					'copyR_Protection'                      => [
+						'label'   => __( 'Enable Download Protection', 'wgtd' ),
+						'tag'     => 'checkbox',
 						'default' => 1,
-						'text' => __('Disable right click to protect content from download', 'wgtd'),
-					),
-					'copyR_Alert' => array(
-						'label' => __('Copyright Alert (right mouse click)', 'wgtd'),
-						'tag'   => 'input',
+						'text'    => __( 'Disable right click to protect content from download', 'wgtd' ),
+					],
+					'copyR_Alert'                           => [
+						'label'   => __( 'Copyright Alert (right mouse click)', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'Hello, this photo is mine!',
-						'text'    => __('Alert about the ban on downloading photo', 'wgtd'),
-						'attr'    => array(
+						'text'    => __( 'Alert about the ban on downloading photo', 'wgtd' ),
+						'attr'    => [
 							'type' => 'This message is displayed when a visitor clicks the right mouse button on a photo in a lightbox',
-						)
-					),
-					'sliderScrollNavi' => array(
-						'label' => __('Scroll to navigate (mouse wheel)', 'wgtd'),
-						'tag' => 'checkbox',
+						],
+					],
+					'sliderScrollNavi'                      => [
+						'label'   => __( 'Scroll to navigate (mouse wheel)', 'wgtd' ),
+						'tag'     => 'checkbox',
 						'default' => 1,
-						'text' => __('Using this disable mouse wheel scaling!', 'wgtd'),
-					),
-					'sliderNextPrevAnimation'       => array(
+						'text'    => __( 'Using this disable mouse wheel scaling!', 'wgtd' ),
+					],
+					'sliderNextPrevAnimation'               => [
 						'label'   => __( 'Items Transition Type', 'woowbox' ),
 						'tag'     => 'select',
 						'default' => 'animation',
-						'options' => array(
-							array(
+						'options' => [
+							[
 								'name'  => 'Slipping',
 								'value' => 'animation',
-							),
-							array(
+							],
+							[
 								'name'  => 'Fading',
 								'value' => 'fading',
-							),
-						),
-					),
-					'sliderBgColor' => array(
-						'label' => __('Lightbox  background color', 'wgtd'),
-						'tag' => 'input',
+							],
+						],
+					],
+					'sliderBgColor'                         => [
+						'label'   => __( 'Lightbox  background color', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,0.9)',
-						'attr' => array(
+						'attr'    => [
 							'type' => 'color',
-						),
-						'options' => array(
-							'showAlpha' => true
-						),
-						'text' => __('Set the background color for lightbox', 'wgtd'),
-					),
-					'sliderPreloaderColor' => array(
-						'label' => __('Preloader Color', 'wgtd'),
-						'tag' => 'input',
+						],
+						'options' => [
+							'showAlpha' => true,
+						],
+						'text'    => __( 'Set the background color for lightbox', 'wgtd' ),
+					],
+					'sliderPreloaderColor'                  => [
+						'label'   => __( 'Preloader Color', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,1)',
-						'attr' => array(
+						'attr'    => [
 							'type' => 'color',
-						),
-						'options' => array(
-							'showAlpha' => true
-						),
-						'text' => __('Set custom color for gallery', 'wgtd'),
-					),
-					'sliderHeaderFooterBgColor' => array(
-						'label' => __('Lightbox Header & Footer color', 'wgtd'),
-						'tag' => 'input',
+						],
+						'options' => [
+							'showAlpha' => true,
+						],
+						'text'    => __( 'Set custom color for gallery', 'wgtd' ),
+					],
+					'sliderHeaderFooterBgColor'             => [
+						'label'   => __( 'Lightbox Header & Footer color', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,0.4)',
-						'options' => array(
-							'showAlpha' => true
-						),
-						'attr' => array(
+						'options' => [
+							'showAlpha' => true,
+						],
+						'attr'    => [
 							'type' => 'color',
-						),
-						'text' => __('Set the background color for header and footer (gradient)', 'wgtd'),
-					),
-					'sliderNavigationColor' => array(
-						'label' => __('Main Controls Color', 'wgtd'),
-						'tag' => 'input',
+						],
+						'text'    => __( 'Set the background color for header and footer (gradient)', 'wgtd' ),
+					],
+					'sliderNavigationColor'                 => [
+						'label'   => __( 'Main Controls Color', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,1)',
-						'attr' => array(
+						'attr'    => [
 							'type' => 'color',
-						),
-						'options' => array(
-							'showAlpha' => true
-						),
-						'text' => __('Buttons Background Color', 'wgtd'),
-					),
-					'sliderNavigationColorOver' => array(
-						'label' => __('Main Controls Color (over)', 'wgtd'),
-						'tag' => 'input',
+						],
+						'options' => [
+							'showAlpha' => true,
+						],
+						'text'    => __( 'Buttons Background Color', 'wgtd' ),
+					],
+					'sliderNavigationColorOver'             => [
+						'label'   => __( 'Main Controls Color (over)', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,1)',
-						'attr' => array(
+						'attr'    => [
 							'type' => 'color',
-						),
-						'options' => array(
-							'showAlpha' => true
-						),
-					),
-					'sliderNavigationIconColor' => array(
-						'label' => __('Main Controls Icon Color', 'wgtd'),
-						'tag' => 'input',
+						],
+						'options' => [
+							'showAlpha' => true,
+						],
+					],
+					'sliderNavigationIconColor'             => [
+						'label'   => __( 'Main Controls Icon Color', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,1)',
-						'attr' => array(
+						'attr'    => [
 							'type' => 'color',
-						),
-						'options' => array(
-							'showAlpha' => true
-						),
-						'text' => __('Icon Color', 'wgtd'),
-					),
-					'sliderNavigationIconColorOver' => array(
-						'label' => __('Main Controls Icon Color (over)', 'wgtd'),
-						'tag' => 'input',
+						],
+						'options' => [
+							'showAlpha' => true,
+						],
+						'text'    => __( 'Icon Color', 'wgtd' ),
+					],
+					'sliderNavigationIconColorOver'         => [
+						'label'   => __( 'Main Controls Icon Color (over)', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,1)',
-						'attr' => array(
+						'attr'    => [
 							'type' => 'color',
-						),
-						'options' => array(
-							'showAlpha' => true
-						),
-					),
+						],
+						'options' => [
+							'showAlpha' => true,
+						],
+					],
 					// 'itemCounterColor' => array(
 					// 	'label' => __('Items Counter Color', 'wgtd'),
 					// 	'tag' => 'input',
@@ -500,34 +500,34 @@ class Amron {
 					// 	'tag' => 'checkbox',
 					// 	'default' => 1,
 					// ),
-					'sliderItemTitleEnable' => array(
-						'label' => __('Show Title', 'wgtd'),
-						'tag' => 'checkbox',
+					'sliderItemTitleEnable'                 => [
+						'label'   => __( 'Show Title', 'wgtd' ),
+						'tag'     => 'checkbox',
 						'default' => 1,
-					),
-					'sliderItemTitleFontSize' => array(
-						'label' => __('Item Title - font size', 'wgtd'),
+					],
+					'sliderItemTitleFontSize'               => [
+						'label'   => __( 'Item Title - font size', 'wgtd' ),
 						'visible' => 'sliderItemTitleEnable == "1"',
-						'tag' => 'input',
+						'tag'     => 'input',
 						'default' => 18,
-						'attr' => array(
+						'attr'    => [
 							'type' => 'number',
-							'min' => 18,
-							'max' => 36,
-						),
-					),
-					'sliderItemTitleTextColor' => array(
-						'label' => __('Item Title - text color', 'wgtd'),
+							'min'  => 18,
+							'max'  => 36,
+						],
+					],
+					'sliderItemTitleTextColor'              => [
+						'label'   => __( 'Item Title - text color', 'wgtd' ),
 						'visible' => 'sliderItemTitleEnable == "1"',
-						'tag' => 'input',
+						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,1)',
-						'attr' => array(
+						'attr'    => [
 							'type' => 'color',
-						),
-						'options' => array(
-							'showAlpha' => true
-						)
-					),
+						],
+						'options' => [
+							'showAlpha' => true,
+						],
+					],
 					// 'sliderItemDescriptionEnable' => array(
 					// 	'label' => __('Show Description', 'wgtd'),
 					// 	'tag' => 'checkbox',
@@ -557,148 +557,148 @@ class Amron {
 					// 		'showAlpha' => true
 					// 	)
 					// ),
-					'sliderThumbBarEnable' => array(
-						'label' => __('Show Thumbnails Bar', 'wgtd'),
-						'tag' => 'checkbox',
+					'sliderThumbBarEnable'                  => [
+						'label'   => __( 'Show Thumbnails Bar', 'wgtd' ),
+						'tag'     => 'checkbox',
 						'default' => 1,
 						//'premium' => 1
-					),
-					'sliderThumbBarHoverColor' => array(
-						'label' => __('Thumbnails Border Color (select mode)', 'wgtd'),
+					],
+					'sliderThumbBarHoverColor'              => [
+						'label'   => __( 'Thumbnails Border Color (select mode)', 'wgtd' ),
 						'visible' => 'sliderThumbBarEnable == "1"',
-						'tag' => 'input',
+						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,1)',
 						//'premium' => 1,
-						'attr' => array(
+						'attr'    => [
 							'type' => 'color',
-						),
-						'options' => array(
-							'showAlpha' => true
-						)
-					),
-					'sliderPlayButton' => array(
-						'label' => __('Show Slideshow Button', 'wgtd'),
-						'tag' => 'checkbox',
-						'default' => 1
-					),
-					'slideshowDelay' => array(
-						'label' => __('Slideshows Timer', 'wgtd'),
+						],
+						'options' => [
+							'showAlpha' => true,
+						],
+					],
+					'sliderPlayButton'                      => [
+						'label'   => __( 'Show Slideshow Button', 'wgtd' ),
+						'tag'     => 'checkbox',
+						'default' => 1,
+					],
+					'slideshowDelay'                        => [
+						'label'   => __( 'Slideshows Timer', 'wgtd' ),
 						'visible' => 'sliderPlayButton == "1"',
-						'tag' => 'input',
+						'tag'     => 'input',
 						'default' => 8,
-						'attr' => array(
+						'attr'    => [
 							'type' => 'number',
-							'min' => 2,
-							'max' => 30,
-						),
-					),
-					'slideshowProgressBarColor' => array(
-						'label' => __('Slideshow progress bar color', 'wgtd'),
+							'min'  => 2,
+							'max'  => 30,
+						],
+					],
+					'slideshowProgressBarColor'             => [
+						'label'   => __( 'Slideshow progress bar color', 'wgtd' ),
 						'visible' => 'sliderPlayButton == "1"',
-						'tag' => 'input',
+						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,1)',
-						'attr' => array(
+						'attr'    => [
 							'type' => 'color',
-						),
-						'options' => array(
-							'showAlpha' => true
-						)
-					),
-					'slideshowProgressBarBGColor' => array(
-						'label' => __('Slideshow progress bar Background color', 'wgtd'),
+						],
+						'options' => [
+							'showAlpha' => true,
+						],
+					],
+					'slideshowProgressBarBGColor'           => [
+						'label'   => __( 'Slideshow progress bar Background color', 'wgtd' ),
 						'visible' => 'sliderPlayButton == "1"',
-						'tag' => 'input',
+						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,0.6)',
-						'attr' => array(
+						'attr'    => [
 							'type' => 'color',
-						),
-						'options' => array(
-							'showAlpha' => true
-						)
-					),
-					'sliderZoomButton' => array(
-						'label' => __('Enable Zooom ', 'wgtd'),
-						'tag' => 'checkbox',
-						'default' => 1
-					),
-					'sliderInfoEnable' => array(
-						'label' => __('Show Info Button', 'wgtd'),
-						'tag' => 'checkbox',
+						],
+						'options' => [
+							'showAlpha' => true,
+						],
+					],
+					'sliderZoomButton'                      => [
+						'label'   => __( 'Enable Zooom ', 'wgtd' ),
+						'tag'     => 'checkbox',
 						'default' => 1,
-						'text' => __('Enable description bar for item', 'wgtd'),
-						//'premium' => 1
-					),
-					'sliderSocialShareEnabled' => array(
-						'label' => __('Show Share Buttons', 'wgtd'),
-						'tag' => 'checkbox',
+					],
+					'sliderInfoEnable'                      => [
+						'label'   => __( 'Show Info Button', 'wgtd' ),
+						'tag'     => 'checkbox',
 						'default' => 1,
+						'text'    => __( 'Enable description bar for item', 'wgtd' ),
 						//'premium' => 1
-					),
-					'sliderItemDownload' => array(
-						'label' => __('Show Download Button', 'wgtd'),
-						'tag' => 'checkbox',
-						'default' => 1,
-						'text' => __('Download original file', 'wgtd'),
-						//'premium' => 1
-					),
-					'sliderFullScreen' => array(
-						'label' => __('FullScreen Button Show', 'wgtd'),
-						'tag' => 'checkbox',
+					],
+					'sliderSocialShareEnabled'              => [
+						'label'   => __( 'Show Share Buttons', 'wgtd' ),
+						'tag'     => 'checkbox',
 						'default' => 1,
 						//'premium' => 1
-					),
+					],
+					'sliderItemDownload'                    => [
+						'label'   => __( 'Show Download Button', 'wgtd' ),
+						'tag'     => 'checkbox',
+						'default' => 1,
+						'text'    => __( 'Download original file', 'wgtd' ),
+						//'premium' => 1
+					],
+					'sliderFullScreen'                      => [
+						'label'   => __( 'FullScreen Button Show', 'wgtd' ),
+						'tag'     => 'checkbox',
+						'default' => 1,
+						//'premium' => 1
+					],
 					// 'sliderItemDiscuss' => array(
 					// 	'label' => __('Show Comments Button', 'wgtd'),
 					// 	'tag' => 'checkbox',
 					// 	'default' => 1,
 					// 	'premium' => 1
 					// ),
-					'sliderThumbSubMenuBackgroundColor' => array(
-						'label' => __('Submenu button color', 'wgtd'),
-						'tag' => 'input',
+					'sliderThumbSubMenuBackgroundColor'     => [
+						'label'   => __( 'Submenu button color', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'rgba(0, 0, 0, 0)',
-						'options' => array(
-							'showAlpha' => true
-						),
-						'attr' => array(
+						'options' => [
+							'showAlpha' => true,
+						],
+						'attr'    => [
 							'type' => 'color',
-						),
-					),
-					'sliderThumbSubMenuIconColor' => array(
-						'label' => __('Submenu button Icon color', 'wgtd'),
-						'tag' => 'input',
+						],
+					],
+					'sliderThumbSubMenuIconColor'           => [
+						'label'   => __( 'Submenu button Icon color', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'rgba(255, 255, 255, 1)',
-						'options' => array(
-							'showAlpha' => true
-						),
-						'attr' => array(
+						'options' => [
+							'showAlpha' => true,
+						],
+						'attr'    => [
 							'type' => 'color',
-						),
-					),
-					'sliderThumbSubMenuBackgroundColorOver' => array(
-						'label' => __('Submenu button Hover color', 'wgtd'),
-						'tag' => 'input',
+						],
+					],
+					'sliderThumbSubMenuBackgroundColorOver' => [
+						'label'   => __( 'Submenu button Hover color', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'rgba(255, 255, 255, 1)',
-						'options' => array(
-							'showAlpha' => true
-						),
-						'attr' => array(
+						'options' => [
+							'showAlpha' => true,
+						],
+						'attr'    => [
 							'type' => 'color',
-						),
-					),
-					'sliderThumbSubMenuIconHoverColor' => array(
-						'label' => __('Submenu button Icon Hover color', 'wgtd'),
-						'tag' => 'input',
+						],
+					],
+					'sliderThumbSubMenuIconHoverColor'      => [
+						'label'   => __( 'Submenu button Icon Hover color', 'wgtd' ),
+						'tag'     => 'input',
 						'default' => 'rgba(0, 0, 0, 1)',
-						'options' => array(
-							'showAlpha' => true
-						),
-						'attr' => array(
+						'options' => [
+							'showAlpha' => true,
+						],
+						'attr'    => [
 							'type' => 'color',
-						),
-					),
-				]
-			]
+						],
+					],
+				],
+			],
 		];
 
 		return apply_filters( 'woowgallery_skin_settings', $schema, self::SLUG );

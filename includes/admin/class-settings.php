@@ -12,6 +12,7 @@ defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 use WoowGallery\Posttypes;
 use WoowGallery\Skins;
+use WoowGallery\Taxonomies;
 
 /**
  * Class Settings
@@ -237,6 +238,16 @@ class Settings {
 			// Update settings.
 			self::save_settings( [] );
 			delete_option( Skins::PRESETS_KEY );
+
+			// Delete gallery taxonomies that must not exist.
+			$terms = (array) get_terms( Taxonomies::GALLERY_TAXONOMY_NAME, [ 'get' => 'all' ] );
+			foreach ( $terms as $term ) {
+				$gallery_id   = get_term_meta( $term->term_id, '_woowgallery_id', true );
+				$gallery_post = get_post( $gallery_id );
+				if ( empty( $gallery_post ) ) {
+					wp_delete_term( $term->term_id, Taxonomies::GALLERY_TAXONOMY_NAME );
+				}
+			}
 
 			// Output an admin notice so the user knows what happened.
 			Notice::add_message( __( 'Settings reset successfully.', 'wgtd' ), Notice::TYPE_SUCCESS );

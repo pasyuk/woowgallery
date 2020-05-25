@@ -5,6 +5,11 @@
 
 .wg-clearfix::before, .wg-clearfix::after { content: " "; display: table; clear: both; height: 0; overflow: hidden; }
 
+/** Media Library */
+.upload-php .wp-filter .actions > * { margin-top: 5px !important; margin-bottom: 5px !important; }
+
+.upload-php .wp-filter .media-toolbar-secondary > select { margin-top: 5px; margin-bottom: 5px; }
+
 /** Pager */
 .woowgallery-pager { display: -webkit-inline-box; display: -webkit-inline-flex; display: inline-flex; line-height: 18px; font-size: 12px; height: 22px; }
 

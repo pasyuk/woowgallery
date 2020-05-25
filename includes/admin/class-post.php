@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 use _WP_Editors;
 use WoowGallery\Gallery;
 use WoowGallery\Posttypes;
+use WoowGallery\Taxonomies;
 use WP_Post;
 
 /**
@@ -499,45 +500,57 @@ class Post {
 			return;
 		}
 
-		$data = json_decode( $wgpost->post_content_filtered );
-		// Retrive attachmnet IDs from the $data.
-		$att_array = array_map(
-			function ( $item ) {
-				return [
-					'id'   => (int) $item->id,
-					'type' => $item->type,
-				];
-			},
-			array_filter(
-				$data,
+		// Delete gallery taxonomy on gallery delete.
+		if ( Posttypes::GALLERY_POSTTYPE === $wgpost->post_type ) {
+			$term = get_term_by( 'slug', $wgpost->post_name, Taxonomies::GALLERY_TAXONOMY_NAME );
+			if ( ! empty( $term ) ) {
+				wp_delete_term( $term->term_id, Taxonomies::GALLERY_TAXONOMY_NAME );
+			}
+		}
+
+		// Update attachments meta.
+		if ( Posttypes::DYNAMIC_POSTTYPE !== $wgpost->post_type ) {
+
+			$data = json_decode( $wgpost->post_content_filtered );
+			// Retrive attachmnet IDs from the $data.
+			$att_array = array_map(
 				function ( $item ) {
-					return 'attachment' === $item->type || 'post' === $item->type;
-				}
-			)
-		);
+					return [
+						'id'   => (int) $item->id,
+						'type' => $item->type,
+					];
+				},
+				array_filter(
+					$data,
+					function ( $item ) {
+						return 'attachment' === $item->type || 'post' === $item->type;
+					}
+				)
+			);
 
-		$media_delete = (int) Settings::get_settings( 'media_delete' );
+			$media_delete = (int) Settings::get_settings( 'media_delete' );
 
-		foreach ( $att_array as $att ) {
-			// Is attachment already in galleries?
-			$has_gallery = get_post_meta( $att['id'], '_woowgallery', true ) ?: [];
-			$has_gallery = array_diff( (array) $has_gallery, [ $postid ] );
-			if ( count( $has_gallery ) ) {
-				update_post_meta( $att['id'], '_woowgallery', $has_gallery );
-			} else {
-				delete_post_meta( $att['id'], '_woowgallery' );
+			foreach ( $att_array as $att ) {
+				// Is attachment already in galleries?
+				$has_gallery = get_post_meta( $att['id'], '_woowgallery', true ) ?: [];
+				$has_gallery = array_diff( (array) $has_gallery, [ $postid ] );
+				if ( count( $has_gallery ) ) {
+					update_post_meta( $att['id'], '_woowgallery', $has_gallery );
+				} else {
+					delete_post_meta( $att['id'], '_woowgallery' );
 
-				// Check if the media_delete setting is enabled and delete only images that aren't in another gallery.
-				if ( ! empty( $media_delete ) && 'attachment' === $att['type'] ) {
-					// If attachment parent is the Gallery ID we're OK to delete the image.
-					$attachment = get_post( $att['id'] );
-					if ( $attachment->post_parent === $wgpost->ID ) {
-						wp_delete_attachment( $att['id'] );
-						continue;
+					// Check if the media_delete setting is enabled and delete only images that aren't in another gallery.
+					if ( ! empty( $media_delete ) && 'attachment' === $att['type'] ) {
+						// If attachment parent is the Gallery ID we're OK to delete the image.
+						$attachment = get_post( $att['id'] );
+						if ( $attachment->post_parent === $wgpost->ID ) {
+							wp_delete_attachment( $att['id'] );
+							continue;
+						}
 					}
 				}
+				delete_post_meta( $att['id'], "_woowgallery_{$postid}" );
 			}
-			delete_post_meta( $att['id'], "_woowgallery_{$postid}" );
 		}
 
 		// Flush necessary gallery caches to ensure trashed galleries are not showing.

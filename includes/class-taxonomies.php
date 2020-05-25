@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
  */
 class Taxonomies {
 
-	const GALLERY_TAXONOMY_NAME             = 'woowgallery';
+	const GALLERY_TAXONOMY_NAME             = 'media_woowgallery';
 	const MEDIA_TAG_TAXONOMY_NAME           = 'media_tag';
 	const STANDALONE_CATEGORY_TAXONOMY_NAME = 'woowgallery_category';
 	const STANDALONE_TAG_TAXONOMY_NAME      = 'woowgallery_tag';

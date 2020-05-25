@@ -745,3 +745,67 @@ if ( ! function_exists( 'wg_posttype_icon' ) ) {
 		return "<span class='{$img_class}'{$img_style}></span>";
 	}
 }
+
+if ( ! function_exists( 'woowgallery_get_image_sizes_options' ) ) {
+	/**
+	 * Helper method for retrieving image sizes.
+	 *
+	 * @param bool   $wordpress_only             WordPress Only (excludes the default and woowgallery_random options).
+	 *
+	 * @return array Array of image size data.
+	 * @global array $_wp_additional_image_sizes Array of registered image sizes.
+	 */
+	function woowgallery_get_image_sizes_options( $wordpress_only = false ) {
+		global $_wp_additional_image_sizes;
+
+		if ( ! $wordpress_only ) {
+			$sizes = [
+				[
+					'value' => 'default',
+					'name'  => __( 'Default', 'woowgallery' ),
+				],
+			];
+		}
+
+		$wp_sizes = get_intermediate_image_sizes();
+		foreach ( (array) $wp_sizes as $size ) {
+			if ( isset( $_wp_additional_image_sizes[ $size ] ) ) {
+				$width  = absint( $_wp_additional_image_sizes[ $size ]['width'] );
+				$height = absint( $_wp_additional_image_sizes[ $size ]['height'] );
+			} else {
+				$width  = absint( get_option( $size . '_size_w' ) );
+				$height = absint( get_option( $size . '_size_h' ) );
+			}
+
+			if ( ! $width && ! $height ) {
+				$sizes[] = [
+					'value' => $size,
+					'name'  => ucwords( str_replace( [ '-', '_' ], ' ', $size ) ),
+				];
+			} else {
+				$sizes[] = [
+					'value'  => $size,
+					'name'   => ucwords( str_replace( [ '-', '_' ], ' ', $size ) ) . ' (' . $width . ' &#215; ' . $height . ')',
+					'width'  => $width,
+					'height' => $height,
+				];
+			}
+		}
+		// Add Option for full image.
+		$sizes[] = [
+			'value' => 'full',
+			'name'  => __( 'Original Image', 'woowgallery' ),
+		];
+
+		// Add Random option.
+		if ( ! $wordpress_only ) {
+			$sizes[] = [
+				'value' => 'woowgallery_random',
+				'name'  => __( 'Random', 'woowgallery' ),
+			];
+		}
+
+		return apply_filters( 'woowgallery_image_sizes', $sizes );
+
+	}
+}
