@@ -231,12 +231,16 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 			$limit      = (int) $query['limit'] ?: 50;
 			$limit      = $limit > 100 ? 100 : $limit;
 			$sources    = (array) $query['sources'];
+			$source_tag = false;
 			$true_limit = ( 'each' === $query['limit_type'] ) ? $limit * count( $sources ) : $limit;
 			$data       = [];
 			$url        = 'https://api.instacloud.io/v1';
 			// media_path: '/media/shortcode/B5sJCwup9Ln'.
 			foreach ( $sources as $source ) {
 				$source_type = '@' === substr( $source, 0, 1 ) ? 'users' : 'tags';
+				if ( 'tags' === $source_type ) {
+					$source_tag = true;
+				}
 				$source_term = substr( $source, 1 );
 				$url         = add_query_arg(
 					[
@@ -283,7 +287,7 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 
 			if ( ! empty( $data ) ) {
 				foreach ( $data as $media ) {
-					$content[ $media['id'] ] = woowgallery_full_instagram_data( $media );
+					$content[ $media['id'] ] = woowgallery_full_instagram_data( $media, $source_tag );
 				}
 			}
 

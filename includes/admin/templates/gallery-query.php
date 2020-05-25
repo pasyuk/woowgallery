@@ -421,7 +421,8 @@ $wg_meta_value = [
 							</vue-multiselect>
 						</div>
 					</div>
-					<div class="hint" v-show="hints"><?php esc_html_e( 'Set any combination of Instagram @username, #hashtag. Avoid using many sources, because it will slow down the loading speed of the feed.', 'wgtd' ); ?></div>
+					<div class="hint" v-show="hints"><?php esc_html_e( 'Set any combination of Instagram @username, #hashtag. Avoid using many sources, because it will slow down the loading speed of the feed.', 'wgtd' ); ?>
+						<br/><?php esc_html_e( 'Note: videos and carousels will be skipped when you set #hashtag as a source.', 'wgtd' ); ?></div>
 				</div>
 
 				<div class="form-group field-mixed">

@@ -432,12 +432,13 @@ if ( ! function_exists( 'woowgallery_full_instagram_data' ) ) {
 	/**
 	 * Get Full Instagram Data Model
 	 *
-	 * @param array $media Instagram media object.
+	 * @param array $media      Instagram media object.
+	 * @param bool  $source_tag Source has tags.
 	 *
 	 * @return array|void Array of attachment details.
 	 */
-	function woowgallery_full_instagram_data( $media ) {
-		if ( empty( $media ) ) {
+	function woowgallery_full_instagram_data( $media, $source_tag = false ) {
+		if ( empty( $media ) || ( $source_tag && in_array( $media['type'], [ 'video', 'carousel' ], true ) ) ) {
 			return null;
 		}
 
