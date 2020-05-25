@@ -18,7 +18,7 @@ $settings = $data['settings'];
 $skins    = $data['skins'];
 ?>
 <form method="post" id="woowgallery-skin-config" style="padding-top: 20px;">
-	<h1><?php esc_html_e( 'Skins Settings', 'wgtd' ); ?></h1>
+	<h1><?php esc_html_e( 'Create Skins Presets', 'wgtd' ); ?></h1>
 	<h4><?php esc_html_e( 'Select skin to config it default settings and create presets.', 'wgtd' ); ?></h4>
 	<div class="postbox woowgallery-postbox">
 		<div class="inside">
