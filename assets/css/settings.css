@@ -115,7 +115,7 @@ ul#woowgallery-tabs-nav li a:hover::before, ul#woowgallery-tabs-nav li a:hover::
 
 ul#woowgallery-tabs-nav li a.woowgallery-active { border-right: 1px solid #ffffff; background-color: #ffffff; }
 
-#woowgallery-tabs { flex: 1 1 auto; padding: 0 12px; /** All Tabs */ /** Full width textareas */ }
+#woowgallery-tabs { flex: 1 1 auto; padding: 0 12px; overflow: hidden; /** All Tabs */ /** Full width textareas */ }
 
 #woowgallery-tabs .woowgallery-tab { padding: 10px; }
 

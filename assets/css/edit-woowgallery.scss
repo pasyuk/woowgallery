@@ -158,7 +158,12 @@ span.wg-posttype-icon {
       display: flex;
       justify-content: flex-end;
       flex-wrap: wrap-reverse;
-      margin: 6px 0 6px auto;
+      margin: 3px 0 3px auto;
+
+      > * {
+        margin-top: 3px;
+        margin-bottom: 3px;
+      }
     }
 
     .woowgallery-pager {

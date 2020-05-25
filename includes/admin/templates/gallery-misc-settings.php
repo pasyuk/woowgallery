@@ -75,7 +75,7 @@ $wg = new Gallery( $data['post']->ID, $data['post']->post_type );
 <div id="wg-config-custom-css-box" class="form-group field-textarea">
 	<label for="wg-custom-css"><?php esc_html_e( 'Custom CSS', 'wgtd' ); ?></label>
 	<div class="field-wrap">
-		<div class="wrapper" style="width: 800px;">
+		<div class="wrapper" style="width: 100%; max-width: 800px;">
 			<textarea name="_woowgallery[settings][custom_css]" id="wg-custom-css" class="form-control" rows="10" cols="60"><?php echo esc_textarea( stripslashes( $wg->get_settings( 'custom_css' ) ) ); ?></textarea>
 			<?php woowgallery_is_premium_feature(); ?>
 		</div>
@@ -94,7 +94,7 @@ $wg = new Gallery( $data['post']->ID, $data['post']->post_type );
 		?>
 	</label>
 	<div class="field-wrap">
-		<div class="wrapper" style="width: 800px">
+		<div class="wrapper" style="width: 100%; max-width: 800px;">
 			<?php
 			$settings = [
 				'teeny'         => true,

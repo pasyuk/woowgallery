@@ -259,7 +259,7 @@ if ( ! function_exists( 'woowgallery_get_post_types' ) ) {
 			$post_types = array_filter(
 				$post_types,
 				function ( $pt ) {
-					return ! in_array( $pt, [ 'product', 'download' ], true );
+					return ! in_array( $pt->name, [ 'product', 'download' ], true );
 				}
 			);
 		}
@@ -288,7 +288,7 @@ if ( ! function_exists( 'woowgallery_get_taxonomy_terms' ) ) {
 			$taxonomies = array_filter(
 				$taxonomies,
 				function ( $tax ) {
-					return ! in_array( $tax, [ 'product_cat', 'product_tag', 'download_category', 'download_tag' ], true );
+					return ! in_array( $tax->name, [ 'product_cat', 'product_tag', 'download_category', 'download_tag' ], true );
 				}
 			);
 		}
