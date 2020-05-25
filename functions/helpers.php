@@ -188,7 +188,9 @@ if ( ! function_exists( 'woowgallery_full_post_data' ) ) {
 		}
 
 		if ( 'excerpt' === $attachment['caption_src'] ) {
-			$attachment['caption'] = $post->post_excerpt;
+			$attachment['caption'] = Posttypes::GALLERY_POSTTYPE === $post->post_type ? $post->post_content : $post->post_excerpt;
+		} elseif ( 'content' === $attachment['caption_src'] ) {
+			$attachment['caption'] = $post->post_content;
 		}
 
 		$author = woowgallery_get_attachment_author( $post );

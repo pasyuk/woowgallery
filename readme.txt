@@ -7,7 +7,7 @@ Requires PHP: 5.4
 Stable tag: trunk
 License: GNU General Public License v2.0 or later
 
-WoowGallery is the fastest, easiest to use WordPress multifunctional gallery plugin. Create Featured Posts Gallery and Dynamic Content Gallery with a few click
+WoowGallery is the fastest, easiest to use WordPress multifunctional image gallery plugin. Create Featured Posts Gallery and Dynamic Content Gallery with a few click
 
 == Description ==
 

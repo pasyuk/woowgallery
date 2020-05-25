@@ -77,8 +77,8 @@ use WoowGallery\Posttypes;
 												</div>
 											</template>
 											<template v-else>
-												<input v-if="'future' === editItem.status" type="text" value="<?php esc_attr_e( 'Scheduled', 'wgtd' ); ?>" readonly />
-												<input v-else-if="'draft' === editItem.status || 'pending' === editItem.status" type="text" value="<?php esc_attr_e( 'Draft / Pending', 'wgtd' ); ?>" readonly />
+												<input v-if="'future' === editItem.status" type="text" value="<?php esc_attr_e( 'Scheduled', 'wgtd' ); ?>" readonly/>
+												<input v-else-if="'draft' === editItem.status || 'pending' === editItem.status" type="text" value="<?php esc_attr_e( 'Draft / Pending', 'wgtd' ); ?>" readonly/>
 											</template>
 										</div>
 
@@ -114,17 +114,17 @@ use WoowGallery\Posttypes;
 											<div class="wg-clearfix">
 												<label class="switcher"><?php esc_html_e( 'Source:', 'wgtd' ); ?>
 													<select id="item-title-src" v-model="editItem.caption_src">
-														<?php if ( Posttypes::ALBUM_POSTTYPE === $data['post']->post_type ) { ?>
-															<option value="content"><?php esc_html_e( 'Gallery Description', 'wgtd' ); ?></option>
-														<?php } else { ?>
-															<template v-if="'attachment' === editItem.type">
-																<option value="caption"><?php esc_html_e( 'Media Caption', 'wgtd' ); ?></option>
-																<option value="description"><?php esc_html_e( 'Media Desctiption', 'wgtd' ); ?></option>
-															</template>
-															<template v-if="'post' === editItem.type">
+														<template v-if="'attachment' === editItem.type">
+															<option value="caption"><?php esc_html_e( 'Media Caption', 'wgtd' ); ?></option>
+															<option value="description"><?php esc_html_e( 'Media Desctiption', 'wgtd' ); ?></option>
+														</template>
+														<template v-else-if="'post' === editItem.type">
+															<?php if ( Posttypes::ALBUM_POSTTYPE === $data['post']->post_type ) { ?>
+																<option value="excerpt"><?php esc_html_e( 'Gallery Description', 'wgtd' ); ?></option>
+															<?php } else { ?>
 																<option value="excerpt"><?php esc_html_e( 'Post Excerpt', 'wgtd' ); ?></option>
-															</template>
-														<?php } ?>
+															<?php } ?>
+														</template>
 														<option value="custom"><?php esc_html_e( 'Custom Caption', 'wgtd' ); ?></option>
 													</select>
 												</label>

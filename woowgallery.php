@@ -1,12 +1,12 @@
 <?php
 /**
  * Plugin Name: WoowGallery
- * Plugin URI:  http://codeasily.com
- * Description: WoowGallery is best responsive WordPress gallery plugin.
- * Author:      CodEasily.com Team
- * Author URI:  http://codeasily.com
+ * Plugin URI:  http://woowgallery.com/
+ * Description: WoowGallery is the fastest, easiest to use WordPress multifunctional image gallery plugin. Create Featured Posts Gallery and Dynamic Content Gallery with a few click.
+ * Author:      WoowTeam
+ * Author URI:  http://woowgallery.com/
  * Version:     1.0.0
- * Text Domain: woowgallery
+ * Text Domain: wgtd
  * Domain Path: languages
  * Licence: GPLv2
  *
