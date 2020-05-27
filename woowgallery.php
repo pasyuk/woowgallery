@@ -70,7 +70,7 @@ if ( function_exists( 'woow_fs' ) ) {
 						'has_paid_plans'      => true,
 						'trial'               => [
 							'days'               => 7,
-							'is_require_payment' => true,
+							'is_require_payment' => false,
 						],
 						'menu'                => [
 							'slug'   => 'woowgallery-settings',
