@@ -291,7 +291,7 @@ class Media {
 			unset( $form_fields['av_copyright_field'] );
 		}
 
-		$form_fields['_media_copyright'] = [
+		$form_fields['media_copyright'] = [
 			'label' => __( 'Copyright', 'wgtd' ),
 			'input' => 'text',
 			'value' => get_post_meta( $post->ID, '_media_copyright', true ) ?: $value,
