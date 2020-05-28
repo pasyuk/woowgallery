@@ -8,6 +8,8 @@
 
 namespace WoowGallery\Admin;
 
+use WP_Post;
+
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 /**
@@ -22,6 +24,9 @@ class Media {
 
 		add_filter( 'wp_prepare_attachment_for_js', [ $this, 'wpmedia_add_woowgallery_data' ], 10, 3 );
 		add_filter( 'wp_handle_upload', [ $this, 'fix_image_orientation' ] );
+
+		add_filter( 'attachment_fields_to_edit', [ $this, 'attachment_fields_to_edit' ], 20, 2 );
+		add_filter( 'attachment_fields_to_save', [ $this, 'attachment_fields_to_save' ], 20, 2 );
 
 	}
 
@@ -267,5 +272,49 @@ class Media {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Filters the attachment fields to edit.
+	 *
+	 * @param array   $form_fields An array of attachment form fields.
+	 * @param WP_Post $post        The WP_Post attachment object.
+	 *
+	 * @return array
+	 */
+	public function attachment_fields_to_edit( $form_fields, $post ) {
+
+		$value = '';
+		// Enfold theme already has copyright field.
+		if ( isset( $form_fields['av_copyright_field'] ) ) {
+			$value = $form_fields['av_copyright_field']['value'];
+			unset( $form_fields['av_copyright_field'] );
+		}
+
+		$form_fields['_media_copyright'] = [
+			'label' => __( 'Copyright', 'wgtd' ),
+			'input' => 'text',
+			'value' => get_post_meta( $post->ID, '_media_copyright', true ) ?: $value,
+		];
+
+		return $form_fields;
+	}
+
+	/**
+	 * Filters the attachment fields to be saved.
+	 *
+	 * @param array $post       An array of post data.
+	 * @param array $attachment An array of attachment metadata.
+	 *
+	 * @return array
+	 */
+	public function attachment_fields_to_save( $post, $attachment ) {
+		if ( ! empty( $attachment['_media_copyright'] ) ) {
+			update_post_meta( $post['ID'], '_media_copyright', $attachment['_media_copyright'] );
+		} else {
+			delete_post_meta( $post['ID'], '_media_copyright' );
+		}
+
+		return $post;
 	}
 }
