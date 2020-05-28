@@ -146,7 +146,22 @@ class Rest_Routes {
 					$wg           = new Gallery( $wgpost->ID, $wgpost->post_type );
 					$gallery_data = $wg->get_gallery_content();
 
-					return apply_filters( 'rest_woowgallery_full_post_content', $gallery_data );
+					return [
+						'post' => [
+							'ID'             => $wgpost->ID,
+							'post_type'      => $wgpost->post_type,
+							'post_title'     => $wgpost->post_title,
+							'post_name'      => $wgpost->post_name,
+							'post_status'    => $wgpost->post_status,
+							'post_content'   => $wgpost->post_content,
+							'post_date'      => $wgpost->post_date,
+							'post_modified'  => $wgpost->post_modified,
+							'comment_count'  => $wgpost->comment_count,
+							'comment_status' => $wgpost->comment_status,
+							'has_password'   => ! empty( $wgpost->post_password ),
+						],
+						'data' => apply_filters( 'rest_woowgallery_full_post_content', $gallery_data ),
+					];
 				},
 				'update_callback' => null,
 				'schema'          => [

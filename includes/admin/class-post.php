@@ -243,7 +243,7 @@ class Post {
 	 *                           the value is an array, an object, or itself a PHP-serialized string.
 	 */
 	public function updated_postmeta( $meta_id, $object_id, $meta_key, $meta_value ) {
-		if ( '_thumbnail_id' !== $meta_key || empty( $meta_value ) ) {
+		if ( in_array( $meta_key, [ '_thumbnail_id', '_media_copyright' ], true ) || empty( $meta_value ) ) {
 			return;
 		}
 		// Get galleries ids from Post meta.

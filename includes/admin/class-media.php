@@ -41,6 +41,7 @@ class Media {
 	 */
 	public function wpmedia_add_woowgallery_data( $response, $attachment, $meta ) {
 		$attachment                   = get_post( $attachment );
+		$response['media_copyright']  = get_post_meta( $attachment->ID, '_media_copyright', true );
 		$response['woowgallery_tags'] = wp_get_object_terms(
 			$attachment->ID,
 			'media_tag',
@@ -284,18 +285,14 @@ class Media {
 	 */
 	public function attachment_fields_to_edit( $form_fields, $post ) {
 
-		$value = '';
 		// Enfold theme already has copyright field.
-		if ( isset( $form_fields['av_copyright_field'] ) ) {
-			$value = $form_fields['av_copyright_field']['value'];
-			unset( $form_fields['av_copyright_field'] );
+		if ( ! isset( $form_fields['av_copyright_field'] ) ) {
+			$form_fields['media_copyright_field'] = [
+				'label' => __( 'Copyright', 'wgtd' ),
+				'input' => 'text',
+				'value' => get_post_meta( $post->ID, '_media_copyright', true ),
+			];
 		}
-
-		$form_fields['media_copyright'] = [
-			'label' => __( 'Copyright', 'wgtd' ),
-			'input' => 'text',
-			'value' => get_post_meta( $post->ID, '_media_copyright', true ) ?: $value,
-		];
 
 		return $form_fields;
 	}
@@ -309,11 +306,14 @@ class Media {
 	 * @return array
 	 */
 	public function attachment_fields_to_save( $post, $attachment ) {
-		if ( ! empty( $attachment['_media_copyright'] ) ) {
-			update_post_meta( $post['ID'], '_media_copyright', $attachment['_media_copyright'] );
-		} else {
-			delete_post_meta( $post['ID'], '_media_copyright' );
+		$value = '';
+		if ( ! empty( $attachment['av_copyright_field'] ) ) {
+			$value = $attachment['av_copyright_field'];
+		} elseif ( ! empty( $attachment['media_copyright_field'] ) ) {
+			$value = $attachment['media_copyright_field'];
 		}
+
+		update_post_meta( $post['ID'], '_media_copyright', $value );
 
 		return $post;
 	}
