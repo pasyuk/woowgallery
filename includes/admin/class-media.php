@@ -41,7 +41,7 @@ class Media {
 	 */
 	public function wpmedia_add_woowgallery_data( $response, $attachment, $meta ) {
 		$attachment                   = get_post( $attachment );
-		$response['media_copyright']  = get_post_meta( $attachment->ID, '_media_copyright', true );
+		$response['copyright']        = get_post_meta( $attachment->ID, '_media_copyright', true );
 		$response['woowgallery_tags'] = wp_get_object_terms(
 			$attachment->ID,
 			'media_tag',
@@ -304,7 +304,7 @@ class Media {
 	 */
 	public function attachment_fields_to_save( $post, $attachment ) {
 		if ( ! empty( $attachment['wg_media_copyright'] ) ) {
-			update_metadata( 'post', $post['ID'], '_media_copyright', trim( $attachment['wg_media_copyright'] ) );
+			update_metadata( 'post', $post['ID'], '_media_copyright', wp_strip_all_tags( $attachment['wg_media_copyright'] ) );
 		} else {
 			update_metadata( 'post', $post['ID'], '_media_copyright', '' );
 		}

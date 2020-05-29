@@ -132,7 +132,7 @@ class Ajax {
 
 		$media_id = (int) woowgallery_POST( 'media_id', 0 );
 		if ( $media_id ) {
-			$copyright_trim = trim( woowgallery_POST( 'copyright', '' ) );
+			$copyright_trim = wp_strip_all_tags( woowgallery_POST( 'copyright', '' ) );
 			update_metadata( 'post', $media_id, '_media_copyright', $copyright_trim );
 
 			wp_send_json_success();
@@ -174,7 +174,7 @@ class Ajax {
 		if ( $medias ) {
 			$terms          = array_filter( array_map( 'trim', explode( ',', woowgallery_POST( 'tags', '' ) ) ) );
 			$copyright      = woowgallery_POST( 'copyright', '' );
-			$copyright_trim = trim( $copyright );
+			$copyright_trim = wp_strip_all_tags( $copyright );
 			foreach ( $medias as $media ) {
 				$media_id = (int) $media->id;
 				if ( ! empty( $terms ) ) {

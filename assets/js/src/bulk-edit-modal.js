@@ -131,7 +131,7 @@
               _nonce_woowgallery_ajax: $('#_nonce_woowgallery_ajax').val(),
               media: JSON.stringify(selected),
               tags: set.tags,
-              copyright: set.tags
+              copyright: set.copyright
             },
             (r) => {
               this.bulkEditSaving = false;

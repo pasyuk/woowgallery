@@ -202,7 +202,7 @@
           }
           else {
             query.then(() => {
-              this.updateMediaTags();
+              this.updateMediaData();
               this.setReady('attachments', true);
             });
           }
@@ -214,7 +214,7 @@
                 loadQuery(query);
               }
               else {
-                vm.updateMediaTags();
+                vm.updateMediaData();
                 vm.setReady('attachments', true);
               }
             });
@@ -252,7 +252,7 @@
               let wg_data_indexed = _.indexBy(wg_data, 'id');
               window.woowgallery_content_indexed = {...window.woowgallery_content_indexed, ...wg_data_indexed};
             }
-            this.updateMediaTags();
+            this.updateMediaData();
             this.updatePostStatus();
             this.setReady(post_type, true);
           });
@@ -326,14 +326,19 @@
       },
 
       // Update media Tags
-      updateMediaTags: function() {
+      updateMediaData: function() {
         this.gallery = $.each(this.gallery, (i, item) => {
           if ('attachment' === item.type) {
             let attachment = wp.media.attachment(item.id),
               att = attachment.attributes;
-            if (att && att.woowgallery_tags) {
-              // item.tags = _.uniq(_.compact([...att.woowgallery_tags, ...item.tags.split(',')])).join(',');
-              item.tags = att.woowgallery_tags.join(',');
+            if (att) {
+              if (att.woowgallery_tags) {
+                // item.tags = _.uniq(_.compact([...att.woowgallery_tags, ...item.tags.split(',')])).join(',');
+                item.tags = att.woowgallery_tags.join(',');
+              }
+              if (att.copyright) {
+                window.woowgallery_content_indexed[item.id].copyright = att.copyright;
+              }
             }
           }
           else {
@@ -699,7 +704,8 @@
         if ('post' === item.type) {
           if (woowgallery.post_types[item.subtype]) {
             return woowgallery.post_types[item.subtype].icon_html;
-          } else {
+          }
+          else {
             return `<span class="wg-posttype-icon dashicons dashicons-no"><b>${item.subtype}</b></span>`;
           }
         }
