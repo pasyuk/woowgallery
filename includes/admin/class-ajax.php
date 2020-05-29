@@ -26,8 +26,9 @@ class Ajax {
 	public function __construct() {
 
 		add_action( 'wp_ajax_woowgallery_get_media_data', [ $this, 'get_media_data' ] );
+		add_action( 'wp_ajax_woowgallery_set_media_copyright', [ $this, 'set_media_copyright' ] );
 		add_action( 'wp_ajax_woowgallery_set_media_tags', [ $this, 'set_media_tags' ] );
-		add_action( 'wp_ajax_woowgallery_bulk_set_media_tags', [ $this, 'bulk_set_media_tags' ] );
+		add_action( 'wp_ajax_woowgallery_bulk_set_media_data', [ $this, 'bulk_set_media_data' ] );
 
 		add_action( 'wp_ajax_woowgallery_dynamic_refresh_taxonomy_terms', [ $this, 'refresh_taxonomy_terms' ] );
 		add_action( 'wp_ajax_woowgallery_dynamic_fetch_query', [ $this, 'dynamic_fetch_query' ] );
@@ -123,6 +124,24 @@ class Ajax {
 	}
 
 	/**
+	 * WoowGallery Media Copyright update.
+	 */
+	public function set_media_copyright() {
+		// Bail out if we fail a security check.
+		woowgallery_verify_nonce( 'ajax' );
+
+		$media_id = (int) woowgallery_POST( 'media_id', 0 );
+		if ( $media_id ) {
+			$copyright_trim = trim( woowgallery_POST( 'copyright', '' ) );
+			update_metadata( 'post', $media_id, '_media_copyright', $copyright_trim );
+
+			wp_send_json_success();
+		}
+
+		wp_send_json_error();
+	}
+
+	/**
 	 * WoowGallery Media Tags update.
 	 */
 	public function set_media_tags() {
@@ -130,8 +149,8 @@ class Ajax {
 		woowgallery_verify_nonce( 'ajax' );
 
 		$media_id = (int) woowgallery_POST( 'media_id', 0 );
-		$taxonomy = woowgallery_POST( 'taxonomy', 'post_tag' );
 		if ( $media_id ) {
+			$taxonomy   = woowgallery_POST( 'taxonomy', 'post_tag' );
 			$taxonomies = get_post_taxonomies( $media_id );
 			if ( in_array( $taxonomy, $taxonomies, true ) ) {
 				$terms  = array_map( 'trim', explode( ',', woowgallery_POST( 'tags', '' ) ) );
@@ -145,24 +164,36 @@ class Ajax {
 	}
 
 	/**
-	 * WoowGallery bulk Media Tags update.
+	 * WoowGallery bulk Media Tags and Meta update.
 	 */
-	public function bulk_set_media_tags() {
+	public function bulk_set_media_data() {
 		// Bail out if we fail a security check.
 		woowgallery_verify_nonce( 'ajax' );
 
 		$medias = json_decode( woowgallery_POST( 'media', '[]' ) );
 		if ( $medias ) {
+			$terms          = array_filter( array_map( 'trim', explode( ',', woowgallery_POST( 'tags', '' ) ) ) );
+			$copyright      = woowgallery_POST( 'copyright', '' );
+			$copyright_trim = trim( $copyright );
 			foreach ( $medias as $media ) {
-				$terms = array_map( 'trim', explode( ',', woowgallery_POST( 'tags', '' ) ) );
-				if ( 'attachment' === $media->type ) {
-					$tt_ids = wp_set_object_terms( (int) $media->id, $terms, 'media_tag', true );
-				} elseif ( 'post' === $media->type && is_object_in_term( $media->id, 'post_tag' ) ) {
-					$tt_ids = wp_set_object_terms( (int) $media->id, $terms, 'post_tag', true );
+				$media_id = (int) $media->id;
+				if ( ! empty( $terms ) ) {
+					if ( 'attachment' === $media->type ) {
+						wp_set_object_terms( $media_id, $terms, 'media_tag', true );
+					} elseif ( 'post' === $media->type ) {
+						if ( is_object_in_term( $media_id, 'post_tag' ) ) {
+							wp_set_object_terms( $media_id, $terms, 'post_tag', true );
+						} elseif ( taxonomy_exists( $media->subtype . '_tag' ) && is_object_in_term( $media->id, $media->subtype . '_tag' ) ) {
+							wp_set_object_terms( $media_id, $terms, $media->subtype . '_tag', true );
+						}
+					}
+				}
+				if ( 'attachment' === $media->type && ! empty( $copyright ) ) {
+					update_metadata( 'post', $media_id, '_media_copyright', $copyright_trim );
 				}
 			}
 
-			wp_send_json_success( $tt_ids );
+			wp_send_json_success();
 		}
 
 		wp_send_json_error();

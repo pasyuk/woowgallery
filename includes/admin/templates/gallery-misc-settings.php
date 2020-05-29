@@ -15,7 +15,8 @@ use WoowGallery\Posttypes;
  * @var array $data
  */
 
-$wg = new Gallery( $data['post']->ID, $data['post']->post_type );
+$screen = get_current_screen();
+$wg     = new Gallery( $data['post']->ID, $data['post']->post_type );
 ?>
 <div class="woowgallery-intro">
 	<h3><?php esc_html_e( 'Miscellaneous Settings', 'wgtd' ); ?></h3>
@@ -29,6 +30,28 @@ $wg = new Gallery( $data['post']->ID, $data['post']->post_type );
 		?>
 	</p>
 </div>
+
+<?php if ( 'add' !== $screen->action ) { ?>
+	<div id="wg-config-force-update" class="form-group field-input">
+		<label><?php esc_html_e( 'Force Update', 'wgtd' ); ?></label>
+		<div class="field-wrap">
+			<div class="wrapper">
+				<input type="hidden" name="wg_force_update" value="0"/>
+				<label>
+				<span class="wg-toggle">
+					<input type="checkbox" id="wg-force-update" name="wg_force_update" value="1"/>
+					<span class="wg-toggle__track"></span>
+					<span class="wg-toggle__thumb"></span>
+				</span>
+				</label>
+			</div>
+		</div>
+		<div class="hint">
+			<?php esc_html_e( 'Force update gallery full media data, even if you did not change gallery items.', 'wgtd' ); ?>
+			<br/><?php esc_html_e( 'Note: this option automaticaly disables after gallery update.', 'wgtd' ); ?>
+		</div>
+	</div>
+<?php } ?>
 
 <div id="wg-config-slug-box" class="form-group field-input">
 	<label for="post_name">

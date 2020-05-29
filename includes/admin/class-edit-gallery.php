@@ -109,6 +109,7 @@ class Edit_Gallery extends Edit_Woowgallery {
 					'url_change'  => false,
 					'text_change' => false,
 				],
+				'copyright'   => '',
 				'tags'        => '',
 			],
 			'default_skin'      => $settings['default_skin'],
@@ -322,7 +323,7 @@ class Edit_Gallery extends Edit_Woowgallery {
 			return;
 		}
 
-		$data = parent::set_gallery_data( $post_id, $post );
+		$data = parent::set_gallery_data( $post_id, $post, $update );
 		update_post_meta( $post_id, Gallery::GALLERY_MEDIA_COUNT_META_KEY, count( $data ) );
 
 		// Retrive attachmnet IDs from the $data.

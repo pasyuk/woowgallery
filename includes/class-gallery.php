@@ -218,8 +218,8 @@ class Gallery {
 	 * @return array Array of gallery content.
 	 */
 	public function get_gallery_content() {
-		$update_required = get_metadata( 'post', $this->id, self::GALLERY_UPDATE_META_KEY, true );
-		if ( ! empty( $update_required ) && time() > (int) $update_required ) {
+		$update_required = (int) get_metadata( 'post', $this->id, self::GALLERY_UPDATE_META_KEY, true );
+		if ( $update_required && time() > $update_required ) {
 			$post = get_post( $this->id );
 			$data = (array) json_decode( $post->post_content_filtered, true );
 
@@ -257,7 +257,7 @@ class Gallery {
 		$cache_key   = "{$this->post_type}_{$post_id}";
 		$gallery_id  = wp_cache_get( $cache_key, $cache_group );
 		if ( false === $gallery_id ) {
-			// Get Polyview Gallery CPT by slug.
+			// Get WoowGallery CPT by slug.
 			$posts = get_posts(
 				[
 					'post_type'      => $this->post_type,

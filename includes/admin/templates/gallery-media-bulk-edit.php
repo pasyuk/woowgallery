@@ -161,6 +161,13 @@
 											<div class="description"><?php esc_html_e( 'Opens link in a same browser window or in a new tab.', 'wgtd' ); ?></div>
 										</div>
 
+										<!-- Copyright -->
+										<div class="woowgallery-setting" v-if="'attachment' === bulkEditType">
+											<label for="item-copyright"><?php esc_html_e( 'Copyright', 'wgtd' ); ?></label>
+											<input type="text" id="item-copyright" v-model="bulkEdit.copyright" />
+											<div class="description"><?php esc_html_e( 'Leave empty for no change or white space to clear Copyright on selected media.', 'wgtd' ); ?></div>
+										</div>
+
 										<div class="woowgallery-setting">
 											<div class="tagsdiv" :id="bulkEditTagsTaxonomy()">
 												<div class="jaxtag">

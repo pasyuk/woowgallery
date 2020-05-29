@@ -199,6 +199,8 @@ function woowgallery_settings_default() {
 		'custom_css'             => '',
 		'edit_gallery_view'      => 'grid',
 		'edit_gallery_per_page'  => '40',
+		'edit_dynamic_per_page'  => '20',
+		'edit_album_per_page'    => '20',
 		'selection_prepend'      => '0',
 		'thumb_width'            => '400',
 		'thumb_height'           => '400',

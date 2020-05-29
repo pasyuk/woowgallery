@@ -10,6 +10,8 @@
 
 .upload-php .wp-filter .media-toolbar-secondary > select { margin-top: 5px; margin-bottom: 5px; }
 
+.compat-field-media_tag label span::before, .compat-field-wg_media_copyright label span::before { content: url("../images/woowgallery-icon.svg"); display: inline-block; width: 24px; vertical-align: top; margin-right: 7px; margin-top: -4px; margin-bottom: -4px; }
+
 /** Pager */
 .woowgallery-pager { display: -webkit-inline-box; display: -webkit-inline-flex; display: inline-flex; line-height: 18px; font-size: 12px; height: 22px; }
 

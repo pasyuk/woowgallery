@@ -8,7 +8,8 @@
   woowgallery.mixins.push({
     data: function() {
       return {
-        editItem: false
+        editItem: false,
+        editItemSaving: false
       };
     },
     computed: {
@@ -102,6 +103,26 @@
         }
 
         return '';
+      },
+
+      editItemSetCopyright: function({type, target}) {
+        if('attachment' === this.editItem.type && 'change' === type) {
+          window.woowgallery_content_indexed[this.editItem.id].copyright = target.value;
+
+          // Set copyright for media item.
+          this.editItemSaving = true;
+          $.post(
+            ajaxurl,
+            {
+              action: 'woowgallery_set_media_copyright',
+              _nonce_woowgallery_ajax: $('#_nonce_woowgallery_ajax').val(),
+              media_id: this.editItem.id,
+              copyright: target.value
+            }
+          ).done((r) => {
+            this.editItemSaving = false;
+          });
+        }
       },
 
       editItemTagsTaxonomy: function(real) {

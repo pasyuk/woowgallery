@@ -55,6 +55,7 @@
         meta_key: '',
         meta_compare: 'EXISTS',
         meta_value: '',
+        post_parent: '',
         post__not_in: ''
       },
 

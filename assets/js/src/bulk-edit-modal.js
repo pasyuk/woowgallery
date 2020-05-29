@@ -59,6 +59,7 @@
       bulkEditClose: function() {
         this.bulkEdit = false;
         this.bulkEditType = '';
+        this.bulkEditSaving = false;
       },
 
       // Trigger bulk edit selected items
@@ -74,7 +75,7 @@
 
         $.each(selected, (i, item) => {
 
-          if (set.status) {
+          if (set.status && ('publish' === item.status || 'private' === item.status)) {
             item.status = set.status;
           }
 
@@ -111,20 +112,26 @@
             item.link.target = set.link.target;
           }
 
+          if (set.copyright) {
+            window.woowgallery_content_indexed[item.id].copyright = set.copyright.trim();
+          }
+
           if (set.tags) {
             item.tags = array_unique_noempty(item.tags.split(',').concat(set.tags.split(','))).join(',');
           }
         });
 
-        if (set.tags) {
+        if (set.tags || set.copyright) {
+          this.bulkEditSaving = true;
           // Set tags for media items.
           $.post(
             ajaxurl,
             {
-              action: 'woowgallery_bulk_set_media_tags',
+              action: 'woowgallery_bulk_set_media_data',
               _nonce_woowgallery_ajax: $('#_nonce_woowgallery_ajax').val(),
               media: JSON.stringify(selected),
-              tags: set.tags
+              tags: set.tags,
+              copyright: set.tags
             },
             (r) => {
               this.bulkEditSaving = false;

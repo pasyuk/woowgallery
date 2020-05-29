@@ -664,6 +664,16 @@
         return item.status;
       },
 
+      // Gallery item copyright
+      itemCopyright: function(item) {
+        let content_item = window.woowgallery_content_indexed[item.id];
+        if (content_item && content_item.copyright) {
+          return content_item.copyright;
+        }
+
+        return '';
+      },
+
       // Gallery item has password
       itemHasPassword: function(item) {
         let content_item = window.woowgallery_content_indexed[item.id];

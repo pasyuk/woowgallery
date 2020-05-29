@@ -382,6 +382,16 @@ $wg_meta_value = [
 				</div>
 
 				<div class="form-group field-text">
+					<label for="wgd-post_parent"><?php esc_html_e( 'Parent Page ID', 'wgtd' ); ?></label>
+					<div class="field-wrap">
+						<div class="wrapper">
+							<input type="text" id="wgd-post_parent" class="form-control" v-model="wp.post_parent"/>
+						</div>
+					</div>
+					<div class="hint" v-show="hints"><?php echo wp_kses( __( 'Use page id to return only child pages. Set to <code>0</code> to return only top-level entries.', 'wgtd' ), '' ); ?></div>
+				</div>
+
+				<div class="form-group field-text">
 					<label for="wgd-exclude"><?php esc_html_e( 'Exclude Post IDs', 'wgtd' ); ?></label>
 					<div class="field-wrap">
 						<div class="wrapper">

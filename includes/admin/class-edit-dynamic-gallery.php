@@ -69,7 +69,7 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 			$wg    = new Gallery( $post_id, $post_type );
 			$cache = absint( $wg->get_settings( 'cache', Settings::get_settings( 'cache' ) ) );
 
-			if ( $cache && ! is_preview() ) {
+			if ( $cache ) {
 				update_post_meta( $post->ID, Gallery::GALLERY_CONTENT_META_KEY, $query_content['posts'] );
 				$update_value = time() + $cache * HOUR_IN_SECONDS;
 			} else {
@@ -156,6 +156,9 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 		$query['post_status'] = wp_list_pluck( $query['post_status'], 'value' ) ?: [ 'publish' ];
 		if ( 'any' === $query['post_type'] || in_array( 'attachment', (array) $query['post_type'], true ) ) {
 			$query['post_status'][] = 'inherit';
+		}
+		if ( isset( $query['post_parent'] ) ) {
+			$query['post_parent'] = '' !== trim( $query['post_parent'] ) ? (int) $query['post_parent'] : '';
 		}
 		$query['post__not_in'] = array_map(
 			function ( $id ) {
@@ -357,7 +360,7 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 
 		$js_data = [
 			'siteurl'      => site_url(),
-			'per_page'     => (int) $wg->get_editor_settings( 'per_page', $settings['edit_gallery_per_page'] ),
+			'per_page'     => (int) $wg->get_editor_settings( 'per_page', $settings['edit_dynamic_per_page'] ),
 			'icons_url'    => plugins_url( 'assets/images/icons', WOOWGALLERY_FILE ),
 			'default_skin' => $settings['default_skin'],
 		];
@@ -397,7 +400,7 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 			return;
 		}
 
-		parent::set_gallery_data( $post_id, $post );
+		parent::set_gallery_data( $post_id, $post, $update );
 
 		// Fire a hook for addons.
 		do_action( 'woowgallery_saved', $post_id, $post );

@@ -90,7 +90,7 @@ class Edit_Album extends Edit_Woowgallery {
 			'view_mode'         => $wg->get_editor_settings( 'view', $settings['edit_gallery_view'] ),
 			'sortby'            => $wg->get_settings( 'sortby', 'custom' ),
 			'sortorder'         => $wg->get_settings( 'sortorder', 'asc' ),
-			'per_page'          => (int) $wg->get_editor_settings( 'per_page', $settings['edit_gallery_per_page'] ),
+			'per_page'          => (int) $wg->get_editor_settings( 'per_page', $settings['edit_album_per_page'] ),
 			'icons_url'         => plugins_url( 'assets/images/icons', WOOWGALLERY_FILE ),
 			'selection_prepend' => (int) $settings['selection_prepend'],
 			'bulkEdit'          => [
@@ -217,7 +217,7 @@ class Edit_Album extends Edit_Woowgallery {
 			return;
 		}
 
-		$data = parent::set_gallery_data( $post_id, $post );
+		$data = parent::set_gallery_data( $post_id, $post, $update );
 		update_post_meta( $post_id, Gallery::GALLERY_MEDIA_COUNT_META_KEY, count( $data ) );
 
 		// Retrive attachmnet IDs from the $data.

@@ -243,7 +243,7 @@ class Post {
 	 *                           the value is an array, an object, or itself a PHP-serialized string.
 	 */
 	public function updated_postmeta( $meta_id, $object_id, $meta_key, $meta_value ) {
-		if ( in_array( $meta_key, [ '_thumbnail_id', '_media_copyright' ], true ) || empty( $meta_value ) ) {
+		if ( ! in_array( $meta_key, [ '_thumbnail_id', '_media_copyright' ], true ) || empty( $meta_value ) ) {
 			return;
 		}
 		// Get galleries ids from Post meta.
@@ -432,14 +432,17 @@ class Post {
 			return;
 		}
 
-		if ( wp_is_post_revision( $post_id ) || wp_is_post_autosave( $post_id ) ) {
-			$_post_type = woowgallery_POST( 'post_type' );
-			if ( in_array( $_post_type, self::$wg_post_types, true ) ) {
-				$data = Edit_Woowgallery::set_gallery_data( $post_id, $post_after );
-				update_metadata( 'post', $post_id, Gallery::GALLERY_MEDIA_COUNT_META_KEY, count( $data ) );
-			}
+		$_post_type = woowgallery_POST( 'post_type' );
+		if ( in_array( $_post_type, self::$wg_post_types, true ) ) {
+			update_metadata( 'post', $post_id, '_data_before', $post_before->post_content_filtered );
+			if ( wp_is_post_revision( $post_id ) || wp_is_post_autosave( $post_id ) ) {
+				$data = Edit_Woowgallery::set_gallery_data( $post_id, $post_after, $post_before );
+				if ( Posttypes::DYNAMIC_POSTTYPE !== $_post_type ) {
+					update_metadata( 'post', $post_id, Gallery::GALLERY_MEDIA_COUNT_META_KEY, count( $data ) );
+				}
 
-			return;
+				return;
+			}
 		}
 	}
 

@@ -194,6 +194,13 @@ use WoowGallery\Posttypes;
 												</template>
 											</div>
 
+											<!-- Copyright -->
+											<div class="woowgallery-setting" v-if="'attachment' === editItem.type">
+												<label for="item-copyright"><?php esc_html_e( 'Copyright', 'wgtd' ); ?></label>
+												<input type="text" id="item-copyright" :value="itemCopyright(editItem)" @change="editItemSetCopyright" />
+												<div class="description"><?php esc_html_e( 'Can be used as protection alert message on right mouse click.', 'wgtd' ); ?></div>
+											</div>
+
 											<div class="woowgallery-setting">
 												<div class="tagsdiv" :id="editItemTagsTaxonomy()">
 													<div class="jaxtag">

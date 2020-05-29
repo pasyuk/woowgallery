@@ -325,8 +325,7 @@ if ( ! function_exists( 'woowgallery_full_attachment_data' ) ) {
 			'count'  => $post->comment_count,
 		];
 
-		$copyright_avia          = get_post_meta( $post->ID, '_avia_attachment_copyright', true );
-		$attachment['copyright'] = get_post_meta( $post->ID, '_media_copyright', true ) ?: $copyright_avia;
+		$attachment['copyright'] = get_post_meta( $post->ID, '_media_copyright', true );
 
 		$att_images = woowgallery_get_attachment_images( $post->ID, $gallery );
 		$attachment = $attachment + $att_images;
