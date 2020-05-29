@@ -29,10 +29,11 @@ class Notice {
 	 * @param string $message     Message to show.
 	 * @param string $type        Notice type.
 	 * @param string $title       Title.
+	 * @param string $uid         Message unique ID.
 	 * @param string $button_text Button Text (optional).
 	 * @param string $button_url  Button URL (optional).
 	 */
-	public static function add_message( $message, $type = self::TYPE_ERROR, $title = '', $button_text = '', $button_url = '' ) {
+	public static function add_message( $message, $type = self::TYPE_ERROR, $title = '', $uid = '', $button_text = '', $button_url = '' ) {
 
 		// Nothing to do.
 		if ( empty( $message ) ) {
@@ -43,7 +44,14 @@ class Notice {
 		$messages = get_option( self::META_KEY, [] );
 
 		// Add the new value.
-		$messages['queue'][] = compact( 'message', 'type', 'title', 'button_text', 'button_url' );
+		if ( $uid ) {
+			if ( isset( $messages['queue'][ $uid ] ) ) {
+				return;
+			}
+			$messages['queue'][ $uid ] = compact( 'message', 'type', 'title', 'button_text', 'button_url' );
+		} else {
+			$messages['queue'][] = compact( 'message', 'type', 'title', 'button_text', 'button_url' );
+		}
 
 		// Save message queue.
 		update_option( self::META_KEY, $messages );

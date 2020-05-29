@@ -157,7 +157,7 @@ class Post {
 						$gallery_ids[] = (int) $args['id'];
 					}
 					if ( isset( $args['slug'] ) ) {
-						$gallery = new Gallery( $args['slug'], $shortcode[2] );
+						$gallery = Gallery::get_instance( $args['slug'], $shortcode[2] );
 						if ( $gallery->get_id() ) {
 							$gallery_ids[] = $gallery->get_id();
 						}

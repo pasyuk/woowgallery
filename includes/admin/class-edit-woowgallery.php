@@ -300,7 +300,7 @@ class Edit_Woowgallery {
 	 */
 	public function meta_box_gallery( $post ) {
 
-		$wg       = new Gallery( $post->ID, $post->post_type );
+		$wg       = Gallery::get_instance( $post->ID, $post->post_type );
 		$gallery  = $wg->get_gallery();
 		$tabs     = $this->get_gallery_editor_tabs_nav();
 		$settings = Settings::get_settings();

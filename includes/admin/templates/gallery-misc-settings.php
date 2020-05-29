@@ -16,7 +16,7 @@ use WoowGallery\Posttypes;
  */
 
 $screen = get_current_screen();
-$wg     = new Gallery( $data['post']->ID, $data['post']->post_type );
+$wg     = Gallery::get_instance( $data['post']->ID, $data['post']->post_type );
 ?>
 <div class="woowgallery-intro">
 	<h3><?php esc_html_e( 'Miscellaneous Settings', 'wgtd' ); ?></h3>

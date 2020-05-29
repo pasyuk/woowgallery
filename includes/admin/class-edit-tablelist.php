@@ -200,7 +200,7 @@ abstract class Edit_Tablelist {
 				echo '<abbr title="' . esc_attr( $t_time ) . '">' . esc_html( apply_filters( 'post_date_column_time', $h_time, $post, 'date', $mode ) ) . '</abbr>';
 
 				if ( Posttypes::DYNAMIC_POSTTYPE === $post->post_type ) {
-					$wg      = new Gallery( $post->ID, $post->post_type );
+					$wg      = Gallery::get_instance( $post->ID, $post->post_type );
 					$cache_h = absint( $wg->get_settings( 'cache', Settings::get_settings( 'cache' ) ) );
 					if ( $cache_h ) {
 						// translators: time in hours.

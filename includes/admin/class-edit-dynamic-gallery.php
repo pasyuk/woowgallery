@@ -66,7 +66,7 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 		}
 
 		if ( ! empty( $query_content['posts'] ) ) {
-			$wg    = new Gallery( $post_id, $post_type );
+			$wg    = Gallery::get_instance( $post_id, $post_type );
 			$cache = absint( $wg->get_settings( 'cache', Settings::get_settings( 'cache' ) ) );
 
 			if ( $cache ) {
@@ -355,7 +355,7 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 		global $post;
 
 		$settings = Settings::get_settings();
-		$wg       = new Gallery( $post->ID, $post->post_type );
+		$wg       = Gallery::get_instance( $post->ID, $post->post_type );
 		$skin     = $wg->get_skin_slug();
 
 		$js_data = [
@@ -415,7 +415,7 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 	 * @param WP_Post $post The current post object.
 	 */
 	public function tab_gallery( $post ) {
-		$wg      = new Gallery( $post->ID, $post->post_type );
+		$wg      = Gallery::get_instance( $post->ID, $post->post_type );
 		$gallery = $wg->get_gallery();
 		// Load view.
 		Admin::load_template( 'gallery-query', compact( 'post', 'gallery' ) );

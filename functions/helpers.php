@@ -36,7 +36,7 @@ if ( ! function_exists( 'woowgallery' ) ) {
 		if ( ! $type || ! in_array( $type, [ Posttypes::GALLERY_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE, Posttypes::ALBUM_POSTTYPE ], true ) ) {
 			$type = Posttypes::GALLERY_POSTTYPE;
 		}
-		$wg = new Gallery( $id, $type );
+		$wg = Gallery::get_instance( $id, $type );
 
 		// Build the shortcode.
 		$shortcode = '[' . $type . ' id="' . $wg->get_id() . '"' . $args_string . ']';
@@ -644,7 +644,7 @@ if ( ! function_exists( 'woowgallery_get_resize_dimensions' ) ) {
 	 */
 	function woowgallery_get_resize_dimensions( $gallery = null ) {
 		if ( is_object( $gallery ) ) {
-			$wg   = new Gallery( $gallery->ID, $gallery->post_type );
+			$wg   = Gallery::get_instance( $gallery->ID, $gallery->post_type );
 			$dims = [
 				'thumb' => [
 					'width'  => (int) $wg->get_settings( 'thumb_width' ) ?: Settings::get_settings( 'thumb_width', 9999 ),

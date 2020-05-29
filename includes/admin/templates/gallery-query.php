@@ -14,7 +14,7 @@ use WoowGallery\Gallery;
  *
  * @var array $data
  */
-$wg      = new Gallery( $data['post']->ID, $data['post']->post_type );
+$wg      = Gallery::get_instance( $data['post']->ID, $data['post']->post_type );
 $gallery = $wg->get_gallery();
 if ( empty( $gallery['data']['post_type'] ) ) {
 	$gallery_post_types = [ 'post' ];

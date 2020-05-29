@@ -6,6 +6,7 @@
  * @author  Sergey Pasyuk
  */
 
+use WoowGallery\Gallery;
 use WoowGallery\Skins;
 
 /**
@@ -19,15 +20,17 @@ use WoowGallery\Skins;
  *            ]
  */
 
-$screen       = get_current_screen();
-$gallery_skin = $data['gallery']['skin'];
+$screen                 = get_current_screen();
+$meta_gallery_skin_slug = get_metadata( 'post', $data['post']->ID, Gallery::GALLERY_SKIN_META_KEY, true );
+$gallery_skin           = $data['gallery']['skin'];
+$show_skins_block       = 'add' === $screen->action || $meta_gallery_skin_slug !== $gallery_skin['slug'];
 ?>
 <div id="woowgallery" class="postbox-container woowgallery-wrap" style="padding-top: 20px;">
 	<div class="postbox woowgallery-postbox">
 		<div class="inside">
 
 			<!-- Templates -->
-			<div id="woowgallery-skin-select"<?php echo ( 'add' !== $screen->action && ! empty( $gallery_skin['slug'] ) ) ? ' class="closed" style="display:none;"' : ''; ?>>
+			<div id="woowgallery-skin-select"<?php echo ! $show_skins_block ? ' class="closed" style="display:none;"' : ''; ?>>
 				<div class="woowgallery-skins">
 					<?php
 					$skins = Skins::get_instance()->get_skins();
@@ -57,7 +60,7 @@ $gallery_skin = $data['gallery']['skin'];
 				<div class="wg-media-buttons wg-clearfix">
 					<?php do_action( 'woowgallery_media_buttons', $data['post'] ); ?>
 				</div>
-				<div id="activity" class="woowgallery-choose-skin<?php echo 'add' !== $screen->action ? ' closed' : ''; ?>">
+				<div id="activity" class="woowgallery-choose-skin<?php echo ! $show_skins_block ? ' closed' : ''; ?>">
 					<button type="button" class="button button-secondary handleskinsdiv">
 						<span class="dashicons dashicons-admin-appearance" title="<?php esc_attr_e( 'Choose Skin', 'wgtd' ); ?>"></span>
 					</button>

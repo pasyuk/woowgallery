@@ -83,7 +83,7 @@ class Edit_Gallery extends Edit_Woowgallery {
 		global $post;
 
 		$settings = Settings::get_settings();
-		$wg       = new Gallery( $post->ID, $post->post_type );
+		$wg       = Gallery::get_instance( $post->ID, $post->post_type );
 		$skin     = $wg->get_skin_slug();
 
 		$js_data = [

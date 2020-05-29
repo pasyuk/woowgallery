@@ -28,6 +28,13 @@ class Gallery {
 	const GALLERY_SKIN_CONFIG_META_KEY     = '_woowgallery_skin_config';
 
 	/**
+	 * Holds the class object.
+	 *
+	 * @var Gallery object
+	 */
+	public static $instance;
+
+	/**
 	 * WoowGallery post ID
 	 *
 	 * @var int
@@ -71,6 +78,70 @@ class Gallery {
 	public function __construct( $post_id, $post_type = Posttypes::GALLERY_POSTTYPE ) {
 		$this->post_type = $post_type;
 		$this->set_id( $post_id );
+	}
+
+	/**
+	 * Returns the singleton instance of the class.
+	 *
+	 * @param int|string $post_id   Gallery ID or slug.
+	 * @param string     $post_type Post type.
+	 *
+	 * @return Gallery object
+	 */
+	public static function get_instance( $post_id, $post_type = Posttypes::GALLERY_POSTTYPE ) {
+		if ( ! ( isset( self::$instance ) && self::$instance instanceof Gallery ) || self::$instance->get_id() !== (int) $post_id ) {
+			self::$instance = new Gallery( $post_id, $post_type );
+		}
+
+		return self::$instance;
+	}
+
+	/**
+	 * Get gallery ID.
+	 *
+	 * @return int
+	 */
+	public function get_id() {
+		return $this->post_id;
+	}
+
+	/**
+	 * Set gallery ID.
+	 *
+	 * @param int|string $post_id Gallery ID or slug.
+	 */
+	public function set_id( $post_id ) {
+
+		if ( is_numeric( $post_id ) ) {
+			$this->post_id = (int) $post_id;
+			$this->set_real_id();
+
+			return;
+		}
+
+		// Attempt to return the cache first, otherwise generate the new query to retrieve the data.
+		$cache_group = 'woowgallery_id';
+		$cache_key   = "{$this->post_type}_{$post_id}";
+		$gallery_id  = wp_cache_get( $cache_key, $cache_group );
+		if ( false === $gallery_id ) {
+			// Get WoowGallery CPT by slug.
+			$posts = get_posts(
+				[
+					'post_type'      => $this->post_type,
+					'name'           => $post_id,
+					'fields'         => 'ids',
+					'posts_per_page' => 1,
+				]
+			);
+			if ( ! empty( $posts ) ) {
+				$gallery_id = $posts[0];
+				wp_cache_set( $cache_key, $gallery_id, $cache_group );
+			}
+		}
+
+		// Return the gallery ID.
+		$this->post_id = $gallery_id;
+		$this->set_real_id();
 	}
 
 	/**
@@ -182,7 +253,7 @@ class Gallery {
 			$skin = Skins::get_instance()->get_skin( $gallery_skin );
 			if ( $skin->slug !== $gallery_skin && is_admin() ) {
 				// translators: Gallery ID.
-				Notice::add_message( sprintf( __( 'Broken or removed Skin! Please re-save gallery ID#%d with a new Skin.', 'wgtd' ), $this->post_id ) );
+				Notice::add_message( sprintf( __( 'Broken or removed Skin! Please re-save gallery ID#%d with a new Skin.', 'wgtd' ), $this->post_id ), Notice::TYPE_ERROR, '', 'broken_skin' );
 			}
 
 			$this->skin_slug   = $skin->slug;
@@ -227,54 +298,6 @@ class Gallery {
 		}
 
 		return get_metadata( 'post', $this->id, self::GALLERY_CONTENT_META_KEY, true ) ?: [];
-	}
-
-	/**
-	 * Get gallery ID.
-	 *
-	 * @return int
-	 */
-	public function get_id() {
-		return $this->post_id;
-	}
-
-	/**
-	 * Set gallery ID.
-	 *
-	 * @param int|string $post_id Gallery ID or slug.
-	 */
-	public function set_id( $post_id ) {
-
-		if ( is_numeric( $post_id ) ) {
-			$this->post_id = (int) $post_id;
-			$this->set_real_id();
-
-			return;
-		}
-
-		// Attempt to return the cache first, otherwise generate the new query to retrieve the data.
-		$cache_group = 'woowgallery_id';
-		$cache_key   = "{$this->post_type}_{$post_id}";
-		$gallery_id  = wp_cache_get( $cache_key, $cache_group );
-		if ( false === $gallery_id ) {
-			// Get WoowGallery CPT by slug.
-			$posts = get_posts(
-				[
-					'post_type'      => $this->post_type,
-					'name'           => $post_id,
-					'fields'         => 'ids',
-					'posts_per_page' => 1,
-				]
-			);
-			if ( ! empty( $posts ) ) {
-				$gallery_id = $posts[0];
-				wp_cache_set( $cache_key, $gallery_id, $cache_group );
-			}
-		}
-
-		// Return the gallery ID.
-		$this->post_id = $gallery_id;
-		$this->set_real_id();
 	}
 
 	/**

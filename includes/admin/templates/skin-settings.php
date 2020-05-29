@@ -28,18 +28,18 @@
 				<p><?php esc_html_e( 'The settings below adjust the basic configuration options for the gallery.', 'wgtd' ); ?></p>
 			</div>
 
-			<div class="woowgallery-config-wrapper">
+			<div class="woowgallery-config-wrapper" :data-preset="preset">
 				<nav class="woowgallery-config-tabs-nav">
-					<div v-for="(group, tab_id) in schema" :key="skin + '[' + preset + ']' + tab_id">
+					<div v-for="(group, tab_id) in schema" :key="skin + '_tab_' + tab_id">
 						<a :href="'#field-' + tab_id" :class="{'woowgallery-active': activeTab === tab_id}" @click.prevent="switchTab(tab_id)">{{ group.label }}</a>
 					</div>
 				</nav>
 
 				<div class="woowgallery-config-tabs">
 					<div class="vue-form-generator" v-if="schema != null">
-						<fieldset v-for="(group, tab_id) in schema" :id="'field-' + tab_id" :class="{'woowgallery-active': activeTab === tab_id}" :key="skin + '[' + preset + ']' + tab_id">
+						<fieldset v-for="(group, tab_id) in schema" :id="'field-' + tab_id" :class="{'woowgallery-active': activeTab === tab_id}" :key="skin + '_' + tab_id">
 							<h4>{{ group.label }}</h4>
-							<div class="form-group" v-for="(field, key) in group.fields" v-if="fieldVisible(field)" :class="getFieldRowClasses(field)" :style="getFieldRowStyles(field)" :key="skin + '[' + preset + '][field]' + key">
+							<div class="form-group" v-for="(field, key) in group.fields" v-if="fieldVisible(field)" :class="getFieldRowClasses(field)" :style="getFieldRowStyles(field)" :key="skin + '_' + key">
 								<label v-if="fieldTypeHasLabel(field)" :for="key">{{ field.label }}
 									<div class="help" v-if="field.help"><i class="icon"></i>
 										<div class="helpText" v-html="field.help"></div>
@@ -51,12 +51,12 @@
 										<a class="button button-primary" href="<?php echo esc_url( woow_fs()->get_upgrade_url() ); ?>" target="_blank"><span class="dashicons dashicons-cart"></span> <?php esc_html_e( 'Get WoowGallery Premium', 'wgtd' ); ?></a>
 									</div>
 									<div v-else-if="'flexbox' === field.tag && field.fields" class="wg-flexbox">
-										<div class="inline-field" v-for="(subfield, subkey) in field.fields" v-if="fieldVisible(subfield)" :style="getFieldRowStyles(subfield)" :key="skin + '[' + preset + '][field]' + subkey">
+										<div class="inline-field" v-for="(subfield, subkey) in field.fields" v-if="fieldVisible(subfield)" :style="getFieldRowStyles(subfield)" :key="skin + '_' + subkey">
 											<label v-if="fieldTypeHasLabel(subfield)" :for="subkey">{{ subfield.label }}</label>
-											<component :is="getFieldTagType(subfield)" :skin="skin" :preset="preset" :schema="subfield" :id="subkey" :key="skin + '[' + preset + ']' + subkey" :options="options" :disabled="fieldDisabled(subfield)"></component>
+											<component :is="getFieldTagType(subfield)" :skin="skin" :schema="subfield" :id="subkey" :options="options" :disabled="fieldDisabled(subfield)"></component>
 										</div>
 									</div>
-									<component v-else :is="getFieldTagType(field)" :skin="skin" :preset="preset" :schema="field" :id="key" :key="skin + '[' + preset + ']' + key" :options="options" :disabled="fieldDisabled(field)"></component>
+									<component v-else :is="getFieldTagType(field)" :skin="skin" :preset="preset" :schema="field" :id="key" :options="options" :disabled="fieldDisabled(field)"></component>
 								</div>
 								<div class="hint" v-if="field.text" v-html="field.text"></div>
 							</div>

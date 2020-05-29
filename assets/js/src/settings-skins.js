@@ -243,8 +243,8 @@
       },
 
       loadPreset: function(event) {
-        this.preset = event.target.value;
         this.fakeActivity(120);
+        this.model = $.extend({}, this.defaults, window.woowgallery_skin[this.skin]['model'][event.target.value]);
         event.target.value = '_custom';
       },
 
@@ -366,7 +366,7 @@
 
       // reset skin settings changes
       resetSkinSettingsChanges: function() {
-        this.model = $.extend({}, this.defaults, window.woowgallery_skin[this.skin]['model']);
+        this.model = $.extend({}, this.defaults, window.woowgallery_skin[this.skin]['model'][this.preset]);
       },
 
       // reset skin settings to default

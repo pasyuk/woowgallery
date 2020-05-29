@@ -10,7 +10,6 @@
   abstractField = {
     props: [
       'skin',
-      'preset',
       'schema',
       'id',
       'disabled',
@@ -24,7 +23,7 @@
       value: {
         get: function() {
           let val = null;
-          if (!this.skin || !this.preset) {
+          if (!this.skin) {
             return;
           }
           if (typeof this.$root.model !== 'undefined' && this.id) {
@@ -37,7 +36,7 @@
         },
 
         set: function(newValue) {
-          if (!this.skin || !this.preset) {
+          if (!this.skin) {
             return;
           }
           newValue = this.formatValueToModel(newValue);
@@ -117,7 +116,6 @@
             attrs[key] = true;
           }
         }
-        attrs['data-preset'] = this.preset;
         return attrs;
       },
 
@@ -161,11 +159,6 @@
               this.picker.spectrum('enable');
             }
           }
-        },
-        value: function(val) {
-          if ('color' === this.getFieldType() && $.fn.spectrum && this.picker) {
-            this.picker.spectrum('set', val);
-          }
         }
       },
       mounted: function() {
@@ -180,6 +173,13 @@
           }
         });
       },
+      updated: function() {
+        this.$nextTick(function() {
+          if ('color' === this.getFieldType() && $.fn.spectrum && this.picker) {
+            this.picker.spectrum('set', this.value);
+          }
+        });
+      },
       beforeDestroy: function() {
         if (this.picker) {
           this.picker.spectrum('destroy');
@@ -188,7 +188,10 @@
       methods: {
         spectrumInit: function() {
           let vm = this;
-          this.picker = $('input[data-type="color"]', this.$el).spectrum('destroy').spectrum(
+          if (this.picker) {
+            this.picker.spectrum('destroy');
+          }
+          this.picker = $('input[data-type="color"]', this.$el).spectrum(
             _.defaults(
               this.schema.options || {},
               {
@@ -200,14 +203,10 @@
                 preferredFormat: 'rgb',
                 change: function(color) {
                   vm.value = color ? color.toString() : null;
-                },
-                move: function(color) {
-                  vm.value = color ? color.toString() : null;
                 }
               }
             )
           );
-          // this.picker.spectrum('set', this.value);
         },
         formatValueToModel: function(value) {
           if (value !== null) {

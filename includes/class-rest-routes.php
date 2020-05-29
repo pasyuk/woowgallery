@@ -110,7 +110,7 @@ class Rest_Routes {
 							$attachment_full_data['edit_link'] = get_edit_post_link( $wgpost->ID, 'raw' );
 						}
 
-						$wg        = new Gallery( $wgpost->ID, $wgpost->post_type );
+						$wg        = Gallery::get_instance( $wgpost->ID, $wgpost->post_type );
 						$skin_slug = $wg->get_skin_slug();
 						$skin      = Skins::get_instance()->get_skin( $skin_slug );
 
@@ -143,7 +143,7 @@ class Rest_Routes {
 			[
 				'get_callback'    => function ( $post_arr, $attr, WP_REST_Request $request, $object_type ) {
 					$wgpost       = get_post( $post_arr['id'] );
-					$wg           = new Gallery( $wgpost->ID, $wgpost->post_type );
+					$wg           = Gallery::get_instance( $wgpost->ID, $wgpost->post_type );
 					$gallery_data = $wg->get_gallery_content();
 
 					return [
@@ -254,7 +254,7 @@ class Rest_Routes {
 		$data         = $body['data'];
 		$gallery_id   = (int) $data['id'];
 		$gallery_post = get_post( $gallery_id );
-		$wg           = new Gallery( $gallery_post->ID, $gallery_post->post_type );
+		$wg           = Gallery::get_instance( $gallery_post->ID, $gallery_post->post_type );
 		$gallery_data = $wg->get_gallery_content();
 		$attachments  = array_filter(
 			$gallery_data,

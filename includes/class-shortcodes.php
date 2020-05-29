@@ -101,7 +101,7 @@ class Shortcodes {
 				$style .= $this->get_global_inline_styles();
 			}
 
-			$wg         = new Gallery( $gallery['id'], $gallery['type'] );
+			$wg         = Gallery::get_instance( $gallery['id'], $gallery['type'] );
 			$custom_css = $wg->get_settings( 'custom_css', '' );
 			if ( ! empty( $custom_css ) ) {
 				// Build out the custom CSS.
@@ -192,7 +192,7 @@ class Shortcodes {
 			return '';
 		}
 
-		$wg      = new Gallery( $gallery_id, $type );
+		$wg      = Gallery::get_instance( $gallery_id, $type );
 		$gallery = $wg->get_gallery();
 
 		// Limit the number of images returned, if specified
@@ -348,7 +348,7 @@ class Shortcodes {
 	public function get_gallery_classes( $gallery_id, $type = Posttypes::GALLERY_POSTTYPE ) {
 
 		// Set default class.
-		$wg        = new Gallery( $gallery_id, $type );
+		$wg        = Gallery::get_instance( $gallery_id, $type );
 		$classes   = $wg->get_settings( 'classes', [] );
 		$classes[] = 'woowgallery-wrapper';
 		$classes[] = 'wg-id-' . $gallery_id;
@@ -500,7 +500,7 @@ class Shortcodes {
 
 		foreach ( $galleries_ids as $gallery_id ) {
 			$post_type = get_post_type( $gallery_id );
-			$wg        = new Gallery( $post_id, $post_type );
+			$wg        = Gallery::get_instance( $post_id, $post_type );
 			$content   = $wg->get_gallery_content();
 			if ( empty( $content ) ) {
 				continue;
@@ -518,7 +518,7 @@ class Shortcodes {
 					if ( 'publish' !== $item['status'] ) {
 						continue;
 					}
-					$wg          = new Gallery( (int) $item['id'], $item['subtype'] );
+					$wg          = Gallery::get_instance( (int) $item['id'], $item['subtype'] );
 					$sub_content = $wg->get_gallery_content();
 					foreach ( $sub_content as $sub_item ) {
 						// Skip over items that are not attachments or not published.
