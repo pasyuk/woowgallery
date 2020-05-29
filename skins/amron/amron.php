@@ -89,6 +89,17 @@ class Amron {
 							'showAlpha' => true,
 						],
 					],
+					'collectionBgColor'       => [
+						'label'   => __( 'Gallery Background Color', 'wgtd' ),
+						'tag'     => 'input',
+						'default' => 'rgba(255,255,255,0)',
+						'attr'    => [
+							'type' => 'color',
+						],
+						'options' => [
+							'showAlpha' => true,
+						],
+					],
 					'collectionThumbColumns'         => [
 						'label'   => __( 'Gallery Columns', 'wgtd' ),
 						'tag'     => 'input',
@@ -252,6 +263,16 @@ class Amron {
 							'type' => 'text',
 						],
 					],
+					'collectionReadMoreButtonFontSize'                 => [
+						'label'   => __( 'Read More Button - Font Size', 'wgtd' ),
+						'tag'     => 'input',
+						'default' => 12,
+						'attr'    => [
+							'type' => 'number',
+							'min'  => 10,
+							'max'  => 36,
+						],
+					],
 					'collectionReadMoreButtonBGColor'         => [
 						'label'   => __( 'Read More Button Color', 'wgtd' ),
 						'tag'     => 'input',
@@ -301,7 +322,7 @@ class Amron {
 			'modalSettings'      => [
 				'label'  => __( 'Share View Settings', 'wgtd' ),
 				'fields' => [
-					'modaBgColor'                => [
+					'shareBarBgColor'                => [
 						'label'   => __( 'Overlay Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,0.9)',
@@ -312,8 +333,8 @@ class Amron {
 							'showAlpha' => true,
 						],
 					],
-					'modalInfoBoxBgColor'        => [
-						'label'   => __( 'Info Bar Color', 'wgtd' ),
+					'shareBarIconColor'        => [
+						'label'   => __( 'Icon Color', 'wgtd' ),
 						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,1)',
 						'attr'    => [
@@ -323,33 +344,26 @@ class Amron {
 							'showAlpha' => true,
 						],
 					],
-					'modalInfoBoxTitleTextColor' => [
-						'label'   => __( 'Info Bar Title Color', 'wgtd' ),
-						'tag'     => 'input',
-						'default' => 'rgba(0,0,0,1)',
-						'attr'    => [
-							'type' => 'color',
-						],
-						'options' => [
-							'showAlpha' => true,
-						],
+					'shareBarFacebook'                      => [
+						'label'   => __( 'Enable Facebook', 'wgtd' ),
+						'tag'     => 'checkbox',
+						'default' => 1,
 					],
-					'modalInfoBoxTextColor'      => [
-						'label'   => __( 'Info Bar Text Color', 'wgtd' ),
-						'tag'     => 'input',
-						'default' => 'rgba(90,90,90,1)',
-						'attr'    => [
-							'type' => 'color',
-						],
-						'options' => [
-							'showAlpha' => true,
-						],
+					'shareBarTwitter'                      => [
+						'label'   => __( 'Enable Twitter', 'wgtd' ),
+						'tag'     => 'checkbox',
+						'default' => 1,
 					],
-					// 'infoBarDateInfoEnable'      => [
-					// 	'label'   => __( 'Show Item Upload Date', 'wgtd' ),
-					// 	'tag'     => 'checkbox',
-					// 	'default' => 1,
-					// ],
+					'shareBarPinterest'                      => [
+						'label'   => __( 'Enable Pinterest', 'wgtd' ),
+						'tag'     => 'checkbox',
+						'default' => 1,
+					],
+					'shareBarDownload'                      => [
+						'label'   => __( 'Enable Download', 'wgtd' ),
+						'tag'     => 'checkbox',
+						'default' => 1,
+					],
 				],
 			],
 			'lightboxSettings'   => [
@@ -520,35 +534,40 @@ class Amron {
 							'showAlpha' => true,
 						],
 					],
-					// 'sliderItemDescriptionEnable' => array(
-					// 	'label' => __('Show Description', 'wgtd'),
-					// 	'tag' => 'checkbox',
-					// 	'visible' => 'sliderDescriptionShow=="1"',
-					// 	'default' => 1,
-					// ),
-					// 'sliderItemDescriptionFontSize' => array(
-					// 	'label' => __('Item Description - font size', 'wgtd'),
-					// 	'visible' => 'sliderItemDescriptionEnable == "1" and sliderDescriptionShow=="1"',
-					// 	'tag' => 'input',
-					// 	'default' => 16,
-					// 	'attr' => array(
-					// 		'type' => 'number',
-					// 		'min' => 12,
-					// 		'max' => 36,
-					// 	),
-					// ),
-					// 'sliderItemDescriptionTextColor' => array(
-					// 	'label' => __('Item Description - text color', 'wgtd'),
-					// 	'visible' => 'sliderItemDescriptionEnable == "1" and sliderDescriptionShow=="1"',
-					// 	'tag' => 'input',
-					// 	'default' => 'rgba(255,255,255,0.8)',
-					// 	'attr' => array(
-					// 		'type' => 'color',
-					// 	),
-					// 	'options' => array(
-					// 		'showAlpha' => true
-					// 	)
-					// ),
+					'sliderItemDescriptionEnable' => array(
+						'label' => __('Show Description', 'wgtd'),
+						'tag' => 'checkbox',
+						'default' => 1,
+					),
+					'sliderItemDescriptionFontSize' => array(
+						'label' => __('Item Description - font size', 'wgtd'),
+						'visible' => 'sliderItemDescriptionEnable == "1"',
+						'tag' => 'input',
+						'default' => 16,
+						'attr' => array(
+							'type' => 'number',
+							'min' => 12,
+							'max' => 36,
+						),
+					),
+					'sliderItemDescriptionTextColor' => array(
+						'label' => __('Item Description - text color', 'wgtd'),
+						'visible' => 'sliderItemDescriptionEnable == "1"',
+						'tag' => 'input',
+						'default' => 'rgba(255,255,255,0.8)',
+						'attr' => array(
+							'type' => 'color',
+						),
+						'options' => array(
+							'showAlpha' => true
+						)
+					),
+					'infoBarExifEnable'          => [
+						'label'   => __( 'Show Item EXIF Data', 'wgtd' ),
+						'tag'     => 'checkbox',
+						//'visible' => 'sliderItemDescriptionEnable == "1"',
+						'default' => 1,
+					],
 					'sliderThumbBarEnable'                  => [
 						'label'   => __( 'Show Thumbnails Bar', 'wgtd' ),
 						'tag'     => 'checkbox',
@@ -613,30 +632,10 @@ class Amron {
 						'tag'     => 'checkbox',
 						'default' => 1,
 					],
-					'sliderInfoEnable'                      => [
-						'label'   => __( 'Show Info Button', 'wgtd' ),
-						'tag'     => 'checkbox',
-						'default' => 1,
-						'text'    => __( 'Enable description bar for item', 'wgtd' ),
-						//'premium' => 1
-					],
-					'infoBarExifEnable'          => [
-						'label'   => __( 'Show Item EXIF Data', 'wgtd' ),
-						'tag'     => 'checkbox',
-						'default' => 1,
-					],
 					'sliderSocialShareEnabled'              => [
 						'label'   => __( 'Show Share Button', 'wgtd' ),
 						'tag'     => 'checkbox',
 						'default' => 1,
-						//'premium' => 1
-					],
-					'sliderItemDownload'                    => [
-						'label'   => __( 'Show Download Button', 'wgtd' ),
-						'tag'     => 'checkbox',
-						'default' => 1,
-						'text'    => __( 'Download original file', 'wgtd' ),
-						//'premium' => 1
 					],
 					'sliderFullScreen'                      => [
 						'label'   => __( 'Show Fullscreen Button', 'wgtd' ),
