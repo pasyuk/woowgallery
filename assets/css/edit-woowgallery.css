@@ -365,7 +365,7 @@ span.wg-posttype-icon { display: inline-block; margin: 0 10px 0 0; width: 1.15em
 
 #woowgallery nav { /** Edit / Delete Selected - Hidden by default, shown by JS when image(s) are selected */ }
 
-#woowgallery nav.woowgallery-options { position: relative; padding: 10px 0; margin-top: -10px; display: flex; flex-wrap: wrap; align-items: center; min-height: 50px; }
+#woowgallery nav.woowgallery-options { position: relative; padding: 10px 0; margin-top: -10px; display: flex; flex-wrap: wrap; align-items: center; min-height: 55px; }
 
 #woowgallery nav .woowgallery-select-all { margin-right: 10px; }
 

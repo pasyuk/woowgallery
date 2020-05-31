@@ -127,21 +127,6 @@
         }
       }
     },
-    filters: {
-      formatTags: function(tags) {
-        if (!tags) {
-          return '';
-        }
-        if (_.isString(tags)) {
-          tags = tags.split(',');
-        }
-        if (!_.isArray(tags) || !_.size(tags)) {
-          return '';
-        }
-        tags = $.map(tags, (tag) => $.trim(tag));
-        return tags.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'})).join(', ');
-      }
-    },
     methods: {
       // toggle activity indicator
       activity: function(status) {

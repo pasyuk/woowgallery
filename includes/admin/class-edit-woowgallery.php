@@ -63,13 +63,19 @@ class Edit_Woowgallery {
 		// Get initial gallery data.
 		$data         = (array) json_decode( $post->post_content_filtered, true );
 		$force_update = (int) woowgallery_POST( 'wg_force_update', 0 );
-		$update_meta  = (int) get_post_meta( $post_id, Gallery::GALLERY_UPDATE_META_KEY, true );
-		if ( is_object( $post_before ) ) {
-			$data_before = $post_before->post_content_filtered;
-		} else {
-			$data_before = get_post_meta( $post_id, '_data_before', true );
+		if ( ! $force_update ) {
+			$update_meta = (int) get_post_meta( $post_id, Gallery::GALLERY_UPDATE_META_KEY, true );
+			if ( is_object( $post_before ) ) {
+				$data_before = $post_before->post_content_filtered;
+			} else {
+				$data_before = get_post_meta( $post_id, '_data_before', true );
+			}
+			$force_update = ( $update_meta && time() > $update_meta ) || $post->post_content_filtered !== $data_before;
 		}
-		if ( $force_update || ( $update_meta && time() > $update_meta ) || $post->post_content_filtered !== $data_before ) {
+		if ( ! $force_update ) {
+			$force_update = get_transient( 'woowgallery_fetch_' . $post_id );
+		}
+		if ( $force_update ) {
 			$content = self::set_gallery_content( $post_id, $data );
 			self::set_gallery_cover_from_content( $post, $content );
 		}

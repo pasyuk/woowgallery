@@ -215,7 +215,7 @@ abstract class Edit_Tablelist {
 							} else {
 								// translators: time ago.
 								echo '<span class="cache-updated">' . esc_html( sprintf( __( 'Cached: %s ago', 'wgtd' ), human_time_diff( $updated ) ) ) . '</span>';
-								echo '<br /><button name="wg_cache_clear" value="' . absint( $post->ID ) . '" class="button button-small button-secondary cache-clear">' . esc_attr__( 'Clear cache', 'wgtd' ) . '</button>';
+								echo '<br /><button name="wg_cache_clear" value="' . absint( $post->ID ) . '" class="button button-small button-primary cache-clear">' . esc_attr__( 'Clear cache', 'wgtd' ) . '</button>';
 							}
 						} else {
 							echo '<span class="cache-updated">' . esc_html__( 'Not cached yet', 'wgtd' ) . '</span>';

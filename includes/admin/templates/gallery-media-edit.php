@@ -21,8 +21,8 @@ use WoowGallery\Posttypes;
 				<div class="media-modal-content">
 					<div class="edit-attachment-frame mode-select hide-menu hide-router">
 						<div class="edit-media-header">
-							<button @click.prevent="editItemSet(editItemPrev)" class="left dashicons" :class="{disabled: !editItemPrev}"><span class="screen-reader-text"><?php esc_html_e( 'Edit previous media item', 'wgtd' ); ?></span></button>
-							<button @click.prevent="editItemSet(editItemNext)" class="right dashicons" :class="{disabled: !editItemNext}"><span class="screen-reader-text"><?php esc_html_e( 'Edit next media item', 'wgtd' ); ?></span></button>
+							<button @click.prevent="editItemSet(editItemPrev)" class="left dashicons" :class="{'woowgallery-disabled': !editItemPrev}"><span class="screen-reader-text"><?php esc_html_e( 'Edit previous media item', 'wgtd' ); ?></span></button>
+							<button @click.prevent="editItemSet(editItemNext)" class="right dashicons" :class="{'woowgallery-disabled': !editItemNext}"><span class="screen-reader-text"><?php esc_html_e( 'Edit next media item', 'wgtd' ); ?></span></button>
 						</div>
 						<div class="media-frame-title">
 							<h1>
@@ -49,7 +49,7 @@ use WoowGallery\Posttypes;
 									</div>
 									<div class="additional-preview-data">
 										<div class="item-gallery-count" v-if="'<?php echo esc_js( Posttypes::GALLERY_POSTTYPE ); ?>' === editItem.subtype">{{ itemGalleryCount(editItem) }}</div>
-										<div class="item-posttype-icon" v-else-if="'post' === editItem.type" v-html="subtypeIcon(editItem)"></div>
+										<div class="item-posttype-icon" v-else v-html="subtypeIcon(editItem)"></div>
 									</div>
 								</div>
 

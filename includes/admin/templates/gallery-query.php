@@ -503,7 +503,7 @@ $wg_meta_value = [
 									<img :src="itemThumbnail(item)" :alt="item.alt" :class="{icon: item.thumb[4]}"/>
 								</div>
 								<div class="additional-preview-data">
-									<div class="item-posttype-icon" v-if="'post' === item.type" v-html="subtypeIcon(item)"></div>
+									<div class="item-posttype-icon" v-html="subtypeIcon(item)"></div>
 								</div>
 							</div>
 							<template v-if="'wp' === query_type">

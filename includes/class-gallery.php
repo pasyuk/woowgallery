@@ -291,13 +291,22 @@ class Gallery {
 	public function get_gallery_content() {
 		$update_required = (int) get_metadata( 'post', $this->id, self::GALLERY_UPDATE_META_KEY, true );
 		if ( $update_required && time() > $update_required ) {
-			$post = get_post( $this->id );
-			$data = (array) json_decode( $post->post_content_filtered, true );
-
-			return Edit_Woowgallery::set_gallery_content( $this->id, $data );
+			$post    = get_post( $this->id );
+			$data    = (array) json_decode( $post->post_content_filtered, true );
+			$content = Edit_Woowgallery::set_gallery_content( $this->id, $data );
+		} else {
+			$content = get_metadata( 'post', $this->id, self::GALLERY_CONTENT_META_KEY, true ) ?: [];
 		}
 
-		return get_metadata( 'post', $this->id, self::GALLERY_CONTENT_META_KEY, true ) ?: [];
+		if ( current_user_can( 'edit_posts' ) ) {
+			foreach ( $content as $i => $item ) {
+				if ( ( 'post' === $item['type'] || 'attachment' === $item['type'] ) && current_user_can( 'edit_post', (int) $item['id'] ) ) {
+					$content[ $i ]['edit_link'] = get_edit_post_link( (int) $item['id'], 'raw' );
+				}
+			}
+		}
+
+		return $content;
 	}
 
 	/**

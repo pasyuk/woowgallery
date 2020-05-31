@@ -159,6 +159,11 @@
           posts: window.woowgallery_content
         };
       }
+
+      this.$nextTick(() => {
+        let query_type = this.query_type;
+        $('#woowgallery-data').val(JSON.stringify(this[query_type + '_json']));
+      });
     },
     methods: {
       wp_refreshTaxonomyTerms: function() {
@@ -181,6 +186,7 @@
       },
       wp_fetchQuery: function() {
         const json = $('#woowgallery-data').val();
+        const post_id = $('#post_ID').val();
 
         if (ajaxCall) {
           ajaxCall.abort();
@@ -194,6 +200,7 @@
           // },
           data: {
             action: 'woowgallery_dynamic_fetch_query',
+            gallery_id: post_id,
             json: json
           }
         }).done((data, status, xhr) => {
@@ -224,18 +231,32 @@
       },
 
       // Get item's src.
-      itemSrc: function(item) {
+      itemOriginalSrc: function(item) {
+
+        if (item.original) {
+          return item.original;
+        }
+
+        let content_item = window.woowgallery_content_indexed[item.id];
+        if (content_item && content_item.original) {
+          return content_item.original;
+        }
+
+        if ('attachment' === item.type) {
+          let attachment = wp.media.attachment(item.id),
+            att = attachment.attributes;
+          if (att && att.url) {
+            return att.url;
+          }
+        }
 
         if (item.src) {
           return item.src;
         }
 
-        let content_item = window.woowgallery_content_indexed[item.id];
         if (content_item && content_item.src) {
           return content_item.src;
         }
-
-        return '';
       },
 
       // Get item's thumbnail.
@@ -275,8 +296,27 @@
 
       // Item subtype icon
       subtypeIcon: function(item) {
-        if (woowgallery.post_types[item.subtype]) {
-          return woowgallery.post_types[item.subtype].icon_html;
+        if ('post' === item.type) {
+          if (woowgallery.post_types[item.subtype]) {
+            return woowgallery.post_types[item.subtype].icon_html;
+          }
+          else {
+            return `<span class="wg-posttype-icon dashicons dashicons-no"><b>${item.subtype}</b></span>`;
+          }
+        }
+        else if ('attachment' === item.type && 'image' !== item.subtype) {
+          let dashicon;
+          switch (item.subtype) {
+            case 'audio':
+            case 'video':
+              dashicon = 'format-' + item.subtype;
+              break;
+            default:
+              dashicon = 'paperclip';
+              break;
+          }
+
+          return `<span class="wg-posttype-icon dashicons dashicons-${dashicon}"></span>`;
         }
 
         return '';

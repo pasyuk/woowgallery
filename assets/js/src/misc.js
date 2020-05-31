@@ -3,8 +3,27 @@
  */
 (function($) {
 
+  let woowgallery = window.WoowGalleryAdmin;
+
+  woowgallery.mixins.push({
+    filters: {
+      formatTags: function(tags) {
+        if (!tags) {
+          return '';
+        }
+        if (_.isString(tags)) {
+          tags = tags.split(',');
+        }
+        if (!_.isArray(tags) || !_.size(tags)) {
+          return '';
+        }
+        tags = $.map(tags, (tag) => $.trim(tag));
+        return tags.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'})).join(', ');
+      }
+    }
+  });
+
   $(function() {
-    let woowgallery = window.WoowGalleryAdmin;
     let choose_skin_button = $('.woowgallery-choose-skin'),
       woowgallery_skins = $('#woowgallery-skin-select');
 

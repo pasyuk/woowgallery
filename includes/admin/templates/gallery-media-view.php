@@ -6,8 +6,6 @@
  * @author  Sergey Pasyuk
  */
 
-use WoowGallery\Posttypes;
-
 /**
  * Template vars
  *
@@ -21,8 +19,8 @@ use WoowGallery\Posttypes;
 				<div class="media-modal-content">
 					<div class="edit-attachment-frame mode-select hide-menu hide-router">
 						<div class="edit-media-header">
-							<button @click.prevent="viewItemSet(viewItemPrev)" class="left dashicons" :class="{disabled: !viewItemPrev}"><span class="screen-reader-text"><?php esc_html_e( 'Edit previous media item', 'wgtd' ); ?></span></button>
-							<button @click.prevent="viewItemSet(viewItemNext)" class="right dashicons" :class="{disabled: !viewItemNext}"><span class="screen-reader-text"><?php esc_html_e( 'Edit next media item', 'wgtd' ); ?></span></button>
+							<button @click.prevent="viewItemSet(viewItemPrev)" class="left dashicons" :class="{'woowgallery-disabled': !viewItemPrev}"><span class="screen-reader-text"><?php esc_html_e( 'Previous media item', 'wgtd' ); ?></span></button>
+							<button @click.prevent="viewItemSet(viewItemNext)" class="right dashicons" :class="{'woowgallery-disabled': !viewItemNext}"><span class="screen-reader-text"><?php esc_html_e( 'Next media item', 'wgtd' ); ?></span></button>
 						</div>
 						<div class="media-frame-title">
 							<h1><?php esc_html_e( 'View Item Data', 'wgtd' ); ?></h1>
@@ -32,9 +30,11 @@ use WoowGallery\Posttypes;
 								<!-- Left -->
 								<div class="attachment-media-view">
 									<div class="preview" :class="['type-' + viewItem.type, 'subtype-' + viewItem.subtype]">
-										<img v-if="'image' === viewItem.subtype" class="details-image" :src="itemImage(viewItem)[0]" />
-										<video v-else-if="'video' === viewItem.subtype" class="details-video" :src="itemSrc(viewItem)" controls :poster="itemImage(viewItem)[0]"></video>
-										<audio v-else-if="'audio' === viewItem.subtype" class="details-audio" :src="itemSrc(viewItem)" controls></audio>
+										<video v-if="'video' === viewItem.subtype" class="details-video" :src="itemOriginalSrc(viewItem)" controls :poster="itemImage(viewItem)[0]"></video>
+										<div v-else-if="'audio' === viewItem.subtype" class="details-audio">
+											<img class="wg-audio-cover" :src="itemImage(viewItem)[0]" draggable="false"/>
+											<audio class="wg-audio-player" :src="itemOriginalSrc(viewItem)" controls></audio>
+										</div>
 										<div v-else-if="'carousel' === viewItem.subtype" class="details-carousel">
 											<img class="details-image" :src="itemImage(viewItem)[0]" />
 											<div :id="'carousel-' + viewItem.id" class="swiper-container">
@@ -49,6 +49,10 @@ use WoowGallery\Posttypes;
 												<div class="swiper-button-next"></div>
 											</div>
 										</div>
+										<img v-else class="details-image" :src="itemImage(viewItem)[0]" />
+									</div>
+									<div class="additional-preview-data">
+										<div class="item-posttype-icon" v-html="subtypeIcon(viewItem)"></div>
 									</div>
 								</div>
 
@@ -66,6 +70,9 @@ use WoowGallery\Posttypes;
 										</div>
 										<p class="item-location" v-if="viewItem.location && viewItem.location.name">{{ viewItem.location.name }}</p>
 										<p class="item-link"><a :href="viewItem.link.url" target="_blank">{{ viewItem.link.url }}</a></p>
+										<p class="item-tags" v-if="viewItem.tags && viewItem.tags.length">
+											<?php esc_html_e( 'Tags:', 'wgtd' ); ?> {{ viewItem.tags | formatTags }}
+										</p>
 										<div class="item-caption" v-html="captionHashtags(viewItem.caption)"></div>
 									</div>
 								</div>

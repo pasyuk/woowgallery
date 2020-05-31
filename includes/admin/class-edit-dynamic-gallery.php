@@ -59,10 +59,15 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 			$query = (array) json_decode( $post->post_content_filtered, true );
 		}
 
-		try {
-			$query_content = self::get_dynamic_query( $query );
-		} catch ( \Exception $e ) {
-			$query_content = [];
+		$query_content = get_transient( 'woowgallery_fetch_' . $post_id );
+		if ( empty( $query_content ) ) {
+			try {
+				$query_content = self::get_dynamic_query( $query );
+			} catch ( \Exception $e ) {
+				$query_content = [];
+			}
+		} else {
+			delete_transient( 'woowgallery_fetch_' . $post_id );
 		}
 
 		if ( ! empty( $query_content['posts'] ) ) {
@@ -201,9 +206,6 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 				$wg_query->the_post();
 				$attachment_data      = woowgallery_prepare_post_data( $post );
 				$attachment_full_data = woowgallery_full_post_data( $attachment_data );
-				if ( ! empty( $attachment_full_data ) && current_user_can( 'edit_post', $post->ID ) ) {
-					$attachment_full_data['edit_link'] = get_edit_post_link( $post->ID, 'raw' );
-				}
 
 				$data[] = $attachment_full_data;
 			}
