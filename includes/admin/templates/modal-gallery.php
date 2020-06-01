@@ -43,7 +43,6 @@ $hide_menu = ( Posttypes::ALBUM_POSTTYPE === $post->post_type ) ? 'hide-menu' : 
 											echo esc_html( $_post_type->label );
 											echo '</a>';
 										}
-										//echo '<pre>' . print_r($_post_types['post'], true) . '</pre>';
 										?>
 									<?php } ?>
 								</div>
@@ -144,7 +143,15 @@ $hide_menu = ( Posttypes::ALBUM_POSTTYPE === $post->post_type ) ? 'hide-menu' : 
 													<div class="date">{{ selected_last_item.date|mediaDate }}</div>
 													<div class="wg-count" v-if="selected_last_item.count">{{ mediaCount(selected_last_item) }}</div>
 													<div class="wg-tags" v-if="selected_last_item.tags.length">{{ selected_last_item.tags|mediaTags }}</div>
-													<div class="wg-actions"><a :href="selected_last_item.edit_link" @click.prevent="createModal(selected_last_item.subtype, selected_last_item.id, 'WoowGallery')" target="_blank"><?php esc_html_e( 'Edit', 'wgtd' ); ?></a></div>
+													<div class="wg-actions">
+														<a v-if="'woowgallery' === get_post_type || 'woowgallery-dynamic' === get_post_type || 'woowgallery-album' === get_post_type"
+															:href="selected_last_item.edit_link"
+															@click.prevent="createModal(selected_last_item.subtype, selected_last_item.id, 'WoowGallery')"
+															class="button button-secondary button-small"
+															target="_blank"
+														><?php esc_html_e( 'Edit', 'wgtd' ); ?></a>
+														<a v-else :href="selected_last_item.edit_link" target="_blank"><?php esc_html_e( 'Edit', 'wgtd' ); ?></a>
+													</div>
 												</div>
 											</div>
 
