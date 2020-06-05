@@ -103,7 +103,7 @@ switch ( $action ) {
 		exit();
 
 	default:
-		wp_die( __( 'Action does not exist.', 'wgtd' ) );
+		wp_die( __( 'Action does not exist.', 'woowgallery' ) );
 		exit();
 } // End switch.
 

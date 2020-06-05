@@ -48,7 +48,7 @@ window.wp = window.wp || {};
       });
 
       filters.all = {
-        text: __('Filter by %s', 'wgtd').replace('%s', self.options.singularName),
+        text: __('Filter by %s', 'woowgallery').replace('%s', self.options.singularName),
         props: {
           // orderby: l10n.media_orderby,
           // order: l10n.media_order
@@ -59,7 +59,7 @@ window.wp = window.wp || {};
       filters['all']['props'][self.options.taxonomy] = null;
 
       filters.in = {
-        text: '&#8212; ' + __('All %s', 'wgtd').replace('%s', self.options.pluralName) + ' &#8212;',
+        text: '&#8212; ' + __('All %s', 'woowgallery').replace('%s', self.options.pluralName) + ' &#8212;',
         props: {
           // orderby: l10n.media_orderby,
           // order: l10n.media_order
@@ -70,7 +70,7 @@ window.wp = window.wp || {};
       filters['in']['props'][self.options.taxonomy] = 'in';
 
       filters.not_in = {
-        text: '&#8212; ' + __('Not in %s', 'wgtd').replace('%s', self.options.singularName) + ' &#8212;',
+        text: '&#8212; ' + __('Not in %s', 'woowgallery').replace('%s', self.options.singularName) + ' &#8212;',
         props: {
           // orderby: l10n.media_orderby,
           // order: l10n.media_order
@@ -130,7 +130,7 @@ window.wp = window.wp || {};
         if (values.term_list.length) {
 
           self.toolbar.set(taxonomy + 'FilterLabel', new media.view.Label({
-            value: __('Filter by %s', 'wgtd').replace('%s', values.singular_name),
+            value: __('Filter by %s', 'woowgallery').replace('%s', values.singular_name),
             attributes: {
               'for': 'media-attachment-' + taxonomy + '-filters'
             },

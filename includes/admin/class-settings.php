@@ -63,8 +63,8 @@ class Settings {
 		// Register the submenu.
 		$this->hook = add_submenu_page(
 			'edit.php?post_type=' . Posttypes::GALLERY_POSTTYPE,
-			__( 'WoowGallery Settings', 'wgtd' ),
-			__( 'Settings', 'wgtd' ),
+			__( 'WoowGallery Settings', 'woowgallery' ),
+			__( 'Settings', 'woowgallery' ),
 			apply_filters( 'woowgallery_menu_cap', 'manage_options' ),
 			self::MENU_SLUG,
 			[ $this, 'settings_page' ]
@@ -94,7 +94,7 @@ class Settings {
 		?>
 		<div class="wrap woowgallery-wrap">
 			<h1 class="wp-heading-inline">
-				<?php esc_html_e( 'Settings', 'wgtd' ); ?>
+				<?php esc_html_e( 'Settings', 'woowgallery' ); ?>
 			</h1>
 			<?php
 			do_action( 'woowgallery_settings_notice' );
@@ -231,7 +231,7 @@ class Settings {
 			self::save_settings( woowgallery_POST( 'settings', [] ) );
 
 			// Output an admin notice so the user knows what happened.
-			Notice::add_message( __( 'Settings saved successfully.', 'wgtd' ), Notice::TYPE_SUCCESS );
+			Notice::add_message( __( 'Settings saved successfully.', 'woowgallery' ), Notice::TYPE_SUCCESS );
 		}
 
 		if ( isset( $_POST['woowgallery-settings-reset'] ) ) {
@@ -250,7 +250,7 @@ class Settings {
 			}
 
 			// Output an admin notice so the user knows what happened.
-			Notice::add_message( __( 'Settings reset successfully.', 'wgtd' ), Notice::TYPE_SUCCESS );
+			Notice::add_message( __( 'Settings reset successfully.', 'woowgallery' ), Notice::TYPE_SUCCESS );
 		}
 	}
 
@@ -299,7 +299,7 @@ class Settings {
 			}
 
 			// Output an admin notice so the user knows what happened.
-			Notice::add_message( __( 'Permalink base slugs must be unique for each post type.', 'wgtd' ) );
+			Notice::add_message( __( 'Permalink base slugs must be unique for each post type.', 'woowgallery' ) );
 		}
 
 		if ( ! $flush_rewrite_rules ) {
@@ -340,8 +340,8 @@ class Settings {
 			[
 				'siteurl'                               => site_url(),
 				'_nonce_woowgallery_skin_settings_save' => wp_create_nonce( 'skin_settings_save' ),
-				'fill_preset_name'                      => __( 'Fill the Preset Name', 'wgtd' ),
-				'delete_default_preset_error'           => __( 'You can\'t delete default skin preset.', 'wgtd' ),
+				'fill_preset_name'                      => __( 'Fill the Preset Name', 'woowgallery' ),
+				'delete_default_preset_error'           => __( 'You can\'t delete default skin preset.', 'woowgallery' ),
 				'default_skin'                          => $data['default_skin'],
 			]
 		);
@@ -367,7 +367,7 @@ class Settings {
 					admin_url( 'edit.php' )
 				)
 			),
-			__( 'Settings', 'wgtd' )
+			__( 'Settings', 'woowgallery' )
 		);
 		array_unshift( $links, $settings_link );
 

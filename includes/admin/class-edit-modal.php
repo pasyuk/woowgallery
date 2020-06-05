@@ -40,8 +40,8 @@ class Edit_Modal {
 	public function admin_menu() {
 		add_submenu_page(
 			null,
-			__( 'WoowGallery', 'wgtd' ),
-			__( 'WG Edit', 'wgtd' ),
+			__( 'WoowGallery', 'woowgallery' ),
+			__( 'WG Edit', 'woowgallery' ),
 			apply_filters( 'woowgallery_menu_cap', 'edit_woowgallery_posts' ),
 			'woowgallery-edit'
 		);

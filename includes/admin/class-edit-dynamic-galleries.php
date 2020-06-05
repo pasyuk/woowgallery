@@ -41,7 +41,7 @@ class Edit_Dynamic_Galleries extends Edit_Tablelist {
 			if ( ! empty( $cache_clear_id ) ) {
 				update_post_meta( $cache_clear_id, Gallery::GALLERY_UPDATE_META_KEY, 1 );
 				// translators: gallery ID.
-				Notice::add_message( sprintf( __( 'Cache cleared for gallery with ID #%d', 'wgtd' ), $cache_clear_id ), Notice::TYPE_SUCCESS );
+				Notice::add_message( sprintf( __( 'Cache cleared for gallery with ID #%d', 'woowgallery' ), $cache_clear_id ), Notice::TYPE_SUCCESS );
 				wp_safe_redirect( remove_query_arg( 'wg_cache_clear', wp_get_referer() ) );
 			}
 		}
@@ -55,7 +55,7 @@ class Edit_Dynamic_Galleries extends Edit_Tablelist {
 	 * @return array
 	 */
 	public function bulk_actions( $bulk_array ) {
-		$bulk_array['wg_bulk_cache_clear'] = __( 'Clear cache', 'wgtd' );
+		$bulk_array['wg_bulk_cache_clear'] = __( 'Clear cache', 'woowgallery' );
 
 		return $bulk_array;
 	}
@@ -78,7 +78,7 @@ class Edit_Dynamic_Galleries extends Edit_Tablelist {
 				update_post_meta( (int) $post_id, Gallery::GALLERY_UPDATE_META_KEY, 1 );
 			}
 			// translators: number of galleries.
-			Notice::add_message( sprintf( _n( 'Cache cleared for %d gallery', 'Cache cleared for %d galleries', count( $object_ids ), 'wgtd' ), count( $object_ids ) ), Notice::TYPE_SUCCESS );
+			Notice::add_message( sprintf( _n( 'Cache cleared for %d gallery', 'Cache cleared for %d galleries', count( $object_ids ), 'woowgallery' ), count( $object_ids ) ), Notice::TYPE_SUCCESS );
 		}
 
 		return $redirect;

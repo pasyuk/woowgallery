@@ -402,7 +402,7 @@ if ( ! function_exists( 'woowgallery_is_premium_feature' ) ) {
 			<?php if ( $msg ) { ?>
 				<h6><?php echo wp_kses( $msg, '' ); ?></h6>
 			<?php } ?>
-			<a class="button button-primary" href="<?php echo esc_url( woow_fs()->get_upgrade_url() ); ?>" target="_blank"><span class="dashicons dashicons-cart"></span> <?php esc_html_e( 'Get WoowGallery Premium', 'wgtd' ); ?></a>
+			<a class="button button-primary" href="<?php echo esc_url( woow_fs()->get_upgrade_url() ); ?>" target="_blank"><span class="dashicons dashicons-cart"></span> <?php esc_html_e( 'Get WoowGallery Premium', 'woowgallery' ); ?></a>
 		</div>
 		<?php
 	}

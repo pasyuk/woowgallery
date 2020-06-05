@@ -23,13 +23,13 @@ class Widgets extends WP_Widget {
 	public function __construct() {
 
 		// Widget Name.
-		$widget_name = __( 'WoowGallery', 'wgtd' );
+		$widget_name = __( 'WoowGallery', 'woowgallery' );
 		$widget_name = apply_filters( 'woowgallery_widget_name', $widget_name );
 
 		// Options.
 		$widget_options = [
 			'classname'   => 'woowgallery',
-			'description' => __( 'Place a WoowGallery into a widgetized area.', 'wgtd' ),
+			'description' => __( 'Place a WoowGallery into a widgetized area.', 'woowgallery' ),
 		];
 		$widget_options = apply_filters( 'woowgallery_widget_options', $widget_options );
 
@@ -74,17 +74,17 @@ class Widgets extends WP_Widget {
 		do_action( 'woowgallery_widget_before_form', $instance );
 		?>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title', 'wgtd' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title', 'woowgallery' ); ?></label>
 			<input id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" style="width: 100%;"/>
 		</p>
 		<?php do_action( 'woowgallery_widget_middle_form', $instance ); ?>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'woowgallery' ) ); ?>"><?php esc_html_e( 'WoowGallery', 'wgtd' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'woowgallery' ) ); ?>"><?php esc_html_e( 'WoowGallery', 'woowgallery' ); ?></label>
 			<select id="<?php echo esc_attr( $this->get_field_id( 'woowgallery' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'woowgallery' ) ); ?>" style="width: 100%;">
-				<option value=""<?php selected( '', $_gallery ); ?>><?php esc_attr_e( 'Choose WoowGallery', 'wgtd' ); ?></option>
+				<option value=""<?php selected( '', $_gallery ); ?>><?php esc_attr_e( 'Choose WoowGallery', 'woowgallery' ); ?></option>
 				<?php
 				if ( ! empty( $galleries[ Posttypes::GALLERY_POSTTYPE ] ) ) {
-					echo '<optgroup label="' . esc_attr__( 'Galleries', 'wgtd' ) . '">';
+					echo '<optgroup label="' . esc_attr__( 'Galleries', 'woowgallery' ) . '">';
 					foreach ( $galleries[ Posttypes::GALLERY_POSTTYPE ] as $gallery ) {
 						$value = $gallery->ID . ':' . $gallery->post_type;
 						?>
@@ -94,7 +94,7 @@ class Widgets extends WP_Widget {
 					echo '</optgroup>';
 				}
 				if ( ! empty( $galleries[ Posttypes::DYNAMIC_POSTTYPE ] ) ) {
-					echo '<optgroup label="' . esc_attr__( 'Dynamic Galleries', 'wgtd' ) . '">';
+					echo '<optgroup label="' . esc_attr__( 'Dynamic Galleries', 'woowgallery' ) . '">';
 					foreach ( $galleries[ Posttypes::DYNAMIC_POSTTYPE ] as $gallery ) {
 						$value = $gallery->ID . ':' . $gallery->post_type;
 						?>
@@ -104,7 +104,7 @@ class Widgets extends WP_Widget {
 					echo '</optgroup>';
 				}
 				if ( ! empty( $galleries[ Posttypes::ALBUM_POSTTYPE ] ) ) {
-					echo '<optgroup label="' . esc_attr__( 'Albums', 'wgtd' ) . '">';
+					echo '<optgroup label="' . esc_attr__( 'Albums', 'woowgallery' ) . '">';
 					foreach ( $galleries[ Posttypes::ALBUM_POSTTYPE ] as $gallery ) {
 						$value = $gallery->ID . ':' . $gallery->post_type;
 						?>

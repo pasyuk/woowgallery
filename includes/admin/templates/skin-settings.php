@@ -8,7 +8,7 @@
 ?>
 	<div id="woowgallery-skin-settings" class="woowgallery-skin-settings">
 		<div class="woowgallery-no-skin" v-if="!skin" v-cloak>
-			<h3><?php esc_html_e( 'Select skin to config it settings, please.', 'wgtd' ); ?></h3>
+			<h3><?php esc_html_e( 'Select skin to config it settings, please.', 'woowgallery' ); ?></h3>
 		</div>
 		<div class="woowgallery-skin-settings-inner">
 			<!-- Skin Screenshot -->
@@ -17,15 +17,15 @@
 			</div>
 			<!-- Title and Help -->
 			<div class="woowgallery-skin-intro">
-				<h3><?php esc_html_e( 'Skin Settings', 'wgtd' ); ?></h3>
+				<h3><?php esc_html_e( 'Skin Settings', 'woowgallery' ); ?></h3>
 				<div class="skin-description" v-html="skin_info.description"></div>
 				<div class="skin-info" v-if="!premium" v-html="skin_info.info"></div>
 				<select class="woowgallery-load-preset form-control" :class="{'activity': activity}" @change="loadPreset($event)">
-					<option value="_custom" selected><?php esc_attr_e( 'Load Preset', 'wgtd' ); ?></option>
-					<option value="default"><?php esc_attr_e( 'Default', 'wgtd' ); ?></option>
+					<option value="_custom" selected><?php esc_attr_e( 'Load Preset', 'woowgallery' ); ?></option>
+					<option value="default"><?php esc_attr_e( 'Default', 'woowgallery' ); ?></option>
 					<option v-for="preset in presets" v-if="(preset !== '_custom') && (preset !== 'default')" :value="preset">{{ preset }}</option>
 				</select>
-				<p><?php esc_html_e( 'The settings below adjust the basic configuration options for the gallery.', 'wgtd' ); ?></p>
+				<p><?php esc_html_e( 'The settings below adjust the basic configuration options for the gallery.', 'woowgallery' ); ?></p>
 			</div>
 
 			<div class="woowgallery-config-wrapper" :data-preset="preset">
@@ -47,8 +47,8 @@
 								</label>
 								<div class="field-wrap">
 									<div v-if="field.premium && !premium" class="woowgallery-pro-feature">
-										<h6><?php esc_html_e( 'This feature is available only in the WoowGallery Premium', 'wgtd' ); ?></h6>
-										<a class="button button-primary" href="<?php echo esc_url( woow_fs()->get_upgrade_url() ); ?>" target="_blank"><span class="dashicons dashicons-cart"></span> <?php esc_html_e( 'Get WoowGallery Premium', 'wgtd' ); ?></a>
+										<h6><?php esc_html_e( 'This feature is available only in the WoowGallery Premium', 'woowgallery' ); ?></h6>
+										<a class="button button-primary" href="<?php echo esc_url( woow_fs()->get_upgrade_url() ); ?>" target="_blank"><span class="dashicons dashicons-cart"></span> <?php esc_html_e( 'Get WoowGallery Premium', 'woowgallery' ); ?></a>
 									</div>
 									<div v-else-if="'flexbox' === field.tag && field.fields" class="wg-flexbox">
 										<div class="inline-field" v-for="(subfield, subkey) in field.fields" v-if="fieldVisible(subfield)" :style="getFieldRowStyles(subfield)" :key="skin + '_' + subkey">

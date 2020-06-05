@@ -44,8 +44,8 @@ class Taxonomies {
 
 		// Build the labels for the taxonomy.
 		$labels = [
-			'name'          => __( 'WoowGallery', 'wgtd' ),
-			'singular_name' => __( 'WoowGallery', 'wgtd' ),
+			'name'          => __( 'WoowGallery', 'woowgallery' ),
+			'singular_name' => __( 'WoowGallery', 'woowgallery' ),
 		];
 
 		// Build out the taxonomy arguments.
@@ -89,8 +89,8 @@ class Taxonomies {
 
 		// Build the labels for the taxonomy.
 		$labels = [
-			'name'          => __( 'Media Tags', 'wgtd' ),
-			'singular_name' => __( 'Media Tag', 'wgtd' ),
+			'name'          => __( 'Media Tags', 'woowgallery' ),
+			'singular_name' => __( 'Media Tag', 'woowgallery' ),
 		];
 
 		// Build out the taxonomy arguments.
@@ -123,8 +123,8 @@ class Taxonomies {
 
 			// Build the labels for the taxonomy.
 			$labels = [
-				'name'          => __( 'Categories', 'wgtd' ),
-				'singular_name' => __( 'WoowGallery Category', 'wgtd' ),
+				'name'          => __( 'Categories', 'woowgallery' ),
+				'singular_name' => __( 'WoowGallery Category', 'woowgallery' ),
 			];
 
 			// Build out the taxonomy arguments.
@@ -167,8 +167,8 @@ class Taxonomies {
 
 			// Build the labels for the taxonomy.
 			$labels = [
-				'name'          => __( 'Tags', 'wgtd' ),
-				'singular_name' => __( 'WoowGallery Tag', 'wgtd' ),
+				'name'          => __( 'Tags', 'woowgallery' ),
+				'singular_name' => __( 'WoowGallery Tag', 'woowgallery' ),
 			];
 
 			// Build out the taxonomy arguments.

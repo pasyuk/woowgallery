@@ -216,12 +216,12 @@ class Shortcodes {
 		// Allow the gallery data to be filtered before it is used to create the gallery output.
 		$gallery = apply_filters( 'woowgallery_pre_data', $gallery, $this->counter );
 
-		// If there is no data to output or the gallery is inactive, do nothing.
+		// If there is no data to output, do nothing.
 		if ( empty( $gallery['content'] ) ) {
 			return '';
 		}
 
-		// If there is no data to output or the gallery is inactive, do nothing.
+		// If the gallery is not published and current user can't view the post, do nothing.
 		if ( 'publish' !== $gallery['status'] && ! is_preview() ) {
 			if ( ! current_user_can( 'edit_post', $gallery_id ) ) {
 				return '';

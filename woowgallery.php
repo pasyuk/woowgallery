@@ -3,12 +3,11 @@
  * Plugin Name: WoowGallery
  * Plugin URI:  http://woowgallery.com/
  * Description: WoowGallery is the fastest, easiest to use WordPress multifunctional image gallery plugin. Create Featured Posts Gallery and Dynamic Content Gallery with a few click.
- * Author:      pasyuk
- * Author URI:  https://wordpress.org/support/users/pasyuk/
+ * Author:      Rattus
+ * Author URI:  https://profiles.wordpress.org/pasyuk/
  * Version:     1.0.1
- * Text Domain: wgtd
- * Domain Path: languages
- * Licence: GPLv2
+ * Text Domain: woowgallery
+ * Licence: GPLv2 or later
  *
  * WoowGallery is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

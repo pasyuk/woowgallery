@@ -286,7 +286,7 @@ class Media {
 	public function attachment_fields_to_edit( $form_fields, $post ) {
 
 		$form_fields['wg_media_copyright'] = [
-			'label' => __( 'Copyright', 'wgtd' ),
+			'label' => __( 'Copyright', 'woowgallery' ),
 			'input' => 'text',
 			'value' => get_post_meta( $post->ID, '_media_copyright', true ),
 		];

@@ -147,7 +147,7 @@ class Notice {
 			if ( $notice_name ) {
 				?>
 				<button type="button" class="notice-dismiss">
-					<span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice', 'wgtd' ); ?></span>
+					<span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice', 'woowgallery' ); ?></span>
 				</button>
 				<?php
 			}

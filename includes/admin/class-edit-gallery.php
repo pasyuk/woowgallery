@@ -367,7 +367,7 @@ class Edit_Gallery extends Edit_Woowgallery {
 		<button type="button" class="button button-primary woowgallery-add-media woowgallery-add-wpmedia" data-editor="woowgallery-preview">
 			<span class="dashicons dashicons-admin-media"></span><span class="btn-label"><?php esc_html_e( 'Add Media', 'woowgallery' ); ?></span>
 		</button>
-		<button type="button" class="button button-primary woowgallery-add-media woowgallery-modal-button" data-editor="woowgallery-preview" data-modal="woowgallery" data-posttype="post" title="<?php esc_attr_e( 'Posts', 'wgtd' ); ?>">
+		<button type="button" class="button button-primary woowgallery-add-media woowgallery-modal-button" data-editor="woowgallery-preview" data-modal="woowgallery" data-posttype="post" title="<?php esc_attr_e( 'Posts', 'woowgallery' ); ?>">
 			<span class="dashicons dashicons-admin-post"></span><span class="btn-label"><?php esc_html_e( 'Add Posts', 'woowgallery' ); ?></span>
 		</button>
 		<?php

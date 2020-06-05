@@ -57,17 +57,17 @@ class Media_Library {
 			$taxonomy = get_taxonomy( $taxname );
 
 			/* translators: Taxonomy Name */
-			echo '<label for="' . esc_attr( $taxonomy->name ) . '" class="screen-reader-text">' . esc_html( sprintf( __( 'Filter by %s', 'wgtd' ), $taxonomy->labels->singular_name ) ) . '</label>';
+			echo '<label for="' . esc_attr( $taxonomy->name ) . '" class="screen-reader-text">' . esc_html( sprintf( __( 'Filter by %s', 'woowgallery' ), $taxonomy->labels->singular_name ) ) . '</label>';
 
 			$selected = isset( $wp_query->query[ $taxonomy->name ] ) ? $wp_query->query[ $taxonomy->name ] : 0;
 
 			$args = [
 				/* translators: Taxonomy Name */
-				'show_option_all'    => sprintf( __( 'Filter by %s', 'wgtd' ), $taxonomy->labels->singular_name ),
+				'show_option_all'    => sprintf( __( 'Filter by %s', 'woowgallery' ), $taxonomy->labels->singular_name ),
 				/* translators: Taxonomy Name */
-				'show_option_in'     => sprintf( '== ' . __( 'All %s', 'wgtd' ) . ' ==', $taxonomy->labels->name ),
+				'show_option_in'     => sprintf( '== ' . __( 'All %s', 'woowgallery' ) . ' ==', $taxonomy->labels->name ),
 				/* translators: Taxonomy Name */
-				'show_option_not_in' => sprintf( '== ' . __( 'Not in %s', 'wgtd' ) . ' ==', $taxonomy->labels->singular_name ),
+				'show_option_not_in' => sprintf( '== ' . __( 'Not in %s', 'woowgallery' ) . ' ==', $taxonomy->labels->singular_name ),
 				'taxonomy'           => $taxonomy->name,
 				'name'               => $taxonomy->query_var,
 				'orderby'            => 'name',

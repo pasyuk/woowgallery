@@ -1,11 +1,12 @@
 === WoowGallery - image / content / ecommerce / album / instagram photo gallery ===
-Contributors: WoowGallery Team, pasyuk
+Contributors: pasyuk
 Tags: gallery, image gallery, photo gallery, content gallery, albums gallery
 Requires at least: 5.3.0
-Tested up to: 5.4.1
+Tested up to: 5.4
 Requires PHP: 5.4
-Stable tag: trunk
-License: GNU General Public License v2.0 or later
+Stable tag: /trunk
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Fastest, easiest to use multifunctional image gallery plugin. Create Featured Posts Gallery, Dynamic Content Gallery, Instagram Gallery, Albums!
 
@@ -137,7 +138,7 @@ Gutenberg Gallery
 
 = Is WoowGallery translation ready? =
 
-Yes, WoowGallery has full translation and localization support via the `wgtd` textdomain.
+Yes, WoowGallery has full translation and localization support via the `woowgallery` textdomain.
 
 
 == Changelog ==

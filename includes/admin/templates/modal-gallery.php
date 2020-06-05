@@ -26,9 +26,9 @@ $hide_menu = ( Posttypes::ALBUM_POSTTYPE === $post->post_type ) ? 'hide-menu' : 
 							<?php if ( empty( $hide_menu ) ) { ?>
 								<div class="media-menu">
 									<?php if ( Posttypes::GALLERY_POSTTYPE !== $post->post_type ) { ?>
-										<a href="#" class="media-menu-item" :class="{active: ('woowgallery' === get_post_type)}" @click.prevent="get_post_type = 'woowgallery'; frame_title = '<?php echo esc_js( __( 'WoowGallery Galleries', 'wgtd' ) ); ?>'"><?php esc_html_e( 'Woow Galleries', 'wgtd' ); ?></a>
-										<a href="#" class="media-menu-item" :class="{active: ('woowgallery-dynamic' === get_post_type)}" @click.prevent="get_post_type = 'woowgallery-dynamic'; frame_title = '<?php echo esc_js( __( 'WoowGallery Dynamic Galleries', 'wgtd' ) ); ?>'"><?php esc_html_e( 'Woow Dynamic Galleries', 'wgtd' ); ?></a>
-										<a href="#" class="media-menu-item" :class="{active: ('woowgallery-album' === get_post_type)}" @click.prevent="get_post_type = 'woowgallery-album'; frame_title = '<?php echo esc_js( __( 'WoowGallery Albums', 'wgtd' ) ); ?>'"><?php esc_html_e( 'Woow Albums', 'wgtd' ); ?></a>
+										<a href="#" class="media-menu-item" :class="{active: ('woowgallery' === get_post_type)}" @click.prevent="get_post_type = 'woowgallery'; frame_title = '<?php echo esc_js( __( 'WoowGallery Galleries', 'woowgallery' ) ); ?>'"><?php esc_html_e( 'Woow Galleries', 'woowgallery' ); ?></a>
+										<a href="#" class="media-menu-item" :class="{active: ('woowgallery-dynamic' === get_post_type)}" @click.prevent="get_post_type = 'woowgallery-dynamic'; frame_title = '<?php echo esc_js( __( 'WoowGallery Dynamic Galleries', 'woowgallery' ) ); ?>'"><?php esc_html_e( 'Woow Dynamic Galleries', 'woowgallery' ); ?></a>
+										<a href="#" class="media-menu-item" :class="{active: ('woowgallery-album' === get_post_type)}" @click.prevent="get_post_type = 'woowgallery-album'; frame_title = '<?php echo esc_js( __( 'WoowGallery Albums', 'woowgallery' ) ); ?>'"><?php esc_html_e( 'Woow Albums', 'woowgallery' ); ?></a>
 									<?php } else { ?>
 										<?php
 										$_post_types = woowgallery_get_post_types( [ 'show_in_rest' => true ] );
@@ -52,8 +52,8 @@ $hide_menu = ( Posttypes::ALBUM_POSTTYPE === $post->post_type ) ? 'hide-menu' : 
 						<div class="media-frame-title">
 							<span id="wg-modal-menu-toggle" v-if="!modalIframeSrc" @click="menu_toggle = !menu_toggle;"><span class="dashicons dashicons-menu-alt"></span></span>
 							<h1 v-text="frame_title"></h1>
-							<button v-if="previous_screen" @click.prevent="loadPreviousScreen()" type="button" class="media-modal-close"><span class="dashicons dashicons-arrow-left-alt"><span class="screen-reader-text"><?php esc_html_e( 'Go Back', 'wgtd' ); ?></span></span></button>
-							<button @click.prevent="modalClose()" type="button" class="media-modal-close"><span class="media-modal-icon"><span class="screen-reader-text"><?php esc_html_e( 'Close media panel', 'wgtd' ); ?></span></span></button>
+							<button v-if="previous_screen" @click.prevent="loadPreviousScreen()" type="button" class="media-modal-close"><span class="dashicons dashicons-arrow-left-alt"><span class="screen-reader-text"><?php esc_html_e( 'Go Back', 'woowgallery' ); ?></span></span></button>
+							<button @click.prevent="modalClose()" type="button" class="media-modal-close"><span class="media-modal-icon"><span class="screen-reader-text"><?php esc_html_e( 'Close media panel', 'woowgallery' ); ?></span></span></button>
 						</div>
 						<div class="media-frame-content" :class="{'show-iframe': modalIframeSrc}">
 							<iframe v-if="modalIframeSrc" class="edit-woowgallery-modal" :src="modalIframeSrc" referrerpolicy="same-origin" name="woowgallery-edit-iframe" width="100%" height="100%" allowtransparency></iframe>
@@ -69,7 +69,7 @@ $hide_menu = ( Posttypes::ALBUM_POSTTYPE === $post->post_type ) ? 'hide-menu' : 
 													<a class="woowgallery-btn" :class="{disabled: (page < 2)}" @click.prevent="page--" href="#"><span class="step-backward">‹</span></a>
 												</div>
 												<div class="woowgallery-page-of woowgallery-btn-group">
-													<span class="woowgallery-btn-addon"><?php esc_html_e( 'Page', 'wgtd' ); ?></span>
+													<span class="woowgallery-btn-addon"><?php esc_html_e( 'Page', 'woowgallery' ); ?></span>
 													<input class="woowgallery-pager-current-page" type="number" v-model="page" min="1" :max="pages" step="1">
 													<span class="woowgallery-btn-addon"><?php echo esc_html_x( 'of', 'paging: (Page 1 of 100)' ); ?> {{ pages }}</span>
 												</div>
@@ -82,19 +82,19 @@ $hide_menu = ( Posttypes::ALBUM_POSTTYPE === $post->post_type ) ? 'hide-menu' : 
 											<div class="woowgallery-select-switchers" v-if="showSelectSwitchers()">
 												<label class="wg-add-media-toggle woowgallery-selection-prepend">
 													<input type="checkbox" v-model="prepend_mode"/>
-													<span class="prepend-mode" title="<?php esc_attr_e( 'Prepend selected items to the gallery', 'wgtd' ); ?>"><object type="image/svg+xml" data="<?php echo esc_url( plugins_url( 'assets/images/add-items.svg', WOOWGALLERY_FILE ) ); ?>" width="32" height="32"></object></span>
-													<span class="append-mode" title="<?php esc_attr_e( 'Append selected items to the gallery', 'wgtd' ); ?>"><object type="image/svg+xml" data="<?php echo esc_url( plugins_url( 'assets/images/add-items.svg', WOOWGALLERY_FILE ) ); ?>" width="32" height="32"></object></span>
+													<span class="prepend-mode" title="<?php esc_attr_e( 'Prepend selected items to the gallery', 'woowgallery' ); ?>"><object type="image/svg+xml" data="<?php echo esc_url( plugins_url( 'assets/images/add-items.svg', WOOWGALLERY_FILE ) ); ?>" width="32" height="32"></object></span>
+													<span class="append-mode" title="<?php esc_attr_e( 'Append selected items to the gallery', 'woowgallery' ); ?>"><object type="image/svg+xml" data="<?php echo esc_url( plugins_url( 'assets/images/add-items.svg', WOOWGALLERY_FILE ) ); ?>" width="32" height="32"></object></span>
 												</label>
 												<label class="wg-add-media-toggle woowgallery-selection-display">
 													<input type="checkbox" v-model="hide_selected"/>
-													<span class="selected-show" title="<?php esc_attr_e( 'Show items that are already added to the gallery', 'wgtd' ); ?>"><object type="image/svg+xml" data="<?php echo esc_url( plugins_url( 'assets/images/selected-show.svg', WOOWGALLERY_FILE ) ); ?>" width="32" height="32"></object></span>
-													<span class="selected-hide" title="<?php esc_attr_e( 'Hide items that are already added to the gallery', 'wgtd' ); ?>"><object type="image/svg+xml" data="<?php echo esc_url( plugins_url( 'assets/images/selected-hide.svg', WOOWGALLERY_FILE ) ); ?>" width="32" height="32"></object></span>
+													<span class="selected-show" title="<?php esc_attr_e( 'Show items that are already added to the gallery', 'woowgallery' ); ?>"><object type="image/svg+xml" data="<?php echo esc_url( plugins_url( 'assets/images/selected-show.svg', WOOWGALLERY_FILE ) ); ?>" width="32" height="32"></object></span>
+													<span class="selected-hide" title="<?php esc_attr_e( 'Hide items that are already added to the gallery', 'woowgallery' ); ?>"><object type="image/svg+xml" data="<?php echo esc_url( plugins_url( 'assets/images/selected-hide.svg', WOOWGALLERY_FILE ) ); ?>" width="32" height="32"></object></span>
 												</label>
 											</div>
 										</div>
 										<div class="media-toolbar-primary search-form">
 											<span class="spinner" :class="{'is-active': loading}"></span>
-											<input type="search" placeholder="<?php esc_attr_e( 'Search...', 'wgtd' ); ?>" id="woowgallery-media-search-input" class="form-control search" v-model="search_term">
+											<input type="search" placeholder="<?php esc_attr_e( 'Search...', 'woowgallery' ); ?>" id="woowgallery-media-search-input" class="form-control search" v-model="search_term">
 										</div>
 									</div>
 									<div class="woowgallery-attachments-wrapper">
@@ -103,7 +103,7 @@ $hide_menu = ( Posttypes::ALBUM_POSTTYPE === $post->post_type ) ? 'hide-menu' : 
 												<div class="woowgallery-checkbox">
 													<button type="button" class="check" tabindex="-1" @click="toggleSelectItem(item.id, $event)">
 														<span class="media-modal-icon"></span>
-														<span class="screen-reader-text"><?php esc_html_e( 'Deselect', 'wgtd' ); ?></span>
+														<span class="screen-reader-text"><?php esc_html_e( 'Deselect', 'woowgallery' ); ?></span>
 													</button>
 												</div>
 												<div class="attachment-preview-wrapper" @mouseup.left.exact="selectItem(item.id, $event)" @mouseup.left.shift.exact="selectItemsTo(item.id, $event)">
@@ -111,7 +111,7 @@ $hide_menu = ( Posttypes::ALBUM_POSTTYPE === $post->post_type ) ? 'hide-menu' : 
 														<div class="thumbnail" v-if="item.thumb[0]">
 															<img :src="item.thumb[0]" alt=""/>
 														</div>
-														<div class="no-thumbnail" v-else><?php esc_html_e( 'No Featured Image', 'wgtd' ); ?></div>
+														<div class="no-thumbnail" v-else><?php esc_html_e( 'No Featured Image', 'woowgallery' ); ?></div>
 													</div>
 													<div class="meta">
 														<div class="title">{{ mediaTitle(item) }}</div>
@@ -149,16 +149,16 @@ $hide_menu = ( Posttypes::ALBUM_POSTTYPE === $post->post_type ) ? 'hide-menu' : 
 															@click.prevent="createModal(selected_last_item.subtype, selected_last_item.id, 'WoowGallery')"
 															class="button button-secondary button-small"
 															target="_blank"
-														><?php esc_html_e( 'Edit', 'wgtd' ); ?></a>
-														<a v-else :href="selected_last_item.edit_link" target="_blank"><?php esc_html_e( 'Edit', 'wgtd' ); ?></a>
+														><?php esc_html_e( 'Edit', 'woowgallery' ); ?></a>
+														<a v-else :href="selected_last_item.edit_link" target="_blank"><?php esc_html_e( 'Edit', 'woowgallery' ); ?></a>
 													</div>
 												</div>
 											</div>
 
 											<template v-if="'shortcode' === modal_type">
-												<h2><?php esc_html_e( 'Shortcode Settings', 'wgtd' ); ?></h2>
+												<h2><?php esc_html_e( 'Shortcode Settings', 'woowgallery' ); ?></h2>
 												<div class="woowgallery-setting">
-													<label for="wg_width"><?php esc_html_e( 'Width', 'wgtd' ); ?></label>
+													<label for="wg_width"><?php esc_html_e( 'Width', 'woowgallery' ); ?></label>
 													<div class="multi-input">
 														<input type="number" id="wg_width" class="form-control" v-model="wg_width"/>
 														<select id="wg_align" class="form-control" v-model="wg_width_unit">
@@ -170,11 +170,11 @@ $hide_menu = ( Posttypes::ALBUM_POSTTYPE === $post->post_type ) ? 'hide-menu' : 
 												</div>
 
 												<div class="woowgallery-setting">
-													<label for="wg_align"><?php esc_html_e( 'Align', 'wgtd' ); ?></label>
+													<label for="wg_align"><?php esc_html_e( 'Align', 'woowgallery' ); ?></label>
 													<select id="wg_align" class="form-control" v-model="wg_align">
-														<option value="left"><?php esc_attr_e( 'Left', 'wgtd' ); ?></option>
-														<option value="center"><?php esc_attr_e( 'Center', 'wgtd' ); ?></option>
-														<option value="right"><?php esc_attr_e( 'Right', 'wgtd' ); ?></option>
+														<option value="left"><?php esc_attr_e( 'Left', 'woowgallery' ); ?></option>
+														<option value="center"><?php esc_attr_e( 'Center', 'woowgallery' ); ?></option>
+														<option value="right"><?php esc_attr_e( 'Right', 'woowgallery' ); ?></option>
 													</select>
 												</div>
 											</template>
@@ -188,7 +188,7 @@ $hide_menu = ( Posttypes::ALBUM_POSTTYPE === $post->post_type ) ? 'hide-menu' : 
 									<!-- Actions -->
 									<div class="actions">
 										<span class="spinner" :class="{'is-active': inserting}"></span>
-										<button @click="insert()" class="button button-primary woowgallery-modal-insert" :disabled="!selected_last"><?php esc_html_e( 'Insert', 'wgtd' ); ?></button>
+										<button @click="insert()" class="button button-primary woowgallery-modal-insert" :disabled="!selected_last"><?php esc_html_e( 'Insert', 'woowgallery' ); ?></button>
 									</div>
 									<!-- /.actions -->
 								</div>
@@ -211,9 +211,9 @@ $hide_menu = ( Posttypes::ALBUM_POSTTYPE === $post->post_type ) ? 'hide-menu' : 
     </div>
     <div class="attachment-info">
         <div class="settings">
-            <h2><?php _e( 'Edit Meta', 'wgtd' ); ?></h2>
+            <h2><?php _e( 'Edit Meta', 'woowgallery' ); ?></h2>
             <label class="setting">
-                <span class="name"><?php _e('Title', 'wgtd' ); ?></span>
+                <span class="name"><?php _e('Title', 'woowgallery' ); ?></span>
                 <input type="text" name="title" data-setting="title" value="{{ model.title }}" />
             </label>
 
@@ -223,9 +223,9 @@ $hide_menu = ( Posttypes::ALBUM_POSTTYPE === $post->post_type ) ? 'hide-menu' : 
         <div class="actions">
             <span class="settings-save-status">
                 <span class="spinner"></span>
-                <span class="saved"><?php esc_html_e('Saved', 'wgtd' ); ?></span>
+                <span class="saved"><?php esc_html_e('Saved', 'woowgallery' ); ?></span>
             </span>
-            <button type="button" class="button-primary woowgallery-collection-bulk-save"><?php _e( 'Save', 'wgtd' ); ?></button>
+            <button type="button" class="button-primary woowgallery-collection-bulk-save"><?php _e( 'Save', 'woowgallery' ); ?></button>
         </div>
 
     </div>

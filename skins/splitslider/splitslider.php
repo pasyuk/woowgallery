@@ -77,14 +77,14 @@ class SplitSlider {
 		$schema = [
 			'common'   => [
 
-				'label'  => __( 'Layout Settings', 'wgtd' ),
+				'label'  => __( 'Layout Settings', 'woowgallery' ),
 				'fields' => [
 					'ratio_wrap'        => [
-						'label'  => __( 'Ratio (width / height)', 'wgtd' ),
+						'label'  => __( 'Ratio (width / height)', 'woowgallery' ),
 						'tag'    => 'flexbox',
 						'fields' => [
 							'base_width'  => [
-								'label'   => __( 'Ratio Width', 'wgtd' ),
+								'label'   => __( 'Ratio Width', 'woowgallery' ),
 								'tag'     => 'input',
 								'default' => 2,
 								'attr'    => [
@@ -93,7 +93,7 @@ class SplitSlider {
 								],
 							],
 							'base_height' => [
-								'label'   => __( 'Ratio Height', 'wgtd' ),
+								'label'   => __( 'Ratio Height', 'woowgallery' ),
 								'tag'     => 'input',
 								'default' => 1,
 								'attr'    => [
@@ -102,11 +102,11 @@ class SplitSlider {
 								],
 							],
 						],
-						'help'  => __( 'Background CSS in short format', 'wgtd' ),
-						'text'  => __( 'Background CSS in short format: <strong>url(\'https://my.site/image-url.jpg\') center center / cover no-repeat</strong>', 'wgtd' ),
+						'help'  => __( 'Background CSS in short format', 'woowgallery' ),
+						'text'  => __( 'Background CSS in short format: <strong>url(\'https://my.site/image-url.jpg\') center center / cover no-repeat</strong>', 'woowgallery' ),
 					],
 					'min_height_wrap'   => [
-						'label'  => __( 'Minimum Height', 'wgtd' ),
+						'label'  => __( 'Minimum Height', 'woowgallery' ),
 						'tag'    => 'flexbox',
 						'fields' => [
 							'min_height'           => [
@@ -144,30 +144,30 @@ class SplitSlider {
 								],
 							],
 						],
-						'text'  => __( 'Background CSS in short format: <strong>url(\'https://my.site/image-url.jpg\') center center / cover no-repeat</strong>', 'wgtd' ),
+						'text'  => __( 'Background CSS in short format: <strong>url(\'https://my.site/image-url.jpg\') center center / cover no-repeat</strong>', 'woowgallery' ),
 					],
 					'show_title'        => [
-						'label'   => __( 'Show Title', 'wgtd' ),
+						'label'   => __( 'Show Title', 'woowgallery' ),
 						'tag'     => 'checkbox',
 						'default' => 1,
 					],
 					'show_caption'      => [
-						'label'   => __( 'Show Caption', 'wgtd' ),
+						'label'   => __( 'Show Caption', 'woowgallery' ),
 						'tag'     => 'checkbox',
 						'default' => 1,
 					],
 					'show_link'         => [
-						'label'   => __( 'Show Link Button', 'wgtd' ),
+						'label'   => __( 'Show Link Button', 'woowgallery' ),
 						'tag'     => 'checkbox',
 						'default' => 1,
 					],
 					'default_link_text' => [
-						'label'   => __( 'Default Link Button Label', 'wgtd' ),
+						'label'   => __( 'Default Link Button Label', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => 'MORE',
 						'visible' => 'autoplay',
 						'premium' => 1,
-						'text'    => __( 'Show above label if `Link Text` field is empty on image', 'wgtd' ),
+						'text'    => __( 'Show above label if `Link Text` field is empty on image', 'woowgallery' ),
 						'attr'    => [
 							'type' => 'text',
 						],
@@ -175,15 +175,15 @@ class SplitSlider {
 				],
 			],
 			'autoplay' => [
-				'label'  => __( 'Autoplay Settings', 'wgtd' ),
+				'label'  => __( 'Autoplay Settings', 'woowgallery' ),
 				'fields' => [
 					'autoplay'       => [
-						'label'   => __( 'Autoplay', 'wgtd' ),
+						'label'   => __( 'Autoplay', 'woowgallery' ),
 						'tag'     => 'checkbox',
 						'default' => 0,
 					],
 					'autoplay_delay' => [
-						'label'   => __( 'Autoplay Delay', 'wgtd' ),
+						'label'   => __( 'Autoplay Delay', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => 5000,
 						'visible' => 'autoplay',
@@ -194,7 +194,7 @@ class SplitSlider {
 						],
 					],
 					'speed'          => [
-						'label'   => __( 'Autoplay Speed', 'wgtd' ),
+						'label'   => __( 'Autoplay Speed', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => 1000,
 						'visible' => 'autoplay',
@@ -207,10 +207,10 @@ class SplitSlider {
 				],
 			],
 			'colors'   => [
-				'label'  => __( 'Colors', 'wgtd' ),
+				'label'  => __( 'Colors', 'woowgallery' ),
 				'fields' => [
 					'title_color'        => [
-						'label'   => __( 'Title', 'wgtd' ),
+						'label'   => __( 'Title', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => '#ffffff',
 						'options' => [
@@ -221,7 +221,7 @@ class SplitSlider {
 						],
 					],
 					'caption_color'      => [
-						'label'   => __( 'Caption', 'wgtd' ),
+						'label'   => __( 'Caption', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => '#ffffff',
 						'options' => [
@@ -232,7 +232,7 @@ class SplitSlider {
 						],
 					],
 					'button_bg'          => [
-						'label'   => __( 'Button Background', 'wgtd' ),
+						'label'   => __( 'Button Background', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => '#ffffff',
 						'attr'    => [
@@ -240,7 +240,7 @@ class SplitSlider {
 						],
 					],
 					'button_bg_hover'    => [
-						'label'   => __( 'Button Hover Background', 'wgtd' ),
+						'label'   => __( 'Button Hover Background', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,0)',
 						'attr'    => [
@@ -248,7 +248,7 @@ class SplitSlider {
 						],
 					],
 					'button_color'       => [
-						'label'   => __( 'Button', 'wgtd' ),
+						'label'   => __( 'Button', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => '#000000',
 						'options' => [
@@ -259,7 +259,7 @@ class SplitSlider {
 						],
 					],
 					'button_color_hover' => [
-						'label'   => __( 'Button Hover', 'wgtd' ),
+						'label'   => __( 'Button Hover', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => '#ffffff',
 						'options' => [
@@ -270,7 +270,7 @@ class SplitSlider {
 						],
 					],
 					'preloader_color'    => [
-						'label'   => __( 'Preloader Color', 'wgtd' ),
+						'label'   => __( 'Preloader Color', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => '#000000',
 						'attr'    => [
@@ -278,7 +278,7 @@ class SplitSlider {
 						],
 					],
 					'pagination_color'   => [
-						'label'   => __( 'Pagination Color', 'wgtd' ),
+						'label'   => __( 'Pagination Color', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => '#ffffff',
 						'attr'    => [

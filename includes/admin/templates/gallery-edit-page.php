@@ -62,7 +62,7 @@ $show_skins_block       = 'add' === $screen->action || $meta_gallery_skin_slug !
 				</div>
 				<div id="activity" class="woowgallery-choose-skin<?php echo ! $show_skins_block ? ' closed' : ''; ?>">
 					<button type="button" class="button button-secondary handleskinsdiv">
-						<span class="dashicons dashicons-admin-appearance" title="<?php esc_attr_e( 'Choose Skin', 'wgtd' ); ?>"></span>
+						<span class="dashicons dashicons-admin-appearance" title="<?php esc_attr_e( 'Choose Skin', 'woowgallery' ); ?>"></span>
 					</button>
 				</div>
 			</div>

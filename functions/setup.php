@@ -17,10 +17,6 @@ register_deactivation_hook( WOOWGALLERY_FILE, 'woowgallery_deactivation_hook' );
 // Fire a hook for plugin uninstall.
 register_uninstall_hook( __FILE__, 'woowgallery_uninstall_hook' );
 
-
-// Load the plugin textdomain.
-add_action( 'plugins_loaded', 'woowgallery_load_textdomain' );
-
 // Check setup.
 add_action( 'admin_init', 'woowgallery_check_environment', 0 );
 
@@ -39,7 +35,7 @@ function woowgallery_activation_hook( $network_wide ) {
 	if ( version_compare( $wp_version, '4.6.0', '<' ) ) {
 		deactivate_plugins( plugin_basename( WOOWGALLERY_FILE ) );
 		// Translators: %s: URL.
-		wp_die( sprintf( __( 'Sorry, but your version of WordPress does not meet WoowGallery\'s required version of <strong>4.0.0</strong> or higher to run properly. The plugin has been deactivated. <a href="%s">Click here to return to the Dashboard</a>.', 'wgtd' ), get_admin_url() ) ); // @codingStandardsIgnoreLine
+		wp_die( sprintf( __( 'Sorry, but your version of WordPress does not meet WoowGallery\'s required version of <strong>4.0.0</strong> or higher to run properly. The plugin has been deactivated. <a href="%s">Click here to return to the Dashboard</a>.', 'woowgallery' ), get_admin_url() ) ); // @codingStandardsIgnoreLine
 	}
 
 	if ( is_multisite() && $network_wide ) {
@@ -139,27 +135,18 @@ function woowgallery_delete() {
 }
 
 /**
- * Loads the plugin textdomain for translation.
- */
-function woowgallery_load_textdomain() {
-
-	load_plugin_textdomain( 'wgtd', false, dirname( plugin_basename( WOOWGALLERY_FILE ) ) . '/languages/' );
-
-}
-
-/**
  * Display a nag notice if the server's configuration doesn't match requirements
  */
 function woowgallery_check_environment() {
 
 	// Output a notice if PHP version less than 5.4.
 	if ( (float) phpversion() < 5.4 ) {
-		Notice::add_message( __( 'WoowGallery requires PHP 5.3 or greater for some specific functionality. Please have your web host resolve this.', 'wgtd' ) );
+		Notice::add_message( __( 'WoowGallery requires PHP 5.3 or greater for some specific functionality. Please have your web host resolve this.', 'woowgallery' ) );
 	}
 
 	// Output a notice if missing cropping extensions because WoowGallery needs them.
 	if ( ! ( extension_loaded( 'gd' ) && function_exists( 'gd_info' ) ) && ! extension_loaded( 'imagick' ) ) {
-		Notice::add_message( __( 'The GD or Imagick libraries are not installed on your server. WoowGallery requires at least one (preferably Imagick) in order to crop images and may not work properly without it. Please contact your webhost and ask them to compile GD or Imagick for your PHP install.', 'wgtd' ) );
+		Notice::add_message( __( 'The GD or Imagick libraries are not installed on your server. WoowGallery requires at least one (preferably Imagick) in order to crop images and may not work properly without it. Please contact your webhost and ask them to compile GD or Imagick for your PHP install.', 'woowgallery' ) );
 	}
 
 }
@@ -182,7 +169,7 @@ function woowgallery_upgrade() {
 
 		do_action( 'woowgallery_upgrade' );
 
-		update_option( 'woowgallery_version', $this->base->version );
+		update_option( 'woowgallery_version', WOOWGALLERY_VERSION );
 	}
 
 }

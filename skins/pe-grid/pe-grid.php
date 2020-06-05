@@ -78,14 +78,14 @@ class PeGrid {
 		$schema = [
 			'common' => [
 
-				'label'  => __( 'Layout Settings', 'wgtd' ),
+				'label'  => __( 'Layout Settings', 'woowgallery' ),
 				'fields' => [
 					'thumb_size'          => [
-						'label'  => __( 'Thumbnail Size', 'wgtd' ),
+						'label'  => __( 'Thumbnail Size', 'woowgallery' ),
 						'tag'    => 'flexbox',
 						'fields' => [
 							'thumb_width'  => [
-								'label'   => __( 'Width', 'wgtd' ),
+								'label'   => __( 'Width', 'woowgallery' ),
 								'tag'     => 'input',
 								'default' => 200,
 								'attr'    => [
@@ -94,7 +94,7 @@ class PeGrid {
 								],
 							],
 							'thumb_height' => [
-								'label'   => __( 'Height', 'wgtd' ),
+								'label'   => __( 'Height', 'woowgallery' ),
 								'tag'     => 'input',
 								'default' => 200,
 								'attr'    => [
@@ -105,11 +105,11 @@ class PeGrid {
 						],
 					],
 					'scale'               => [
-						'label'  => __( 'Thumbnail Scale', 'wgtd' ),
+						'label'  => __( 'Thumbnail Scale', 'woowgallery' ),
 						'tag'    => 'flexbox',
 						'fields' => [
 							'min_scale' => [
-								'label'   => __( 'Initial Scale', 'wgtd' ),
+								'label'   => __( 'Initial Scale', 'woowgallery' ),
 								'tag'     => 'input',
 								'default' => 0.8,
 								'attr'    => [
@@ -120,7 +120,7 @@ class PeGrid {
 								],
 							],
 							'max_scale' => [
-								'label'   => __( 'Hover Scale', 'wgtd' ),
+								'label'   => __( 'Hover Scale', 'woowgallery' ),
 								'tag'     => 'input',
 								'default' => 1,
 								'attr'    => [
@@ -133,11 +133,11 @@ class PeGrid {
 						],
 					],
 					'opacity'             => [
-						'label'  => __( 'Thumbnail Opacity', 'wgtd' ),
+						'label'  => __( 'Thumbnail Opacity', 'woowgallery' ),
 						'tag'    => 'flexbox',
 						'fields' => [
 							'min_opacity' => [
-								'label'   => __( 'Initial Opacity', 'wgtd' ),
+								'label'   => __( 'Initial Opacity', 'woowgallery' ),
 								'tag'     => 'input',
 								'default' => 0.8,
 								'attr'    => [
@@ -148,7 +148,7 @@ class PeGrid {
 								],
 							],
 							'max_opacity' => [
-								'label'   => __( 'Hover Opacity', 'wgtd' ),
+								'label'   => __( 'Hover Opacity', 'woowgallery' ),
 								'tag'     => 'input',
 								'default' => 1,
 								'attr'    => [
@@ -161,11 +161,11 @@ class PeGrid {
 						],
 					],
 					'thumb_border_radius' => [
-						'label'  => __( 'Thumbnail Border Radius', 'wgtd' ),
+						'label'  => __( 'Thumbnail Border Radius', 'woowgallery' ),
 						'tag'    => 'flexbox',
 						'fields' => [
 							'border_radius'       => [
-								'label'   => __( 'Initial Border Radius', 'wgtd' ),
+								'label'   => __( 'Initial Border Radius', 'woowgallery' ),
 								'tag'     => 'input',
 								'default' => 0,
 								'attr'    => [
@@ -174,7 +174,7 @@ class PeGrid {
 								],
 							],
 							'border_radius_hover' => [
-								'label'   => __( 'Hover Border Radius', 'wgtd' ),
+								'label'   => __( 'Hover Border Radius', 'woowgallery' ),
 								'tag'     => 'input',
 								'default' => 0,
 								'attr'    => [
@@ -185,7 +185,7 @@ class PeGrid {
 						],
 					],
 					'grid_gap'            => [
-						'label'   => __( 'Grid Gap', 'wgtd' ),
+						'label'   => __( 'Grid Gap', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => 10,
 						'attr'    => [
@@ -193,7 +193,7 @@ class PeGrid {
 						],
 					],
 					'proximity_distance'  => [
-						'label'   => __( 'Proximity Distance ', 'wgtd' ),
+						'label'   => __( 'Proximity Distance ', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => 200,
 						'attr'    => [
@@ -202,27 +202,27 @@ class PeGrid {
 						],
 					],
 					'show_info'           => [
-						'label'   => __( 'Show Information on Hover', 'wgtd' ),
+						'label'   => __( 'Show Information on Hover', 'woowgallery' ),
 						'tag'     => 'checkbox',
 						'default' => 1,
 					],
 					'show_title'          => [
-						'label'   => __( 'Show Title', 'wgtd' ),
+						'label'   => __( 'Show Title', 'woowgallery' ),
 						'tag'     => 'checkbox',
 						'default' => 1,
 					],
 					'show_caption'        => [
-						'label'   => __( 'Show Caption', 'wgtd' ),
+						'label'   => __( 'Show Caption', 'woowgallery' ),
 						'tag'     => 'checkbox',
 						'default' => 1,
 					],
 				],
 			],
 			'colors' => [
-				'label'  => __( 'Colors', 'wgtd' ),
+				'label'  => __( 'Colors', 'woowgallery' ),
 				'fields' => [
 					'grid_bg'       => [
-						'label'   => __( 'Grid Background', 'wgtd' ),
+						'label'   => __( 'Grid Background', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,0)',
 						'attr'    => [
@@ -230,16 +230,16 @@ class PeGrid {
 						],
 					],
 					'grid_bg_img'   => [
-						'label' => __( 'Grid Background Image Advanced', 'wgtd' ),
+						'label' => __( 'Grid Background Image Advanced', 'woowgallery' ),
 						'tag'   => 'input',
 						'attr'  => [
 							'type'        => 'text',
 							'placeholder' => 'url(\'https://my.site/image-url.jpg\')',
 						],
-						'text'  => __( 'Background CSS in short format: <strong>url(\'https://my.site/image-url.jpg\') center center / cover no-repeat</strong>', 'wgtd' ),
+						'text'  => __( 'Background CSS in short format: <strong>url(\'https://my.site/image-url.jpg\') center center / cover no-repeat</strong>', 'woowgallery' ),
 					],
 					'info_bg'       => [
-						'label'   => __( 'Info Background', 'wgtd' ),
+						'label'   => __( 'Info Background', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,0.8)',
 						'attr'    => [
@@ -247,7 +247,7 @@ class PeGrid {
 						],
 					],
 					'title_color'   => [
-						'label'   => __( 'Title', 'wgtd' ),
+						'label'   => __( 'Title', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => '#ffffff',
 						'options' => [
@@ -258,7 +258,7 @@ class PeGrid {
 						],
 					],
 					'caption_color' => [
-						'label'   => __( 'Caption', 'wgtd' ),
+						'label'   => __( 'Caption', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => '#ffffff',
 						'options' => [

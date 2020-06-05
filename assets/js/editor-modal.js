@@ -102,7 +102,7 @@ window.WoowGalleryAdmin = window.WoowGalleryAdmin || {l10n: {}};
         return (new Date(date)).toLocaleString();
       },
       mediaTags: function(tags) {
-        return tags.length ? i18n.sprintf(i18n.__('Tags: %s', 'wgtd'), tags.join(', ')) : '';
+        return tags.length ? i18n.sprintf(i18n.__('Tags: %s', 'woowgallery'), tags.join(', ')) : '';
       }
     },
     mounted: function() {
@@ -255,10 +255,10 @@ window.WoowGalleryAdmin = window.WoowGalleryAdmin || {l10n: {}};
 
       mediaTitle: function(item) {
         if ('private' === item.status) {
-          return i18n.sprintf(i18n.__('%s - Private', 'wgtd'), item.title);
+          return i18n.sprintf(i18n.__('%s - Private', 'woowgallery'), item.title);
         }
         else if ('future' === item.status) {
-          return i18n.sprintf(i18n.__('%s - Scheduled', 'wgtd'), item.title);
+          return i18n.sprintf(i18n.__('%s - Scheduled', 'woowgallery'), item.title);
         }
 
         return item.title;
@@ -270,9 +270,9 @@ window.WoowGalleryAdmin = window.WoowGalleryAdmin || {l10n: {}};
           return '';
         }
         return 'woowgallery-album' === item.subtype ?
-          i18n.sprintf(i18n._n('%d Gallery', '%d Galleries', count, 'wgtd'), count)
+          i18n.sprintf(i18n._n('%d Gallery', '%d Galleries', count, 'woowgallery'), count)
           :
-          i18n.sprintf(i18n._n('%d Media Item', '%d Media Items', count, 'wgtd'), count);
+          i18n.sprintf(i18n._n('%d Media Item', '%d Media Items', count, 'woowgallery'), count);
       },
 
       modalClose: function() {

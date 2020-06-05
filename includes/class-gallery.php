@@ -253,7 +253,7 @@ class Gallery {
 			$skin = Skins::get_instance()->get_skin( $gallery_skin );
 			if ( $skin->slug !== $gallery_skin && is_admin() ) {
 				// translators: Gallery ID.
-				Notice::add_message( sprintf( __( 'Broken or removed Skin! Please re-save gallery ID#%d with a new Skin.', 'wgtd' ), $this->post_id ), Notice::TYPE_ERROR, '', 'broken_skin' );
+				Notice::add_message( sprintf( __( 'Broken or removed Skin! Please re-save gallery ID#%d with a new Skin.', 'woowgallery' ), $this->post_id ), Notice::TYPE_ERROR, '', 'broken_skin' );
 			}
 
 			$this->skin_slug   = $skin->slug;

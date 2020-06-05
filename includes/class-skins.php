@@ -121,7 +121,7 @@ class Skins {
 				return $this->get_skin( $settings['default_skin'] );
 			}
 
-			return new \WP_Error( 'skin_missed', __( 'Missed default skin. Set default skin on Settings page.', 'wgtd' ) );
+			return new \WP_Error( 'skin_missed', __( 'Missed default skin. Set default skin on Settings page.', 'woowgallery' ) );
 		}
 
 		if ( 'default' !== $preset_name && ! isset( $skins[ $skin_slug ]->model[ $preset_name ] ) ) {

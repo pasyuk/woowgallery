@@ -213,7 +213,7 @@ class Ajax {
 
 		$json = woowgallery_GET( 'json' );
 		if ( empty( $json ) ) {
-			wp_send_json_error( __( 'Empty Query', 'wgtd' ) );
+			wp_send_json_error( __( 'Empty Query', 'woowgallery' ) );
 		}
 
 		$gallery_id = (int) woowgallery_GET( 'gallery_id', 0 );

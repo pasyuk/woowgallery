@@ -88,12 +88,12 @@ abstract class Edit_Tablelist {
 		// Add additional columns we want to display.
 		$wg_columns = [
 			'cb'        => '<input type="checkbox" />',
-			'image'     => __( 'Cover', 'wgtd' ),
-			'title'     => __( 'Title', 'wgtd' ),
-			'shortcode' => __( 'Shortcode', 'wgtd' ),
-			'posts'     => __( 'Posts', 'wgtd' ),
-			'modified'  => __( 'Last Modified', 'wgtd' ),
-			'date'      => __( 'Date', 'wgtd' ),
+			'image'     => __( 'Cover', 'woowgallery' ),
+			'title'     => __( 'Title', 'woowgallery' ),
+			'shortcode' => __( 'Shortcode', 'woowgallery' ),
+			'posts'     => __( 'Posts', 'woowgallery' ),
+			'modified'  => __( 'Last Modified', 'woowgallery' ),
+			'date'      => __( 'Date', 'woowgallery' ),
 		];
 
 		// Allow filtering of columns.
@@ -131,10 +131,10 @@ abstract class Edit_Tablelist {
 				$count_items = (int) get_post_meta( $post->ID, Gallery::GALLERY_MEDIA_COUNT_META_KEY, true );
 				if ( Posttypes::GALLERY_POSTTYPE === $this->post_type || Posttypes::DYNAMIC_POSTTYPE === $this->post_type ) {
 					// translators: number of media items.
-					echo esc_html( sprintf( _n( '%d Media Item', '%d Media Items', $count_items, 'wgtd' ), $count_items ) );
+					echo esc_html( sprintf( _n( '%d Media Item', '%d Media Items', $count_items, 'woowgallery' ), $count_items ) );
 				} elseif ( Posttypes::ALBUM_POSTTYPE === $this->post_type ) {
 					// translators: number of galleries in album.
-					echo esc_html( sprintf( _n( '%d Gallery', '%d Galleries', $count_items, 'wgtd' ), $count_items ) );
+					echo esc_html( sprintf( _n( '%d Gallery', '%d Galleries', $count_items, 'woowgallery' ), $count_items ) );
 					$total_items  = 0;
 					$gallery_data = (array) json_decode( $post->post_content_filtered );
 					foreach ( $gallery_data as $gallery_item ) {
@@ -142,7 +142,7 @@ abstract class Edit_Tablelist {
 						$total_items = $total_items + $count_items;
 					}
 					// translators: number of media items.
-					echo '<br />' . esc_html( sprintf( _n( '%d Media Item', '%d Media Items', $total_items, 'wgtd' ), $total_items ) );
+					echo '<br />' . esc_html( sprintf( _n( '%d Media Item', '%d Media Items', $total_items, 'woowgallery' ), $total_items ) );
 				}
 				echo '</span>';
 				break;
@@ -154,8 +154,8 @@ abstract class Edit_Tablelist {
 				echo '
 <div class="woowgallery-code">
 	<code id="woowgallery_shortcode_id_' . absint( $post->ID ) . '">[' . esc_html( $this->post_type ) . ' id="' . absint( $post->ID ) . '"]</code>
-	<a href="#" title="' . esc_attr__( 'Copy Shortcode to Clipboard', 'wgtd' ) . '" data-clipboard-target="#woowgallery_shortcode_id_' . absint( $post->ID ) . '" class="dashicons dashicons-clipboard woowgallery-clipboard">
-		<span>' . esc_html__( 'Copy to Clipboard', 'wgtd' ) . '</span>
+	<a href="#" title="' . esc_attr__( 'Copy Shortcode to Clipboard', 'woowgallery' ) . '" data-clipboard-target="#woowgallery_shortcode_id_' . absint( $post->ID ) . '" class="dashicons dashicons-clipboard woowgallery-clipboard">
+		<span>' . esc_html__( 'Copy to Clipboard', 'woowgallery' ) . '</span>
 	</a>
 </div>';
 				break;
@@ -181,7 +181,7 @@ abstract class Edit_Tablelist {
 				global $mode;
 
 				if ( '0000-00-00 00:00:00' === $post->post_modified ) {
-					$t_time = __( 'Unpublished', 'wgtd' );
+					$t_time = __( 'Unpublished', 'woowgallery' );
 					$h_time = $t_time;
 				} else {
 					$t_time = get_the_modified_time( __( 'Y/m/d g:i:s a' ) );
@@ -192,7 +192,7 @@ abstract class Edit_Tablelist {
 
 					if ( $time_diff > 0 && $time_diff < DAY_IN_SECONDS ) {
 						// translators: time ago.
-						$h_time = sprintf( __( '%s ago', 'wgtd' ), human_time_diff( $time ) );
+						$h_time = sprintf( __( '%s ago', 'woowgallery' ), human_time_diff( $time ) );
 					} else {
 						$h_time = mysql2date( __( 'Y/m/d' ), $m_time );
 					}
@@ -204,24 +204,24 @@ abstract class Edit_Tablelist {
 					$cache_h = absint( $wg->get_settings( 'cache', Settings::get_settings( 'cache' ) ) );
 					if ( $cache_h ) {
 						// translators: time in hours.
-						echo '<p><span class="cache-time">' . esc_html( sprintf( _n( 'Cache time: %d hour', 'Cache time: %d hours', $cache_h, 'wgtd' ), $cache_h ) ) . '</span></p>';
+						echo '<p><span class="cache-time">' . esc_html( sprintf( _n( 'Cache time: %d hour', 'Cache time: %d hours', $cache_h, 'woowgallery' ), $cache_h ) ) . '</span></p>';
 
 						$cache_expire = (int) get_post_meta( $post->ID, Gallery::GALLERY_UPDATE_META_KEY, true );
 						if ( $cache_expire && 1 < $cache_expire ) {
 							$updated   = $cache_expire - $cache_h * HOUR_IN_SECONDS;
 							$time_diff = time() - $updated;
 							if ( $time_diff > $cache_h * HOUR_IN_SECONDS ) {
-								echo '<span class="cache-updated">' . esc_html__( 'Cache expired', 'wgtd' ) . '</span>';
+								echo '<span class="cache-updated">' . esc_html__( 'Cache expired', 'woowgallery' ) . '</span>';
 							} else {
 								// translators: time ago.
-								echo '<span class="cache-updated">' . esc_html( sprintf( __( 'Cached: %s ago', 'wgtd' ), human_time_diff( $updated ) ) ) . '</span>';
-								echo '<br /><button name="wg_cache_clear" value="' . absint( $post->ID ) . '" class="button button-small button-primary cache-clear">' . esc_attr__( 'Clear cache', 'wgtd' ) . '</button>';
+								echo '<span class="cache-updated">' . esc_html( sprintf( __( 'Cached: %s ago', 'woowgallery' ), human_time_diff( $updated ) ) ) . '</span>';
+								echo '<br /><button name="wg_cache_clear" value="' . absint( $post->ID ) . '" class="button button-small button-primary cache-clear">' . esc_attr__( 'Clear cache', 'woowgallery' ) . '</button>';
 							}
 						} else {
-							echo '<span class="cache-updated">' . esc_html__( 'Not cached yet', 'wgtd' ) . '</span>';
+							echo '<span class="cache-updated">' . esc_html__( 'Not cached yet', 'woowgallery' ) . '</span>';
 						}
 					} else {
-						echo '<span class="cache-time">' . esc_html__( 'Cache disabled', 'wgtd' ) . '</span>';
+						echo '<span class="cache-time">' . esc_html__( 'Cache disabled', 'woowgallery' ) . '</span>';
 					}
 				}
 

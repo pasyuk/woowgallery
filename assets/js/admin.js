@@ -125,7 +125,7 @@ jQuery(function($) {
       }
     ).done((response) => {
       if (response && response.success) {
-        $(this).parent().find('.cache-updated').text(__('Not cached yet', 'wgtd'));
+        $(this).parent().find('.cache-updated').text(__('Not cached yet', 'woowgallery'));
         $(this).remove();
       }
     }).always(() => {

@@ -259,7 +259,7 @@ class Edit_Album extends Edit_Woowgallery {
 			return;
 		}
 		?>
-		<button type="button" class="button button-primary woowgallery-add-media woowgallery-modal-button" data-editor="woowgallery-preview" data-modal="woowgallery" data-posttype="<?php echo esc_attr( Posttypes::GALLERY_POSTTYPE ); ?>" title="<?php esc_attr_e( 'Select Galleries', 'wgtd' ); ?>">
+		<button type="button" class="button button-primary woowgallery-add-media woowgallery-modal-button" data-editor="woowgallery-preview" data-modal="woowgallery" data-posttype="<?php echo esc_attr( Posttypes::GALLERY_POSTTYPE ); ?>" title="<?php esc_attr_e( 'Select Galleries', 'woowgallery' ); ?>">
 			<span class="dashicons dashicons-format-gallery"></span><span class="btn-label"><?php esc_html_e( 'Add Galleries to Album', 'woowgallery' ); ?></span>
 		</button>
 		<?php

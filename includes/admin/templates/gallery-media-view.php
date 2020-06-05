@@ -15,15 +15,15 @@
 	<mounting-portal mount-to="#woowgallery-portal" name="woowgallery-view-item" v-if="viewItem" v-cloak append>
 		<template>
 			<div tabindex="0" class="upload-php media-modal wp-core-ui">
-				<button @click.prevent="viewItemClose()" type="button" class="media-modal-close"><span class="media-modal-icon"><span class="screen-reader-text"><?php esc_html_e( 'Close media panel', 'wgtd' ); ?></span></span></button>
+				<button @click.prevent="viewItemClose()" type="button" class="media-modal-close"><span class="media-modal-icon"><span class="screen-reader-text"><?php esc_html_e( 'Close media panel', 'woowgallery' ); ?></span></span></button>
 				<div class="media-modal-content">
 					<div class="edit-attachment-frame mode-select hide-menu hide-router">
 						<div class="edit-media-header">
-							<button @click.prevent="viewItemSet(viewItemPrev)" class="left dashicons" :class="{'woowgallery-disabled': !viewItemPrev}"><span class="screen-reader-text"><?php esc_html_e( 'Previous media item', 'wgtd' ); ?></span></button>
-							<button @click.prevent="viewItemSet(viewItemNext)" class="right dashicons" :class="{'woowgallery-disabled': !viewItemNext}"><span class="screen-reader-text"><?php esc_html_e( 'Next media item', 'wgtd' ); ?></span></button>
+							<button @click.prevent="viewItemSet(viewItemPrev)" class="left dashicons" :class="{'woowgallery-disabled': !viewItemPrev}"><span class="screen-reader-text"><?php esc_html_e( 'Previous media item', 'woowgallery' ); ?></span></button>
+							<button @click.prevent="viewItemSet(viewItemNext)" class="right dashicons" :class="{'woowgallery-disabled': !viewItemNext}"><span class="screen-reader-text"><?php esc_html_e( 'Next media item', 'woowgallery' ); ?></span></button>
 						</div>
 						<div class="media-frame-title">
-							<h1><?php esc_html_e( 'View Item Data', 'wgtd' ); ?></h1>
+							<h1><?php esc_html_e( 'View Item Data', 'woowgallery' ); ?></h1>
 						</div>
 						<div class="media-frame-content">
 							<div class="attachment-details">
@@ -71,7 +71,7 @@
 										<p class="item-location" v-if="viewItem.location && viewItem.location.name">{{ viewItem.location.name }}</p>
 										<p class="item-link"><a :href="viewItem.link.url" target="_blank">{{ viewItem.link.url }}</a></p>
 										<p class="item-tags" v-if="viewItem.tags && viewItem.tags.length">
-											<?php esc_html_e( 'Tags:', 'wgtd' ); ?> {{ viewItem.tags | formatTags }}
+											<?php esc_html_e( 'Tags:', 'woowgallery' ); ?> {{ viewItem.tags | formatTags }}
 										</p>
 										<div class="item-caption" v-html="captionHashtags(viewItem.caption)"></div>
 									</div>

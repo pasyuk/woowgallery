@@ -18,9 +18,9 @@ use WoowGallery\Posttypes;
 ?>
 	<div id="woowgallery-preview" class="woowgallery-preview" :class="view">
 		<div class="woowgallery-empty-gallery" v-if="!gallery.length" v-cloak>
-			<h2><?php esc_html_e( 'WoowGallery', 'wgtd' ); ?></h2>
-			<h3 v-if="'gallery' == woowgallery_type"><?php esc_html_e( 'Create Gallery by adding media files.', 'wgtd' ); ?></h3>
-			<h3 v-else-if="'album' == woowgallery_type"><?php esc_html_e( 'Create Albums Gallery by adding Galleries.', 'wgtd' ); ?></h3>
+			<h2><?php esc_html_e( 'WoowGallery', 'woowgallery' ); ?></h2>
+			<h3 v-if="'gallery' == woowgallery_type"><?php esc_html_e( 'Create Gallery by adding media files.', 'woowgallery' ); ?></h3>
+			<h3 v-else-if="'album' == woowgallery_type"><?php esc_html_e( 'Create Albums Gallery by adding Galleries.', 'woowgallery' ); ?></h3>
 			<div class="wg-media-buttons">
 				<?php do_action( 'woowgallery_media_buttons', $data['post'] ); ?>
 			</div>
@@ -31,9 +31,9 @@ use WoowGallery\Posttypes;
 				<h3>
 					<?php
 					if ( Posttypes::ALBUM_POSTTYPE === $data['post']->post_type ) {
-						esc_html_e( 'Currently in your Album', 'wgtd' );
+						esc_html_e( 'Currently in your Album', 'woowgallery' );
 					} else {
-						esc_html_e( 'Currently in your Gallery', 'wgtd' );
+						esc_html_e( 'Currently in your Gallery', 'woowgallery' );
 					}
 					?>
 				</h3>
@@ -41,34 +41,34 @@ use WoowGallery\Posttypes;
 				<div class="grid-actions fc-wa">
 					<div class="woowgallery-sort-options">
 						<select id="gallery-sortby" class="form-control gallery-sortby" name="_woowgallery[settings][sortby]" v-model="sortby">
-							<option value="custom"><?php esc_html_e( 'Custom Sorting', 'wgtd' ); ?></option>
-							<option value="title"><?php esc_html_e( 'Sort by Title', 'wgtd' ); ?></option>
-							<option value="caption"><?php esc_html_e( 'Sort by Caption', 'wgtd' ); ?></option>
+							<option value="custom"><?php esc_html_e( 'Custom Sorting', 'woowgallery' ); ?></option>
+							<option value="title"><?php esc_html_e( 'Sort by Title', 'woowgallery' ); ?></option>
+							<option value="caption"><?php esc_html_e( 'Sort by Caption', 'woowgallery' ); ?></option>
 							<?php
 							if ( Posttypes::ALBUM_POSTTYPE !== $data['post']->post_type ) {
-								echo '<option value="alt">' . esc_html__( 'Sort by Alt', 'wgtd' ) . '</option>';
+								echo '<option value="alt">' . esc_html__( 'Sort by Alt', 'woowgallery' ) . '</option>';
 							}
 							if ( Posttypes::ALBUM_POSTTYPE !== $data['post']->post_type
 								|| ( woow_fs()->can_use_premium_code() && (int) Settings::get_settings( 'woowgallery_tags' ) ) ) {
-								echo '<option value="tags">' . esc_html__( 'Sort by Tags', 'wgtd' ) . '</option>';
+								echo '<option value="tags">' . esc_html__( 'Sort by Tags', 'woowgallery' ) . '</option>';
 							}
 							?>
-							<option value="date"><?php esc_html_e( 'Sort by Date', 'wgtd' ); ?></option>
-							<option value="slug"><?php esc_html_e( 'Sort by Slug', 'wgtd' ); ?></option>
+							<option value="date"><?php esc_html_e( 'Sort by Date', 'woowgallery' ); ?></option>
+							<option value="slug"><?php esc_html_e( 'Sort by Slug', 'woowgallery' ); ?></option>
 						</select>
 
 						<select id="gallery-sortorder" class="form-control gallery-sortorder" name="_woowgallery[settings][sortorder]" v-model="sortorder" :disabled="'custom' === sortby">
-							<option value="asc"><?php esc_html_e( 'Ascending (A-Z)', 'wgtd' ); ?></option>
-							<option value="desc"><?php esc_html_e( 'Descending (Z-A)', 'wgtd' ); ?></option>
+							<option value="asc"><?php esc_html_e( 'Ascending (A-Z)', 'woowgallery' ); ?></option>
+							<option value="desc"><?php esc_html_e( 'Descending (Z-A)', 'woowgallery' ); ?></option>
 						</select>
 					</div>
 
-					<input class="form-control gallery-filter" type="text" v-model="filter" placeholder="<?php esc_attr_e( 'Filter', 'wgtd' ); ?>" autocomplete="off"/>
+					<input class="form-control gallery-filter" type="text" v-model="filter" placeholder="<?php esc_attr_e( 'Filter', 'woowgallery' ); ?>" autocomplete="off"/>
 
 					<!-- List / Grid View -->
 					<div class="woowgallery-view-switch view-switch">
-						<a @click.prevent="view = 'grid'" href="#" class="view-grid" :class="{current: (view === 'grid')}"><span class="screen-reader-text"><?php esc_html_e( 'Grid View', 'wgtd' ); ?></span></a>
-						<a @click.prevent="view = 'list'" href="#" class="view-list" :class="{current: (view === 'list')}"><span class="screen-reader-text"><?php esc_html_e( 'List View', 'wgtd' ); ?></span></a>
+						<a @click.prevent="view = 'grid'" href="#" class="view-grid" :class="{current: (view === 'grid')}"><span class="screen-reader-text"><?php esc_html_e( 'Grid View', 'woowgallery' ); ?></span></a>
+						<a @click.prevent="view = 'list'" href="#" class="view-list" :class="{current: (view === 'list')}"><span class="screen-reader-text"><?php esc_html_e( 'List View', 'woowgallery' ); ?></span></a>
 						<input type="hidden" name="_woowgallery[editor][view]" :value="view"/>
 					</div>
 				</div>
@@ -78,25 +78,25 @@ use WoowGallery\Posttypes;
 				<label class="woowgallery-select-all">
 					<input type="checkbox" :checked="selected.length" @click="toggleSelectAll()"/>
 					<template v-if="!selected.length">
-						<?php esc_html_e( 'Select All', 'wgtd' ); ?> (<span class="woowgallery-count">{{ gallery.length }}</span>)
+						<?php esc_html_e( 'Select All', 'woowgallery' ); ?> (<span class="woowgallery-count">{{ gallery.length }}</span>)
 					</template>
 					<template v-else>
-						<?php esc_html_e( 'Selected', 'wgtd' ); ?> (<span class="woowgallery-count">{{ selected.length }} / {{ gallery.length }}</span>)
+						<?php esc_html_e( 'Selected', 'woowgallery' ); ?> (<span class="woowgallery-count">{{ selected.length }} / {{ gallery.length }}</span>)
 					</template>
 				</label>
 
 				<!-- Bulk Edit / Delete Buttons -->
 				<div class="woowgallery-select-options" v-if="selected.length">
-					<div class="woowgallery-label"><?php esc_html_e( 'Select Action:', 'wgtd' ); ?>&nbsp;</div>
+					<div class="woowgallery-label"><?php esc_html_e( 'Select Action:', 'woowgallery' ); ?>&nbsp;</div>
 					<?php do_action( 'woowgallery_bulk_actions', $data['post'] ); ?>
-					<a @click.prevent="bulkEditSet()" v-if="'gallery' == woowgallery_type" href="#" class="button woowgallery-media-bulk-edit" :class="{disabled: (selected_types.length > 1)}" :title="(selected_types.length > 1)? '<?php echo esc_js( __( 'Can\'t bulk edit multiple types of media', 'wgdt' ) ); ?>' : null"><?php esc_html_e( 'Bulk Edit', 'wgtd' ); ?></a>
-					<a @click="removeSelectedItems($event)" href="#" class="button button-danger woowgallery-media-delete" data-confirm="<?php esc_attr_e( 'Are you sure you want to remove selected items from the gallery?', 'wgtd' ); ?>"><?php esc_html_e( 'Delete from Gallery', 'wgtd' ); ?></a>
+					<a @click.prevent="bulkEditSet()" v-if="'gallery' == woowgallery_type" href="#" class="button woowgallery-media-bulk-edit" :class="{disabled: (selected_types.length > 1)}" :title="(selected_types.length > 1)? '<?php echo esc_js( __( 'Can\'t bulk edit multiple types of media', 'wgdt' ) ); ?>' : null"><?php esc_html_e( 'Bulk Edit', 'woowgallery' ); ?></a>
+					<a @click="removeSelectedItems($event)" href="#" class="button button-danger woowgallery-media-delete" data-confirm="<?php esc_attr_e( 'Are you sure you want to remove selected items from the gallery?', 'woowgallery' ); ?>"><?php esc_html_e( 'Delete from Gallery', 'woowgallery' ); ?></a>
 				</div>
 			</nav>
 
 			<!-- Pagination -->
 			<div class="woowgallery-simple-pager" v-if="pages > 1">
-				<div class="woowgallery-label"><?php esc_html_e( 'Pages:', 'wgtd' ); ?></div>
+				<div class="woowgallery-label"><?php esc_html_e( 'Pages:', 'woowgallery' ); ?></div>
 				<div class="woowgallery-btn-group">
 					<span class="woowgallery-btn-page" v-for="n in pages" :class="{current: (page === n)}" @click="page = n" @mouseenter="sortableMoveToPage(n)">{{ n }}</span>
 				</div>
@@ -109,7 +109,7 @@ use WoowGallery\Posttypes;
 						<div class="woowgallery-checkbox">
 							<button type="button" class="check" @click="toggleSelectItem(item.id, $event)" tabindex="-1">
 								<span class="media-modal-icon"></span>
-								<span class="screen-reader-text"><?php esc_html_e( 'Deselect', 'wgtd' ); ?></span>
+								<span class="screen-reader-text"><?php esc_html_e( 'Deselect', 'woowgallery' ); ?></span>
 							</button>
 						</div>
 						<template>
@@ -124,19 +124,19 @@ use WoowGallery\Posttypes;
 							</div>
 							<div class="actions">
 								<template v-if="item.has_password">
-									<a v-if="'private' === item.status" @click="setStatus(item.id, 'publish', $event)" href="#" class="dashicons dashicons-shield-alt woowgallery-item-status" data-status="private" title="<?php esc_attr_e( 'Status: Only for logged in users', 'wgtd' ); ?>"></a>
-									<a v-else-if="'publish' === item.status" @click="setStatus(item.id, 'private', $event)" href="#" class="dashicons dashicons-shield woowgallery-item-status" data-status="publish" title="<?php esc_attr_e( 'Status: Visible for all', 'wgtd' ); ?>"></a>
+									<a v-if="'private' === item.status" @click="setStatus(item.id, 'publish', $event)" href="#" class="dashicons dashicons-shield-alt woowgallery-item-status" data-status="private" title="<?php esc_attr_e( 'Status: Only for logged in users', 'woowgallery' ); ?>"></a>
+									<a v-else-if="'publish' === item.status" @click="setStatus(item.id, 'private', $event)" href="#" class="dashicons dashicons-shield woowgallery-item-status" data-status="publish" title="<?php esc_attr_e( 'Status: Visible for all', 'woowgallery' ); ?>"></a>
 								</template>
 								<template v-else>
-									<a v-if="'private' === item.status" @click="setStatus(item.id, 'publish', $event)" href="#" class="dashicons dashicons-lock woowgallery-item-status" data-status="private" title="<?php esc_attr_e( 'Status: Only for logged in users', 'wgtd' ); ?>"></a>
-									<a v-else-if="'publish' === item.status" @click="setStatus(item.id, 'private', $event)" href="#" class="dashicons dashicons-unlock woowgallery-item-status" data-status="publish" title="<?php esc_attr_e( 'Status: Visible for all', 'wgtd' ); ?>"></a>
+									<a v-if="'private' === item.status" @click="setStatus(item.id, 'publish', $event)" href="#" class="dashicons dashicons-lock woowgallery-item-status" data-status="private" title="<?php esc_attr_e( 'Status: Only for logged in users', 'woowgallery' ); ?>"></a>
+									<a v-else-if="'publish' === item.status" @click="setStatus(item.id, 'private', $event)" href="#" class="dashicons dashicons-unlock woowgallery-item-status" data-status="publish" title="<?php esc_attr_e( 'Status: Visible for all', 'woowgallery' ); ?>"></a>
 								</template>
 								<template v-if="'post' === item.type">
-									<span v-if="'future' === item.status" class="dashicons dashicons-clock woowgallery-item-status" data-status="future" title="<?php esc_attr_e( 'Status: Scheduled', 'wgtd' ); ?>"></span>
-									<span v-else-if="'draft' === item.status || 'pending' === item.status" class="dashicons dashicons-sos woowgallery-item-status" :data-status="item.status" title="<?php esc_attr_e( 'Status: Draft/Pending', 'wgtd' ); ?>"></span>
+									<span v-if="'future' === item.status" class="dashicons dashicons-clock woowgallery-item-status" data-status="future" title="<?php esc_attr_e( 'Status: Scheduled', 'woowgallery' ); ?>"></span>
+									<span v-else-if="'draft' === item.status || 'pending' === item.status" class="dashicons dashicons-sos woowgallery-item-status" :data-status="item.status" title="<?php esc_attr_e( 'Status: Draft/Pending', 'woowgallery' ); ?>"></span>
 								</template>
-								<a @click="editItemSet(item, $event)" href="#" class="dashicons dashicons-edit woowgallery-edit-media" title="<?php esc_attr_e( 'Edit Data', 'wgtd' ); ?>"></a>
-								<a @click="removeItem(item.id, $event)" href="#" class="dashicons dashicons-trash woowgallery-remove-media" title="<?php esc_attr_e( 'Remove from Gallery', 'wgtd' ); ?>" data-confirm="<?php esc_attr_e( 'Are you sure you want to remove this item from the gallery?', 'wgtd' ); ?>"></a>
+								<a @click="editItemSet(item, $event)" href="#" class="dashicons dashicons-edit woowgallery-edit-media" title="<?php esc_attr_e( 'Edit Data', 'woowgallery' ); ?>"></a>
+								<a @click="removeItem(item.id, $event)" href="#" class="dashicons dashicons-trash woowgallery-remove-media" title="<?php esc_attr_e( 'Remove from Gallery', 'woowgallery' ); ?>" data-confirm="<?php esc_attr_e( 'Are you sure you want to remove this item from the gallery?', 'woowgallery' ); ?>"></a>
 								<div class="more"><?php do_action( 'woowgallery_item_more_actions', $data['post'] ); ?></div>
 							</div>
 							<div class="meta">
@@ -144,10 +144,10 @@ use WoowGallery\Posttypes;
 								<div class="more" v-if="view === 'list'">
 									<div class="caption">{{ item.caption }}</div>
 									<div class="meta-link" v-if="item.link.url">
-										<?php esc_html_e( 'Link:', 'wgtd' ); ?> <span v-if="item.link.text">[{{ item.link.text }}]</span> <a target="_blank" :class="['target-' + item.link.target]" :href="item.link.url">{{ item.link.url }}</a>
+										<?php esc_html_e( 'Link:', 'woowgallery' ); ?> <span v-if="item.link.text">[{{ item.link.text }}]</span> <a target="_blank" :class="['target-' + item.link.target]" :href="item.link.url">{{ item.link.url }}</a>
 									</div>
 									<div class="tags" v-if="item.tags">
-										<?php esc_html_e( 'Tags:', 'wgtd' ); ?> {{ item.tags | formatTags }}
+										<?php esc_html_e( 'Tags:', 'woowgallery' ); ?> {{ item.tags | formatTags }}
 									</div>
 									<div class="addons"><?php do_action( 'woowgallery_item_more_meta', $data['post'] ); ?></div>
 								</div>

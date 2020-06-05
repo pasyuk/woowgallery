@@ -17,20 +17,20 @@ use WoowGallery\Posttypes;
 	<mounting-portal mount-to="#woowgallery-portal" name="woowgallery-edit-item" v-if="editItem" v-cloak append>
 		<template>
 			<div tabindex="0" class="upload-php media-modal wp-core-ui">
-				<button @click.prevent="editItemClose()" type="button" class="media-modal-close"><span class="media-modal-icon"><span class="screen-reader-text"><?php esc_html_e( 'Close media panel', 'wgtd' ); ?></span></span></button>
+				<button @click.prevent="editItemClose()" type="button" class="media-modal-close"><span class="media-modal-icon"><span class="screen-reader-text"><?php esc_html_e( 'Close media panel', 'woowgallery' ); ?></span></span></button>
 				<div class="media-modal-content">
 					<div class="edit-attachment-frame mode-select hide-menu hide-router">
 						<div class="edit-media-header">
-							<button @click.prevent="editItemSet(editItemPrev)" class="left dashicons" :class="{'woowgallery-disabled': !editItemPrev}"><span class="screen-reader-text"><?php esc_html_e( 'Edit previous media item', 'wgtd' ); ?></span></button>
-							<button @click.prevent="editItemSet(editItemNext)" class="right dashicons" :class="{'woowgallery-disabled': !editItemNext}"><span class="screen-reader-text"><?php esc_html_e( 'Edit next media item', 'wgtd' ); ?></span></button>
+							<button @click.prevent="editItemSet(editItemPrev)" class="left dashicons" :class="{'woowgallery-disabled': !editItemPrev}"><span class="screen-reader-text"><?php esc_html_e( 'Edit previous media item', 'woowgallery' ); ?></span></button>
+							<button @click.prevent="editItemSet(editItemNext)" class="right dashicons" :class="{'woowgallery-disabled': !editItemNext}"><span class="screen-reader-text"><?php esc_html_e( 'Edit next media item', 'woowgallery' ); ?></span></button>
 						</div>
 						<div class="media-frame-title">
 							<h1>
 								<?php
 								if ( Posttypes::ALBUM_POSTTYPE === $data['post']->post_type ) {
-									esc_html_e( 'Edit Gallery Data', 'wgtd' );
+									esc_html_e( 'Edit Gallery Data', 'woowgallery' );
 								} else {
-									esc_html_e( 'Edit Item Data', 'wgtd' );
+									esc_html_e( 'Edit Item Data', 'woowgallery' );
 								}
 								?>
 							</h1>
@@ -59,43 +59,43 @@ use WoowGallery\Posttypes;
 									<div class="settings">
 										<!-- Status -->
 										<div class="woowgallery-setting">
-											<label for="item-status"><?php esc_html_e( 'Status', 'wgtd' ); ?></label>
-											<span v-if="editItem.has_password" class="item-has-password"><?php esc_html_e( '(password protected)', 'wgtd' ); ?></span>
+											<label for="item-status"><?php esc_html_e( 'Status', 'woowgallery' ); ?></label>
+											<span v-if="editItem.has_password" class="item-has-password"><?php esc_html_e( '(password protected)', 'woowgallery' ); ?></span>
 											<template v-if="'publish' === editItem.status || 'private' === editItem.status">
 												<select id="item-status" v-model="editItem.status">
-													<option value="private"><?php esc_attr_e( 'Private', 'wgtd' ); ?></option>
-													<option value="publish"><?php esc_attr_e( 'Publish', 'wgtd' ); ?></option>
+													<option value="private"><?php esc_attr_e( 'Private', 'woowgallery' ); ?></option>
+													<option value="publish"><?php esc_attr_e( 'Publish', 'woowgallery' ); ?></option>
 												</select>
 												<div class="description">
 													<?php
 													if ( Posttypes::ALBUM_POSTTYPE === $data['post']->post_type ) {
-														esc_html_e( 'Controls whether this individual gallery is Private or Published within the Album.', 'wgtd' );
+														esc_html_e( 'Controls whether this individual gallery is Private or Published within the Album.', 'woowgallery' );
 													} else {
-														esc_html_e( 'Controls whether this individual item is Private or Published within the Gallery.', 'wgtd' );
+														esc_html_e( 'Controls whether this individual item is Private or Published within the Gallery.', 'woowgallery' );
 													}
 													?>
 												</div>
 											</template>
 											<template v-else>
-												<input v-if="'future' === editItem.status" type="text" value="<?php esc_attr_e( 'Scheduled', 'wgtd' ); ?>" readonly/>
-												<input v-else-if="'draft' === editItem.status || 'pending' === editItem.status" type="text" value="<?php esc_attr_e( 'Draft / Pending', 'wgtd' ); ?>" readonly/>
+												<input v-if="'future' === editItem.status" type="text" value="<?php esc_attr_e( 'Scheduled', 'woowgallery' ); ?>" readonly/>
+												<input v-else-if="'draft' === editItem.status || 'pending' === editItem.status" type="text" value="<?php esc_attr_e( 'Draft / Pending', 'woowgallery' ); ?>" readonly/>
 											</template>
 										</div>
 
 										<!-- Image Title -->
 										<div class="woowgallery-setting">
-											<label for="item-title"><?php esc_html_e( 'Title', 'wgtd' ); ?></label>
+											<label for="item-title"><?php esc_html_e( 'Title', 'woowgallery' ); ?></label>
 											<input v-if="'custom' !== editItem.title_src" :key="editItem.title_src" type="text" id="item-title" :value="itemTitle(editItem)" readonly/>
 											<input v-else :key="editItem.title_src" type="text" id="item-title" v-model="editItem.title"/>
 											<div class="wg-clearfix">
-												<label class="switcher"><?php esc_html_e( 'Source:', 'wgtd' ); ?>
+												<label class="switcher"><?php esc_html_e( 'Source:', 'woowgallery' ); ?>
 													<select id="item-title-src" v-model="editItem.title_src">
 														<?php if ( Posttypes::ALBUM_POSTTYPE === $data['post']->post_type ) { ?>
-															<option value="title"><?php esc_attr_e( 'Gallery Title', 'wgtd' ); ?></option>
+															<option value="title"><?php esc_attr_e( 'Gallery Title', 'woowgallery' ); ?></option>
 														<?php } else { ?>
-															<option value="title" v-text="('post' === editItem.type)? '<?php echo esc_js( __( 'Post Title', 'wgtd' ) ); ?>' : '<?php echo esc_js( __( 'Media Title', 'wgtd' ) ); ?>'"></option>
+															<option value="title" v-text="('post' === editItem.type)? '<?php echo esc_js( __( 'Post Title', 'woowgallery' ) ); ?>' : '<?php echo esc_js( __( 'Media Title', 'woowgallery' ) ); ?>'"></option>
 														<?php } ?>
-														<option value="custom"><?php esc_html_e( 'Custom Title', 'wgtd' ); ?></option>
+														<option value="custom"><?php esc_html_e( 'Custom Title', 'woowgallery' ); ?></option>
 													</select>
 												</label>
 											</div>
@@ -103,7 +103,7 @@ use WoowGallery\Posttypes;
 
 										<!-- Caption -->
 										<div class="woowgallery-setting">
-											<label for="item-caption"><?php esc_html_e( 'Caption', 'wgtd' ); ?></label>
+											<label for="item-caption"><?php esc_html_e( 'Caption', 'woowgallery' ); ?></label>
 											<div id="wp-item-caption-wrap" class="wp-core-ui wp-editor-wrap html-active">
 												<div id="wp-item-caption-editor-container">
 													<div id="qt_item-caption_toolbar" class="quicktags-toolbar wp-editor-container" :class="{'woowgallery-disabled': ('custom' !== editItem.caption_src)}"></div>
@@ -112,93 +112,93 @@ use WoowGallery\Posttypes;
 												</div>
 											</div>
 											<div class="wg-clearfix">
-												<label class="switcher"><?php esc_html_e( 'Source:', 'wgtd' ); ?>
+												<label class="switcher"><?php esc_html_e( 'Source:', 'woowgallery' ); ?>
 													<select id="item-title-src" v-model="editItem.caption_src">
 														<template v-if="'attachment' === editItem.type">
-															<option value="caption"><?php esc_html_e( 'Media Caption', 'wgtd' ); ?></option>
-															<option value="description"><?php esc_html_e( 'Media Description', 'wgtd' ); ?></option>
+															<option value="caption"><?php esc_html_e( 'Media Caption', 'woowgallery' ); ?></option>
+															<option value="description"><?php esc_html_e( 'Media Description', 'woowgallery' ); ?></option>
 														</template>
 														<template v-else-if="'post' === editItem.type">
 															<?php if ( Posttypes::ALBUM_POSTTYPE === $data['post']->post_type ) { ?>
-																<option value="excerpt"><?php esc_html_e( 'Gallery Description', 'wgtd' ); ?></option>
+																<option value="excerpt"><?php esc_html_e( 'Gallery Description', 'woowgallery' ); ?></option>
 															<?php } else { ?>
-																<option value="excerpt"><?php esc_html_e( 'Post Excerpt', 'wgtd' ); ?></option>
+																<option value="excerpt"><?php esc_html_e( 'Post Excerpt', 'woowgallery' ); ?></option>
 															<?php } ?>
 														</template>
-														<option value="custom"><?php esc_html_e( 'Custom Caption', 'wgtd' ); ?></option>
+														<option value="custom"><?php esc_html_e( 'Custom Caption', 'woowgallery' ); ?></option>
 													</select>
 												</label>
-												<div class="description"><?php esc_html_e( 'HTML is accepted for formatting text in the Custom Caption source.', 'wgtd' ); ?></div>
+												<div class="description"><?php esc_html_e( 'HTML is accepted for formatting text in the Custom Caption source.', 'woowgallery' ); ?></div>
 											</div>
 										</div>
 
 										<?php if ( Posttypes::ALBUM_POSTTYPE !== $data['post']->post_type ) { ?>
 											<!-- Alt Text -->
 											<div class="woowgallery-setting" v-if="'post' !== editItem.type">
-												<label for="item-alt"><?php esc_html_e( 'Alt Text', 'wgtd' ); ?></label>
+												<label for="item-alt"><?php esc_html_e( 'Alt Text', 'woowgallery' ); ?></label>
 												<input v-if="'custom' !== editItem.alt_src" :key="editItem.alt_src" type="text" id="item-alt" :value="itemAlt(editItem)" readonly/>
 												<input v-else :key="editItem.alt_src" type="text" id="item-alt" v-model="editItem.alt"/>
 												<div class="wg-clearfix">
-													<label class="switcher"><?php esc_html_e( 'Source:', 'wgtd' ); ?>
+													<label class="switcher"><?php esc_html_e( 'Source:', 'woowgallery' ); ?>
 														<select id="item-alt-src" v-model="editItem.alt_src">
 															<template v-if="'attachment' === editItem.type">
-																<option value="alt"><?php esc_html_e( 'Media Alt', 'wgtd' ); ?></option>
+																<option value="alt"><?php esc_html_e( 'Media Alt', 'woowgallery' ); ?></option>
 															</template>
-															<option value="title"><?php esc_html_e( 'Same as Title', 'wgtd' ); ?></option>
-															<option value="custom"><?php esc_html_e( 'Custom Alt', 'wgtd' ); ?></option>
+															<option value="title"><?php esc_html_e( 'Same as Title', 'woowgallery' ); ?></option>
+															<option value="custom"><?php esc_html_e( 'Custom Alt', 'woowgallery' ); ?></option>
 														</select>
 													</label>
-													<div class="description"><?php esc_html_e( 'Very important for SEO, the Alt Text describes the image.', 'wgtd' ); ?></div>
+													<div class="description"><?php esc_html_e( 'Very important for SEO, the Alt Text describes the image.', 'woowgallery' ); ?></div>
 												</div>
 											</div>
 
 											<!-- Link -->
 											<div class="woowgallery-setting">
 												<div class="woowgallery-flex space-between">
-													<label><?php esc_html_e( 'Link', 'wgtd' ); ?></label>
+													<label><?php esc_html_e( 'Link', 'woowgallery' ); ?></label>
 													<div class="buttons textright" v-if="'attachment' === editItem.type">
-														<button @click.prevent="editItem.link.url = editItemPageLink()" class="button button-small attachment-page"><?php esc_html_e( 'Attachment Page URL', 'wgtd' ); ?></button>
-														<button class="button button-small choose-link" data-woowgallery-custom-link="item-link-url"><?php esc_html_e( 'Choose Link', 'wgtd' ); ?></button>
+														<button @click.prevent="editItem.link.url = editItemPageLink()" class="button button-small attachment-page"><?php esc_html_e( 'Attachment Page URL', 'woowgallery' ); ?></button>
+														<button class="button button-small choose-link" data-woowgallery-custom-link="item-link-url"><?php esc_html_e( 'Choose Link', 'woowgallery' ); ?></button>
 													</div>
 												</div>
 
 												<template v-if="'attachment' === editItem.type">
 													<div class="woowgallery-flex sub-setting">
-														<label class="inline-label" for="item-link-url"><?php esc_html_e( 'URL:', 'wgtd' ); ?></label>
+														<label class="inline-label" for="item-link-url"><?php esc_html_e( 'URL:', 'woowgallery' ); ?></label>
 														<input type="text" id="item-link-url" v-model="editItem.link.url">
 													</div>
-													<div class="description"><?php esc_html_e( 'Enter a hyperlink if you wish to link this item to somewhere other than its original file', 'wgtd' ); ?></div>
+													<div class="description"><?php esc_html_e( 'Enter a hyperlink if you wish to link this item to somewhere other than its original file', 'woowgallery' ); ?></div>
 												</template>
 												<template v-else-if="!!editItemPageLink()">
 													<div class="woowgallery-flex sub-setting">
-														<label class="inline-label" for="item-link-url"><?php esc_html_e( 'URL:', 'wgtd' ); ?></label>
+														<label class="inline-label" for="item-link-url"><?php esc_html_e( 'URL:', 'woowgallery' ); ?></label>
 														<a class="wg-input-like" :href="editItemPageLink()" target="_blank">{{ editItemPageLink() }}</a>
 													</div>
 												</template>
 
 												<template v-if="editItem.link.url || ('attachment' !== editItem.type && !!editItemPageLink())">
 													<div class="woowgallery-flex sub-setting">
-														<label class="inline-label" for="item-link-text"><?php esc_html_e( 'Text:', 'wgtd' ); ?></label>
+														<label class="inline-label" for="item-link-text"><?php esc_html_e( 'Text:', 'woowgallery' ); ?></label>
 														<input type="text" id="item-link-text" v-model="editItem.link.text">
 													</div>
-													<div class="description"><?php esc_html_e( 'Enter a text for link button (optional).', 'wgtd' ); ?></div>
+													<div class="description"><?php esc_html_e( 'Enter a text for link button (optional).', 'woowgallery' ); ?></div>
 
 													<div class="woowgallery-flex sub-setting">
-														<label class="inline-label" for="item-link-target"><?php esc_html_e( 'Target:', 'wgtd' ); ?></label>
+														<label class="inline-label" for="item-link-target"><?php esc_html_e( 'Target:', 'woowgallery' ); ?></label>
 														<select id="item-link-target" v-model="editItem.link.target">
-															<option value="_self"><?php esc_html_e( 'Same Window', 'wgtd' ); ?></option>
-															<option value="_blank"><?php esc_html_e( 'New Tab', 'wgtd' ); ?></option>
+															<option value="_self"><?php esc_html_e( 'Same Window', 'woowgallery' ); ?></option>
+															<option value="_blank"><?php esc_html_e( 'New Tab', 'woowgallery' ); ?></option>
 														</select>
 													</div>
-													<div class="description"><?php esc_html_e( 'Opens link in a same browser window or in a new tab.', 'wgtd' ); ?></div>
+													<div class="description"><?php esc_html_e( 'Opens link in a same browser window or in a new tab.', 'woowgallery' ); ?></div>
 												</template>
 											</div>
 
 											<!-- Copyright -->
 											<div class="woowgallery-setting" v-if="'attachment' === editItem.type">
-												<label for="item-copyright"><?php esc_html_e( 'Copyright', 'wgtd' ); ?></label>
+												<label for="item-copyright"><?php esc_html_e( 'Copyright', 'woowgallery' ); ?></label>
 												<input type="text" id="item-copyright" :value="itemCopyright(editItem)" @change="editItemSetCopyright" />
-												<div class="description"><?php esc_html_e( 'Can be used as protection alert message on right mouse click.', 'wgtd' ); ?></div>
+												<div class="description"><?php esc_html_e( 'Can be used as protection alert message on right mouse click.', 'woowgallery' ); ?></div>
 											</div>
 
 											<div class="woowgallery-setting">
@@ -216,9 +216,9 @@ use WoowGallery\Posttypes;
 															</div>
 														</div>
 														<div class="description">
-															<?php esc_html_e( 'Enter a comma separated list of Tags to apply to this item.', 'wgtd' ); ?><br/>
+															<?php esc_html_e( 'Enter a comma separated list of Tags to apply to this item.', 'woowgallery' ); ?><br/>
 															<template v-if="editItemTagsTaxonomy(true)">
-																<?php esc_html_e( 'Note: tags will be applied for this item in all galleries.', 'wgtd' ); ?>
+																<?php esc_html_e( 'Note: tags will be applied for this item in all galleries.', 'woowgallery' ); ?>
 															</template>
 														</div>
 													</div>
@@ -238,19 +238,19 @@ use WoowGallery\Posttypes;
 									<!-- Actions -->
 									<div class="actions">
 										<?php if ( Posttypes::ALBUM_POSTTYPE === $data['post']->post_type ) { ?>
-											<span v-if="!!editItemPageLink()"><a class="view-attachment" :href="editItemPageLink()" target="_blank"><?php esc_html_e( 'View Gallery page', 'wgtd' ); ?></a> |</span>
-											<span v-if="!!itemEditLink(editItem)"><a :href="itemEditLink(editItem)" target="_blank"><?php esc_html_e( 'Edit Gallery', 'wgtd' ); ?></a> |</span>
-											<button @click="removeItem(editItem.id, $event)" class="button-link delete-attachment" data-confirm="<?php esc_attr_e( 'Are you sure you want to remove this gallery from the album?', 'wgtd' ); ?>"><?php esc_html_e( 'Remove from Album', 'wgtd' ); ?></button>
+											<span v-if="!!editItemPageLink()"><a class="view-attachment" :href="editItemPageLink()" target="_blank"><?php esc_html_e( 'View Gallery page', 'woowgallery' ); ?></a> |</span>
+											<span v-if="!!itemEditLink(editItem)"><a :href="itemEditLink(editItem)" target="_blank"><?php esc_html_e( 'Edit Gallery', 'woowgallery' ); ?></a> |</span>
+											<button @click="removeItem(editItem.id, $event)" class="button-link delete-attachment" data-confirm="<?php esc_attr_e( 'Are you sure you want to remove this gallery from the album?', 'woowgallery' ); ?>"><?php esc_html_e( 'Remove from Album', 'woowgallery' ); ?></button>
 										<?php } else { ?>
 											<template v-if="'attachment' === editItem.type">
-												<a class="view-attachment" :href="editItemPageLink()" target="_blank"><?php esc_html_e( 'View attachment page', 'wgtd' ); ?></a> |
-												<a :href="'post.php?post=' + editItem.id + '&action=edit'" target="_blank"><?php esc_html_e( 'Edit more details', 'wgtd' ); ?></a> |
+												<a class="view-attachment" :href="editItemPageLink()" target="_blank"><?php esc_html_e( 'View attachment page', 'woowgallery' ); ?></a> |
+												<a :href="'post.php?post=' + editItem.id + '&action=edit'" target="_blank"><?php esc_html_e( 'Edit more details', 'woowgallery' ); ?></a> |
 											</template>
 											<template v-if="'post' === editItem.type">
-												<span v-if="!!editItemPageLink()"><a class="view-attachment" :href="editItemPageLink()" target="_blank"><?php esc_html_e( 'View Post page', 'wgtd' ); ?></a> |</span>
-												<span v-if="!!itemEditLink(editItem)"><a :href="itemEditLink(editItem)" target="_blank"><?php esc_html_e( 'Edit more details', 'wgtd' ); ?></a> |</span>
+												<span v-if="!!editItemPageLink()"><a class="view-attachment" :href="editItemPageLink()" target="_blank"><?php esc_html_e( 'View Post page', 'woowgallery' ); ?></a> |</span>
+												<span v-if="!!itemEditLink(editItem)"><a :href="itemEditLink(editItem)" target="_blank"><?php esc_html_e( 'Edit more details', 'woowgallery' ); ?></a> |</span>
 											</template>
-											<button @click="removeItem(editItem.id, $event)" class="button-link delete-attachment" data-confirm="<?php esc_attr_e( 'Are you sure you want to remove this item from the gallery?', 'wgtd' ); ?>"><?php esc_html_e( 'Remove from Gallery', 'wgtd' ); ?></button>
+											<button @click="removeItem(editItem.id, $event)" class="button-link delete-attachment" data-confirm="<?php esc_attr_e( 'Are you sure you want to remove this item from the gallery?', 'woowgallery' ); ?>"><?php esc_html_e( 'Remove from Gallery', 'woowgallery' ); ?></button>
 										<?php } ?>
 									</div>
 									<!-- /.actions -->
@@ -303,9 +303,9 @@ use WoowGallery\Posttypes;
 
 			<div class="attachment-actions">
 				<# if ( 'image' === data.type && ! data.uploading && data.sizes && data.can.save ) { #>
-				<button type="button" class="button edit-attachment"><?php _e( 'Edit Image', 'wgtd' ); ?></button>
+				<button type="button" class="button edit-attachment"><?php _e( 'Edit Image', 'woowgallery' ); ?></button>
 				<# } else if ( 'pdf' === data.subtype && data.sizes ) { #>
-				<?php _e( 'Document Preview', 'wgtd' ); ?>
+				<?php _e( 'Document Preview', 'woowgallery' ); ?>
 				<# } #>
 			</div>
 		</div>
@@ -314,26 +314,26 @@ use WoowGallery\Posttypes;
 		<div class="settings">
             <span class="settings-save-status">
                 <span class="spinner"></span>
-                <span class="saved"><?php esc_html_e( 'Saved', 'wgtd' ); ?></span>
+                <span class="saved"><?php esc_html_e( 'Saved', 'woowgallery' ); ?></span>
             </span>
-			<h2><?php _e( 'Attachment Edit Meta', 'wgtd' ); ?></h2>
+			<h2><?php _e( 'Attachment Edit Meta', 'woowgallery' ); ?></h2>
 
 			<label class="setting" data-setting="url">
-				<span class="name"><?php _e( 'URL', 'wgtd' ); ?></span>
+				<span class="name"><?php _e( 'URL', 'woowgallery' ); ?></span>
 				<input type="text" value="{{ data.url }}" readonly/>
 			</label>
 			<# var maybeReadOnly = data.can.save || data.allowLocalEdits ? '' : 'readonly'; #>
 			<?php if ( post_type_supports( 'attachment', 'title' ) ) : ?>
 				<label class="setting" data-setting="title">
-					<span class="name"><?php _e( 'Title', 'wgtd' ); ?></span>
+					<span class="name"><?php _e( 'Title', 'woowgallery' ); ?></span>
 					<input type="text" value="{{ data.title }}" {{ maybeReadOnly }}/>
 				</label>
 			<?php endif; ?>
 			<# if ( 'audio' === data.type ) { #>
 			<?php foreach (
 				array(
-					'artist' => __( 'Artist', 'wgtd' ),
-					'album'  => __( 'Album', 'wgtd' ),
+					'artist' => __( 'Artist', 'woowgallery' ),
+					'album'  => __( 'Album', 'woowgallery' ),
 				) as $key => $label
 			) : ?>
 				<label class="setting" data-setting="<?php echo esc_attr( $key ) ?>">
@@ -343,17 +343,17 @@ use WoowGallery\Posttypes;
 			<?php endforeach; ?>
 			<# } #>
 			<label class="setting" data-setting="caption">
-				<span class="name"><?php _e( 'Caption', 'wgtd' ); ?></span>
+				<span class="name"><?php _e( 'Caption', 'woowgallery' ); ?></span>
 				<textarea {{ maybeReadOnly }}>{{ data.caption }}</textarea>
 			</label>
 			<# if ( 'image' === data.type ) { #>
 			<label class="setting" data-setting="alt">
-				<span class="name"><?php _e( 'Alt Text', 'wgtd' ); ?></span>
+				<span class="name"><?php _e( 'Alt Text', 'woowgallery' ); ?></span>
 				<input type="text" value="{{ data.alt }}" {{ maybeReadOnly }}/>
 			</label>
 			<# } #>
 			<label class="setting" data-setting="description">
-				<span class="name"><?php _e( 'Description', 'wgtd' ); ?></span>
+				<span class="name"><?php _e( 'Description', 'woowgallery' ); ?></span>
 				<textarea {{ maybeReadOnly }}>{{ data.description }}</textarea>
 			</label>
 
@@ -361,11 +361,11 @@ use WoowGallery\Posttypes;
 		</div>
 
 		<div class="actions">
-			<a class="view-attachment" href="{{ data.link }}" target="_blank"><?php _e( 'View attachment page', 'wgtd' ); ?></a>
+			<a class="view-attachment" href="{{ data.link }}" target="_blank"><?php _e( 'View attachment page', 'woowgallery' ); ?></a>
 			<# if ( data.can.save ) { #> |
-			<a href="post.php?post={{ data.id }}&action=edit" target="_blank"><?php _e( 'Edit more details', 'wgtd' ); ?></a>
+			<a href="post.php?post={{ data.id }}&action=edit" target="_blank"><?php _e( 'Edit more details', 'woowgallery' ); ?></a>
 			<# } #> |
-			<button type="button" class="button-link button-link-delete woowgallery-collection-media-delete"><?php _e( 'Delete from Collection', 'wgtd' ); ?></button>
+			<button type="button" class="button-link button-link-delete woowgallery-collection-media-delete"><?php _e( 'Delete from Collection', 'woowgallery' ); ?></button>
 		</div>
 
 	</div>
