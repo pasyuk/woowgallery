@@ -48,6 +48,8 @@ class WoowGallery {
 		// Fire a hook before the plugin loaded.
 		do_action( 'woowgallery_pre_init' );
 
+		woowgallery_upgrade();
+
 		new Assets();
 		new Posttypes();
 		new Taxonomies();
