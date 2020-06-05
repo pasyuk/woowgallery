@@ -81,7 +81,7 @@ $skins    = $data['skins'];
 						<div class="hint">
 							<?php
 							// translators: image size.
-							echo wp_kses( sprintf( __( 'Recommended thumbnail maximum dimesions is %s. It is a most suitable size for all WoowGallery skins.', 'wgtd' ), '<code>400x400</code>' ), '' );
+							echo wp_kses( sprintf( __( 'Recommended thumbnail maximum dimensions is %s. It is a most suitable size for all WoowGallery skins.', 'wgtd' ), '<code>400x400</code>' ), '' );
 							// translators: image quality.
 							echo '<br />' . wp_kses( sprintf( __( '<strong>Note:</strong> high quality lead to bigger image file size and slower loading. Recommended quality range: %s.', 'wgtd' ), '<code>80-85</code>' ), '' );
 							?>

@@ -9,6 +9,7 @@
 namespace WoowGallery;
 
 use WoowGallery\Admin\Admin;
+use WoowGallery\Admin\Elementor;
 use WoowGallery\Admin\Gutenberg;
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
@@ -34,23 +35,9 @@ class WoowGallery {
 		// Load the plugin.
 		add_action( 'init', [ $this, 'init' ] );
 
-	}
+		// Load the plugin widget.
+		add_action( 'widgets_init', [ $this, 'widgets' ] );
 
-	/**
-	 * Returns the license key for WoowGallery.
-	 *
-	 * @return array $key The user's license key for WoowGallery.
-	 */
-	public static function get_license() {
-		//$license = Settings::get_settings( 'license' );
-		//
-		//if ( empty( $license ) && defined( 'WOOWGALLERY_LICENSE' ) ) {
-		//	$license = WOOWGALLERY_LICENSE;
-		//}
-
-		$license = woow_fs()->can_use_premium_code();
-
-		return apply_filters( 'woowgallery_license', $license );
 	}
 
 	/**
@@ -66,13 +53,13 @@ class WoowGallery {
 		new Taxonomies();
 		new Skins();
 		new Shortcodes();
-		new Widgets();
 		new Rest_Routes();
 
 		if ( is_admin() ) {
 			new Admin();
 		}
 
+		new Elementor();
 		new Gutenberg();
 		new Frontend();
 
@@ -83,6 +70,16 @@ class WoowGallery {
 		do_action( 'woowgallery_loaded' );
 
 	}
+
+	/**
+	 * Registers the WoowGallery widgets.
+	 */
+	public function widgets() {
+
+		register_widget( 'WoowGallery\Widgets' );
+
+	}
+
 }
 
 new WoowGallery();

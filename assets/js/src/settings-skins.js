@@ -103,7 +103,7 @@
     },
     mounted: function() {
       // On init get gallery skin and set all the data
-      this.premium = !!woowgallery.premium;
+      this.premium = woowgallery.status && ('premium' === woowgallery.status || 'trial' === woowgallery.status);
       this.default_skin = woowgallery.l10n.default_skin;
 
       // let selected_skin = woowgallery.l10n.selected_skin || woowgallery.l10n.default_skin;
@@ -372,7 +372,7 @@
       // reset skin settings to default
       resetSkinSettings: function() {
         this.model = $.extend({}, this.defaults);
-      },
+      }
 
       // // reset skin settings to default
       // updateSkinsListSetting: function() {

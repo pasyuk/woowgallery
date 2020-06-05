@@ -21,9 +21,8 @@ class Assets {
 	public function __construct() {
 
 		// Register assets.
-		add_action( 'wp_enqueue_scripts', [ $this, 'global_scripts' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'global_scripts' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'admin_scripts' ], 8 );
+		$this->global_scripts();
+		add_action( 'admin_enqueue_scripts', [ $this, 'admin_scripts' ], 2 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_scripts_l10n' ], 999 );
 	}
 
@@ -35,25 +34,32 @@ class Assets {
 		$suffix = SCRIPT_DEBUG ? '' : '.min';
 
 		// Vendor scripts.
-		//wp_register_script( 'vuejs', plugins_url( "assets/vendor/vue{$suffix}.js", WOOWGALLERY_FILE ), [], '2.4.2', true );
-		wp_register_script( 'vuejs', plugins_url( "assets/vendor/vue.js", WOOWGALLERY_FILE ), [], '2.4.2', true );
+		wp_register_script( 'vuejs', plugins_url( "assets/vendor/vue{$suffix}.js", WOOWGALLERY_FILE ), [], '2.4.2', true );
 
 		wp_register_style( 'swiper', plugins_url( "assets/vendor/swiper/swiper{$suffix}.css", WOOWGALLERY_FILE ), [], '5.2.1' );
 		wp_register_script( 'swiper', plugins_url( "assets/vendor/swiper/swiper{$suffix}.js", WOOWGALLERY_FILE ), [], '5.2.1', true );
 
 		// Register frontend scripts.
+		wp_register_script( WOOWGALLERY_SLUG . '-elementor', plugins_url( "assets/js/elementor{$suffix}.js", WOOWGALLERY_FILE ), [ 'jquery' ], WOOWGALLERY_VERSION, true );
+
 		wp_register_style( WOOWGALLERY_SLUG . '-style', plugins_url( 'assets/css/woowgallery.css', WOOWGALLERY_FILE ), [], WOOWGALLERY_VERSION );
-		wp_register_script( WOOWGALLERY_SLUG . '-script', plugins_url( 'assets/js/woowgallery.min.js', WOOWGALLERY_FILE ), [ 'jquery' ], WOOWGALLERY_VERSION, false );
-		wp_localize_script(
-			WOOWGALLERY_SLUG . '-script',
-			'WoowGallery',
-			[
-				'ajaxurl'   => admin_url( 'admin-ajax.php' ),
-				'wpApiRoot' => esc_url_raw( rest_url() ),
-				'l10n'      => apply_filters( 'woowgallery_frontend_scripts_l10n', [] ),
-				'key'       => '',
-			]
-		);
+		wp_register_script( WOOWGALLERY_SLUG . '-script', plugins_url( 'assets/js/woowgallery.min.js', WOOWGALLERY_FILE ), [], WOOWGALLERY_VERSION, false );
+		$script_localize = [
+			'ajaxurl'   => admin_url( 'admin-ajax.php' ),
+			'wpApiRoot' => esc_url_raw( rest_url() ),
+			'g11n'      => apply_filters( 'woowgallery_frontend_scripts_g11n', [] ),
+			'skins'     => null,
+		];
+		if ( woow_fs()->is__premium_only() ) {
+			if ( woow_fs()->has_active_valid_license() ) {
+				$script_localize['status'] = 'premium';
+			} elseif ( woow_fs()->is_trial() ) {
+				$script_localize['status'] = 'trial';
+			} else {
+				$script_localize['status'] = 'pending';
+			}
+		}
+		wp_localize_script( WOOWGALLERY_SLUG . '-script', 'WoowGallery', $script_localize );
 	}
 
 	/**
@@ -238,19 +244,24 @@ class Assets {
 				'icon_html' => wg_posttype_icon( $_post_type ),
 			];
 		}
-		wp_localize_script(
-			WOOWGALLERY_SLUG . '-admin-script',
-			'WoowGalleryAdmin',
-			[
-				'l10n'         => apply_filters( 'woowgallery_admin_scripts_l10n', [] ),
-				'premium'      => WoowGallery::get_license(),
-				'wpApiRoot'    => esc_url_raw( rest_url() ),
-				'wpApiNonce'   => wp_create_nonce( 'wp_rest' ),
-				'createNew'    => esc_url( admin_url( 'post-new.php?post_type=' ) ),
-				'editModalSrc' => esc_url( admin_url( 'admin.php?page=woowgallery-edit' ) ),
-				'post_types'   => $post_types,
-			]
-		);
+		$script_localize = [
+			'l10n'         => apply_filters( 'woowgallery_admin_scripts_l10n', [] ),
+			'wpApiRoot'    => esc_url_raw( rest_url() ),
+			'wpApiNonce'   => wp_create_nonce( 'wp_rest' ),
+			'createNew'    => esc_url( admin_url( 'post-new.php?post_type=' ) ),
+			'editModalSrc' => esc_url( admin_url( 'admin.php?page=woowgallery-edit' ) ),
+			'post_types'   => $post_types,
+		];
+		if ( woow_fs()->is__premium_only() ) {
+			if ( woow_fs()->has_active_valid_license() ) {
+				$script_localize['status'] = 'premium';
+			} elseif ( woow_fs()->is_trial() ) {
+				$script_localize['status'] = 'trial';
+			} else {
+				$script_localize['status'] = 'pending';
+			}
+		}
+		wp_localize_script( WOOWGALLERY_SLUG . '-admin-script', 'WoowGalleryAdmin', $script_localize );
 	}
 
 }

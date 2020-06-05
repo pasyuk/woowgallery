@@ -8,12 +8,10 @@
 
 namespace WoowGallery\Admin;
 
-use WoowGallery\Posttypes;
-
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 /**
- * Class Post
+ * Class Gutenberg
  */
 class Gutenberg {
 

@@ -116,7 +116,7 @@ use WoowGallery\Posttypes;
 													<select id="item-title-src" v-model="editItem.caption_src">
 														<template v-if="'attachment' === editItem.type">
 															<option value="caption"><?php esc_html_e( 'Media Caption', 'wgtd' ); ?></option>
-															<option value="description"><?php esc_html_e( 'Media Desctiption', 'wgtd' ); ?></option>
+															<option value="description"><?php esc_html_e( 'Media Description', 'wgtd' ); ?></option>
 														</template>
 														<template v-else-if="'post' === editItem.type">
 															<?php if ( Posttypes::ALBUM_POSTTYPE === $data['post']->post_type ) { ?>

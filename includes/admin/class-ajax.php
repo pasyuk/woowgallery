@@ -11,9 +11,8 @@ namespace WoowGallery\Admin;
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 use WoowGallery\Gallery;
-use WoowGallery\Posttypes;
+use WoowGallery\Shortcodes;
 use WoowGallery\Skins;
-use WP_Query;
 
 /**
  * Class Ajax
@@ -34,6 +33,8 @@ class Ajax {
 		add_action( 'wp_ajax_woowgallery_dynamic_fetch_query', [ $this, 'dynamic_fetch_query' ] );
 		add_action( 'wp_ajax_woowgallery_cache_clear', [ $this, 'gallery_cache_clear' ] );
 
+		add_action( 'wp_ajax_nopriv_woowgallery_skin_assets', [ $this, 'get_skin_assets' ] );
+		add_action( 'wp_ajax_woowgallery_skin_assets', [ $this, 'get_skin_assets' ] );
 		add_action( 'wp_ajax_woowgallery_save_skin_data', [ $this, 'save_skin_data' ] );
 		add_action( 'wp_ajax_woowgallery_delete_skin_preset', [ $this, 'delete_skin_preset' ] );
 
@@ -262,6 +263,27 @@ class Ajax {
 		}
 
 		wp_send_json_error();
+	}
+
+	/**
+	 * Get Skin Assets.
+	 */
+	public function get_skin_assets() {
+
+		$skin  = woowgallery_GET( 'skin' );
+		$skins = Skins::get_instance()->get_skins();
+		if ( ! $skin || empty( $skins[ $skin ] ) ) {
+			die();
+		}
+
+		$skin = $skins[ $skin ];
+		ob_start();
+		Shortcodes::load_skin_css( $skin->slug );
+		Shortcodes::load_skin_js( $skin->slug );
+		wp_print_footer_scripts();
+		$output = ob_get_clean();
+
+		wp_send_json_success( $output );
 	}
 
 	/**

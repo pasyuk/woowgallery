@@ -20,7 +20,7 @@ class Shortcodes {
 	/**
 	 * Holds the class object.
 	 *
-	 * @var Skins object
+	 * @var Shortcodes object
 	 */
 	public static $instance;
 	/**
@@ -76,11 +76,11 @@ class Shortcodes {
 	/**
 	 * Returns the singleton instance of the class.
 	 *
-	 * @return Skins object
+	 * @return Shortcodes object
 	 */
 	public static function get_instance() {
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Skins ) ) {
-			self::$instance = new Skins();
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Shortcodes ) ) {
+			self::$instance = new Shortcodes();
 		}
 
 		return self::$instance;
@@ -217,8 +217,15 @@ class Shortcodes {
 		$gallery = apply_filters( 'woowgallery_pre_data', $gallery, $this->counter );
 
 		// If there is no data to output or the gallery is inactive, do nothing.
-		if ( empty( $gallery['content'] ) || ( 'publish' !== $gallery['status'] && ! is_preview() ) ) {
+		if ( empty( $gallery['content'] ) ) {
 			return '';
+		}
+
+		// If there is no data to output or the gallery is inactive, do nothing.
+		if ( 'publish' !== $gallery['status'] && ! is_preview() ) {
+			if ( ! current_user_can( 'edit_post', $gallery_id ) ) {
+				return '';
+			}
 		}
 
 		// Lets check if this gallery has already been output on the page.
@@ -238,8 +245,8 @@ class Shortcodes {
 		// Load main scripts and styles.
 		wp_enqueue_style( WOOWGALLERY_SLUG . '-style' );
 		wp_enqueue_script( WOOWGALLERY_SLUG . '-script' );
-
-		$this->load_skin_assets( $gallery['skin']['slug'] );
+		self::load_skin_css( $gallery['skin']['slug'] );
+		self::load_skin_js( $gallery['skin']['slug'] );
 
 		// Run a skin specific hook after scripts and inits have been set.
 		do_action( 'woowgallery_' . $gallery['skin']['slug'] . '_skin', $gallery );
@@ -319,20 +326,41 @@ class Shortcodes {
 	 *
 	 * @param string $skin_slug Skin slug.
 	 */
-	public function load_skin_assets( $skin_slug ) {
-		$skin     = Skins::get_instance()->get_skin( $skin_slug );
-		$deps     = ! empty( $skin->info['dependecies'] ) ? (array) $skin->info['dependecies'] : [];
-		$deps_css = $deps + [ WOOWGALLERY_SLUG . '-style' ];
-		$deps_js  = $deps + [ WOOWGALLERY_SLUG . '-script' ];
+	public static function load_skin_css( $skin_slug ) {
+		$skin = Skins::get_instance()->get_skin( $skin_slug );
+		$deps = ! empty( $skin->info['dependecies'] ) ? (array) $skin->info['dependecies'] : [];
+
 		if ( ! empty( $skin->info['styles'] ) ) {
 			foreach ( (array) $skin->info['styles'] as $style ) {
-				wp_enqueue_style( $skin->info['slug'] . '-' . sanitize_key( basename( $style ) ), $style, $deps_css, $skin->info['version'] );
+				$handle = $skin->info['slug'] . '-' . sanitize_key( basename( $style ) );
+				wp_register_style( $handle, $style, $deps, $skin->info['version'] );
+				wp_enqueue_style( $handle );
 			}
 		}
+	}
+
+	/**
+	 * Load skin assets
+	 *
+	 * @param string $skin_slug Skin slug.
+	 */
+	public static function load_skin_js( $skin_slug ) {
+		$skin = Skins::get_instance()->get_skin( $skin_slug );
+		$deps = ! empty( $skin->info['dependecies'] ) ? (array) $skin->info['dependecies'] : [];
+
+		//$request_type = ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( wp_unslash( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) === 'xmlhttprequest' ? 'ajax' : 'direct';
 
 		if ( ! empty( $skin->info['scripts'] ) ) {
 			foreach ( (array) $skin->info['scripts'] as $script ) {
-				wp_enqueue_script( $skin->info['slug'] . '-' . sanitize_key( basename( $script ) ), $script, $deps_js, $skin->info['version'], true );
+				$handle = $skin->info['slug'] . '-' . sanitize_key( basename( $script ) );
+				wp_register_script( $handle, $script, $deps, $skin->info['version'], true );
+				wp_enqueue_script( $handle );
+				//if ( 'ajax' === $request_type ) {
+				//	wp_register_script( $handle, $script, $deps, $skin->info['version'], false );
+				//	wp_print_scripts( $handle );
+				//} else {
+				//	wp_enqueue_script( $handle, $script, $deps, $skin->info['version'], true );
+				//}
 			}
 		}
 	}

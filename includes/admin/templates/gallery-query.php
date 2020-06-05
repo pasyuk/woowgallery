@@ -52,47 +52,47 @@ $wg_taxonomies = woowgallery_get_taxonomy_terms( $gallery_post_types );
 
 $wg_orderby = [
 	[
-		'label' => _x( 'sorted by Date', 'wgtd' ),
+		'label' => __( 'sorted by Date', 'wgtd' ),
 		'value' => 'date',
 	],
 	[
-		'label' => _x( 'sorted by ID', 'wgtd' ),
+		'label' => __( 'sorted by ID', 'wgtd' ),
 		'value' => 'ID',
 	],
 	[
-		'label' => _x( 'sorted by Author', 'wgtd' ),
+		'label' => __( 'sorted by Author', 'wgtd' ),
 		'value' => 'author',
 	],
 	[
-		'label' => _x( 'sorted by Title', 'wgtd' ),
+		'label' => __( 'sorted by Title', 'wgtd' ),
 		'value' => 'title',
 	],
 	[
-		'label' => _x( 'sorted by Menu Order', 'wgtd' ),
+		'label' => __( 'sorted by Menu Order', 'wgtd' ),
 		'value' => 'menu_order',
 	],
 	[
-		'label' => _x( 'randomly sorted', 'wgtd' ),
+		'label' => __( 'randomly sorted', 'wgtd' ),
 		'value' => 'rand',
 	],
 	[
-		'label' => _x( 'sorted by Comment Count', 'wgtd' ),
+		'label' => __( 'sorted by Comment Count', 'wgtd' ),
 		'value' => 'comment_count',
 	],
 	[
-		'label' => _x( 'sorted by Post Name', 'wgtd' ),
+		'label' => __( 'sorted by Post Name', 'wgtd' ),
 		'value' => 'name',
 	],
 	[
-		'label' => _x( 'sorted by Modified Date', 'wgtd' ),
+		'label' => __( 'sorted by Modified Date', 'wgtd' ),
 		'value' => 'modified',
 	],
 	[
-		'label' => _x( 'sorted by Meta Value', 'wgtd' ),
+		'label' => __( 'sorted by Meta Value', 'wgtd' ),
 		'value' => 'meta_value',
 	],
 	[
-		'label' => _x( 'sorted by Meta Value (Numeric)', 'wgtd' ),
+		'label' => __( 'sorted by Meta Value (Numeric)', 'wgtd' ),
 		'value' => 'meta_value_num',
 	],
 ];
@@ -179,7 +179,7 @@ $wg_meta_value = [
 								:options="<?php echo esc_js( wp_json_encode( $wg_post_types ) ); ?>"
 								:multiple="true"
 								:searchable="false"
-								placeholder="<?php echo esc_attr_x( 'any', 'Post Type', 'wgtd' ); ?>"
+								placeholder="<?php echo esc_attr_x( 'any', 'Post Types', 'wgtd' ); ?>"
 								label="label"
 								track-by="name"
 								:preselect-first="true"
@@ -348,7 +348,7 @@ $wg_meta_value = [
 					<label for="wgd-post_password"><?php esc_html_e( 'Post password', 'wgtd' ); ?></label>
 					<div class="field-wrap">
 						<div class="wrapper">
-							<input type="text" id="wgd-post_password" class="form-control" v-model="wp.post_password" placeholder="<?php esc_attr_e( 'Leave empty for any passsword', 'wgtd' ); ?>"/>
+							<input type="text" id="wgd-post_password" class="form-control" v-model="wp.post_password" placeholder="<?php esc_attr_e( 'Leave empty for any password', 'wgtd' ); ?>"/>
 						</div>
 					</div>
 					<div class="hint" v-show="hints"><?php esc_html_e( 'You can specify to query Posts with particular password.', 'wgtd' ); ?></div>
@@ -427,7 +427,7 @@ $wg_meta_value = [
 								@tag="addSource"
 							>
 								<template slot="placeholder"><?php esc_attr_e( '@username, #hashtag', 'wgtd' ); ?></template>
-								<template slot="noOptions"><?php esc_attr_e( 'Type @username or #hastag', 'wgtd' ); ?></template>
+								<template slot="noOptions"><?php esc_attr_e( 'Type @username or #hashtag', 'wgtd' ); ?></template>
 							</vue-multiselect>
 						</div>
 					</div>

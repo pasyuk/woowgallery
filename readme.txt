@@ -1,5 +1,5 @@
-=== Gallery Plugin for WordPress - WoowGallery ===
-Contributors: pasyuk
+=== WoowGallery - image / content / ecommerce / album / instagram photo gallery ===
+Contributors: WoowGallery Team, pasyuk
 Tags: gallery, image gallery, photo gallery, content gallery, albums gallery
 Requires at least: 5.3.0
 Tested up to: 5.4.1
@@ -7,7 +7,7 @@ Requires PHP: 5.4
 Stable tag: trunk
 License: GNU General Public License v2.0 or later
 
-WoowGallery is the fastest, easiest to use WordPress multifunctional image gallery plugin. Create Featured Posts Gallery and Dynamic Content Gallery with a few clicks.
+Fastest, easiest to use multifunctional image gallery plugin. Create Featured Posts Gallery, Dynamic Content Gallery, Instagram Gallery, Albums!
 
 == Description ==
 
@@ -15,10 +15,14 @@ WoowGallery is the fastest, easiest to use WordPress multifunctional image galle
 
 It's not necessary to hire a developer to create a WordPress gallery. All you need is <a href="https://woowgallery.com/" rel="friend">WoowGallery</a>, a drag & drop **photo gallery plugin** that's EASY, FAST and POWERFUL.
 
-WoowGallery is highly optimized for web and server performance because we understand the importance of speed when it comes to image and gallery load times, as well as SEO and conversion.
+WoowGallery is highly optimized for web and server performance because we understand the importance of speed when it comes to image and gallery load times, as well as SEO and conversion.<br />
+With WoowGallery you can show the blog posts on your website and displays them in a masonry layout with tags filter. You can customize the way your posts look and manage settings like the featured image, the content you want to display, etc.<br />
+WooCommerce Products in a masonry layout looks fantastic. You can show any post type in a gallery with a link to their pages.
 
 > <strong>Free WoowGallery includes everything you need and expect from the gallery:</strong><br />
 > albums, tags, social media integration, gallery templates / gallery layouts, lazy load, content galleries with your posts, dynamic galleries, and tons more.
+
+And with WoowGallery gallery widget you can put your best gallery anywhere on the page. Easily add gallery to your page via Elementor Editor, Classic Editor, Gutenberg or any other editor which support widgets or shortcodes.
 
 = Drag & Drop Gallery Builder =
 
@@ -76,6 +80,7 @@ Social media integrations, and WooCommerce store integration.
 * <a href="https://woowgallery.com/examples/simple-photo-gallery/" rel="friend">Simple Photo Gallery</a>
 * <a href="https://woowgallery.com/examples/instagram-dynamic-gallery/" rel="friend">Instagram Gallery</a>
 * <a href="https://woowgallery.com/examples/woocommerce-dynamic-gallery/" rel="friend">WooCommerce Gallery</a>
+* <a href="https://woowgallery.com/examples/woowgallery-albums/" rel="friend">Albums Gallery</a>
 
 == Installation ==
 
@@ -111,14 +116,24 @@ Absolutely not. You can create and customize beautiful image and video galleries
 
 Here are the types of galleries you can create:
 
-Photo / Image
+Photo Gallery
 Video Gallery
 Audio Gallery
 Image Gallery with Albums
-Featured Posts Content Gallery
-Instagram Photo Gallery
+e-Commerce Gallery
+Digital Downloads Gallery
+Featured Posts Gallery
+Content Gallery
+Instagram Gallery
+Mixed Photo Gallery
+Custom Posts Gallery with filter
 Image Gallery with Tags
 WooCommerce Product Gallery
+Albums Gallery
+Protected Gallery
+Private Gallery
+Standalone Gallery
+Gutenberg Gallery
 
 = Is WoowGallery translation ready? =
 
@@ -127,5 +142,40 @@ Yes, WoowGallery has full translation and localization support via the `wgtd` te
 
 == Changelog ==
 
+= TODO =
+Show content from Gmedia and Flagallery plugins
+Import/Export galleries
+Watermarks
+Image Comments
+Image Likes
+More Galery Skins
+
+= 1.0.1 - 05.06 =
+* Added gallery widget
+* Adapted widget for Elementor editor
+* Fixed words misspelling
+* Fixed preview of private standalone galleries
+* Minimized admin vuejs script
+
 = 1.0.0 =
 * Initial release.
+
+= DONE =
+Photo Gallery
+Video Gallery
+Audio Gallery
+Image Gallery with Albums
+e-Commerce Gallery
+Digital Downloads Gallery
+Featured Posts Gallery
+Content Gallery
+Instagram Gallery
+Mixed Photo Gallery
+Custom Posts Gallery with filter
+Image Gallery with Tags
+WooCommerce Product Gallery
+Albums Gallery
+Protected Gallery
+Private Gallery
+Standalone Gallery
+Gutenberg Gallery

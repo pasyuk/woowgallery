@@ -94,7 +94,7 @@
 														<option value=""><?php esc_html_e( 'Do not change', 'wgtd' ); ?></option>
 														<template v-if="'attachment' === bulkEditType">
 															<option value="caption"><?php esc_html_e( 'Media Caption', 'wgtd' ); ?></option>
-															<option value="description"><?php esc_html_e( 'Media Desctiption', 'wgtd' ); ?></option>
+															<option value="description"><?php esc_html_e( 'Media Description', 'wgtd' ); ?></option>
 														</template>
 														<template v-if="'post' === bulkEditType">
 															<option value="excerpt"><?php esc_html_e( 'Post Excerpt', 'wgtd' ); ?></option>

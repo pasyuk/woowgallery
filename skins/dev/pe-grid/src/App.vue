@@ -115,13 +115,16 @@
 
         items.each(function() {
           let el = this,
-            $info = el.querySelector('.pe-item-info'),
-            box = el.getBoundingClientRect(),
-            to_left = (box.right + $info.offsetWidth) > gridBox.right,
-            to_bottom = to_left && ((box.left - gridBox.left) < $info.offsetWidth);
+            $info = el.querySelector('.pe-item-info');
 
-          el.classList.toggle('to-left', to_left && !to_bottom);
-          el.classList.toggle('to-bottom', to_bottom);
+          if($info) {
+            let box = el.getBoundingClientRect(),
+              to_left = (box.right + $info.offsetWidth) > gridBox.right,
+              to_bottom = to_left && ((box.left - gridBox.left) < $info.offsetWidth);
+
+            el.classList.toggle('to-left', to_left && !to_bottom);
+            el.classList.toggle('to-bottom', to_bottom);
+          }
         });
       },
       init() {

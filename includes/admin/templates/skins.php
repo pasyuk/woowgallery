@@ -14,40 +14,38 @@ use WoowGallery\Admin\Admin;
  * @var array $data
  */
 
-$settings = $data['settings'];
-$skins    = $data['skins'];
-?>
-<form method="post" id="woowgallery-skin-config" style="padding-top: 20px;">
-	<h1><?php esc_html_e( 'Create Skins Presets', 'wgtd' ); ?></h1>
-	<h4><?php esc_html_e( 'Select skin to config it default settings and create presets.', 'wgtd' ); ?></h4>
-	<div class="postbox woowgallery-postbox">
-		<div class="inside">
+if ( woow_fs()->can_use_premium_code__premium_only() ) {
 
-			<!-- Skins -->
-			<div id="woowgallery-skin-select">
-				<div class="woowgallery-skins">
-					<?php
-					// Iterate through the available skins, outputting them in a list.
-					foreach ( $skins as $slug => $skin ) {
-						$info = $skin->info;
-						?>
-						<div class="woowgallery-skin woowgallery_skin_<?php echo esc_attr( $slug ); ?>">
-							<label for="woowgallery_skin_<?php echo esc_attr( $slug ); ?>">
-								<input type="radio" id="woowgallery_skin_<?php echo esc_attr( $slug ); ?>" v-model="skin" name="_woowgallery_skin[skin]" value="<?php echo esc_attr( $slug ); ?>"<?php checked( $settings['default_skin'], $slug ); ?> />
-								<img src="<?php echo esc_url( $info['screenshots'][0] ); ?>" alt="<?php echo esc_attr( $info['name'] ); ?>"/>
-								<span class="skin-info"><span class="skin-title"><?php echo esc_html( $info['name'] ); ?></span> v<?php echo esc_html( $info['version'] ); ?></span>
-							</label>
-						</div>
+	$settings = $data['settings'];
+	$skins    = $data['skins'];
+	?>
+	<form method="post" id="woowgallery-skin-config" style="padding-top: 20px;">
+		<h1><?php esc_html_e( 'Create Skins Presets', 'wgtd' ); ?></h1>
+		<h4><?php esc_html_e( 'Select skin to config it default settings and create presets.', 'wgtd' ); ?></h4>
+		<div class="postbox woowgallery-postbox">
+			<div class="inside">
+
+				<!-- Skins -->
+				<div id="woowgallery-skin-select">
+					<div class="woowgallery-skins">
 						<?php
-					}
-					?>
+						// Iterate through the available skins, outputting them in a list.
+						foreach ( $skins as $slug => $skin ) {
+							$info = $skin->info;
+							?>
+							<div class="woowgallery-skin woowgallery_skin_<?php echo esc_attr( $slug ); ?>">
+								<label for="woowgallery_skin_<?php echo esc_attr( $slug ); ?>">
+									<input type="radio" id="woowgallery_skin_<?php echo esc_attr( $slug ); ?>" v-model="skin" name="_woowgallery_skin[skin]" value="<?php echo esc_attr( $slug ); ?>"<?php checked( $settings['default_skin'], $slug ); ?> />
+									<img src="<?php echo esc_url( $info['screenshots'][0] ); ?>" alt="<?php echo esc_attr( $info['name'] ); ?>"/>
+									<span class="skin-info"><span class="skin-title"><?php echo esc_html( $info['name'] ); ?></span> v<?php echo esc_html( $info['version'] ); ?></span>
+								</label>
+							</div>
+							<?php
+						}
+						?>
+					</div>
 				</div>
-				<?php woowgallery_is_premium_feature(); ?>
-			</div>
 
-			<?php
-			if ( woow_fs()->can_use_premium_code__premium_only() ) {
-				?>
 				<template v-if="skin" v-cloak>
 					<!-- Top Header -->
 					<div class="woowgallery-top-buttons">
@@ -86,20 +84,16 @@ $skins    = $data['skins'];
 					<!-- Skin Settings -->
 					<?php Admin::load_template( 'skin-settings' ); ?>
 				</template>
-				<?php
-			}
-			?>
 
+			</div>
 		</div>
-	</div>
 
+		<?php
+		wp_nonce_field( 'skin_settings_save', '_nonce_woowgallery_skin_settings_save', false );
+		?>
+
+	</form>
 	<?php
-	wp_nonce_field( 'skin_settings_save', '_nonce_woowgallery_skin_settings_save', false );
-	?>
-
-</form>
-<?php
-if ( woow_fs()->can_use_premium_code__premium_only() ) {
 	echo '<script>var woowgallery_skin = ' . wp_json_encode( $skins, JSON_FORCE_OBJECT ) . ';</script>';
 }
 ?>

@@ -29,7 +29,7 @@ class Widgets extends WP_Widget {
 		// Options.
 		$widget_options = [
 			'classname'   => 'woowgallery',
-			'description' => __( 'Place an WoowGallery into a widgetized area.', 'wgtd' ),
+			'description' => __( 'Place a WoowGallery into a widgetized area.', 'wgtd' ),
 		];
 		$widget_options = apply_filters( 'woowgallery_widget_options', $widget_options );
 
@@ -79,14 +79,16 @@ class Widgets extends WP_Widget {
 		</p>
 		<?php do_action( 'woowgallery_widget_middle_form', $instance ); ?>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'woowgallery' ) ); ?>"><?php esc_html_e( 'Gallery', 'wgtd' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'woowgallery' ) ); ?>"><?php esc_html_e( 'WoowGallery', 'wgtd' ); ?></label>
 			<select id="<?php echo esc_attr( $this->get_field_id( 'woowgallery' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'woowgallery' ) ); ?>" style="width: 100%;">
+				<option value=""<?php selected( '', $_gallery ); ?>><?php esc_attr_e( 'Choose WoowGallery', 'wgtd' ); ?></option>
 				<?php
 				if ( ! empty( $galleries[ Posttypes::GALLERY_POSTTYPE ] ) ) {
 					echo '<optgroup label="' . esc_attr__( 'Galleries', 'wgtd' ) . '">';
 					foreach ( $galleries[ Posttypes::GALLERY_POSTTYPE ] as $gallery ) {
+						$value = $gallery->ID . ':' . $gallery->post_type;
 						?>
-						<option value="<?php echo absint( $gallery->ID ) . ':' . esc_attr( $gallery->post_type ); ?>"<?php echo selected( $gallery->ID, $_gallery, false ); ?>><?php echo esc_attr( $gallery->post_title ); ?></option>
+						<option value="<?php echo esc_attr( $value ); ?>"<?php selected( $value, $_gallery ); ?>><?php echo esc_attr( $gallery->post_title ); ?></option>
 						<?php
 					}
 					echo '</optgroup>';
@@ -94,8 +96,9 @@ class Widgets extends WP_Widget {
 				if ( ! empty( $galleries[ Posttypes::DYNAMIC_POSTTYPE ] ) ) {
 					echo '<optgroup label="' . esc_attr__( 'Dynamic Galleries', 'wgtd' ) . '">';
 					foreach ( $galleries[ Posttypes::DYNAMIC_POSTTYPE ] as $gallery ) {
+						$value = $gallery->ID . ':' . $gallery->post_type;
 						?>
-						<option value="<?php echo absint( $gallery->ID ) . ':' . esc_attr( $gallery->post_type ); ?>"<?php echo selected( $gallery->ID, $_gallery, false ); ?>><?php echo esc_attr( $gallery->post_title ); ?></option>
+						<option value="<?php echo esc_attr( $value ); ?>"<?php selected( $value, $_gallery ); ?>><?php echo esc_attr( $gallery->post_title ); ?></option>
 						<?php
 					}
 					echo '</optgroup>';
@@ -103,8 +106,9 @@ class Widgets extends WP_Widget {
 				if ( ! empty( $galleries[ Posttypes::ALBUM_POSTTYPE ] ) ) {
 					echo '<optgroup label="' . esc_attr__( 'Albums', 'wgtd' ) . '">';
 					foreach ( $galleries[ Posttypes::ALBUM_POSTTYPE ] as $gallery ) {
+						$value = $gallery->ID . ':' . $gallery->post_type;
 						?>
-						<option value="<?php echo absint( $gallery->ID ) . ':' . esc_attr( $gallery->post_type ); ?>"<?php echo selected( $gallery->ID, $_gallery, false ); ?>><?php echo esc_attr( $gallery->post_title ); ?></option>
+						<option value="<?php echo esc_attr( $value ); ?>"<?php selected( $value, $_gallery ); ?>><?php echo esc_attr( $gallery->post_title ); ?></option>
 						<?php
 					}
 					echo '</optgroup>';
@@ -131,9 +135,8 @@ class Widgets extends WP_Widget {
 		$instance = $old_instance;
 
 		// Sanitize user inputs.
-		$instance['title']            = trim( $new_instance['title'] );
-		$instance['woowgallery_id']   = absint( $new_instance['woowgallery_id'] );
-		$instance['woowgallery_type'] = $new_instance['woowgallery_type'];
+		$instance['title']       = trim( $new_instance['title'] );
+		$instance['woowgallery'] = $new_instance['woowgallery'];
 
 		return apply_filters( 'woowgallery_widget_update_instance', $instance, $new_instance );
 
