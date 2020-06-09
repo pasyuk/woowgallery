@@ -151,11 +151,13 @@ Image Comments
 Image Likes
 More Galery Skins
 
-= 1.0.1 - 05.06 =
+= 1.0.2 - 05.06 =
+* Fixed update error
 * Added gallery widget
 * Adapted widget for Elementor editor
 * Fixed words misspelling
 * Fixed preview of private standalone galleries
+* Changed textdomain to plugin slug
 * Minimized admin vuejs script
 
 = 1.0.0 =
@@ -179,4 +181,6 @@ Albums Gallery
 Protected Gallery
 Private Gallery
 Standalone Gallery
+Gallery Widget
 Gutenberg Gallery
+Elementor Gallery
