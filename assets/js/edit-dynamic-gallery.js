@@ -64,6 +64,16 @@
         sorting: 'date',
         limit_type: 'all',
         limit: 12
+      },
+
+      flagallery_source_options: {
+        loading: false,
+        data: []
+      },
+      flagallery: {
+        source: null,
+        order: 'ASC',
+        orderby: 'sortorder'
       }
     },
     computed: {
@@ -102,6 +112,16 @@
         json.query_type = this.query_type;
 
         return json;
+      },
+
+      flagallery_json: function() {
+        if ('flagallery' !== this.query_type) {
+          return [];
+        }
+        let json = JSON.parse(JSON.stringify(this.flagallery));
+        json.query_type = this.query_type;
+
+        return json;
       }
     },
     watch: {
@@ -112,6 +132,9 @@
         }
         if (this[n + '_json']) {
           $('#woowgallery-data').val(JSON.stringify(this[n + '_json']));
+        }
+        if ('flagallery' === n) {
+          this.flagallery_refreshSource();
         }
       },
       wp_json: function(n, o) {
@@ -127,6 +150,13 @@
       },
       instagram_json: function(n, o) {
         if ('instagram' !== this.query_type) {
+          return;
+        }
+
+        $('#woowgallery-data').val(JSON.stringify(n));
+      },
+      flagallery_json: function(n, o) {
+        if ('flagallery' !== this.query_type) {
           return;
         }
 
@@ -149,6 +179,9 @@
       }
       else if ('instagram' === query.query_type) {
         this.instagram = $.extend({}, this.instagram, query);
+      }
+      else if ('flagallery' === query.query_type) {
+        this.flagallery = $.extend({}, this.flagallery, query);
       }
 
       let post_count = window.woowgallery_content.length;
@@ -228,6 +261,29 @@
 
       addSource: function(newSource) {
         this.instagram.sources.push(newSource);
+      },
+
+      flagallery_refreshSource: function() {
+        this.flagallery_source_options.loading = true;
+        $.getJSON(
+          ajaxurl,
+          {
+            action: 'woowgallery_dynamic_refresh_flagallery_source'
+          },
+          (r) => {
+            this.flagallery_source_options.loading = false;
+            this.flagallery_source_options.data = r.data;
+          }
+        );
+      },
+      flagallerySourceSelect: function(option) {
+        console.log(option);
+        if (option) {
+          this.flagallery.source = {
+            gid: option.gid,
+            title: option.title
+          };
+        }
       },
 
       // Get item's src.

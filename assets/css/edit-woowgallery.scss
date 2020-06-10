@@ -329,6 +329,31 @@ span.wg-posttype-icon {
       line-height: 1;
     }
   }
+
+  .flagallery-query-builder {
+
+    .multiselect__option {
+      position: relative;
+      display: block;
+
+      .badge {
+        position: absolute;
+        right: 10px;
+        top: 8px;
+        padding: 4px;
+        border-radius: 50%;
+        font-size: 90%;
+        background-color: #eee;
+      }
+
+      &.multiselect__option--selected {
+
+        .badge {
+          display: none;
+        }
+      }
+    }
+  }
 }
 
 /**

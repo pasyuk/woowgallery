@@ -30,6 +30,7 @@ class Ajax {
 		add_action( 'wp_ajax_woowgallery_bulk_set_media_data', [ $this, 'bulk_set_media_data' ] );
 
 		add_action( 'wp_ajax_woowgallery_dynamic_refresh_taxonomy_terms', [ $this, 'refresh_taxonomy_terms' ] );
+		add_action( 'wp_ajax_woowgallery_dynamic_refresh_flagallery_source', [ $this, 'refresh_flagallery_source' ] );
 		add_action( 'wp_ajax_woowgallery_dynamic_fetch_query', [ $this, 'dynamic_fetch_query' ] );
 		add_action( 'wp_ajax_woowgallery_cache_clear', [ $this, 'gallery_cache_clear' ] );
 
@@ -204,6 +205,20 @@ class Ajax {
 		$wg_taxonomies  = woowgallery_get_taxonomy_terms( $post_type, ( 'IN' !== $terms_ralation ) );
 
 		wp_send_json_success( $wg_taxonomies );
+	}
+
+	/**
+	 * Refreshes the available Flagallery galleries.
+	 */
+	public function refresh_flagallery_source() {
+		global $flagdb;
+
+		$gallerylist = $flagdb->find_all_galleries( 'title', 'ASC', true );
+		if ( ! empty( $gallerylist ) ) {
+			$gallerylist = array_values( $gallerylist );
+		}
+
+		wp_send_json_success( $gallerylist );
 	}
 
 	/**

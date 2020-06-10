@@ -59,7 +59,7 @@
 								<!-- Right -->
 								<div class="attachment-info">
 									<div class="attachment-view-details">
-										<h3 class="item-title" v-show="viewItem.title">{{ viewItem.title }}</h3>
+										<h3 class="item-title">{{ viewItem.title }} &nbsp;</h3>
 										<div class="item-counters">
 											<div class="item-counter likes-count" v-if="viewItem.likes && viewItem.likes.count">
 												<span class="dashicons dashicons-heart"></span> {{ viewItem.likes.count }}
@@ -68,10 +68,18 @@
 												<span class="dashicons dashicons-admin-comments"></span> {{ viewItem.comments.count }}
 											</div>
 										</div>
-										<p class="item-location" v-if="viewItem.location && viewItem.location.name">{{ viewItem.location.name }}</p>
-										<p class="item-link"><a :href="viewItem.link.url" target="_blank">{{ viewItem.link.url }}</a></p>
+										<p class="item-general-type">
+											<b><?php esc_html_e( 'Type:', 'woowgallery' ); ?></b> {{ viewItem.type.toUpperCase() }}
+										</p>
+										<p class="item-location" v-if="viewItem.location && viewItem.location.name">
+											<b><?php esc_html_e( 'Location:', 'woowgallery' ); ?></b> {{ viewItem.location.name }}
+										</p>
+										<p class="item-link" v-if="viewItem.link.url">
+											<b><?php esc_html_e( 'Link:', 'woowgallery' ); ?></b>
+											<a :href="viewItem.link.url" target="_blank">{{ viewItem.link.url }}</a>
+										</p>
 										<p class="item-tags" v-if="viewItem.tags && viewItem.tags.length">
-											<?php esc_html_e( 'Tags:', 'woowgallery' ); ?> {{ viewItem.tags | formatTags }}
+											<b><?php esc_html_e( 'Tags:', 'woowgallery' ); ?></b> {{ viewItem.tags | formatTags }}
 										</p>
 										<div class="item-caption" v-html="captionHashtags(viewItem.caption)"></div>
 									</div>

@@ -401,6 +401,12 @@ span.wg-posttype-icon { display: inline-block; margin: 0 10px 0 0; width: 1.15em
 
 .woowgallery-dynamic-query .wg-fetch .button { font-size: 18px; margin: 0 30px 0 10px; padding: 5px 20px; height: auto; line-height: 1; }
 
+.woowgallery-dynamic-query .flagallery-query-builder .multiselect__option { position: relative; display: block; }
+
+.woowgallery-dynamic-query .flagallery-query-builder .multiselect__option .badge { position: absolute; right: 10px; top: 8px; padding: 4px; border-radius: 50%; font-size: 90%; background-color: #eee; }
+
+.woowgallery-dynamic-query .flagallery-query-builder .multiselect__option.multiselect__option--selected .badge { display: none; }
+
 /** Image Grid / List */
 .woowgallery-preview { min-height: 300px; /** Image Grid */ /** Image List */ }
 

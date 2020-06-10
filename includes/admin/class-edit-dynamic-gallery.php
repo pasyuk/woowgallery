@@ -60,7 +60,7 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 		}
 
 		$query_content = get_transient( 'woowgallery_fetch_' . $post_id );
-		if ( empty( $query_content ) ) {
+		if ( empty( $query_content ) || empty( $query_content['query']['query_type'] ) || $query['query_type'] !== $query_content['query']['query_type'] ) {
 			try {
 				$query_content = self::get_dynamic_query( $query );
 			} catch ( \Exception $e ) {
@@ -102,6 +102,8 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 			$query_content = self::get_dynamic_wp_query( $query );
 		} elseif ( 'instagram' === $query['query_type'] ) {
 			$query_content = self::get_dynamic_instagram_query( $query );
+		} elseif ( 'flagallery' === $query['query_type'] ) {
+			$query_content = self::get_dynamic_flagallery_query( $query );
 		}
 
 		return $query_content;
@@ -311,6 +313,41 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 			'query'      => wp_json_encode( $query ),
 			'posts'      => $content,
 			'errors'     => $errors,
+		];
+	}
+
+	/**
+	 * Get Dynamic Flagallery Content.
+	 *
+	 * @param array $query Gallery Query.
+	 *
+	 * @return array
+	 */
+	public static function get_dynamic_flagallery_query( $query ) {
+		$post_count = 0;
+		$data       = [];
+		$errors     = [];
+		if ( is_plugin_active( 'flash-album-gallery/flag.php' ) ) {
+			global $flagdb;
+			$id      = (int) $query['source']['gid'];
+			$orderby = $query['orderby'];
+			$order   = $query['order'];
+			$gallery = $flagdb->get_gallery( $id, $orderby, $order );
+			if ( ! empty( $gallery ) ) {
+				foreach ( $gallery as $media ) {
+					$data[] = woowgallery_full_flagallery_data( $media );
+				}
+				$post_count = count( $gallery );
+			}
+		} else {
+			$errors[] = __( 'Flgallery plugin not activated.', 'woowgallery' );
+		}
+
+		return [
+			'post_count' => $post_count,
+			'query'      => $query,
+			'posts'      => $data,
+			'errors'     => [],
 		];
 	}
 

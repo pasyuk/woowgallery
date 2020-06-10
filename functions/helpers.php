@@ -532,6 +532,78 @@ if ( ! function_exists( 'woowgallery_full_instagram_data' ) ) {
 	}
 }
 
+if ( ! function_exists( 'woowgallery_full_flagallery_data' ) ) {
+
+	/**
+	 * Get Full Flagallery Data Model
+	 *
+	 * @param array $media Flagallery media object.
+	 *
+	 * @return array|void Array of attachment details.
+	 */
+	function woowgallery_full_flagallery_data( $media ) {
+		if ( empty( $media ) ) {
+			return null;
+		}
+
+		$alttext    = wp_unslash( $media->alttext );
+		$attachment = [
+			'type'      => 'flagallery',
+			'subtype'   => 'image',
+			'status'    => empty( $media->exclude ) ? 'publish' : 'private',
+			'id'        => (int) $media->pid,
+			'title'     => $alttext,
+			'alt'       => $alttext,
+			'caption'   => wp_unslash( $media->description ),
+			'link'      => [
+				'text'   => '',
+				'url'    => esc_url_raw( $media->link ),
+				'target' => apply_filters( 'woowgallery_default_link_target', '_self', $media, 'flagallery' ),
+			],
+			'author'    => [],
+			'slug'      => $media->filename,
+			'date'      => mysql_to_rfc3339( $media->imagedate ),
+			'src'       => $media->imageURL,
+			'thumb'     => [
+				$media->thumbURL,
+				isset( $media->meta_data['thumbnail']['width'] ) ? (int) $media->meta_data['thumbnail']['width'] : 0,
+				isset( $media->meta_data['thumbnail']['height'] ) ? (int) $media->meta_data['thumbnail']['height'] : 0,
+			],
+			'image'     => [
+				$media->webimageURL,
+				isset( $media->meta_data['webview']['width'] ) ? (int) $media->meta_data['webview']['width'] : 0,
+				isset( $media->meta_data['webview']['height'] ) ? (int) $media->meta_data['webview']['height'] : 0,
+			],
+			'_original' => [
+				$media->imageURL,
+				isset( $media->meta_data['width'] ) ? (int) $media->meta_data['width'] : 0,
+				isset( $media->meta_data['height'] ) ? (int) $media->meta_data['height'] : 0,
+			],
+			'likes'     => [
+				'count' => (int) $media->total_votes,
+			],
+		];
+
+		$meta = $media->meta_data;
+
+		$tags               = ! empty( $meta['keywords'] ) ? $meta['keywords'] : [];
+		$attachment['tags'] = is_array( $tags ) ? $tags : array_map( 'trim', explode( ',', $tags ) );
+
+		$attachment['copyright'] = ! empty( $meta['copyright'] ) ? $meta['copyright'] : '';
+
+		unset( $meta['thumbnail'], $meta['webview'], $meta['width'], $meta['height'], $meta['keywords'], $meta['copyright'], $meta['caption'], $meta['title'] );
+		$attachment['meta'] = $meta;
+
+		/**
+		 * Filters the attachment data prepared.
+		 *
+		 * @param array $attachment Array of prepared attachment data.
+		 * @param array $meta       Array of attachment meta data.
+		 */
+		return apply_filters( 'woowgallery_prepare_full_flagallery_data', $attachment, $media );
+	}
+}
+
 if ( ! function_exists( 'woowgallery_get_attachment_author' ) ) {
 	/**
 	 * Helper method to get attachment author data.

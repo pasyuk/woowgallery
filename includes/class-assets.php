@@ -34,7 +34,8 @@ class Assets {
 		$suffix = SCRIPT_DEBUG ? '' : '.min';
 
 		// Vendor scripts.
-		wp_register_script( 'vuejs', plugins_url( "assets/vendor/vue{$suffix}.js", WOOWGALLERY_FILE ), [], '2.4.2', true );
+		//wp_register_script( 'vuejs', plugins_url( "assets/vendor/vue{$suffix}.js", WOOWGALLERY_FILE ), [], '2.4.2', true );
+		wp_register_script( 'vuejs', plugins_url( "assets/vendor/vue.js", WOOWGALLERY_FILE ), [], '2.4.2', true );
 
 		wp_register_style( 'swiper', plugins_url( "assets/vendor/swiper/swiper{$suffix}.css", WOOWGALLERY_FILE ), [], '5.2.1' );
 		wp_register_script( 'swiper', plugins_url( "assets/vendor/swiper/swiper{$suffix}.js", WOOWGALLERY_FILE ), [], '5.2.1', true );
