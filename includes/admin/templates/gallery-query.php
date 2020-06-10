@@ -7,6 +7,7 @@
  */
 
 use WoowGallery\Admin\Admin;
+use WoowGallery\Admin\Notice;
 use WoowGallery\Gallery;
 
 /**
@@ -26,6 +27,7 @@ $wg_taxonomies = woowgallery_get_taxonomy_terms( $gallery_post_types );
 $wg_plugin_source = [
 	'flagallery' => is_plugin_active( 'flash-album-gallery/flag.php' ),
 ];
+$wg_query_type    = ! empty( $gallery['data']['query_type'] ) ? $gallery['data']['query_type'] : 'wp';
 ?>
 	<script type="text/javascript">
 		<?php echo 'var wp_taxonomy_terms_options = "' . wp_slash( wp_json_encode( $wg_taxonomies ) ) . '";'; ?>
@@ -44,7 +46,7 @@ $wg_plugin_source = [
 				<label for="wgd-query-type-wp"><?php echo esc_html__( 'WordPress', 'woowgallery' ); ?></label>
 				<input type="radio" id="wgd-query-type-ig" value="instagram" v-model="query_type">
 				<label for="wgd-query-type-ig"><?php echo esc_html__( 'Instagram', 'woowgallery' ); ?></label>
-				<?php if ( $wg_plugin_source['flagallery'] ) { ?>
+				<?php if ( $wg_plugin_source['flagallery'] || 'flagallery' === $wg_query_type ) { ?>
 					<input type="radio" id="wgd-query-type-flagallery" value="flagallery" v-model="query_type">
 					<label for="wgd-query-type-flagallery"><?php echo esc_html__( 'Flagallery', 'woowgallery' ); ?></label>
 				<?php } ?>
@@ -59,9 +61,18 @@ $wg_plugin_source = [
 			<?php Admin::load_template( 'query-instagram' ); ?>
 		</template>
 
-		<?php if ( $wg_plugin_source['flagallery'] ) { ?>
+		<?php if ( $wg_plugin_source['flagallery'] || 'flagallery' === $wg_query_type ) { ?>
 			<template v-else-if="'flagallery' === query_type">
-				<?php Admin::load_template( 'query-flagallery' ); ?>
+				<?php
+				if ( $wg_plugin_source['flagallery'] ) {
+					Admin::load_template( 'query-flagallery' );
+				} else {
+					$notice = __( 'Flagallery plugin was deactivated and it is not valid anymore as a mediafiles source :(', 'woowgallery' );
+					$notice .= "\n" . __( 'Please, switch to another source for Dynamic Gallery.', 'woowgallery' );
+					Notice::display_notice( nl2br( $notice ) );
+					echo '<p class="error-message">' . nl2br( esc_html( $notice ) ) . '</p>';
+				}
+				?>
 			</template>
 		<?php } ?>
 

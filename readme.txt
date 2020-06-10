@@ -51,7 +51,7 @@ Social media integrations, and WooCommerce store integration.
 * Beautiful **Gallery Skins** for Customization
 * **Albums Gallery** - Easily organize your photo galleries, choose cover photos, and more.
 * **Featured Content Gallery** - Easily create galleries based on posts, pages, products, testimonials, portfolios, and other custom post types.
-* **Dynamic Gallery** - Easily create dynamic content galleries from various different sources.
+* **Dynamic Gallery** - Easily create dynamic content galleries from various different sources (WordPress, Instagram, Flagallery...).
 * **Video Gallery** - Not just for photos! You can add local videos in your video gallery and link your photos with video from YouTube and Vimeo.
 * **Slideshow** - Add beautiful slideshow with autoplay, manual controls, and more.
 * **Image Tags** - Organize your WordPress photos with tags for easy search and display that also filtrable.
@@ -135,6 +135,7 @@ Protected Gallery
 Private Gallery
 Standalone Gallery
 Gutenberg Gallery
+Flagallery Gallery
 
 = Is WoowGallery translation ready? =
 
@@ -144,12 +145,19 @@ Yes, WoowGallery has full translation and localization support via the `woowgall
 == Changelog ==
 
 = TODO =
-Show content from Gmedia and Flagallery plugins
+Show content from Gmedia plugin
+Show content from NextGen plugin
+Show content from Google Photos
 Import/Export galleries
 Watermarks
 Image Comments
 Image Likes
 More Galery Skins
+
+= 1.0.3 - 10.06 =
+* Added option for select Flagallery plugin galleries in WoowGallery Dynamic Gallery
+* Improved loading speed for Amron skin galleries
+* Improved preview for dynamic standalone galleries
 
 = 1.0.2 - 05.06 =
 * Fixed update error
@@ -184,3 +192,4 @@ Standalone Gallery
 Gallery Widget
 Gutenberg Gallery
 Elementor Gallery
+Flagallery Gallery
