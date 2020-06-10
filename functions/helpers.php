@@ -557,7 +557,7 @@ if ( ! function_exists( 'woowgallery_full_flagallery_data' ) ) {
 			'caption'   => wp_unslash( $media->description ),
 			'link'      => [
 				'text'   => '',
-				'url'    => esc_url_raw( $media->link ),
+				'url'    => ! empty( $media->link ) ? esc_url_raw( $media->link ) : '',
 				'target' => apply_filters( 'woowgallery_default_link_target', '_self', $media, 'flagallery' ),
 			],
 			'author'    => [],
