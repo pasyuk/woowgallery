@@ -277,7 +277,6 @@
         );
       },
       flagallerySourceSelect: function(option) {
-        console.log(option);
         if (option) {
           this.flagallery.source = {
             gid: option.gid,
