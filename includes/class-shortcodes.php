@@ -403,19 +403,25 @@ class Shortcodes {
 		$output = '';
 		foreach ( $content as $item ) {
 			// Skip over items that are not attachments or not published.
-			if ( 'attachment' !== $item['type'] || 'publish' !== $item['status'] ) {
+			if ( 'publish' !== $item['status'] ) {
 				continue;
 			}
 
-			$imagesrc = apply_filters( 'woowgallery_default_image_src', $item['image'], $item, $gallery, $this->is_mobile );
-			if ( ! empty( $imagesrc ) ) {
-				if ( $item['link']['url'] ) {
-					$output .= '<a href="' . esc_url( $item['link']['url'] ) . '" target="' . esc_attr( $item['link']['target'] ) . '">';
-				}
+			if ( 'attachment' === $item['type'] || 'post' === $item['type'] ) {
+				$imagesrc = apply_filters( 'woowgallery_default_image_src', $item['image'], $item, $gallery, $this->is_mobile );
+				if ( ! empty( $imagesrc ) ) {
+					if ( 'attachment' === $item['type'] ) {
+						if ( $item['link']['url'] ) {
+							$output .= '<a href="' . esc_url( $item['link']['url'] ) . '" target="' . esc_attr( $item['link']['target'] ) . '">';
+						} else {
+							$output .= '<a href="' . esc_url( $item['original'] ) . '">';
+						}
+					} else {
+						$output .= '<a href="' . esc_url( $item['src'] ) . '">';
+					}
 
-				$output .= '<img src="' . esc_url( $imagesrc[0] ) . '" width="' . absint( $imagesrc[1] ) . '" height="' . absint( $imagesrc[2] ) . '" title="' . trim( esc_attr( $item['title'] ) ) . '" alt="' . trim( esc_attr( $item['alt'] ) ) . '" />';
+					$output .= '<img class="skip-lazy no-lazyload" data-lazy-src="" src ="' . esc_url( $imagesrc[0] ) . '" width="' . absint( $imagesrc[1] ) . '" height="' . absint( $imagesrc[2] ) . '" title="' . trim( esc_attr( $item['title'] ) ) . '" alt="' . trim( esc_attr( $item['alt'] ) ) . '" />';
 
-				if ( $item['link']['url'] ) {
 					$output .= '</a>';
 				}
 			}

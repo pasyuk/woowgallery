@@ -314,7 +314,7 @@ class Ajax {
 		$default_reset = woowgallery_POST( 'default_reset' );
 
 		if ( ! $skin || ! $preset ) {
-			wp_send_json_error( __( 'Something goes wrong.', 'woowbox' ) );
+			wp_send_json_error( __( 'Something went wrong.', 'woowbox' ) );
 		}
 
 		$skins_data = get_option( Skins::PRESETS_KEY, [] );
@@ -342,7 +342,7 @@ class Ajax {
 		$preset = woowgallery_POST( 'preset', 'default' );
 
 		if ( ! $skin || 'default' === $preset ) {
-			wp_send_json_error( __( 'Something goes wrong.', 'woowbox' ) );
+			wp_send_json_error( __( 'Something went wrong.', 'woowbox' ) );
 		}
 
 		$settings_skin  = Settings::get_settings( 'default_skin' );

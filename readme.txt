@@ -1,6 +1,6 @@
-=== WoowGallery - image / content / ecommerce / album / instagram photo gallery ===
+=== WoowGallery - image / content / ecommerce / instagram / album photo gallery ===
 Contributors: pasyuk
-Tags: gallery, image gallery, photo gallery, content gallery, albums gallery
+Tags: best gallery plugin, content gallery, gallery, image gallery, photo gallery
 Requires at least: 5.3.0
 Tested up to: 5.4
 Requires PHP: 5.4

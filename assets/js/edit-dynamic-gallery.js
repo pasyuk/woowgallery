@@ -292,11 +292,6 @@
           return item.original;
         }
 
-        let content_item = window.woowgallery_content_indexed[item.id];
-        if (content_item && content_item.original) {
-          return content_item.original;
-        }
-
         if ('attachment' === item.type) {
           let attachment = wp.media.attachment(item.id),
             att = attachment.attributes;
@@ -309,9 +304,7 @@
           return item.src;
         }
 
-        if (content_item && content_item.src) {
-          return content_item.src;
-        }
+        return '';
       },
 
       // Get item's thumbnail.
