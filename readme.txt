@@ -154,6 +154,10 @@ Image Comments
 Image Likes
 More Galery Skins
 
+= 1.0.4 - 24.06 =
+* Fixed instgram video preview in the admin
+* Fixed compatibility with lazy load plugins
+
 = 1.0.3 - 10.06 =
 * Added option for select Flagallery plugin galleries in WoowGallery Dynamic Gallery
 * Improved loading speed for Amron skin galleries
