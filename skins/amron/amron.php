@@ -20,7 +20,7 @@ class Amron {
 
 	const NAME        = 'Amron';
 	const SLUG        = 'amron';
-	const VERSION     = '1.1.0';
+	const VERSION     = '1.1.1';
 	const DESCRIPTION = '';
 
 	/**
@@ -253,10 +253,16 @@ class Amron {
 							'max'  => 36,
 						],
 					],
+					'collectionReadMoreButtonShow'                => [
+						'label'   => __( 'Show Link Button', 'woowgallery' ),
+						'tag'     => 'checkbox',
+						'default' => 1,
+					],
 					'collectionReadMoreButtonLabel'           => [
 						'label'   => __( 'Link Button - Default Label Text', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => __( 'Read More', 'woowgallery' ),
+						'visible' => 'collectionReadMoreButtonShow',
 						'attr'    => [
 							'type' => 'text',
 						],
@@ -265,6 +271,7 @@ class Amron {
 						'label'   => __( 'Link Button - Font Size', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => 12,
+						'visible' => 'collectionReadMoreButtonShow',
 						'attr'    => [
 							'type' => 'number',
 							'min'  => 10,
@@ -275,6 +282,7 @@ class Amron {
 						'label'   => __( 'Link Button - BG Color', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,1)',
+						'visible' => 'collectionReadMoreButtonShow',
 						'options' => [
 							'showAlpha' => true,
 						],
@@ -286,6 +294,7 @@ class Amron {
 						'label'   => __( 'Link Button - Hover BG Color', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => 'rgba(180,180,180,1)',
+						'visible' => 'collectionReadMoreButtonShow',
 						'options' => [
 							'showAlpha' => true,
 						],
@@ -297,6 +306,7 @@ class Amron {
 						'label'   => __( 'Link Button - Text Color', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => 'rgba(255,255,255,1)',
+						'visible' => 'collectionReadMoreButtonShow',
 						'options' => [
 							'showAlpha' => true,
 						],
@@ -308,6 +318,7 @@ class Amron {
 						'label'   => __( 'Link Button - Hover Text Color', 'woowgallery' ),
 						'tag'     => 'input',
 						'default' => 'rgba(0,0,0,1)',
+						'visible' => 'collectionReadMoreButtonShow',
 						'options' => [
 							'showAlpha' => true,
 						],
