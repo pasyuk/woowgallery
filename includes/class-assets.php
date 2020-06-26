@@ -49,7 +49,14 @@ class Assets {
 			'wpApiRoot' => esc_url_raw( rest_url() ),
 			'g11n'      => apply_filters( 'woowgallery_frontend_scripts_g11n', [] ),
 			'skins'     => null,
+			'i'         => '',
 		];
+
+		$i_date = get_option( 'woowgallery_install_date' );
+		if ( $i_date ) {
+			$script_localize['i'] .= date( 'ymd', $i_date );
+		}
+		$script_localize['i'] .= 'v' . WOOWGALLERY_VERSION;
 		if ( woow_fs()->is__premium_only() ) {
 			if ( woow_fs()->has_active_valid_license() ) {
 				$script_localize['status'] = 'premium';

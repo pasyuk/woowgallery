@@ -130,6 +130,7 @@ Mixed Photo Gallery
 Custom Posts Gallery with filter
 Image Gallery with Tags
 WooCommerce Product Gallery
+Portfolio Gallery
 Albums Gallery
 Protected Gallery
 Private Gallery
@@ -154,8 +155,14 @@ Image Comments
 Image Likes
 More Galery Skins
 
+= 1.0.5 - 26.06 =
+* New version of Amron skin
+* Added option to hide Read More button
+* Make thumbnail with a link clickable
+* CSS improvemnets
+
 = 1.0.4 - 24.06 =
-* Fixed instgram video preview in the admin
+* Fixed instagram video preview in the admin
 * Fixed compatibility with lazy load plugins
 
 = 1.0.3 - 10.06 =
@@ -176,24 +183,24 @@ More Galery Skins
 * Initial release.
 
 = DONE =
-Photo Gallery
-Video Gallery
-Audio Gallery
-Image Gallery with Albums
-e-Commerce Gallery
-Digital Downloads Gallery
-Featured Posts Gallery
-Content Gallery
-Instagram Gallery
-Mixed Photo Gallery
-Custom Posts Gallery with filter
-Image Gallery with Tags
-WooCommerce Product Gallery
-Albums Gallery
-Protected Gallery
-Private Gallery
-Standalone Gallery
-Gallery Widget
-Gutenberg Gallery
-Elementor Gallery
-Flagallery Gallery
+Photo Gallery - simple image gallery.
+Video Gallery - YouTube video gallery, Vimeo video gallery.
+Audio Gallery - mp3 album gallery with artwork.
+Image Gallery with Albums - photo albums with multi galleries.
+e-Commerce Gallery - sell images, product gallery.
+Digital Downloads Gallery - sell photos, sell products in gallery.
+Featured Posts Gallery - WordPress Post gallery.
+Content Gallery - custom post type gallery.
+Instagram Gallery - instagram feed, gallery from tag, user gallery.
+Mixed Photo Gallery - mixed content gallery.
+Custom Posts Gallery with filter - tag filter posts gallery.
+Image Gallery with Tags - tag filter gallery.
+WooCommerce Product Gallery - gallery with prices.
+Albums Gallery - tag filter album, multiple filtered galleries.
+Protected Gallery - gallery password.
+Private Gallery - gallery for logged in users.
+Standalone Gallery - gallery template, gallery link.
+Gallery Widget - sidebar gallery.
+Gutenberg Gallery - gallery block for gutenberg.
+Elementor Gallery - elementor widget with gallery
+Flagallery Gallery - show images from other plugins.

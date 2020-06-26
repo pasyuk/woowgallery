@@ -156,8 +156,12 @@ function woowgallery_check_environment() {
  */
 function woowgallery_upgrade() {
 
-	$version = get_option( 'woowgallery_version' );
+	$install_date = get_option( 'woowgallery_install_date' );
+	if ( empty( $install_date ) ) {
+		update_option( 'woowgallery_install_date', time() );
+	}
 
+	$version = get_option( 'woowgallery_version' );
 	if ( $version && version_compare( WOOWGALLERY_VERSION, $version, '>' ) ) {
 		$default_options = woowgallery_settings_default();
 		$options         = get_option( 'woowgallery_options' );

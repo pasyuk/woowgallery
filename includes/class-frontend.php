@@ -23,11 +23,20 @@ class Frontend {
 	 */
 	public function __construct() {
 
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ], 8 );
 		add_action( 'wp_head', [ $this, 'standalone_maybe_insert_shortcode' ] );
 
 		add_filter( 'woowgallery_pre_data', [ $this, 'filter_woowgallery_data' ], 10, 2 );
 		add_filter( 'rest_woowgallery_full_post_content', [ $this, 'filter_woowgallery_content' ] );
 		add_filter( 'the_preview', [ $this, 'set_preview' ] );
+	}
+
+	/**
+	 * Enqueue main scripts and styles
+	 */
+	public function enqueue_scripts() {
+		//wp_enqueue_style( WOOWGALLERY_SLUG . '-style' );
+		wp_enqueue_script( WOOWGALLERY_SLUG . '-script' );
 	}
 
 	/**
