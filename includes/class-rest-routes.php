@@ -122,9 +122,13 @@ class Rest_Routes {
 						$lightbox_list = Assets::lightboxes();
 						$lightbox_slug = $wg->get_lightbox_slug();
 						if ( ! empty( $lightbox_slug ) ) {
-							$attachment_full_data['lightbox']                = $lightbox_list[ $lightbox_slug ];
-							$attachment_full_data['skin']['info']['scripts'] = array_merge( $attachment_full_data['skin']['info']['scripts'], [ $lightbox_list[ $lightbox_slug ]['script'] ] );
-							$attachment_full_data['skin']['info']['styles']  = array_merge( $attachment_full_data['skin']['info']['styles'], [ $lightbox_list[ $lightbox_slug ]['style'] ] );
+							$attachment_full_data['lightbox'] = $lightbox_list[ $lightbox_slug ];
+							if ( $lightbox_list[ $lightbox_slug ]['script'] ) {
+								$attachment_full_data['skin']['info']['scripts'] = array_merge( $attachment_full_data['skin']['info']['scripts'], [ $lightbox_list[ $lightbox_slug ]['script'] ] );
+							}
+							if ( $lightbox_list[ $lightbox_slug ]['style'] ) {
+								$attachment_full_data['skin']['info']['styles'] = array_merge( $attachment_full_data['skin']['info']['styles'], [ $lightbox_list[ $lightbox_slug ]['style'] ] );
+							}
 						}
 					}
 
