@@ -1,11 +1,16 @@
 window.initWoowGallerySkin = function(id, skin, lightbox) {
   const {WoowGallery} = window;
-  if (!lightbox) { lightbox = ''; }
 
   if (WoowGallery.skins && WoowGallery.skins[skin]) {
     let galleriesManager = WoowGallery.skins[skin];
     if (galleriesManager.searchAndInit) {
       galleriesManager.searchAndInit(id);
+    }
+    else {
+      setTimeout(() => {
+        initWoowGallerySkin(id, skin, lightbox);
+      }, 500);
+      return;
     }
   }
   else {
@@ -43,8 +48,8 @@ window.initWoowGallerySkin = function(id, skin, lightbox) {
         });
       }
       else {
-        WoowGallery.skins[skin] = false;
-        WoowGallery.lightboxes[lightbox] = false;
+        window.WoowGallery.skins[skin] = false;
+        window.WoowGallery.lightboxes[lightbox] = false;
       }
 
       jQuery('#' + id).closest('.elementor-widget-wp-widget-woowgallery').removeClass('elementor-widget-empty').find('.elementor-widget-empty-icon').remove();
@@ -80,7 +85,7 @@ window.initWoowGallerySkin = function(id, skin, lightbox) {
           });
         }
         else {
-          WoowGallery.lightboxes[lightbox] = false;
+          window.WoowGallery.lightboxes[lightbox] = false;
         }
       });
     }

@@ -18,7 +18,6 @@
         fieldNameTemplate: '_woowgallery_lightbox[{name}]'
       },
       premium: false,
-      lightboxList: {},
       lightbox: '',
       // lightbox settings
       model: {},
@@ -78,13 +77,6 @@
       // On init get gallery skin and set all the data
       this.premium = woowgallery.status && ('premium' === woowgallery.status || 'trial' === woowgallery.status);
       this.lightbox = woowgallery.l10n.selected_lightbox || woowgallery.l10n.default_lightbox;
-      let lb_list = {};
-      _.each(window.woowgallery_lightbox, (obj) => {
-        if(obj.name) {
-          lb_list[obj.name] = obj.schema.label;
-        }
-      });
-      this.lightboxList = lb_list;
     },
     methods: {
       switchTab: function(tab_id) {

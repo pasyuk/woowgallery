@@ -6,13 +6,15 @@
  * @author  Sergey Pasyuk
  */
 
+use WoowGallery\Assets;
 use WoowGallery\Gallery;
 use WoowGallery\Lightbox;
 
 $wg = Gallery::get_instance( $data['post']->ID, $data['post']->post_type );
 
-$lightbox    = Lightbox::get_instance();
-$lb_settings = $lightbox->get_settings();
+$lightbox_list = Assets::lightboxes();
+$lightbox      = Lightbox::get_instance();
+$lb_settings   = $lightbox->get_settings();
 
 $wg_lb_name   = $wg->get_lightbox_slug();
 $wg_lb_config = $wg->get_lightbox_config();
@@ -32,12 +34,14 @@ if ( isset( $lb_settings[ $wg_lb_name ] ) ) {
 						<div class="field-wrap">
 							<div class="wrapper">
 								<div class="wg-radio-group">
-									<input type="radio" id="wglb-none" value="" :name="'_woowgallery[lightbox]'" v-model="lightbox">
+									<input type="radio" id="wglb-none" value="" :name="'_woowgallery[lightbox]'" v-model="lightbox" />
 									<label for="wglb-none"><?php esc_html_e( 'Disabled', 'woowgallery' ); ?></label>
-									<template v-for="(lb_label, lb_name) in lightboxList">
-										<input type="radio" :id="'wglb-' + lb_name" :value="lb_name" :name="'_woowgallery[lightbox]'" v-model="lightbox">
-										<label :for="'wglb-' + lb_name">{{ lb_label }}</label>
-									</template>
+									<?php
+									foreach ( $lightbox_list as $lb ) {
+										echo '<input type="radio" id="wglb-' . esc_attr( $lb['slug'] ) . '" value="' . esc_attr( $lb['slug'] ) . '" :name="\'_woowgallery[lightbox]\'" v-model="lightbox" />';
+										echo '<label for="wglb-' . esc_attr( $lb['slug'] ) . '">' . esc_html( $lb['name'] ) . '</label>';
+									}
+									?>
 								</div>
 							</div>
 						</div>
@@ -47,7 +51,7 @@ if ( isset( $lb_settings[ $wg_lb_name ] ) ) {
 				<div class="woowgallery-config-wrapper" v-if="lightbox">
 					<div class="woowgallery-config-tabs">
 						<div class="vue-form-generator" v-if="schema != null">
-							<fieldset v-for="(group, tab_id) in schema.fieldsets" :id="'lb-fieldset-' + tab_id" class="woowgallery-fieldset-block" :key="lightbox + '_' + tab_id">
+							<fieldset v-for="(group, tab_id) in schema" :id="'lb-fieldset-' + tab_id" class="woowgallery-fieldset-block" :key="lightbox + '_' + tab_id">
 								<h4>{{ group.label }}</h4>
 								<div class="form-group" v-for="(field, key) in group.fields" v-if="fieldVisible(field)" :class="getFieldRowClasses(field)" :style="getFieldRowStyles(field)" :key="lightbox + '_' + key">
 									<label v-if="fieldTypeHasLabel(field)" :for="key">{{ field.label }}

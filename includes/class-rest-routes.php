@@ -118,6 +118,14 @@ class Rest_Routes {
 							'slug' => $skin_slug,
 							'info' => $skin->info,
 						];
+
+						$lightbox_list = Assets::lightboxes();
+						$lightbox_slug = $wg->get_lightbox_slug();
+						if ( ! empty( $lightbox_slug ) ) {
+							$attachment_full_data['lightbox']                = $lightbox_list[ $lightbox_slug ];
+							$attachment_full_data['skin']['info']['scripts'] = array_merge( $attachment_full_data['skin']['info']['scripts'], [ $lightbox_list[ $lightbox_slug ]['script'] ] );
+							$attachment_full_data['skin']['info']['styles']  = array_merge( $attachment_full_data['skin']['info']['styles'], [ $lightbox_list[ $lightbox_slug ]['style'] ] );
+						}
 					}
 
 					return apply_filters( 'rest_woowgallery_full_post_data', $attachment_full_data );

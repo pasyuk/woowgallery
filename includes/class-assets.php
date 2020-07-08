@@ -40,7 +40,15 @@ class Assets {
 		wp_register_script( 'swiper', plugins_url( "assets/vendor/swiper/swiper{$suffix}.js", WOOWGALLERY_FILE ), [], '5.2.1', true );
 
 		// Register frontend scripts.
-		wp_register_script( 'woowlightbox', plugins_url( 'assets/js/lightbox/woowlightbox.js', WOOWGALLERY_FILE ), [], WOOWGALLERY_VERSION, true );
+		$lightboxes = self::lightboxes();
+		foreach ( $lightboxes as $lightbox ) {
+			if ( $lightbox['style'] ) {
+				wp_register_style( $lightbox['slug'], $lightbox['style'], $lightbox['dependencies'], $lightbox['version'], true );
+			}
+			if ( $lightbox['script'] ) {
+				wp_register_script( $lightbox['slug'], $lightbox['script'], $lightbox['dependencies'], $lightbox['version'], true );
+			}
+		}
 
 		wp_register_script( WOOWGALLERY_SLUG . '-elementor', plugins_url( "assets/js/elementor{$suffix}.js", WOOWGALLERY_FILE ), [ 'jquery' ], WOOWGALLERY_VERSION, true );
 
@@ -69,6 +77,24 @@ class Assets {
 			}
 		}
 		wp_localize_script( WOOWGALLERY_SLUG . '-script', 'WoowGallery', $script_localize );
+	}
+
+	/**
+	 * List of Lightboxes.
+	 */
+	public static function lightboxes() {
+		$lightboxes = [
+			'woowlightbox' => [
+				'name'         => __( 'WoowLightbox', 'woowgallery' ),
+				'slug'         => 'woowlightbox',
+				'version'      => WOOWGALLERY_VERSION,
+				'style'        => '',
+				'script'       => plugins_url( 'assets/js/lightbox/woowlightbox.js', WOOWGALLERY_FILE ),
+				'dependencies' => [],
+			],
+		];
+
+		return apply_filters( 'woowgallery_lightboxes_list', $lightboxes );
 	}
 
 	/**
