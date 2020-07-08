@@ -26,6 +26,8 @@ class Gallery {
 	const GALLERY_EDITOR_SETTINGS_META_KEY = '_woowgallery_editor_settings';
 	const GALLERY_SKIN_META_KEY            = '_woowgallery_skin';
 	const GALLERY_SKIN_CONFIG_META_KEY     = '_woowgallery_skin_config';
+	const GALLERY_LIGHTBOX_META_KEY        = '_woowgallery_lightbox';
+	const GALLERY_LIGHTBOX_CONFIG_META_KEY = '_woowgallery_lightbox_config';
 
 	/**
 	 * Holds the class object.
@@ -61,6 +63,13 @@ class Gallery {
 	 * @var int
 	 */
 	private $skin_slug;
+
+	/**
+	 * Gallery skin slug
+	 *
+	 * @var int
+	 */
+	private $lightbox_slug;
 
 	/**
 	 * Fallback skin preset
@@ -218,6 +227,10 @@ class Gallery {
 					'slug'   => $this->get_skin_slug(),
 					'config' => $this->get_skin_config(),
 				],
+				'lightbox'    => [
+					'slug'   => $this->get_lightbox_slug(),
+					'config' => $this->get_lightbox_config(),
+				],
 				'data'        => (array) json_decode( $data ),
 				'content'     => $this->get_gallery_content(),
 				'count'       => (int) get_metadata( 'post', $this->id, self::GALLERY_MEDIA_COUNT_META_KEY, true ),
@@ -281,6 +294,44 @@ class Gallery {
 		}
 
 		return Skins::get_instance()->get_skin_model( $skin_slug, $this->skin_preset );
+	}
+
+	/**
+	 * Helper method for retrieving gallery lightbox slug.
+	 *
+	 * @return string.
+	 */
+	public function get_lightbox_slug() {
+
+		if ( ! $this->lightbox_slug ) {
+			if ( metadata_exists( 'post', $this->id, self::GALLERY_LIGHTBOX_META_KEY ) ) {
+				$this->lightbox_slug = get_metadata( 'post', $this->id, self::GALLERY_LIGHTBOX_META_KEY, true );
+			} else {
+				$this->lightbox_slug = Settings::get_settings_default( 'default_lightbox' );
+			}
+		}
+
+		return $this->lightbox_slug;
+	}
+
+	/**
+	 * Helper method for retrieving gallery lightbox model.
+	 *
+	 * @return array|null.
+	 */
+	public function get_lightbox_config() {
+
+		$lightbox_slug = $this->get_lightbox_slug();
+
+		// Get config.
+		$gallery_lightbox_config = get_metadata( 'post', $this->id, self::GALLERY_LIGHTBOX_CONFIG_META_KEY, true ) ?: [];
+
+		// Check config key exists.
+		if ( ! empty( $lightbox_slug ) ) {
+			return Lightbox::get_instance()->get_lightbox_model( $lightbox_slug, $gallery_lightbox_config );
+		}
+
+		return null;
 	}
 
 	/**

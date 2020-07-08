@@ -3,6 +3,8 @@
 /* Helper styles */
 .woowgallery-hidden { display: none !important; }
 
+.wg-textcenter { text-align: center; }
+
 .wg-clearfix::before, .wg-clearfix::after { content: " "; display: table; clear: both; height: 0; overflow: hidden; }
 
 /** Media Library */

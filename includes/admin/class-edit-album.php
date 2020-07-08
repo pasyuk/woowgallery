@@ -111,11 +111,12 @@ class Edit_Album extends Edit_Woowgallery {
 				'tags'        => '',
 			],
 			'default_skin'      => $settings['default_skin'],
+			'default_lightbox'  => $settings['default_lightbox'],
 		];
 
 		if ( ! empty( $skin ) ) {
-			$js_data['selected_skin'] = $skin . ': _custom';
-
+			$js_data['selected_skin']     = $skin . ': _custom';
+			$js_data['selected_lightbox'] = $wg->get_lightbox_slug();
 		}
 
 		return array_merge( $l10n, $js_data );

@@ -773,6 +773,12 @@
 		"sC": 3,
 		"tS": 0
 		},
+	"/js/lightbox": {
+		"ft": 65536,
+		"oA": 1,
+		"oAP": "/build/js/lightbox",
+		"oF": 0
+		},
 	"/js/media-library.js": {
 		"bF": 0,
 		"ft": 64,
@@ -901,6 +907,17 @@
 		"mi": 1,
 		"oA": 1,
 		"oAP": "/js/src/misc.min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
+	"/js/src/settings-lightbox.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "/js/src/settings-lightbox.min.js",
 		"oF": 0,
 		"sC": 3,
 		"tS": 0
@@ -3256,7 +3273,7 @@
 		],
 	"overrideExternalServerCSS": 0,
 	"previewPathAddition": "",
-	"skippedFoldersString": "log, _logs, logs, _cache, cache, /storage/framework/sessions, node_modules, /__js, /vendor/vue-form-generator, /vendor/spectrum, /js/src, /vendor/vue-toasted",
+	"skippedFoldersString": "log, _logs, logs, _cache, cache, /storage/framework/sessions, node_modules, /__js, /vendor/vue-form-generator, /vendor/spectrum, /js/src, /vendor/vue-toasted, /js/lightbox",
 	"sourceFolderName": "source",
 	"susyVersion": 3,
 	"tsAllowSyntheticDefaultImports": 0,

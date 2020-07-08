@@ -291,8 +291,12 @@ class Ajax {
 			die();
 		}
 
-		$skin = $skins[ $skin ];
+		$lightbox = woowgallery_GET( 'lightbox' );
+		$skin     = $skins[ $skin ];
 		ob_start();
+		if ( ! empty( $lightbox ) ) {
+			wp_enqueue_script( $lightbox );
+		}
 		Shortcodes::load_skin_css( $skin->slug );
 		Shortcodes::load_skin_js( $skin->slug );
 		wp_print_footer_scripts();

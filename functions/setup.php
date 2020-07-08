@@ -186,6 +186,7 @@ function woowgallery_upgrade() {
 function woowgallery_settings_default() {
 	$settings = [
 		'default_skin'           => 'amron',
+		'default_lightbox'       => 'woowlightbox',
 		'cache'                  => '12',
 		'custom_css'             => '',
 		'edit_gallery_view'      => 'grid',

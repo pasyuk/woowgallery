@@ -111,6 +111,15 @@ class Edit_Woowgallery {
 			$skin_config['__skin'] = $skin;
 			update_metadata( 'post', $post_id, Gallery::GALLERY_SKIN_CONFIG_META_KEY, apply_filters( 'woowgallery_save_skin_config', $skin_config, $skin, $post_id ) );
 		}
+
+		if ( isset( $_woowgallery['lightbox'] ) ) {
+			$lightbox = preg_replace( '#[^a-z0-9-_]#', '', $_woowgallery['lightbox'] );
+			update_metadata( 'post', $post_id, Gallery::GALLERY_LIGHTBOX_META_KEY, $lightbox );
+
+			$lightbox_config               = (array) woowgallery_POST( '_woowgallery_lightbox', [] );
+			$lightbox_config['__lightbox'] = $lightbox;
+			update_metadata( 'post', $post_id, Gallery::GALLERY_LIGHTBOX_CONFIG_META_KEY, apply_filters( 'woowgallery_save_lightbox_config', $lightbox_config, $lightbox, $post_id ) );
+		}
 	}
 
 	/**
@@ -205,6 +214,7 @@ class Edit_Woowgallery {
 		// Load all tabs.
 		add_action( 'woowgallery_tab_gallery', [ $this, 'tab_gallery' ] );
 		add_action( 'woowgallery_tab_config', [ $this, 'tab_config' ] );
+		add_action( 'woowgallery_tab_lightbox', [ $this, 'tab_lightbox' ] );
 		add_action( 'woowgallery_tab_misc', [ $this, 'tab_misc' ] );
 
 		// Display the Gallery Code metabox if we're editing an existing Gallery.
@@ -327,13 +337,17 @@ class Edit_Woowgallery {
 	public function get_gallery_editor_tabs_nav() {
 
 		$tabs = [
-			'gallery' => [
+			'gallery'  => [
 				'label' => __( 'Gallery', 'woowgallery' ),
 				'icon'  => 'dashicons-screenoptions',
 			],
-			'config'  => [
+			'config'   => [
 				'label' => __( 'Config', 'woowgallery' ),
 				'icon'  => 'dashicons-admin-generic',
+			],
+			'lightbox' => [
+				'label' => __( 'Lightbox', 'woowgallery' ),
+				'icon'  => 'dashicons-editor-expand',
 			],
 		];
 		$tabs = apply_filters( 'woowgallery_editor_tabs_nav', $tabs, $this->post_type );
@@ -386,6 +400,16 @@ class Edit_Woowgallery {
 	public function tab_config( $post ) {
 		// Load view.
 		Admin::load_template( 'gallery-skin-config', compact( 'post' ) );
+	}
+
+	/**
+	 * Callback for displaying the lightbox settings tab.
+	 *
+	 * @param WP_Post $post The current post object.
+	 */
+	public function tab_lightbox( $post ) {
+		// Load view.
+		Admin::load_template( 'gallery-lightbox', compact( 'post' ) );
 	}
 
 	/**

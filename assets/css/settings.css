@@ -20,22 +20,19 @@
 .button.button-success:active, .button.button-success:focus { background: #06c4ff; border-color: #00b3ec; color: #ffffff; }
 
 /* Add this attribute to the element that needs a tooltip */
-[data-woowbox-tooltip] { position: relative; z-index: 2; cursor: pointer; }
+[data-wg-tooltip] { position: relative; z-index: 2; cursor: pointer; }
 
 /* Hide the tooltip content by default */
-[data-woowbox-tooltip]:before, [data-woowbox-tooltip]:after { visibility: hidden; opacity: 0; pointer-events: none; }
+[data-wg-tooltip]:before, [data-wg-tooltip]:after { visibility: hidden; opacity: 0; pointer-events: none; }
 
 /* Position tooltip above the element */
-[data-woowbox-tooltip]:before { position: absolute; bottom: 120%; left: 50%; margin-bottom: 5px; margin-left: -35px; padding: 7px; width: 60px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background-color: #000; color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; content: attr(data-woowbox-tooltip); text-align: center; font-size: 12px; line-height: 1.2; }
+[data-wg-tooltip]:before { position: absolute; bottom: 120%; left: 50%; margin-bottom: 5px; margin-left: -35px; padding: 7px; width: 60px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background-color: #000; color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; content: attr(data-wg-tooltip); text-align: center; font-size: 12px; line-height: 1.2; }
 
 /* Triangle hack to make tooltip look like a speech bubble */
-[data-woowbox-tooltip]:after { position: absolute; bottom: 120%; left: 50%; width: 0; margin-left: -5px; border-top: 5px solid #000; border-right: 5px solid transparent; border-left: 5px solid transparent; content: " "; font-size: 0; line-height: 0; }
+[data-wg-tooltip]:after { position: absolute; bottom: 120%; left: 50%; width: 0; margin-left: -5px; border-top: 5px solid #000; border-right: 5px solid transparent; border-left: 5px solid transparent; content: " "; font-size: 0; line-height: 0; }
 
 /* Show tooltip content on hover */
-[data-woowbox-tooltip]:hover:before, [data-woowbox-tooltip]:hover:after { visibility: visible; opacity: 1; }
-
-/* Helper styles */
-.woowbox-hidden { display: none !important; }
+[data-wg-tooltip]:hover:before, [data-wg-tooltip]:hover:after { visibility: visible; opacity: 1; }
 
 /** EXAMPLE <label class="woowgallery-toggle"> <input type="checkbox" /> <span data-on="1" data-off="0"></span> </label> */
 .wg-toggle-labels { position: relative; outline: 0; display: inline-block; cursor: pointer; user-select: none; margin: 0 0 5px 0; box-sizing: border-box; }
@@ -226,6 +223,8 @@ ul#woowgallery-tabs-nav li a.woowgallery-active { border-right: 1px solid #fffff
 
 .woowgallery-skin-settings .form-control { width: 100%; }
 
+.woowgallery-lightbox-settings-inner .wg-radio-group { margin: 10px 0; }
+
 .woowgallery-wrap { /* Color Picker */ }
 
 .woowgallery-wrap .woowgallery-skin-intro { position: relative; margin: 0 0 10px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
@@ -240,7 +239,11 @@ ul#woowgallery-tabs-nav li a.woowgallery-active { border-right: 1px solid #fffff
 
 .woowgallery-wrap fieldset { padding: 16px; display: none; }
 
-.woowgallery-wrap fieldset.woowgallery-active { display: block; }
+.woowgallery-wrap fieldset.woowgallery-active, .woowgallery-wrap fieldset.woowgallery-fieldset-block { display: block; }
+
+.woowgallery-wrap fieldset.woowgallery-fieldset-block { padding: 0; }
+
+.woowgallery-wrap fieldset.woowgallery-fieldset-block h4 { font-size: 1.4em; line-height: 1.2; margin: 20px 0 15px; }
 
 .woowgallery-wrap .form-group { display: flex; flex-wrap: wrap; padding: 16px 0; min-height: 34px; box-sizing: content-box !important; align-items: center; border-top: 1px solid #eee; }
 

@@ -193,6 +193,8 @@ ul#woowgallery-tabs-nav li a.woowgallery-active { border-right: 1px solid #fffff
 
 .woowgallery-skin-settings .form-control { width: 100%; }
 
+.woowgallery-lightbox-settings-inner .wg-radio-group { margin: 10px 0; }
+
 .woowgallery-wrap { /* Color Picker */ }
 
 .woowgallery-wrap .woowgallery-skin-intro { position: relative; margin: 0 0 10px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
@@ -207,7 +209,11 @@ ul#woowgallery-tabs-nav li a.woowgallery-active { border-right: 1px solid #fffff
 
 .woowgallery-wrap fieldset { padding: 16px; display: none; }
 
-.woowgallery-wrap fieldset.woowgallery-active { display: block; }
+.woowgallery-wrap fieldset.woowgallery-active, .woowgallery-wrap fieldset.woowgallery-fieldset-block { display: block; }
+
+.woowgallery-wrap fieldset.woowgallery-fieldset-block { padding: 0; }
+
+.woowgallery-wrap fieldset.woowgallery-fieldset-block h4 { font-size: 1.4em; line-height: 1.2; margin: 20px 0 15px; }
 
 .woowgallery-wrap .form-group { display: flex; flex-wrap: wrap; padding: 16px 0; min-height: 34px; box-sizing: content-box !important; align-items: center; border-top: 1px solid #eee; }
 

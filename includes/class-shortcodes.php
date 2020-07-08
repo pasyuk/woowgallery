@@ -245,6 +245,9 @@ class Shortcodes {
 		// Load main scripts and styles.
 		wp_enqueue_style( WOOWGALLERY_SLUG . '-style' );
 		wp_enqueue_script( WOOWGALLERY_SLUG . '-script' );
+		if ( ! empty( $gallery['lightbox']['slug'] ) ) {
+			wp_enqueue_script( $gallery['lightbox']['slug'] );
+		}
 		self::load_skin_css( $gallery['skin']['slug'] );
 		self::load_skin_js( $gallery['skin']['slug'] );
 

@@ -8,6 +8,7 @@
  */
 
 // @codekit-prepend "settings-vue-fields.js";
+// @codekit-prepend "settings-lightbox.js";
 
 (function($) {
   let $skin_config = document.getElementById('woowgallery-skin-config');

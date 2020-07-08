@@ -40,6 +40,8 @@ class Assets {
 		wp_register_script( 'swiper', plugins_url( "assets/vendor/swiper/swiper{$suffix}.js", WOOWGALLERY_FILE ), [], '5.2.1', true );
 
 		// Register frontend scripts.
+		wp_register_script( 'woowlightbox', plugins_url( 'assets/js/lightbox/woowlightbox.js', WOOWGALLERY_FILE ), [], WOOWGALLERY_VERSION, true );
+
 		wp_register_script( WOOWGALLERY_SLUG . '-elementor', plugins_url( "assets/js/elementor{$suffix}.js", WOOWGALLERY_FILE ), [ 'jquery' ], WOOWGALLERY_VERSION, true );
 
 		wp_register_style( WOOWGALLERY_SLUG . '-style', plugins_url( 'assets/css/woowgallery.css', WOOWGALLERY_FILE ), [], WOOWGALLERY_VERSION );
@@ -152,6 +154,20 @@ class Assets {
 				'spectrum',
 			],
 			WOOWGALLERY_VERSION
+		);
+		wp_register_script(
+			WOOWGALLERY_SLUG . '-edit-lightbox-script',
+			plugins_url( 'assets/js/edit-lightbox.min.js', WOOWGALLERY_FILE ),
+			[
+				WOOWGALLERY_SLUG . '-admin-script',
+				'jquery',
+				'vuejs',
+				'backbone',
+				'filtrex',
+				'spectrum',
+			],
+			WOOWGALLERY_VERSION,
+			true
 		);
 		wp_register_script(
 			WOOWGALLERY_SLUG . '-edit-gallery-script',

@@ -41,22 +41,22 @@
 }
 
 /* Add this attribute to the element that needs a tooltip */
-[data-woowbox-tooltip] {
+[data-wg-tooltip] {
   position: relative;
   z-index: 2;
   cursor: pointer;
 }
 
 /* Hide the tooltip content by default */
-[data-woowbox-tooltip]:before,
-[data-woowbox-tooltip]:after {
+[data-wg-tooltip]:before,
+[data-wg-tooltip]:after {
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
 }
 
 /* Position tooltip above the element */
-[data-woowbox-tooltip]:before {
+[data-wg-tooltip]:before {
   position: absolute;
   bottom: 120%;
   left: 50%;
@@ -70,14 +70,14 @@
   background-color: #000;
   color: #fff;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  content: attr(data-woowbox-tooltip);
+  content: attr(data-wg-tooltip);
   text-align: center;
   font-size: 12px;
   line-height: 1.2;
 }
 
 /* Triangle hack to make tooltip look like a speech bubble */
-[data-woowbox-tooltip]:after {
+[data-wg-tooltip]:after {
   position: absolute;
   bottom: 120%;
   left: 50%;
@@ -92,13 +92,8 @@
 }
 
 /* Show tooltip content on hover */
-[data-woowbox-tooltip]:hover:before,
-[data-woowbox-tooltip]:hover:after {
+[data-wg-tooltip]:hover:before,
+[data-wg-tooltip]:hover:after {
   visibility: visible;
   opacity: 1;
-}
-
-/* Helper styles */
-.woowbox-hidden {
-  display: none !important;
 }

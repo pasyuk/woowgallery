@@ -83,6 +83,13 @@
   }
 }
 
+.woowgallery-lightbox-settings-inner {
+
+  .wg-radio-group {
+    margin: 10px 0;
+  }
+}
+
 .woowgallery-wrap {
 
   .woowgallery-skin-intro {
@@ -117,8 +124,19 @@
     padding: 16px;
     display: none;
 
-    &.woowgallery-active {
+    &.woowgallery-active,
+    &.woowgallery-fieldset-block {
       display: block;
+    }
+  }
+
+  fieldset.woowgallery-fieldset-block {
+    padding: 0;
+
+    h4 {
+      font-size: 1.4em;
+      line-height: 1.2;
+      margin: 20px 0 15px;
     }
   }
 

@@ -73,10 +73,17 @@ class Elementor {
 	 * @return string
 	 */
 	public function load_skin_assets( $shortcode_html, $gallery ) {
-		$skin = Skins::get_instance()->get_skin( $gallery['skin']['slug'] );
-		$id   = sanitize_html_class( $gallery['uid'] );
-		$slug = esc_attr( $skin->slug );
+		$skin          = Skins::get_instance()->get_skin( $gallery['skin']['slug'] );
+		$id            = sanitize_html_class( $gallery['uid'] );
+		$skin_slug     = esc_attr( $skin->slug );
+		$lightbox_slug = esc_attr( $gallery['lightbox']['slug'] );
 
-		return $shortcode_html . "<script>jQuery(function($) { initWoowGallerySkin('{$id}', '{$slug}'); })</script>";
+		$init_script = '<s' . 'cript>';
+		$init_script .= 'jQuery(function($){';
+		$init_script .= "initWoowGallerySkin('{$id}','{$skin_slug}','{$lightbox_slug}');";
+		$init_script .= '});';
+		$init_script .= '</s' . 'cript>';
+
+		return $shortcode_html . $init_script;
 	}
 }

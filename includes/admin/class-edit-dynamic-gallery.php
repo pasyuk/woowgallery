@@ -398,15 +398,16 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 		$skin     = $wg->get_skin_slug();
 
 		$js_data = [
-			'siteurl'      => site_url(),
-			'per_page'     => (int) $wg->get_editor_settings( 'per_page', $settings['edit_dynamic_per_page'] ),
-			'icons_url'    => plugins_url( 'assets/images/icons', WOOWGALLERY_FILE ),
-			'default_skin' => $settings['default_skin'],
+			'siteurl'          => site_url(),
+			'per_page'         => (int) $wg->get_editor_settings( 'per_page', $settings['edit_dynamic_per_page'] ),
+			'icons_url'        => plugins_url( 'assets/images/icons', WOOWGALLERY_FILE ),
+			'default_skin'     => $settings['default_skin'],
+			'default_lightbox' => $settings['default_lightbox'],
 		];
 
 		if ( ! empty( $skin ) ) {
-			$js_data['selected_skin'] = $skin . ': _custom';
-
+			$js_data['selected_skin']     = $skin . ': _custom';
+			$js_data['selected_lightbox'] = $wg->get_lightbox_slug();
 		}
 
 		return array_merge( $l10n, $js_data );

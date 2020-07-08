@@ -10,7 +10,7 @@
 		<div class="woowgallery-no-skin" v-if="!skin" v-cloak>
 			<h3><?php esc_html_e( 'Select skin to config it settings, please.', 'woowgallery' ); ?></h3>
 		</div>
-		<div class="woowgallery-skin-settings-inner">
+		<div v-else class="woowgallery-skin-settings-inner">
 			<!-- Skin Screenshot -->
 			<div class="woowgallery-skin-sreenshot" v-if="skin_info.screenshots && skin_info.screenshots[0]">
 				<img :src="skin_info.screenshots[0]" :alt="skin_info.name">
@@ -31,13 +31,13 @@
 			<div class="woowgallery-config-wrapper" :data-preset="preset">
 				<nav class="woowgallery-config-tabs-nav">
 					<div v-for="(group, tab_id) in schema" :key="skin + '_tab_' + tab_id">
-						<a :href="'#field-' + tab_id" :class="{'woowgallery-active': activeTab === tab_id}" @click.prevent="switchTab(tab_id)">{{ group.label }}</a>
+						<a :href="'#fieldset-' + tab_id" :class="{'woowgallery-active': activeTab === tab_id}" @click.prevent="switchTab(tab_id)">{{ group.label }}</a>
 					</div>
 				</nav>
 
 				<div class="woowgallery-config-tabs">
 					<div class="vue-form-generator" v-if="schema != null">
-						<fieldset v-for="(group, tab_id) in schema" :id="'field-' + tab_id" :class="{'woowgallery-active': activeTab === tab_id}" :key="skin + '_' + tab_id">
+						<fieldset v-for="(group, tab_id) in schema" :id="'fieldset-' + tab_id" :class="{'woowgallery-active': activeTab === tab_id}" :key="skin + '_' + tab_id">
 							<h4>{{ group.label }}</h4>
 							<div class="form-group" v-for="(field, key) in group.fields" v-if="fieldVisible(field)" :class="getFieldRowClasses(field)" :style="getFieldRowStyles(field)" :key="skin + '_' + key">
 								<label v-if="fieldTypeHasLabel(field)" :for="key">{{ field.label }}
