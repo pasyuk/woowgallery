@@ -155,6 +155,11 @@ Image Comments
 Image Likes
 More Galery Skins
 
+= 1.0.6 - 09.07 =
+* Lightbox now is a separate script from Amron skin (less js file size)
+* Added separate Lightbox Setting tab on edit gallery page
+* Prepare code for other lightbox scripts in the future
+
 = 1.0.5 - 26.06 =
 * New version of Amron skin
 * Added option to hide Read More button
