@@ -128,7 +128,7 @@
 		"oA": 0,
 		"oAP": "/css/admin.css",
 		"oF": 2,
-		"oS": 2,
+		"oS": 3,
 		"uL": 1
 		},
 	"/css/blocks.style.build.css": {
@@ -151,17 +151,25 @@
 		"oF": 0,
 		"oS": 3
 		},
+	"/css/edit-woowgallery-modal.css.map": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 2,
+		"oAP": "/css/edit-woowgallery-modal.css.map",
+		"oF": 0
+		},
 	"/css/edit-woowgallery-modal.scss": {
-		"aP": 0,
+		"aP": 1,
 		"bl": 0,
 		"dP": 10,
 		"dS": 0,
 		"ft": 4,
-		"ma": 0,
+		"ma": 1,
 		"oA": 0,
 		"oAP": "/css/edit-woowgallery-modal.css",
 		"oF": 0,
-		"oS": 0,
+		"oS": 3,
 		"uL": 1
 		},
 	"/css/edit-woowgallery.css": {
@@ -183,7 +191,7 @@
 		"oF": 0
 		},
 	"/css/edit-woowgallery.scss": {
-		"aP": 0,
+		"aP": 1,
 		"bl": 0,
 		"dP": 10,
 		"dS": 0,
@@ -192,7 +200,7 @@
 		"oA": 0,
 		"oAP": "/css/edit-woowgallery.css",
 		"oF": 0,
-		"oS": 2,
+		"oS": 3,
 		"uL": 1
 		},
 	"/css/editor-modal.css": {
@@ -223,7 +231,7 @@
 		"oA": 0,
 		"oAP": "/css/editor-modal.css",
 		"oF": 0,
-		"oS": 2,
+		"oS": 3,
 		"uL": 1
 		},
 	"/css/freemius.css": {
@@ -277,7 +285,7 @@
 		"oA": 0,
 		"oAP": "/css/global.css",
 		"oF": 0,
-		"oS": 2,
+		"oS": 3,
 		"uL": 1
 		},
 	"/css/settings.css": {
@@ -299,7 +307,7 @@
 		"oF": 0
 		},
 	"/css/settings.scss": {
-		"aP": 0,
+		"aP": 1,
 		"bl": 0,
 		"dP": 10,
 		"dS": 0,
@@ -308,7 +316,7 @@
 		"oA": 0,
 		"oAP": "/css/settings.css",
 		"oF": 0,
-		"oS": 2,
+		"oS": 3,
 		"uL": 1
 		},
 	"/css/woowgallery.css": {
@@ -339,7 +347,7 @@
 		"oA": 0,
 		"oAP": "/css/woowgallery.css",
 		"oF": 0,
-		"oS": 2,
+		"oS": 3,
 		"uL": 1
 		},
 	"/images/add-items-b.svg": {
@@ -1003,7 +1011,7 @@
 		"bF": 0,
 		"ft": 64,
 		"ma": 1,
-		"mi": 0,
+		"mi": 1,
 		"oA": 0,
 		"oAP": "/js/woowgallery.min.js",
 		"oF": 2,
@@ -1029,195 +1037,11 @@
 		"oAP": "/js/woowgallery.min.js.map",
 		"oF": 0
 		},
-	"/vendor/clipboard.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 0,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/vendor/clipboard.min.js",
-		"oF": 0,
-		"sC": 3,
-		"tS": 0
-		},
-	"/vendor/clipboard.min.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 0,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/vendor/clipboard.min.min.js",
-		"oF": 0,
-		"sC": 3,
-		"tS": 0
-		},
-	"/vendor/filtrex.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 0,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/vendor/filtrex.min.js",
-		"oF": 2,
-		"sC": 0,
-		"tS": 0
-		},
-	"/vendor/portal-vue.umd.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 0,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/vendor/portal-vue.umd.min.js",
-		"oF": 0,
-		"sC": 3,
-		"tS": 0
-		},
-	"/vendor/portal-vue.umd.min.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 0,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/vendor/portal-vue.umd.min.min.js",
-		"oF": 0,
-		"sC": 3,
-		"tS": 0
-		},
-	"/vendor/Sortable.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 0,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/vendor/Sortable.min.js",
-		"oF": 2,
-		"sC": 0,
-		"tS": 0
-		},
-	"/vendor/Sortable.min.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 0,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/vendor/Sortable.min.min.js",
-		"oF": 0,
-		"sC": 3,
-		"tS": 0
-		},
-	"/vendor/spectrum": {
+	"/vendor": {
 		"ft": 65536,
 		"oA": 1,
-		"oAP": "/build/vendor/spectrum",
+		"oAP": "/build/vendor",
 		"oF": 0
-		},
-	"/vendor/swiper/swiper.css": {
-		"aP": 1,
-		"bl": 0,
-		"ft": 16,
-		"ma": 0,
-		"oA": 0,
-		"oAP": "/vendor/swiper/swiper-min.css",
-		"oF": 0,
-		"oS": 3
-		},
-	"/vendor/swiper/swiper.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 0,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/vendor/swiper/swiper.min.js",
-		"oF": 0,
-		"sC": 3,
-		"tS": 0
-		},
-	"/vendor/swiper/swiper.min.css": {
-		"aP": 1,
-		"bl": 0,
-		"ft": 16,
-		"ma": 0,
-		"oA": 0,
-		"oAP": "/vendor/swiper/swiper.min-min.css",
-		"oF": 0,
-		"oS": 3
-		},
-	"/vendor/swiper/swiper.min.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 0,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/vendor/swiper/swiper.min.min.js",
-		"oF": 0,
-		"sC": 3,
-		"tS": 0
-		},
-	"/vendor/swiper/swiper.min.js.map": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/vendor/swiper/swiper.min.js.map",
-		"oF": 0
-		},
-	"/vendor/vue-multiselect/vue-multiselect.min.css": {
-		"aP": 1,
-		"bl": 0,
-		"ft": 16,
-		"ma": 0,
-		"oA": 0,
-		"oAP": "/vendor/vue-multiselect/vue-multiselect.min-min.css",
-		"oF": 0,
-		"oS": 3
-		},
-	"/vendor/vue-multiselect/vue-multiselect.min.css.map": {
-		"cB": 0,
-		"ft": 8192,
-		"hM": 0,
-		"oA": 2,
-		"oAP": "/vendor/vue-multiselect/vue-multiselect.min.css.map",
-		"oF": 0
-		},
-	"/vendor/vue-multiselect/vue-multiselect.min.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 0,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/vendor/vue-multiselect/vue-multiselect.min.min.js",
-		"oF": 0,
-		"sC": 3,
-		"tS": 0
-		},
-	"/vendor/vue-toasted": {
-		"ft": 65536,
-		"oA": 1,
-		"oAP": "/build/vendor/vue-toasted",
-		"oF": 0
-		},
-	"/vendor/vue.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 0,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/vendor/vue.min.js",
-		"oF": 0,
-		"sC": 3,
-		"tS": 0
-		},
-	"/vendor/vue.min.js": {
-		"bF": 0,
-		"ft": 64,
-		"ma": 0,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "/vendor/vue.min.min.js",
-		"oF": 0,
-		"sC": 3,
-		"tS": 0
 		}
 	},
 "hooks": [
@@ -3273,7 +3097,7 @@
 		],
 	"overrideExternalServerCSS": 0,
 	"previewPathAddition": "",
-	"skippedFoldersString": "log, _logs, logs, _cache, cache, /storage/framework/sessions, node_modules, /__js, /vendor/vue-form-generator, /vendor/spectrum, /js/src, /vendor/vue-toasted, /js/lightbox",
+	"skippedFoldersString": "log, _logs, logs, _cache, cache, /storage/framework/sessions, node_modules, /__js, /vendor/vue-form-generator, /vendor/spectrum, /js/src, /vendor/vue-toasted, /js/lightbox, /vendor/swiper, /vendor/vue-multiselect, /vendor",
 	"sourceFolderName": "source",
 	"susyVersion": 3,
 	"tsAllowSyntheticDefaultImports": 0,

@@ -76,7 +76,12 @@
     mounted: function() {
       // On init get gallery skin and set all the data
       this.premium = woowgallery.status && ('premium' === woowgallery.status || 'trial' === woowgallery.status);
-      this.lightbox = woowgallery.l10n.selected_lightbox || woowgallery.l10n.default_lightbox;
+      if (woowgallery.l10n.selected_lightbox || '' === woowgallery.l10n.selected_lightbox) {
+        this.lightbox = woowgallery.l10n.selected_lightbox;
+      }
+      else {
+        this.lightbox = woowgallery.l10n.default_lightbox;
+      }
     },
     methods: {
       switchTab: function(tab_id) {
