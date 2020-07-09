@@ -276,7 +276,7 @@ window.WoowGalleryAdmin = window.WoowGalleryAdmin || {l10n: {}};
         this.search_term = '';
         this.modalIframeSrc = null;
         this.openModalCallback = null;
-        this.createModalCallback = null;
+        this.previous_screen = null;
         this.$el.classList.remove('woowgallery-modal-active');
       },
 
