@@ -146,7 +146,7 @@ $hide_menu = ( Posttypes::ALBUM_POSTTYPE === $post->post_type ) ? 'hide-menu' : 
 													<div class="wg-actions">
 														<a v-if="'woowgallery' === get_post_type || 'woowgallery-dynamic' === get_post_type || 'woowgallery-album' === get_post_type"
 															:href="selected_last_item.edit_link"
-															@click.prevent="createModal(selected_last_item.subtype, selected_last_item.id, 'WoowGallery')"
+															@click.prevent="createModal(selected_last_item.subtype, selected_last_item.id, 'WoowGallery', true)"
 															class="button button-secondary button-small"
 															target="_blank"
 														><?php esc_html_e( 'Edit', 'woowgallery' ); ?></a>

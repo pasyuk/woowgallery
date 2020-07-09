@@ -36,7 +36,6 @@ window.WoowGalleryAdmin = window.WoowGalleryAdmin || {l10n: {}};
       multiselect: false,
       openModalCallback: null,
       modalIframeSrc: null,
-      createModalCallback: null,
       previous_screen: null
     },
     computed: {
@@ -133,12 +132,14 @@ window.WoowGalleryAdmin = window.WoowGalleryAdmin || {l10n: {}};
           this.openModalCallback = callback;
         }
       },
-      createModal: function(post_type, id, title, callback) {
-        this.previous_screen = {
-          frame_title: this.frame_title,
-          modal_type: this.modal_type,
-          get_post_type: this.get_post_type
-        };
+      createModal: function(post_type, id, title, previous_screen) {
+        if(previous_screen) {
+          this.previous_screen = {
+            frame_title: this.frame_title,
+            modal_type: this.modal_type,
+            get_post_type: this.get_post_type
+          };
+        }
         this.frame_title = title;
         if (id) {
           this.modalIframeSrc = woowgallery.editModalSrc + '&post=' + id + '&action=edit';
@@ -147,10 +148,6 @@ window.WoowGalleryAdmin = window.WoowGalleryAdmin || {l10n: {}};
           this.modalIframeSrc = woowgallery.editModalSrc + '&post_type=' + post_type;
         }
         this.$el.classList.add('woowgallery-modal-active');
-
-        if (typeof callback === 'function') {
-          this.createModalCallback = callback;
-        }
       },
       // Get WoowGallery Posts.
       getPosts: function(reset_page, exclude) {
@@ -246,7 +243,6 @@ window.WoowGalleryAdmin = window.WoowGalleryAdmin || {l10n: {}};
       loadPreviousScreen: function() {
         this.modalIframeSrc = null;
         this.openModalCallback = null;
-        this.createModalCallback = null;
         this.modal_type = this.previous_screen.modal_type;
         this.frame_title = this.previous_screen.frame_title;
         this.get_post_type = this.previous_screen.get_post_type;
