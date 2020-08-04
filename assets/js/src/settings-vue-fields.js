@@ -133,7 +133,7 @@
     {
       mixins: [abstractField],
       template:
-`<div class="wrapper">
+        `<div class="wrapper">
     <input class="form-control"
            :class="getFieldClasses()"
            :id="getFieldID()"
@@ -228,7 +228,7 @@
     {
       mixins: [abstractField],
       template:
-`<div class="wrapper">
+        `<div class="wrapper">
     <span class="wg-toggle" :class="{'is-checked': !!value}">
         <input type="hidden" :name="getFieldName()" value="0" />
         <input type="checkbox" :id="getFieldID()" :name="getFieldName()" :class="getFieldClasses()" v-bind="getFieldAttributes()" value="1" v-model="value" true-value="1" false-value="0">
@@ -255,7 +255,7 @@
     {
       mixins: [abstractField],
       template:
-`<div class="wrapper">
+        `<div class="wrapper">
     <select class="form-control"
            v-model="value"
            :class="getFieldClasses()"

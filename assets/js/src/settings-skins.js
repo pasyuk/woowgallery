@@ -23,6 +23,7 @@
   let tick;
   let config = new Vue({
     el: $skin_config,
+    mixins: woowgallery.mixins,
     components: woowgallery.vueFields,
     data: {
       options: {
@@ -67,7 +68,7 @@
         this.schema = $.extend({}, window.woowgallery_skin[skin]['schema']);
         this.skin_info = $.extend({}, window.woowgallery_skin[skin]['info']);
         this.activeTab = _.keys(this.schema)[0];
-        this.defaults = setDefaults(this.schema);
+        this.defaults = this.setDefaults(this.schema);
 
         this.updatePresets(skin);
         if (-1 === this.presets.indexOf(this.preset)) {
@@ -77,22 +78,6 @@
         this.model = $.extend({}, this.defaults, window.woowgallery_skin[skin]['model'][this.preset]);
 
         this.fakeActivity(400);
-
-        function setDefaults(obj, def_obj) {
-          def_obj = def_obj || {};
-          $.each(obj, function(key, val) {
-            if (typeof val !== 'object') {
-              return;
-            }
-            if (typeof val['default'] !== 'undefined') {
-              def_obj[key] = val['default'];
-            }
-            else {
-              setDefaults(val, def_obj);
-            }
-          });
-          return def_obj;
-        }
       },
       preset: function(preset) {
         this.model = $.extend({}, this.defaults, window.woowgallery_skin[this.skin]['model'][preset]);
@@ -107,8 +92,13 @@
       this.premium = woowgallery.status && ('premium' === woowgallery.status || 'trial' === woowgallery.status);
       this.default_skin = woowgallery.l10n.default_skin;
 
-      // let selected_skin = woowgallery.l10n.selected_skin || woowgallery.l10n.default_skin;
-      let selected_skin = woowgallery.l10n.selected_skin;
+      let selected_skin;
+      if (woowgallery.l10n.selected_skin || '' === woowgallery.l10n.selected_skin) {
+        selected_skin = woowgallery.l10n.selected_skin;
+      }
+      else {
+        selected_skin = woowgallery.l10n.default_skin;
+      }
       if (selected_skin) {
         let skin = selected_skin.split(': ');
         this.skin = skin[0];
@@ -133,114 +123,6 @@
       },
       switchTab: function(tab_id) {
         this.activeTab = tab_id;
-      },
-      // Get style classes of field
-      getFieldRowClasses: function(field) {
-        let baseClasses = {
-          disabled: this.fieldDisabled(field),
-          readonly: this.fieldReadonly(field),
-          required: this.fieldRequired(field),
-          'premium-field': this.fieldPremium(field)
-        };
-
-        if (_.isArray(field.styleClasses)) {
-          _.each(field.styleClasses, (c) => {
-            baseClasses[c] = true;
-          });
-        }
-        else if (_.isString(field.styleClasses)) {
-          baseClasses[field.styleClasses] = true;
-        }
-
-        baseClasses['field-' + field.tag] = true;
-
-        return baseClasses;
-      },
-
-      // Get style classes of field
-      getFieldRowStyles: function(field) {
-        let styles = {};
-        if (_.isObject(field.styles)) {
-          styles = field.styles;
-        }
-
-        return styles;
-      },
-
-      // Should field type have a label?
-      fieldTypeHasLabel: function(field) {
-        let relevantType = field.type || field.tag;
-        if (field.attr && field.attr.type) {
-          relevantType = field.attr.type;
-        }
-        switch (relevantType) {
-          case 'button':
-          case 'submit':
-          case 'reset':
-            return false;
-          default:
-            return true;
-        }
-      },
-
-      // Get disabled attr of field
-      fieldDisabled: function(field) {
-        if (!field.prop || !field.prop.disabled) {
-          return false;
-        }
-
-        return field.prop.disabled;
-      },
-
-      // Get required prop of field
-      fieldRequired: function(field) {
-        if (!field.prop || !field.prop.required) {
-          return false;
-        }
-
-        return field.prop.required;
-      },
-
-      // Get premium prop of field
-      fieldPremium: function(field) {
-        return !!field.premium;
-      },
-
-      // Get visible prop of field
-      fieldVisible: function(field) {
-        if (!field.visible) {
-          return true;
-        }
-
-        let filter,
-          visible;
-        try {
-          filter = compileExpression(field.visible);
-          visible = filter(this.model);
-        } catch (e) {
-          visible = true;
-        }
-
-        return visible;
-      },
-
-      // Get readonly prop of field
-      fieldReadonly: function(field) {
-        if (!field.prop || !field.prop.readonly) {
-          return false;
-        }
-
-        return field.prop.readonly;
-      },
-
-      // Get current hint.
-      fieldHint: function(field) {
-        return field.hint;
-      },
-
-      // Get type of field 'field-xxx'. It'll be the name of HTML element
-      getFieldTagType: function(field) {
-        return 'field-' + field.tag;
       },
 
       loadPreset: function(event) {

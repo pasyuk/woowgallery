@@ -10,6 +10,7 @@ namespace WoowGallery\Admin;
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
+use WoowGallery\Lightbox;
 use WoowGallery\Posttypes;
 use WoowGallery\Skins;
 use WoowGallery\Taxonomies;
@@ -238,6 +239,7 @@ class Settings {
 			// Update settings.
 			self::save_settings( [] );
 			delete_option( Skins::PRESETS_KEY );
+			delete_option( Lightbox::OPTIONS_KEY );
 
 			// Delete gallery taxonomies that must not exist.
 			$terms = (array) get_terms( Taxonomies::GALLERY_TAXONOMY_NAME, [ 'get' => 'all' ] );
@@ -271,6 +273,17 @@ class Settings {
 			$settings[ $key ] = $new_settings;
 		} else {
 			$settings = $new_settings;
+
+			if ( ! empty( $settings['lightbox'] ) ) {
+				$lightbox                             = Lightbox::get_instance();
+				$lb_settings                          = get_option( Lightbox::OPTIONS_KEY, [] );
+				$lb_settings[ $settings['lightbox'] ] = $lightbox->format_settings( woowgallery_POST( '_woowgallery_lightbox', [] ), $settings['lightbox'] );
+
+				// reset cached variable.
+				$lightbox->lightbox = [];
+
+				update_option( Lightbox::OPTIONS_KEY, $lb_settings );
+			}
 		}
 
 		// Set flag to flush rewrite rules.
@@ -281,7 +294,7 @@ class Settings {
 		$posttypes = [ Posttypes::GALLERY_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE, Posttypes::ALBUM_POSTTYPE ];
 		foreach ( $posttypes as $pt ) {
 			$_key              = 'permalink_base_' . $pt;
-			$settings[ $_key ] = trim( $settings[ $_key ] );
+			$settings[ $_key ] = isset( $settings[ $_key ] ) ? trim( $settings[ $_key ] ) : '';
 			if ( empty( $settings[ $_key ] ) ) {
 				$settings[ $_key ] = $pt;
 			}
@@ -333,7 +346,7 @@ class Settings {
 	 * @return array
 	 */
 	public function l10n( $l10n ) {
-		$data = self::get_settings();
+		$settings = self::get_settings();
 
 		return array_merge(
 			$l10n,
@@ -342,7 +355,9 @@ class Settings {
 				'_nonce_woowgallery_skin_settings_save' => wp_create_nonce( 'skin_settings_save' ),
 				'fill_preset_name'                      => __( 'Fill the Preset Name', 'woowgallery' ),
 				'delete_default_preset_error'           => __( 'You can\'t delete default skin preset.', 'woowgallery' ),
-				'default_skin'                          => $data['default_skin'],
+				'default_skin'                          => $settings['default_skin'],
+				'default_lightbox'                      => $settings['default_lightbox'],
+				'selected_skin'                         => '',
 			]
 		);
 	}

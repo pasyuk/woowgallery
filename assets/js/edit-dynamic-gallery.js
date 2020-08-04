@@ -9,6 +9,7 @@
 // @codekit-prepend "src/globals.js";
 // @codekit-prepend "src/tabs.js";
 // @codekit-prepend "src/view-item-modal.js";
+// @codekit-prepend "src/settings-mixins.js";
 // @codekit-prepend "src/settings-skins.js";
 // @codekit-prepend "src/misc.js";
 

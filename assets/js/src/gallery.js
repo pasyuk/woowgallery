@@ -64,7 +64,7 @@
     watch: {
       all_ready: function(ready) {
         // Show the view
-        this.activity(!ready);
+        this.toggleClassActivity(!ready);
       },
       // on gallery change
       gallery: {
@@ -129,7 +129,7 @@
     },
     methods: {
       // toggle activity indicator
-      activity: function(status) {
+      toggleClassActivity: function(status) {
         $activity.toggleClass('activity', status);
       },
 

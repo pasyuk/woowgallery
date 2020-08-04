@@ -29,7 +29,7 @@ class Lightbox {
 	 *
 	 * @var array
 	 */
-	private $lightbox = [];
+	public $lightbox = [];
 
 	/**
 	 * Primary class constructor.
@@ -92,11 +92,13 @@ class Lightbox {
 	/**
 	 * Get Lightbox settings
 	 *
+	 * @param bool $cache Cache settings or get fresh data and clear cache.
+	 *
 	 * @return array
 	 */
-	public function get_settings() {
+	public function get_settings( $cache = true ) {
 
-		if ( $this->lightbox ) {
+		if ( $this->lightbox && $cache ) {
 			return $this->lightbox;
 		}
 
@@ -114,7 +116,11 @@ class Lightbox {
 			];
 		}
 
-		$this->lightbox = $lightbox;
+		if ( $cache ) {
+			$this->lightbox = $lightbox;
+		} else {
+			$this->lightbox = [];
+		}
 
 		return $lightbox;
 	}

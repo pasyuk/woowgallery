@@ -65,6 +65,7 @@
 // @codekit-prepend "src/bulk-edit-modal.js";
 // @codekit-prepend "src/gallery.js";
 // @codekit-prepend "src/sortable.js";
+// @codekit-prepend "src/settings-mixins.js";
 // @codekit-prepend "src/settings-skins.js";
 // @codekit-prepend "src/misc.js";
 

@@ -9,6 +9,8 @@
 
 // @codekit-prepend "src/globals.js";
 // @codekit-prepend "src/tabs.js";
+// @codekit-prepend "src/settings-mixins.js";
+// @codekit-prepend "src/settings-lightbox.js";
 // @codekit-prepend "src/settings-skins.js";
 
 (function($) {

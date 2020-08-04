@@ -155,6 +155,9 @@ Image Comments
 Image Likes
 More Galery Skins
 
+= 1.0.7 - 04.08 =
+* Global default settings for Lightbox
+
 = 1.0.6 - 09.07 =
 * Lightbox now is a separate script from Amron skin (less js file size)
 * Added separate Lightbox Setting tab on edit gallery page

@@ -80,11 +80,10 @@ class Edit_Gallery extends Edit_Woowgallery {
 	 * @return array Updated $data
 	 */
 	public function l10n( $l10n ) {
-		global $post;
+		global $post, $pagenow;
 
 		$settings = Settings::get_settings();
 		$wg       = Gallery::get_instance( $post->ID, $post->post_type );
-		$skin     = $wg->get_skin_slug();
 
 		$js_data = [
 			'siteurl'           => site_url(),
@@ -116,8 +115,8 @@ class Edit_Gallery extends Edit_Woowgallery {
 			'default_lightbox'  => $settings['default_lightbox'],
 		];
 
-		if ( ! empty( $skin ) ) {
-			$js_data['selected_skin']     = $skin . ': _custom';
+		if ( 'post-new.php' !== $pagenow ) {
+			$js_data['selected_skin']     = $wg->get_skin_slug() . ': _custom';
 			$js_data['selected_lightbox'] = $wg->get_lightbox_slug();
 		}
 
