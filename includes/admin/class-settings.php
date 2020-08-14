@@ -274,10 +274,11 @@ class Settings {
 		} else {
 			$settings = $new_settings;
 
-			if ( ! empty( $settings['lightbox'] ) ) {
-				$lightbox                             = Lightbox::get_instance();
-				$lb_settings                          = get_option( Lightbox::OPTIONS_KEY, [] );
-				$lb_settings[ $settings['lightbox'] ] = $lightbox->format_settings( woowgallery_POST( '_woowgallery_lightbox', [] ), $settings['lightbox'] );
+			if ( ! empty( $settings['default_lightbox'] ) ) {
+				$lb                 = $settings['default_lightbox'];
+				$lightbox           = Lightbox::get_instance();
+				$lb_settings        = get_option( Lightbox::OPTIONS_KEY, [] );
+				$lb_settings[ $lb ] = $lightbox->format_settings( woowgallery_POST( '_woowgallery_lightbox', [] ), $lb );
 
 				// reset cached variable.
 				$lightbox->lightbox = [];

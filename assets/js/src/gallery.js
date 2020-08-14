@@ -176,26 +176,19 @@
 
       // Fetch attachments data that are on current gallery page.
       fetchWPMedia: function(fetch_attachments_ids) {
-        if (fetch_attachments_ids.length) {
+        let att_length = fetch_attachments_ids.length;
+        if (att_length) {
           let vm = this;
           this.setReady('attachments', false);
 
           // build query for ids in the gallery
           let query = wp.media.query({post__in: fetch_attachments_ids, orderby: 'post__in'});
-          if (query.hasMore()) {
-            loadQuery(query);
-          }
-          else {
-            query.then(() => {
-              this.updateMediaData();
-              this.setReady('attachments', true);
-            });
-          }
+          loadQuery(query, att_length);
 
           // load attachments data via AJAX, check if there are more pages and load them all recursively
-          function loadQuery(query) {
-            query.more().then(() => {
-              if (query.hasMore()) {
+          function loadQuery(query, att_length) {
+            query.more().then((data) => {
+              if (query.hasMore() && query.length < att_length) {
                 loadQuery(query);
               }
               else {
@@ -419,7 +412,7 @@
         if ('attachment' === item.type) {
           let attachment = wp.media.attachment(item.id),
             att = attachment.attributes;
-          if (att && att.title) {
+          if (att && att.name) {
             if (att.sizes) {
               if (att.sizes.medium) {
                 return [att.sizes.medium.url, att.sizes.medium.width, att.sizes.medium.height];
@@ -467,7 +460,7 @@
         if ('attachment' === item.type) {
           let attachment = wp.media.attachment(item.id),
             att = attachment.attributes;
-          if (att && att.title) {
+          if (att && att.name) {
             if (att.sizes) {
               if (att.sizes.full) {
                 return [att.sizes.full.url, att.sizes.full.width, att.sizes.full.height];
@@ -500,7 +493,7 @@
         if ('attachment' === item.type) {
           var attachment = wp.media.attachment(item.id),
             att = attachment.attributes;
-          if (att && att.title) {
+          if (att && att.name) {
             if (att[item.title_src]) {
               return att[item.title_src];
             }

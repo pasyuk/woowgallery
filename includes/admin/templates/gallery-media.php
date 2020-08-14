@@ -140,7 +140,7 @@ use WoowGallery\Posttypes;
 								<div class="more"><?php do_action( 'woowgallery_item_more_actions', $data['post'] ); ?></div>
 							</div>
 							<div class="meta">
-								<div class="title" :title="item.title">{{ item.title }}</div>
+								<div class="title" :title="item.title">{{ item.title }} &nbsp;</div>
 								<div class="more" v-if="view === 'list'">
 									<div class="caption">{{ item.caption }}</div>
 									<div class="meta-link" v-if="item.link.url">

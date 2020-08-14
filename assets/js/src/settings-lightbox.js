@@ -37,8 +37,7 @@
         return (JSON.stringify(clean_model) === JSON.stringify(this.defaults));
       },
       isSettingsChanged: function() {
-        let activity = this.activity,
-          model1 = JSON.stringify(this.model),
+        let model1 = JSON.stringify(this.model),
           model2 = JSON.stringify($.extend({}, this.defaults, window.woowgallery_lightbox[this.lightbox]['model']));
         return model1 !== model2;
       }

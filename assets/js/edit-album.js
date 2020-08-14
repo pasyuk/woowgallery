@@ -96,7 +96,7 @@
           return;
         }
 
-        app.activity(true);
+        app.toggleClassActivity(true);
 
         // Send the ajax request with our data to be processed.
         $.post(
@@ -120,7 +120,7 @@
           },
           'json'
         ).always(() => {
-          this.activity(false);
+          this.toggleClassActivity(false);
         });
       });
 

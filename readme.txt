@@ -1,8 +1,8 @@
-=== WoowGallery - image gallery / content gallery / ecommerce gallery / instagram gallery / video gallery / album photo gallery ===
+=== WoowGallery - image gallery / content gallery / ecommerce gallery / social gallery / video gallery / album photo gallery ===
 Contributors: Rattus, WoowDev Team
 Tags: best gallery plugin, elementor, gallery, image gallery, photo gallery
 Requires at least: 5.3.0
-Tested up to: 5.4
+Tested up to: 5.5
 Requires PHP: 5.4
 Stable tag: /trunk
 License: GPLv2 or later
@@ -154,6 +154,14 @@ Watermarks
 Image Comments
 Image Likes
 More Galery Skins
+
+= 1.0.9 - 14.08 =
+* Fixed add media without title to the gallery
+* Compatibility with WordPress v5.5
+
+= 1.0.8 - 07.08 =
+* Fixed add media to the gallery
+* Fixed saving global default lightbox settings
 
 = 1.0.7 - 04.08 =
 * Global default settings for Lightbox
