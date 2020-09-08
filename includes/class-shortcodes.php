@@ -245,11 +245,11 @@ class Shortcodes {
 		// Load main scripts and styles.
 		wp_enqueue_style( WOOWGALLERY_SLUG . '-style' );
 		wp_enqueue_script( WOOWGALLERY_SLUG . '-script' );
-		self::load_skin_css( $gallery['skin']['slug'] );
-		self::load_skin_js( $gallery['skin']['slug'] );
 		if ( ! empty( $gallery['lightbox']['slug'] ) ) {
 			wp_enqueue_script( $gallery['lightbox']['slug'] );
 		}
+		self::load_skin_css( $gallery['skin']['slug'] );
+		self::load_skin_js( $gallery['skin']['slug'] );
 
 		// Run a skin specific hook after scripts and inits have been set.
 		do_action( 'woowgallery_' . $gallery['skin']['slug'] . '_skin', $gallery );

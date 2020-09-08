@@ -50,6 +50,9 @@
 										<h6><?php esc_html_e( 'This feature is available only in the WoowGallery Premium', 'woowgallery' ); ?></h6>
 										<a class="button button-primary" href="<?php echo esc_url( woow_fs()->get_upgrade_url() ); ?>" target="_blank"><span class="dashicons dashicons-cart"></span> <?php esc_html_e( 'Get WoowGallery Premium', 'woowgallery' ); ?></a>
 									</div>
+									<div v-else-if="'html' === field.tag && field.html" class="woowgallery-settings-html">
+										<div class="wg-settings-html-wrapper" v-html="field.html"></div>
+									</div>
 									<div v-else-if="'flexbox' === field.tag && field.fields" class="wg-flexbox">
 										<div class="inline-field" v-for="(subfield, subkey) in field.fields" v-if="fieldVisible(subfield)" :style="getFieldRowStyles(subfield)" :key="skin + '_' + subkey">
 											<label v-if="fieldTypeHasLabel(subfield)" :for="subkey">{{ subfield.label }}</label>

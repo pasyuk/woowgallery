@@ -19,6 +19,21 @@
     flex-wrap: nowrap;
     padding-bottom: 3px;
 
+    .woowgallery-skin {
+      position: relative;
+      margin-right: 10px;
+
+      .woowgallery-pro-feature {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: auto;
+        height: auto;
+        padding-top: 100px;
+      }
+    }
+
     label {
       position: relative;
       display: block;

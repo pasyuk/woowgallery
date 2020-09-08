@@ -91,7 +91,7 @@ ul#woowgallery-tabs-nav {
 #woowgallery-tabs {
   flex: 1 1 auto;
   padding: 0 12px;
-  overflow: hidden;
+  width: calc(100% - 160px);
 
   /**
   * All Tabs

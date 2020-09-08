@@ -51,7 +51,7 @@ Social media integrations, and WooCommerce store integration.
 * Beautiful **Gallery Skins** for Customization
 * **Albums Gallery** - Easily organize your photo galleries, choose cover photos, and more.
 * **Featured Content Gallery** - Easily create galleries based on posts, pages, products, testimonials, portfolios, and other custom post types.
-* **Dynamic Gallery** - Easily create dynamic content galleries from various different sources (WordPress, Instagram, Flagallery...).
+* **Dynamic Gallery** - Easily create dynamic content galleries from various different sources (WordPress, Instagram, Flagallery...). Show specific media category or folder in the gallery from other plugins like: "Media Library Assistant", "FileBird", "Real Media Library", etc..
 * **Video Gallery** - Not just for photos! You can add local videos in your video gallery and link your photos with video from YouTube and Vimeo.
 * **Slideshow** - Add beautiful slideshow with autoplay, manual controls, and more.
 * **Image Tags** - Organize your WordPress photos with tags for easy search and display that also filtrable.
@@ -78,10 +78,19 @@ Social media integrations, and WooCommerce store integration.
 
 = Demos =
 
+**Amron skin:**
+
 * <a href="https://woowgallery.com/examples/simple-photo-gallery/" rel="friend">Simple Photo Gallery</a>
+* <a href="https://woowgallery.com/examples/woowgallery-albums/" rel="friend">Albums Gallery</a>
 * <a href="https://woowgallery.com/examples/instagram-dynamic-gallery/" rel="friend">Instagram Gallery</a>
 * <a href="https://woowgallery.com/examples/woocommerce-dynamic-gallery/" rel="friend">WooCommerce Gallery</a>
-* <a href="https://woowgallery.com/examples/woowgallery-albums/" rel="friend">Albums Gallery</a>
+
+**MultiGrid skin:**
+
+* <a href="https://woowgallery.com/examples/youtube-gallery/" rel="friend">YouTube Video Gallery</a>
+* <a href="https://woowgallery.com/examples/urban-grid/" rel="friend">Grid Gallery</a>
+* <a href="https://woowgallery.com/examples/justified/" rel="friend">Justified Gallery</a>
+* <a href="https://woowgallery.com/examples/urban-masonry/" rel="friend">Masonry Gallery</a>
 
 == Installation ==
 
@@ -154,6 +163,11 @@ Watermarks
 Image Comments
 Image Likes
 More Galery Skins
+
+= 1.1.0 - 01.09 =
+* Added MultiGrid Premium Skin
+* Fixed deep links for galleries
+* Fixed PHP Notice for register_rest_route()
 
 = 1.0.9 - 14.08 =
 * Fixed add media without title to the gallery

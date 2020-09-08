@@ -65,6 +65,8 @@ class WoowGallery {
 		new Gutenberg();
 		new Frontend();
 
+		//new Setup();
+
 		// Run hook once WoowGallery has been initialized.
 		do_action( 'woowgallery_init' );
 

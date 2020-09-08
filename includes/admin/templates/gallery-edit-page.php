@@ -44,6 +44,11 @@ $show_skins_block       = 'add' === $screen->action || $meta_gallery_skin_slug !
 								<img src="<?php echo esc_url( $info['screenshots'][0] ); ?>" alt="<?php echo esc_attr( $info['name'] ); ?>"/>
 								<span class="skin-info"><span class="skin-title"><?php echo esc_html( $info['name'] ); ?></span> v<?php echo esc_html( $info['version'] ); ?></span>
 							</label>
+							<?php
+							if ( ! empty( $info['premium'] ) ) {
+								woowgallery_is_premium_feature();
+							}
+							?>
 						</div>
 						<?php
 					}

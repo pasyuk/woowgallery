@@ -194,10 +194,10 @@
 
   .field-wrap {
     flex: 4 1 320px;
+    width: 320px;
 
     .wrapper {
       position: relative;
-      width: 420px;
       max-width: 100%;
       box-sizing: border-box !important;
     }
@@ -247,6 +247,15 @@
           left: 5px;
         }
       }
+    }
+
+    .multiselect__tags {
+      min-height: 41px;
+    }
+
+    .multiselect--active .multiselect__input {
+      font-size: inherit;
+      margin: -2px 0 3px -5px;
     }
   }
 
@@ -415,6 +424,18 @@
       background: #008ec2;
       border-color: #006799;
       color: #fff;
+    }
+  }
+}
+
+@media screen and (min-width: 1450px) {
+  .woowgallery-wrap {
+
+    .field-wrap {
+
+      .wrapper {
+        width: 420px;
+      }
     }
   }
 }

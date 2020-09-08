@@ -195,7 +195,7 @@ function woowgallery_settings_default() {
 		'edit_album_per_page'    => '20',
 		'selection_prepend'      => '0',
 		'thumb_width'            => '400',
-		'thumb_height'           => '400',
+		'thumb_height'           => '600',
 		'thumb_quality'          => '82',
 		'image_width'            => '2200',
 		'image_height'           => '2200',

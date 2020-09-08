@@ -331,7 +331,7 @@ if ( ! function_exists( 'woowgallery_full_attachment_data' ) ) {
 		$attachment = $attachment + $att_images;
 
 		$meta          = wp_get_attachment_metadata( $post->ID );
-		$attached_file = get_attached_file( $post->ID );
+		$attached_file = $att_images['file'];
 
 		if ( $meta && 'image' === $attachment['subtype'] ) {
 			if ( ! function_exists( 'wp_read_image_metadata' ) ) {
@@ -651,6 +651,7 @@ if ( ! function_exists( 'woowgallery_get_attachment_images' ) ) {
 					true,
 				],
 				'image_id' => 0,
+				'file'     => '',
 			];
 		}
 
@@ -690,17 +691,34 @@ if ( ! function_exists( 'woowgallery_get_attachment_images' ) ) {
 			$out['image'] = $out['thumb'];
 		}
 
+		$file     = get_attached_file( $image_id );
 		$is_image = wp_attachment_is_image( $image_id );
 		if ( $is_image ) {
 			$out['image_id'] = absint( $image_id );
 
 			$meta = wp_get_attachment_metadata( $image_id );
 			if ( $meta ) {
-				$out['resized'] = ( $src[1] <= $cropped_thumb_dims[0] && $src[2] <= $cropped_thumb_dims[1] ) || _wp_get_image_size_from_meta( "wg{$dims['thumb']['width']}x{$dims['thumb']['height']}", $meta );
+				$out['resized'] = ( ( $src[1] <= $cropped_image_dims[0] && $src[2] <= $cropped_image_dims[1] ) || _wp_get_image_size_from_meta( "wg{$dims['image']['width']}x{$dims['image']['height']}", $meta ) )
+					&& ( ( $src[1] <= $cropped_thumb_dims[0] && $src[2] <= $cropped_thumb_dims[1] ) || _wp_get_image_size_from_meta( "wg{$dims['thumb']['width']}x{$dims['thumb']['height']}", $meta ) );
+
+				if ( $out['resized'] ) {
+					$thumbfile = str_replace( wp_basename( $file ), wp_basename( $out['thumb'][0] ), $file );
+					if ( ! is_file( $thumbfile ) ) {
+						$out['thumb']   = wp_get_attachment_image_src( $image_id, 'medium', false );
+						$out['resized'] = false;
+					}
+					$largefile = str_replace( wp_basename( $file ), wp_basename( $out['image'][0] ), $file );
+					if ( ! is_file( $largefile ) ) {
+						$out['image']   = wp_get_attachment_image_src( $image_id, 'large', false );
+						$out['resized'] = false;
+					}
+				}
 			}
 		} else {
 			$out['image_id'] = 0;
 		}
+
+		$out['file'] = $file;
 
 		return $out;
 	}

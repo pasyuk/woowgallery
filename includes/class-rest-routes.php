@@ -221,8 +221,9 @@ class Rest_Routes {
 			$namespace,
 			'/crop-images',
 			[
-				'methods'  => 'POST',
-				'callback' => [ $this, 'crop_images' ],
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'crop_images' ],
+				'permission_callback' => '__return_true',
 			]
 		);
 
@@ -230,8 +231,9 @@ class Rest_Routes {
 			$namespace,
 			'/resize-image',
 			[
-				'methods'  => 'POST',
-				'callback' => [ $this, 'resize' ],
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'resize' ],
+				'permission_callback' => '__return_true',
 			]
 		);
 
