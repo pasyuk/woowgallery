@@ -44,6 +44,12 @@ $skins    = $data['skins'];
 						<span class="tab-label"><?php esc_html_e( 'Standalone', 'woowgallery' ); ?></span>
 					</a>
 				</li>
+				<li class="woowgallery-tab-nav-woocommerce">
+					<a href="#woowgallery-tab-woocommerce">
+						<span class="dashicons dashicons-marker"></span>
+						<span class="tab-label"><?php esc_html_e( 'WooCommerce', 'woowgallery' ); ?></span>
+					</a>
+				</li>
 				<li class="woowgallery-tab-nav-lightbox">
 					<a href="#woowgallery-tab-lightbox">
 						<span class="dashicons dashicons-editor-expand"></span>
@@ -236,7 +242,7 @@ $skins    = $data['skins'];
 						<div class="hint"><?php esc_html_e( 'The standalone option allows you to access galleries created through the WoowGallery post type with unique URLs. Your galleries can have dedicated gallery pages!', 'woowgallery' ); ?></div>
 					</div>
 
-					<div class="form-group field-input">
+					<div class="form-group field-checkbox">
 						<label for="wg-taxonomies"><?php esc_html_e( 'Taxonomies', 'woowgallery' ); ?></label>
 						<div class="field-wrap">
 							<div class="wrapper">
@@ -302,6 +308,58 @@ $skins    = $data['skins'];
 							</div>
 						</div>
 						<div class="hint"><?php esc_html_e( 'The slug to prefix all WoowGallery Albums.', 'woowgallery' ); ?></div>
+					</div>
+				</div>
+
+				<div id="woowgallery-tab-woocommerce" class="woowgallery-tab inside">
+					<div>
+						<h3><?php esc_html_e( 'WoowGallery skin for Product gallery', 'woowgallery' ); ?></h3>
+					</div>
+					<div class="form-group field-checkbox">
+						<label for="wg-product_gallery"><?php esc_html_e( 'Product Gallery', 'woowgallery' ); ?></label>
+						<div class="field-wrap">
+							<div class="wrapper">
+								<input type="hidden" name="settings[product_gallery]" value="0"/>
+								<label>
+									<span class="wg-toggle">
+										<input type="checkbox" id="wg-product_gallery" name="settings[product_gallery]" value="1" <?php checked( Settings::get_settings( 'product_gallery' ), '1' ); ?>/>
+										<span class="wg-toggle__track"></span>
+										<span class="wg-toggle__thumb"></span>
+									</span>
+									<?php esc_html_e( 'Enable', 'woowgallery' ); ?>
+								</label>
+							</div>
+						</div>
+						<div class="hint"><?php esc_html_e( 'Enable or Disable replacing default product gallery template with WoowGallery skin.', 'woowgallery' ); ?></div>
+					</div>
+					<div class="form-group field-input">
+						<label for="woowgallery-product-gallery-skin"><?php esc_html_e( 'Product Gallery Skin/Preset', 'woowgallery' ); ?></label>
+						<div class="field-wrap">
+							<div class="wrapper">
+								<select name="settings[product_gallery_skin]" id="woowgallery-product-gallery-skin" class="form-control skins-presets-list">
+									<!-- <option value=""<?php selected( $settings['product_gallery_skin'], '' ); ?>><?php esc_html_e( 'None', 'woowgallery' ); ?></option> -->
+									<?php
+									// Iterate through the available skins, outputting them in a list.
+									foreach ( $skins as $slug => $skin ) {
+										$info = $skin->info;
+										?>
+										<option value="<?php echo esc_attr( $slug ); ?>"<?php selected( $settings['product_gallery_skin'], $slug ); ?>><?php echo esc_html( $info['name'] ); ?></option>
+										<?php
+										foreach ( $skin->model as $preset_name => $preset_data ) {
+											if ( 'default' === $preset_name ) {
+												continue;
+											}
+											$value = $slug . ': ' . $preset_name;
+											?>
+											<option value="<?php echo esc_attr( $value ); ?>"<?php selected( $settings['product_gallery_skin'], $value ); ?>><?php echo esc_html( $info['name'] . ': ' . $preset_name ); ?></option>
+											<?php
+										}
+									}
+									?>
+								</select>
+							</div>
+						</div>
+						<div class="hint"><?php esc_html_e( 'Select default skin for your WooCommerce product galleries. You can config skins/presets below.', 'woowgallery' ); ?></div>
 					</div>
 				</div>
 

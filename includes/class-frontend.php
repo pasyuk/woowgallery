@@ -201,6 +201,10 @@ class Frontend {
 			return $post;
 		}
 
+		if ( ! in_array( $post->post_type, [ Posttypes::GALLERY_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE, Posttypes::ALBUM_POSTTYPE ], true ) ) {
+			return $post;
+		}
+
 		$preview = wp_get_post_autosave( $post->ID );
 		if ( ! is_object( $preview ) ) {
 			return $post;

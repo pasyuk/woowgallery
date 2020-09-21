@@ -361,6 +361,59 @@ class Gallery {
 	}
 
 	/**
+	 * Returns an artificiall WoowGallery data.
+	 *
+	 * @param array $data    Gallery Data.
+	 * @param array $content Gallery Content.
+	 *
+	 * @return array|bool Array of gallery data or false if none found.
+	 */
+	public function get_gallery_artificiall( $data = [], $content = [] ) {
+
+		$cache_group = 'woo_gallery';
+		$cache_key   = 'wg' . $this->id;
+		$gallery     = wp_cache_get( $cache_key, $cache_group );
+		// Attempt to return the cache first, otherwise generate the new query to retrieve the data.
+		if ( false === $gallery ) {
+			$post = get_post( $this->post_id );
+
+			$skin              = Skins::get_instance()->get_skin( Settings::get_settings( 'product_gallery_skin' ) );
+			$this->skin_slug   = $skin->slug;
+			$this->skin_preset = $skin->preset_name;
+
+			$lightbox_slug   = Settings::get_settings_default( 'default_lightbox' );
+			$lightbox_config = ! empty( $lightbox_slug ) ? Lightbox::get_instance()->get_lightbox_model( $lightbox_slug ) : [];
+
+			$gallery = [
+				'id'          => $post->ID,
+				'type'        => $post->post_type,
+				'slug'        => $post->name,
+				'title'       => $post->post_title,
+				'description' => $post->post_content,
+				'date'        => $post->post_date,
+				'modified'    => $post->post_modified,
+				'status'      => $post->post_status,
+				'skin'        => [
+					'slug'   => $skin->slug,
+					'config' => $skin->model[ $skin->preset_name ],
+				],
+				'lightbox'    => [
+					'slug'   => $lightbox_slug,
+					'config' => $lightbox_config,
+				],
+				'data'        => $data,
+				'content'     => $content,
+				'count'       => count( $content ),
+			];
+
+			wp_cache_set( $cache_key, $gallery, $cache_group );
+		}
+
+		// Return the gallery data.
+		return $gallery;
+	}
+
+	/**
 	 * Get gallery real ID.
 	 *
 	 * @return int

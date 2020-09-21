@@ -11,6 +11,7 @@ namespace WoowGallery;
 use WoowGallery\Admin\Admin;
 use WoowGallery\Admin\Elementor;
 use WoowGallery\Admin\Gutenberg;
+use WoowGallery\Woocommerce\Woocommerce;
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
@@ -61,6 +62,7 @@ class WoowGallery {
 			new Admin();
 		}
 
+		new Woocommerce();
 		new Elementor();
 		new Gutenberg();
 		new Frontend();

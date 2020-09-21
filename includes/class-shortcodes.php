@@ -180,10 +180,10 @@ class Shortcodes {
 
 		$gallery_id = 0;
 		// If no attributes have been passed, the gallery should be pulled from the current post.
-		if ( empty( $atts ) && $type === $post->post_type ) {
-			$gallery_id = $post->ID;
-		} elseif ( isset( $atts['id'] ) ) {
+		if ( ! empty( $atts['id'] ) ) {
 			$gallery_id = (int) $atts['id'];
+		} elseif ( $type === $post->post_type ) {
+			$gallery_id = $post->ID;
 		}
 
 
@@ -192,8 +192,12 @@ class Shortcodes {
 			return '';
 		}
 
-		$wg      = Gallery::get_instance( $gallery_id, $type );
-		$gallery = $wg->get_gallery();
+		if ( isset( $atts['gallery'] ) ) {
+			$gallery = $atts['gallery'];
+		} else {
+			$wg      = Gallery::get_instance( $gallery_id, $type );
+			$gallery = $wg->get_gallery();
+		}
 
 		// Limit the number of images returned, if specified
 		// [woowgallery id="123" limit="10"] would only display 10 images.
@@ -260,7 +264,7 @@ class Shortcodes {
 		$js_callback = '';
 		$cb          = isset( $atts['callback'] ) ? preg_replace( '/[^a-zA-Z_\-]/', '', $atts['callback'] ) : '';
 		if ( ! empty( $cb ) ) {
-			$js_callback .= "<script type='text/javascript'>console.log('JS callback from shortcode'); (typeof window.{$cb} === 'function') && window.{$cb}('{$gallery['uid']}');</script>";
+			$js_callback .= "<script type='text/javascript'>(typeof window.{$cb} === 'function') && window.{$cb}('{$gallery['uid']}');</script>";
 		}
 
 		// Apply a filter before starting the gallery HTML.

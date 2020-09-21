@@ -5,7 +5,7 @@
  * Description: WoowGallery is the fastest, easiest to use WordPress multifunctional image gallery plugin. Create Featured Posts Gallery and Dynamic Content Gallery with a few click.
  * Author:      Rattus
  * Author URI:  https://profiles.wordpress.org/pasyuk/
- * Version:     1.1.0
+ * Version:     1.1.1
  * Text Domain: woowgallery
  * Licence: GPLv2 or later
  *
@@ -22,8 +22,8 @@
  * You should have received a copy of the GNU General Public License
  * along with WoowGallery. If not, see <http://www.gnu.org/licenses/>.
  *
- * @package   woowgallery
- * @fs_ignore /assets/vendor/, /includes/libraries/
+ * @package         woowgallery
+ * @fs_ignore       /assets/vendor/, /includes/libraries/
  * @fs_premium_only /skins/multigrid/assets/
  */
 
@@ -35,7 +35,7 @@ if ( function_exists( 'woow_fs' ) ) {
 	/**
 	 * WoowGallery Constants.
 	 */
-	define( 'WOOWGALLERY_VERSION', '1.1.0' );
+	define( 'WOOWGALLERY_VERSION', '1.1.1' );
 	define( 'WOOWGALLERY_SLUG', 'woowgallery' );
 	define( 'WOOWGALLERY_FILE', __FILE__ );
 	define( 'WOOWGALLERY_PATH', __DIR__ );
@@ -72,6 +72,7 @@ if ( function_exists( 'woow_fs' ) ) {
 							'days'               => 7,
 							'is_require_payment' => true,
 						],
+						'has_affiliation'     => 'selected',
 						'menu'                => [
 							'slug'   => 'woowgallery-settings',
 							'parent' => [

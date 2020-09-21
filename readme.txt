@@ -164,6 +164,9 @@ Image Comments
 Image Likes
 More Galery Skins
 
+= 1.1.1 - 08.09 =
+* Added affiliate program
+
 = 1.1.0 - 01.09 =
 * Added MultiGrid Premium Skin
 * Fixed deep links for galleries

@@ -177,7 +177,7 @@
               // Display some success message
               this.$toasted.success(response.data, {duration: 2000});
 
-              // this.updateSkinsListSetting();
+              this.updateSkinsListSetting();
             }
             else if (response && response.data) {
               // Display some error here
@@ -230,7 +230,7 @@
               // Display some success message
               this.$toasted.success(response.data, {duration: 2000});
 
-              // this.updateSkinsListSetting();
+              this.updateSkinsListSetting();
             }
             else if (response && response.data) {
               // Display some error here
@@ -255,30 +255,38 @@
       // reset skin settings to default
       resetSkinSettings: function() {
         this.model = $.extend({}, this.defaults);
-      }
+      },
 
-      // // reset skin settings to default
-      // updateSkinsListSetting: function() {
-      //   // WoowBox Settings page.
-      //   let default_skin = $('select#woowgallery-default-skin');
-      //   if (default_skin.length) {
-      //
-      //     let options = '';
-      //     $.each(window.woowgallery_skin, (skin, data) => {
-      //       options += '<option value="' + skin + '">' + data.info.name + '</option>';
-      //       $.each(data.model, (presetName, presetData) => {
-      //         if ('default' === presetName) {
-      //           return;
-      //         }
-      //         options += '<option value="' + skin + ': ' + presetName + '">' + data.info.name + ': ' + presetName + '</option>';
-      //       });
-      //     });
-      //
-      //     default_skin.find('option').not('[value=""]').remove();
-      //     default_skin.append(options);
-      //     default_skin.val(this.default_skin);
-      //   }
-      // }
+      // reset skin settings to default
+      updateSkinsListSetting: function() {
+        // WoowGallery Settings page.
+        let skins_list = $('select.skins-presets-list');
+        if (skins_list.length) {
+          let options = '';
+          $.each(window.woowgallery_skin, (skin, data) => {
+            options += '<option value="' + skin + '">' + data.info.name + '</option>';
+            $.each(data.model, (presetName, presetData) => {
+              if ('default' === presetName) {
+                return;
+              }
+              options += '<option value="' + skin + ': ' + presetName + '">' + data.info.name + ': ' + presetName + '</option>';
+            });
+          });
+
+          skins_list.each((index, el) => {
+            let select = $(el);
+            let value = select.val();
+            select.find('option').not('[value=""]').remove();
+            select.append(options);
+            if (select.find('[value="' + value + '"]').length) {
+              select.val(value);
+            }
+            else {
+              select.val(this.default_skin);
+            }
+          });
+        }
+      }
 
     }
   });
