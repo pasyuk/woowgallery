@@ -314,6 +314,7 @@ $skins    = $data['skins'];
 				<div id="woowgallery-tab-woocommerce" class="woowgallery-tab inside">
 					<div>
 						<h3><?php esc_html_e( 'WoowGallery skin for Product gallery', 'woowgallery' ); ?></h3>
+						<p><?php esc_html_e( 'Note: WooCommerce plugin required.', 'woowgallery' ); ?></p>
 					</div>
 					<div class="form-group field-checkbox">
 						<label for="wg-product_gallery"><?php esc_html_e( 'Product Gallery', 'woowgallery' ); ?></label>
@@ -359,7 +360,10 @@ $skins    = $data['skins'];
 								</select>
 							</div>
 						</div>
-						<div class="hint"><?php esc_html_e( 'Select default skin for your WooCommerce product galleries. You can config skins/presets below.', 'woowgallery' ); ?></div>
+						<div class="hint">
+							<?php esc_html_e( 'Select default skin for your WooCommerce product galleries.', 'woowgallery' ); ?><br />
+							<?php esc_html_e( 'Note: Creating skins presets and changing default settings for skins available only in WoowGallery Premium. You can config skins/presets below.', 'woowgallery' ); ?>
+						</div>
 					</div>
 				</div>
 

@@ -54,6 +54,7 @@ Social media integrations, and WooCommerce store integration.
 * **Dynamic Gallery** - Easily create dynamic content galleries from various different sources (WordPress, Instagram, Flagallery...). Show specific media category or folder in the gallery from other plugins like: "Media Library Assistant", "FileBird", "Real Media Library", etc..
 * **Video Gallery** - Not just for photos! You can add local videos in your video gallery and link your photos with video from YouTube and Vimeo.
 * **Slideshow** - Add beautiful slideshow with autoplay, manual controls, and more.
+* **WooCommerce Product Gallery** - Replace default WooCommerce Product gallery template with WoowGallery skin.
 * **Image Tags** - Organize your WordPress photos with tags for easy search and display that also filtrable.
 * **Social Sharing** - Share your photos on Facebook, Twitter and Pinterest.
 * **Image Protection** - Protect your images from theft by disabling right mouse click on images.
@@ -163,6 +164,9 @@ Watermarks
 Image Comments
 Image Likes
 More Galery Skins
+
+= 1.1.2 - 30.09 =
+* Added WooCommerce Product gallery settings
 
 = 1.1.1 - 08.09 =
 * Added affiliate program
