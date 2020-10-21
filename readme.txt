@@ -165,6 +165,13 @@ Image Comments
 Image Likes
 More Galery Skins
 
+= 1.1.4 - 21.10 =
+* Added Image EXIF keywords automatically saved as Media Tags for uploaded picture
+* Fixed: Existing tags not showed on edit image if an image was just added to the gallery
+
+= 1.1.3 - 20.10 =
+* Fixed bug when other administrator can't edit gallery
+
 = 1.1.2 - 30.09 =
 * Added WooCommerce Product gallery settings
 

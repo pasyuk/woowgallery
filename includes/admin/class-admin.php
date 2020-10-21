@@ -78,20 +78,26 @@ class Admin {
 
 			// Map this Role's Post capabilities to our WoowGallery capabilities.
 			$caps = [
-				'read_woowgallery'                   => $is_administrator || $role->has_cap( 'read' ),
-				'edit_woowgallery_post'              => $is_administrator || $role->has_cap( 'edit_posts' ),
+				// Meta caps.
+				'edit_woowgallery_post'              => $is_administrator || $role->has_cap( 'edit_post' ),
+				'read_woowgallery_post'              => $is_administrator || $role->has_cap( 'read_post' ),
 				'delete_woowgallery_post'            => $is_administrator || $role->has_cap( 'delete_post' ),
-				'read_private_woowgallery_posts'     => $is_administrator || $role->has_cap( 'read_private_posts' ),
-				'create_woowgallery_posts'           => $is_administrator || $role->has_cap( 'edit_posts' ),
+
+				// Primitive caps outside map_meta_cap().
 				'edit_woowgallery_posts'             => $is_administrator || $role->has_cap( 'edit_posts' ),
 				'edit_others_woowgallery_posts'      => $is_administrator || $role->has_cap( 'edit_others_posts' ),
-				'edit_private_woowgallery_posts'     => $is_administrator || $role->has_cap( 'edit_private_posts' ),
-				'edit_published_woowgallery_posts'   => $is_administrator || $role->has_cap( 'edit_published_posts' ),
 				'publish_woowgallery_posts'          => $is_administrator || $role->has_cap( 'publish_posts' ),
+				'read_private_woowgallery_posts'     => $is_administrator || $role->has_cap( 'read_private_posts' ),
+
+				// Primitive caps used within map_meta_cap().
+				'read_woowgallery'                   => $is_administrator || $role->has_cap( 'read' ),
 				'delete_woowgallery_posts'           => $is_administrator || $role->has_cap( 'delete_posts' ),
 				'delete_private_woowgallery_posts'   => $is_administrator || $role->has_cap( 'delete_private_posts' ),
 				'delete_published_woowgallery_posts' => $is_administrator || $role->has_cap( 'delete_published_posts' ),
 				'delete_others_woowgallery_posts'    => $is_administrator || $role->has_cap( 'delete_others_posts' ),
+				'edit_private_woowgallery_posts'     => $is_administrator || $role->has_cap( 'edit_private_posts' ),
+				'edit_published_woowgallery_posts'   => $is_administrator || $role->has_cap( 'edit_published_posts' ),
+				'create_woowgallery_posts'           => $is_administrator || $role->has_cap( 'edit_posts' ),
 			];
 
 			// Add the above WoowGallery capabilities to this Role.

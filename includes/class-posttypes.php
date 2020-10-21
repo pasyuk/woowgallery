@@ -123,7 +123,7 @@ class Posttypes {
 
 			// Primitive caps outside map_meta_cap().
 			'edit_posts'             => 'edit_woowgallery_posts',
-			'edit_others_posts'      => 'edit_other_woowgallery_posts',
+			'edit_others_posts'      => 'edit_others_woowgallery_posts',
 			'publish_posts'          => 'publish_woowgallery_posts',
 			'read_private_posts'     => 'read_private_woowgallery_posts',
 
@@ -135,6 +135,7 @@ class Posttypes {
 			'delete_others_posts'    => 'delete_others_woowgallery_posts',
 			'edit_private_posts'     => 'edit_private_woowgallery_posts',
 			'edit_published_posts'   => 'edit_published_woowgallery_posts',
+			'create_posts'           => 'create_woowgallery_posts',
 		];
 	}
 

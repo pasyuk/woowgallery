@@ -8,6 +8,7 @@
 
 namespace WoowGallery\Admin;
 
+use WoowGallery\Taxonomies;
 use WP_Post;
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
@@ -24,6 +25,7 @@ class Media {
 
 		add_filter( 'wp_prepare_attachment_for_js', [ $this, 'wpmedia_add_woowgallery_data' ], 10, 3 );
 		add_filter( 'wp_handle_upload', [ $this, 'fix_image_orientation' ] );
+		add_filter( 'wp_generate_attachment_metadata', [ $this, 'add_keywords_as_media_tags' ], 10, 3 );
 
 		add_filter( 'attachment_fields_to_edit', [ $this, 'attachment_fields_to_edit' ], - 1, 2 );
 		add_filter( 'attachment_fields_to_save', [ $this, 'attachment_fields_to_save' ], 10, 2 );
@@ -53,6 +55,28 @@ class Media {
 		);
 
 		return $response;
+	}
+
+	/**
+	 * Add keywords to media tag taxonomy
+	 *
+	 * @param array  $metadata      An array of attachment meta data.
+	 * @param int    $attachment_id Current attachment ID.
+	 * @param string $context       Additional context. Can be 'create' when metadata was initially created for new attachment.
+	 *
+	 * @return array
+	 */
+	public function add_keywords_as_media_tags( $metadata, $attachment_id, $context ) {
+
+		// Check if the image is just uploaded and have keywords.
+		if ( 'create' === $context && ! empty( $metadata['image_meta']['keywords'] ) ) {
+			$terms = array_map( 'trim', $metadata['image_meta']['keywords'] );
+			wp_set_object_terms( $attachment_id, $terms, Taxonomies::MEDIA_TAG_TAXONOMY_NAME );
+		}
+
+		// Finally, return the data that's expected.
+		return $metadata;
+
 	}
 
 	/**
@@ -311,4 +335,241 @@ class Media {
 
 		return $post;
 	}
+
+	/**
+	 * Get extended image metadata, exif or iptc as available.
+	 * Retrieves the EXIF metadata aperture, credit, camera, caption, copyright, iso
+	 * created_timestamp, focal_length, shutter_speed, and title.
+	 * The IPTC metadata that is retrieved is APP13, credit, byline, created date
+	 * and time, caption, copyright, and title. Also includes FNumber, Model,
+	 * DateTimeDigitized, FocalLength, ISOSpeedRatings, and ExposureTime.
+	 *
+	 * @param string $file Path to the file.
+	 *
+	 * @return bool|array False on failure. Image metadata array on success.
+	 */
+	public function wp_read_image_metadata( $file ) {
+		if ( ! is_file( $file ) ) {
+			return false;
+		}
+
+		list( , , $source_image_type ) = getimagesize( $file );
+
+		$meta = [];
+
+		// Read IPTC first, since it might contain data not available in exif such as caption, description etc.
+		if ( is_callable( 'iptcparse' ) ) {
+			getimagesize( $file, $info );
+
+			if ( ! empty( $info['APP13'] ) ) {
+				$iptc = iptcparse( $info['APP13'] );
+
+				// Headline, "A brief synopsis of the caption".
+				if ( ! empty( $iptc['2#105'][0] ) ) {
+					$meta['title'] = trim( $iptc['2#105'][0] );
+
+					// Title, "Many use the Title field to store the filename of the image, though the field may be used in many ways".
+				} elseif ( ! empty( $iptc['2#005'][0] ) ) {
+					$meta['title'] = trim( $iptc['2#005'][0] );
+				}
+
+				// Description / legacy caption.
+				if ( ! empty( $iptc['2#120'][0] ) ) {
+					$caption = trim( $iptc['2#120'][0] );
+					if ( empty( $meta['title'] ) ) {
+						mbstring_binary_safe_encoding();
+						$caption_length = strlen( $caption );
+						reset_mbstring_encoding();
+
+						// Assume the title is stored in 2:120 if it's short.
+						if ( $caption_length < 80 ) {
+							$meta['title'] = $caption;
+						} else {
+							$meta['caption'] = $caption;
+						}
+					} elseif ( $caption !== $meta['title'] ) {
+						$meta['caption'] = $caption;
+					}
+				}
+
+				// Credit.
+				if ( ! empty( $iptc['2#110'][0] ) ) {
+					$meta['credit'] = trim( $iptc['2#110'][0] );
+					// Creator / legacy byline.
+				} elseif ( ! empty( $iptc['2#080'][0] ) ) {
+					$meta['credit'] = trim( $iptc['2#080'][0] );
+				}
+
+				// Created date and time.
+				if ( ! empty( $iptc['2#055'][0] ) && ! empty( $iptc['2#060'][0] ) ) {
+					$meta['created_timestamp'] = strtotime( $iptc['2#055'][0] . ' ' . $iptc['2#060'][0] );
+				}
+
+				// Copyright.
+				if ( ! empty( $iptc['2#116'][0] ) ) {
+					$meta['copyright'] = trim( $iptc['2#116'][0] );
+				}
+
+				// Keywords.
+				if ( ! empty( $iptc['2#025'] ) ) {
+					$meta['keywords'] = $iptc['2#025'];
+				}
+			}
+		}
+
+		/**
+		 * Filter the image types to check for exif data.
+		 *
+		 * @param array $image_types Image types to check for exif data.
+		 */
+		if (
+			is_callable( 'exif_read_data' )
+			&& in_array(
+				$source_image_type,
+				apply_filters(
+					'woow_read_image_metadata_types',
+					[
+						IMAGETYPE_JPEG,
+						IMAGETYPE_TIFF_II,
+						IMAGETYPE_TIFF_MM,
+					]
+				),
+				true
+			)
+		) {
+			$exif = @exif_read_data( $file );
+			unset( $exif['MakerNote'] );
+
+			// Title.
+			if ( empty( $meta['title'] ) && ! empty( $exif['Title'] ) ) {
+				$meta['title'] = trim( $exif['Title'] );
+			}
+			// Description.
+			if ( ! empty( $exif['ImageDescription'] ) ) {
+				mbstring_binary_safe_encoding();
+				$description_length = strlen( $exif['ImageDescription'] );
+				reset_mbstring_encoding();
+
+				if ( empty( $meta['title'] ) && $description_length < 80 ) {
+					// Assume the title is stored in ImageDescription.
+					$meta['title'] = trim( $exif['ImageDescription'] );
+					if ( empty( $meta['caption'] ) && ! empty( $exif['COMPUTED']['UserComment'] ) && trim( $exif['COMPUTED']['UserComment'] ) !== $meta['title'] ) {
+						$meta['caption'] = trim( $exif['COMPUTED']['UserComment'] );
+					}
+				} elseif ( empty( $meta['caption'] ) && trim( $exif['ImageDescription'] ) !== $meta['title'] ) {
+					$meta['caption'] = trim( $exif['ImageDescription'] );
+				}
+			} elseif ( empty( $meta['caption'] ) && ! empty( $exif['Comments'] ) && trim( $exif['Comments'] ) !== $meta['title'] ) {
+				$meta['caption'] = trim( $exif['Comments'] );
+			}
+			// Credit.
+			if ( empty( $meta['credit'] ) ) {
+				if ( ! empty( $exif['Artist'] ) ) {
+					$meta['credit'] = trim( $exif['Artist'] );
+				} elseif ( ! empty( $exif['Author'] ) ) {
+					$meta['credit'] = trim( $exif['Author'] );
+				}
+			}
+			// Copyright.
+			if ( empty( $meta['copyright'] ) && ! empty( $exif['Copyright'] ) ) {
+				$meta['copyright'] = trim( $exif['Copyright'] );
+			}
+			// Camera Make.
+			if ( ! empty( $exif['Make'] ) ) {
+				$meta['make'] = $exif['Make'];
+			}
+			// Camera Model.
+			if ( ! empty( $exif['Model'] ) ) {
+				$meta['model'] = trim( $exif['Model'] );
+			}
+			// Exposure Time (shutter speed).
+			if ( ! empty( $exif['ExposureTime'] ) ) {
+				$meta['exposure']      = $exif['ExposureTime'] . 's';
+				$meta['shutter_speed'] = (string) wp_exif_frac2dec( $exif['ExposureTime'] ) . 's';
+			}
+			// Aperture.
+			if ( ! empty( $exif['COMPUTED']['ApertureFNumber'] ) ) {
+				$meta['aperture'] = $exif['COMPUTED']['ApertureFNumber'];
+			} elseif ( ! empty( $exif['FNumber'] ) ) {
+				$meta['aperture'] = 'f/' . (string) round( wp_exif_frac2dec( $exif['FNumber'] ), 2 );
+			}
+			// ISO.
+			if ( ! empty( $exif['ISOSpeedRatings'] ) ) {
+				$meta['iso'] = is_array( $exif['ISOSpeedRatings'] ) ? reset( $exif['ISOSpeedRatings'] ) : $exif['ISOSpeedRatings'];
+				$meta['iso'] = trim( $meta['iso'] );
+			}
+			// Date.
+			if ( ! empty( $exif['DateTime'] ) ) {
+				$meta['date'] = $exif['DateTime'];
+			}
+			// Created TimeStamp.
+			if ( empty( $meta['created_timestamp'] ) && ! empty( $exif['DateTimeDigitized'] ) ) {
+				$meta['created_timestamp'] = wp_exif_date2ts( $exif['DateTimeDigitized'] );
+			}
+			// Lens.
+			if ( ! empty( $exif['UndefinedTag:0xA434'] ) ) {
+				$meta['lens'] = $exif['UndefinedTag:0xA434'];
+			}
+			// Focus Distance.
+			if ( ! empty( $exif['COMPUTED']['FocusDistance'] ) ) {
+				$meta['distance'] = $exif['COMPUTED']['FocusDistance'];
+			}
+			// Focal Length.
+			if ( ! empty( $exif['FocalLength'] ) ) {
+				$meta['focallength'] = (string) round( wp_exif_frac2dec( $exif['FocalLength'] ) ) . 'mm';
+			}
+			// Focal Length 35mm.
+			if ( ! empty( $exif['FocalLengthIn35mmFilm'] ) ) {
+				$meta['focallength35'] = $exif['FocalLengthIn35mmFilm'] . 'mm';
+			}
+			// Lens Make.
+			if ( ! empty( $exif['UndefinedTag:0xA433'] ) ) {
+				$meta['lensmake'] = $exif['UndefinedTag:0xA433'];
+			}
+			// Software.
+			if ( ! empty( $exif['Software'] ) ) {
+				$meta['software'] = $exif['Software'];
+			}
+			// Orientation.
+			if ( ! empty( $exif['Orientation'] ) ) {
+				$meta['orientation'] = $exif['Orientation'];
+			}
+
+			$exif_sections = @exif_read_data( $file, null, true );
+			if ( isset( $exif_sections['GPS'] ) ) {
+				$meta['GPS'] = $this->getGPSfromExif( $exif_sections['GPS'] );
+			}
+			unset( $exif_sections );
+			//$meta['exif'] = $exif;
+		}
+
+		foreach ( [ 'title', 'caption', 'credit', 'copyright', 'model', 'iso', 'software' ] as $key ) {
+			if ( ! empty( $meta[ $key ] ) && ! seems_utf8( $meta[ $key ] ) ) {
+				$meta[ $key ] = utf8_encode( $meta[ $key ] );
+			}
+		}
+		if ( ! empty( $meta['keywords'] ) ) {
+			foreach ( $meta['keywords'] as $i => $key ) {
+				if ( ! seems_utf8( $key ) ) {
+					$meta['keywords'][ $i ] = utf8_encode( $key );
+				}
+			}
+		}
+
+		foreach ( $meta as &$value ) {
+			if ( is_string( $value ) ) {
+				$value = wp_kses_post( $value );
+			}
+		}
+
+		/**
+		 * Filter the array of meta data read from an image's exif data.
+		 *
+		 * @param array  $meta              Image meta data.
+		 * @param string $file              Path to image file.
+		 * @param int    $source_image_type Type of image.
+		 */
+		return apply_filters( 'woow_read_image_metadata', $meta, $file, $source_image_type );
+	}
+
 }

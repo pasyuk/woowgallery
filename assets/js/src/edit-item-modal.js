@@ -80,7 +80,7 @@
           return false;
         }
 
-        this.editItem = _.find(this.gallery, (media) => (media.id === item.id));
+        this.editItem = _.find(this.gallery_extended, (media) => (media.id === item.id));
       },
 
       // Close edit item modal window.
