@@ -18,7 +18,7 @@
           return;
         }
 
-        if(taxonomy) {
+        if (taxonomy) {
           // Set tags for media.
           $.post(
             ajaxurl,
@@ -29,8 +29,20 @@
               taxonomy: taxonomy,
               tags: tags
             },
-            function(r) {}
+            function(r) {
+            }
           );
+          let tags_array = _.uniq(_.compact(tags.split(',')));
+          let content_item = window.woowgallery_content_indexed[media_id];
+          if (content_item) {
+            content_item.tags = tags_array;
+          }
+
+          let editItem = window.WoowGalleryAdmin.Gallery.editItem;
+          if (editItem && 'attachment' === editItem.type) {
+            let attachment = wp.media.model.Attachment.get(media_id);
+            attachment.set('woowgallery_tags', tags_array);
+          }
         }
       }
     }

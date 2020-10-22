@@ -80,7 +80,10 @@
           return false;
         }
 
-        this.editItem = _.find(this.gallery_extended, (media) => (media.id === item.id));
+        this.editItemClose();
+        this.$nextTick(() => {
+          this.editItem = _.find(this.gallery, (media) => (media.id === item.id));
+        });
       },
 
       // Close edit item modal window.
@@ -106,8 +109,11 @@
       },
 
       editItemSetCopyright: function({type, target}) {
-        if('attachment' === this.editItem.type && 'change' === type) {
-          window.woowgallery_content_indexed[this.editItem.id].copyright = target.value;
+        if ('attachment' === this.editItem.type && 'change' === type) {
+          let content_item = window.woowgallery_content_indexed[this.editItem.id];
+          if (content_item) {
+            content_item.copyright = target.value;
+          }
 
           // Set copyright for media item.
           this.editItemSaving = true;
@@ -131,7 +137,7 @@
           return !content_item.tags_taxonomy && !real ? 'media_tag' : content_item.tags_taxonomy;
         }
 
-        return real ? '' : 'media_tag';
+        return real && 'attachment' !== this.editItem.type ? '' : 'media_tag';
       },
 
       editItemTypeIn: function(types) {

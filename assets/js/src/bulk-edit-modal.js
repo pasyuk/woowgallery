@@ -113,7 +113,10 @@
           }
 
           if (set.copyright) {
-            window.woowgallery_content_indexed[item.id].copyright = set.copyright.trim();
+            let content_item = window.woowgallery_content_indexed[item.id];
+            if (content_item) {
+              content_item.copyright = set.copyright.trim();
+            }
           }
 
           if (set.tags) {

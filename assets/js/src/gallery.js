@@ -315,7 +315,10 @@
                 item.tags = att.woowgallery_tags.join(',');
               }
               if (att.copyright) {
-                window.woowgallery_content_indexed[item.id].copyright = att.copyright;
+                let content_item = window.woowgallery_content_indexed[item.id];
+                if (content_item) {
+                  content_item.copyright = att.copyright;
+                }
               }
             }
           }

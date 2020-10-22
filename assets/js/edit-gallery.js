@@ -125,6 +125,14 @@
                 new_gallery = [].concat(this.gallery, response.data);
               }
               this.gallery = this.doGallerySorted(new_gallery);
+              this.$nextTick(() => {
+                _.each(this.gallery_extended, function(item) {
+                  if (typeof window.woowgallery_content_indexed[item.id] === 'undefined') {
+                    window.woowgallery_content_indexed[item.id] = JSON.parse(JSON.stringify(item));
+                  }
+                });
+                this.updateMediaData();
+              });
             }
           },
           'json'

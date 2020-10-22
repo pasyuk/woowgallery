@@ -201,6 +201,7 @@ use WoowGallery\Posttypes;
 												<div class="description"><?php esc_html_e( 'Can be used as protection alert message on right mouse click.', 'woowgallery' ); ?></div>
 											</div>
 
+											<!-- Tags -->
 											<div class="woowgallery-setting">
 												<div class="tagsdiv" :id="editItemTagsTaxonomy()">
 													<div class="jaxtag">

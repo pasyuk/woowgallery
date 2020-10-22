@@ -44,6 +44,7 @@ class Media {
 	public function wpmedia_add_woowgallery_data( $response, $attachment, $meta ) {
 		$attachment                   = get_post( $attachment );
 		$response['copyright']        = get_post_meta( $attachment->ID, '_media_copyright', true );
+		$response['tags_taxonomy']    = Taxonomies::MEDIA_TAG_TAXONOMY_NAME;
 		$response['woowgallery_tags'] = wp_get_object_terms(
 			$attachment->ID,
 			'media_tag',
