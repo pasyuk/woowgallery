@@ -2,7 +2,7 @@
 Contributors: Rattus, WoowDev Team
 Tags: best gallery plugin, elementor, gallery, image gallery, photo gallery
 Requires at least: 5.3.0
-Tested up to: 5.5
+Tested up to: 5.6
 Requires PHP: 5.4
 Stable tag: /trunk
 License: GPLv2 or later
@@ -164,6 +164,10 @@ Watermarks
 Image Comments
 Image Likes
 More Galery Skins
+
+= 1.1.6 - 25.01 =
+* Fixed: Woocommerce variable product JS fix
+* Improved: CSS color preview for transparancy
 
 = 1.1.5 - 22.10 =
 * Fixed: Edit gallery items

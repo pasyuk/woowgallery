@@ -171,7 +171,7 @@
     let Attachment = {
       render: wp.media.view.Attachment.prototype.render,
       toggleSelection: wp.media.view.Attachment.prototype.toggleSelection,
-      select: wp.media.view.Attachment.prototype.select,
+      // select: wp.media.view.Attachment.prototype.select,
       save: wp.media.view.Attachment.prototype.save
     };
     _.extend(wp.media.view.Attachment.prototype, {
@@ -209,14 +209,14 @@
        * @param {Backbone.Model} model
        * @param {Backbone.Collection} collection
        */
-      select: function(model, collection) {
+      /*select: function(model, collection) {
         // Bail if the model is already woowgallery-selected.
         if (this.$el.hasClass('woowgallery-selected')) {
           return;
         }
 
         Attachment.select.apply(this, arguments);
-      },
+      },*/
       ignoreWoowgallerySelection: function() {
         let selection = this.options.selection,
           woowgallerySelection = this.options.woowgallerySelection;

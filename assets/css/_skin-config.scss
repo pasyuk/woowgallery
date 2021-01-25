@@ -353,6 +353,7 @@
     border-radius: 50%;
     background-image: none;
     cursor: pointer;
+    overflow: hidden;
   }
 
   .sp-replacer {
@@ -381,10 +382,28 @@
     .sp-preview:hover,
     &.sp-active .sp-preview {
       transform: scale(1.2);
+
+      .sp-preview-inner::before {
+        transform: scale(0.82);
+      }
     }
 
     .sp-dd {
       display: none;
+    }
+
+    .sp-preview-inner::before {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      bottom: -5px;
+      right: -5px;
+      border-radius: 50%;
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==);
+      z-index: -1;
+      transform: scale(1);
+      transition: 100ms transform ease;
     }
 
     .sp-preview-inner::after {
