@@ -1,6 +1,6 @@
 <?php
 /**
- * MultiGrid Skin
+ * Parallax Skin
  *
  * @package woowgallery
  * @author  GalleryCreator
@@ -9,18 +9,18 @@
 namespace WoowGallery\Skins;
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
-if ( ! class_exists( 'WoowGallery\Skins\MultiGrid' ) ) {
+if ( ! class_exists( 'WoowGallery\Skins\Parallax' ) ) {
 	return;
 }
 
 /**
- * Class MultiGrid
+ * Class Parallax
  */
-class MultiGrid {
+class Parallax {
 
-	const NAME        = 'MultiGrid';
-	const SLUG        = 'multigrid';
-	const VERSION     = '1.0.1';
+	const NAME        = 'Parallax';
+	const SLUG        = 'parallax';
+	const VERSION     = '1.0.0';
 	const DESCRIPTION = '';
 
 	/**
@@ -49,7 +49,7 @@ class MultiGrid {
 		];
 
 		if ( woow_fs()->can_use_premium_code__premium_only() ) {
-			$info['scripts'] = [ plugins_url( 'assets/multigrid.js', __FILE__ ) ];
+			$info['scripts'] = [ plugins_url( 'assets/parallax.js', __FILE__ ) ];
 		}
 
 		return apply_filters( 'woowgallery_skin_info', $info );
@@ -72,7 +72,7 @@ class MultiGrid {
 			}
 			ob_start();
 			?>
-			<div class='woowgallery-multigrid'>
+			<div class='woowgallery-parallax'>
 				<script type="application/json" class="wg-json-content"><?php echo wp_json_encode( $gallery['content'] ); ?></script>
 				<script type="application/json" class="wg-json-settings"><?php echo wp_json_encode( $gallery['skin']['config'] ); ?></script>
 			</div>
@@ -80,7 +80,7 @@ class MultiGrid {
 			return ob_get_clean();
 		}
 
-		return '<div class="woowgallery-multigrid">' . esc_html( sprintf( __( '<a href="%s">WoowGallery Premium</a> required.', 'woowgallery' ), 'https://woowgallery.com/' ) ) . '</div>';
+		return '<div class="woowgallery-parallax">' . esc_html( sprintf( __( '<a href="%s">WoowGallery Premium</a> required.', 'woowgallery' ), 'https://woowgallery.com/' ) ) . '</div>';
 	}
 
 	/**
@@ -106,83 +106,7 @@ class MultiGrid {
 				'common'             => [
 					'label'  => __( 'Common Settings', 'woowgallery' ),
 					'fields' => [
-						'gridType'                        => [
-							'label'   => __( 'Gallery Type (Layout)', 'woowgallery' ),
-							'tag'     => 'select',
-							'default' => 'grid',
-							'options' => [
-								[
-									'name'  => __( 'Grid', 'woowgallery' ),
-									'value' => 'grid',
-								],
-								[
-									'name'  => __( 'Justified', 'woowgallery' ),
-									'value' => 'justified',
-								],
-								[
-									'name'  => __( 'Masonry', 'woowgallery' ),
-									'value' => 'masonry',
-								],
-							],
-						],
-						'collectionThumbColumns'          => [
-							'label'   => __( 'Gallery Columns', 'woowgallery' ),
-							'tag'     => 'input',
-							'default' => 3,
-							'visible' => 'gridType != "justified"',
-							'attr'    => [
-								'type' => 'number',
-								'min'  => 1,
-								'max'  => 10,
-							],
-						],
-						'collectionThumbRatio'            => [
-							'label'   => __( 'Thumbnail Size Ratio', 'woowgallery' ),
-							'visible' => 'gridType == "grid"',
-							'tag'     => 'input',
-							'default' => 1.0,
-							'attr'    => [
-								'type' => 'number',
-								'min'  => 0.1,
-								'max'  => 2,
-								'step' => 0.1,
-							],
-							'text'    => __( 'Height / Width = Ratio. Value for Grid layout', 'woowgallery' ),
-						],
-						'collectionThumbRecomendedWidth'  => [
-							'label'   => __( 'Thumbnail Min. Width', 'woowgallery' ),
-							'tag'     => 'input',
-							'default' => 200,
-							'visible' => 'gridType != "justified"',
-							'attr'    => [
-								'type' => 'number',
-								'min'  => 100,
-								'max'  => 400,
-							],
-						],
-						'collectionThumbRecomendedHeight' => [
-							'label'   => __( 'Thumbnail Desired Height', 'woowgallery' ),
-							'visible' => 'gridType == "justified"',
-							'tag'     => 'input',
-							'default' => 280,
-							'attr'    => [
-								'type' => 'number',
-								'min'  => 150,
-								'max'  => 400,
-							],
-							'text'    => __( 'Value for Justified layout', 'woowgallery' ),
-						],
-						'thumbSpacing'                    => [
-							'label'   => __( 'Space Between Thumbnails', 'woowgallery' ),
-							'tag'     => 'input',
-							'default' => 10,
-							'attr'    => [
-								'type' => 'number',
-								'min'  => 0,
-								'max'  => 20,
-							],
-						],
-						'collectionPreloaderColor'        => [
+						'collectionPreloaderColor'       => [
 							'label'   => __( 'Gallery Preloader Color', 'woowgallery' ),
 							'tag'     => 'input',
 							'default' => 'rgba(180,180,180,1)',
@@ -193,7 +117,7 @@ class MultiGrid {
 								'showAlpha' => true,
 							],
 						],
-						'collectionBgColor'               => [
+						'collectionBgColor'              => [
 							'label'   => __( 'Gallery Background Color', 'woowgallery' ),
 							'tag'     => 'input',
 							'default' => 'rgba(255,255,255,0)',
@@ -202,6 +126,36 @@ class MultiGrid {
 							],
 							'options' => [
 								'showAlpha' => true,
+							],
+						],
+						'collectionThumbColumns'         => [
+							'label'   => __( 'Gallery Columns', 'woowgallery' ),
+							'tag'     => 'input',
+							'default' => 3,
+							'attr'    => [
+								'type' => 'number',
+								'min'  => 1,
+								'max'  => 10,
+							],
+						],
+						'collectionThumbRecomendedWidth' => [
+							'label'   => __( 'Thumbnail Min. Width', 'woowgallery' ),
+							'tag'     => 'input',
+							'default' => 200,
+							'attr'    => [
+								'type' => 'number',
+								'min'  => 100,
+								'max'  => 400,
+							],
+						],
+						'thumbSpacing'                   => [
+							'label'   => __( 'Space Between Thumbnails', 'woowgallery' ),
+							'tag'     => 'input',
+							'default' => 30,
+							'attr'    => [
+								'type' => 'number',
+								'min'  => 20,
+								'max'  => 60,
 							],
 						],
 					],
@@ -249,21 +203,15 @@ class MultiGrid {
 				'thumbnailsSettings' => [
 					'label'  => __( 'Thumbnails Settings', 'woowgallery' ),
 					'fields' => [
-						'collectionThumbHoverColor'               => [
-							'label'   => __( 'Overlay Color on Hover', 'woowgallery' ),
-							'tag'     => 'input',
-							'default' => 'rgba(0,0,0,0.5)',
-							'options' => [
-								'showAlpha' => true,
-							],
-							'attr'    => [
-								'type' => 'color',
-							],
+						'thumbPanningEffect'                      => [
+							'label'   => __( 'Parallax Effect', 'woowgallery' ),
+							'tag'     => 'checkbox',
+							'default' => 1,
 						],
-						'collectionThumbContentBGColor'           => [
-							'label'   => __( 'Description Background Color', 'woowgallery' ),
+						'thumbShadowColor'                        => [
+							'label'   => __( 'Shadow Color', 'woowgallery' ),
 							'tag'     => 'input',
-							'default' => 'rgba(0,0,0,0.6)',
+							'default' => 'rgba(0,0,0,0.7)',
 							'options' => [
 								'showAlpha' => true,
 							],
@@ -279,7 +227,7 @@ class MultiGrid {
 						'collectionThumbTitleColor'               => [
 							'label'   => __( 'Title Text Color', 'woowgallery' ),
 							'tag'     => 'input',
-							'default' => 'rgba(255,255,255,1)',
+							'default' => 'rgba(0,0,0,1)',
 							'visible' => 'collectionThumbTitleShow',
 							'options' => [
 								'showAlpha' => true,
@@ -293,6 +241,34 @@ class MultiGrid {
 							'tag'     => 'input',
 							'default' => 18,
 							'visible' => 'collectionThumbTitleShow',
+							'attr'    => [
+								'type' => 'number',
+								'min'  => 10,
+								'max'  => 36,
+							],
+						],
+						'collectionThumbDescriptionShow'          => [
+							'label'   => __( 'Show Description', 'woowgallery' ),
+							'tag'     => 'checkbox',
+							'default' => 1,
+						],
+						'collectionThumbDescriptionColor'         => [
+							'label'   => __( 'Description Text Color', 'woowgallery' ),
+							'tag'     => 'input',
+							'default' => 'rgba(0,0,0,1)',
+							'visible' => 'collectionThumbDescriptionShow',
+							'options' => [
+								'showAlpha' => true,
+							],
+							'attr'    => [
+								'type' => 'color',
+							],
+						],
+						'collectionThumbDescriptionFontSize'      => [
+							'label'   => __( 'Description Font Size', 'woowgallery' ),
+							'tag'     => 'input',
+							'default' => 15,
+							'visible' => 'collectionThumbDescriptionShow',
 							'attr'    => [
 								'type' => 'number',
 								'min'  => 10,
@@ -316,7 +292,7 @@ class MultiGrid {
 						'collectionReadMoreButtonFontSize'        => [
 							'label'   => __( 'Link Button - Font Size', 'woowgallery' ),
 							'tag'     => 'input',
-							'default' => 12,
+							'default' => 15,
 							'visible' => 'collectionReadMoreButtonShow',
 							'attr'    => [
 								'type' => 'number',
@@ -327,7 +303,7 @@ class MultiGrid {
 						'collectionReadMoreButtonBGColor'         => [
 							'label'   => __( 'Link Button - BG Color', 'woowgallery' ),
 							'tag'     => 'input',
-							'default' => 'rgba(255,255,255,1)',
+							'default' => 'rgba(255,255,255,0.5)',
 							'visible' => 'collectionReadMoreButtonShow',
 							'options' => [
 								'showAlpha' => true,
@@ -339,7 +315,7 @@ class MultiGrid {
 						'collectionReadMoreButtonBGColorHover'    => [
 							'label'   => __( 'Link Button - Hover BG Color', 'woowgallery' ),
 							'tag'     => 'input',
-							'default' => 'rgba(0,0,0,1)',
+							'default' => 'rgba(40,40,40,1)',
 							'visible' => 'collectionReadMoreButtonShow',
 							'options' => [
 								'showAlpha' => true,
@@ -442,4 +418,4 @@ class MultiGrid {
 	}
 }
 
-new MultiGrid();
+new Parallax();

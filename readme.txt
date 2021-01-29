@@ -165,6 +165,13 @@ Image Comments
 Image Likes
 More Galery Skins
 
+= 1.1.7 - 29.01 =
+* Fixed: RTL for skins
+* Fixed: Gutenberg block (interaction with skin)
+* Fixed: Instagram fetch timeout
+* Improved: Woow Lightbox
+* New Skin: Parallax
+
 = 1.1.6 - 25.01 =
 * Fixed: Woocommerce variable product JS fix
 * Improved: CSS color preview for transparancy
