@@ -23,12 +23,35 @@ class Frontend {
 	 */
 	public function __construct() {
 
+		add_action( 'template_redirect', [ $this, 'process_request' ], 0 );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ], 8 );
 		add_action( 'wp_head', [ $this, 'standalone_maybe_insert_shortcode' ] );
 
 		add_filter( 'woowgallery_pre_data', [ $this, 'filter_woowgallery_data' ], 10, 2 );
 		add_filter( 'rest_woowgallery_full_post_content', [ $this, 'filter_woowgallery_content' ] );
 		add_filter( 'the_preview', [ $this, 'set_preview' ] );
+	}
+
+	/**
+	 * IG proxy request check
+	 *
+	 * @return false|void
+	 */
+	public function process_request() {
+		// Check if we're on the correct url.
+		global $wp;
+		$current_slug = add_query_arg( [], $wp->request );
+		if ( 'woow-ig-proxy' !== $current_slug ) {
+			return false;
+		}
+
+		// Check if it's a valid request.
+		$url = woowgallery_GET( 'url' );
+		if ( 'instagram' !== substr( $url, 8, 9 ) ) {
+			die( 'IG link?' );
+		}
+		include WOOWGALLERY_PATH . '/includes/tools/proxy.php';
+		die( 'Sorry :(' );
 	}
 
 	/**

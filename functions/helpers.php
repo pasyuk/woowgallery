@@ -446,6 +446,8 @@ if ( ! function_exists( 'woowgallery_full_instagram_data' ) ) {
 			return null;
 		}
 
+		$proxy = home_url( '/woow-ig-proxy' );
+
 		$attachment = [
 			'type'       => 'instagram',
 			'subtype'    => $media['type'],
@@ -468,24 +470,24 @@ if ( ! function_exists( 'woowgallery_full_instagram_data' ) ) {
 			],
 			'slug'       => $media['code'],
 			'date'       => mysql_to_rfc3339( date( 'Y-m-d H:i:s', $media['created_time'] ) ),
-			'src'        => $media['video_url'] ?: $media['images']['__original']['url'],
+			'src'        => add_query_arg( [ 'url' => rawurlencode( $media['video_url'] ) ], $proxy ) ?: add_query_arg( [ 'url' => rawurlencode( $media['images']['__original']['url'] ) ], $proxy ),
 			'thumb'      => [
-				$media['images']['low_resolution']['url'],
+				add_query_arg( [ 'url' => rawurlencode( $media['images']['low_resolution']['url'] ) ], $proxy ),
 				$media['images']['low_resolution']['width'],
 				$media['images']['low_resolution']['height'],
 			],
 			'image'      => [
-				$media['images']['standard_resolution']['url'],
+				add_query_arg( [ 'url' => rawurlencode( $media['images']['standard_resolution']['url'] ) ], $proxy ),
 				$media['images']['standard_resolution']['width'],
 				$media['images']['standard_resolution']['height'],
 			],
 			'_thumbnail' => [
-				$media['images']['thumbnail']['url'],
+				add_query_arg( [ 'url' => rawurlencode( $media['images']['thumbnail']['url'] ) ], $proxy ),
 				$media['images']['thumbnail']['width'],
 				$media['images']['thumbnail']['height'],
 			],
 			'_original'  => [
-				$media['images']['__original']['url'],
+				add_query_arg( [ 'url' => rawurlencode( $media['images']['__original']['url'] ) ], $proxy ),
 				$media['images']['__original']['width'],
 				$media['images']['__original']['height'],
 			],
@@ -504,18 +506,18 @@ if ( ! function_exists( 'woowgallery_full_instagram_data' ) ) {
 				];
 				foreach ( $item['display_resources'] as $src ) {
 					$carousel_item['sources'][] = [
-						$src['src'],
+						add_query_arg( [ 'url' => rawurlencode( $src['src'] ) ], $proxy ),
 						$src['config_width'],
 						$src['config_height'],
 					];
 				}
 
 				if ( $item['is_video'] ) {
-					$carousel_item['src']              = $item['video_url'];
+					$carousel_item['src']              = add_query_arg( [ 'url' => rawurlencode( $item['video_url'] ) ], $proxy );
 					$carousel_item['video_view_count'] = $item['video_view_count'];
 				} else {
 					$last_source          = end( $item['display_resources'] );
-					$carousel_item['src'] = $last_source['src'];
+					$carousel_item['src'] = add_query_arg( [ 'url' => rawurlencode( $last_source['src'] ) ], $proxy );
 				}
 
 				$attachment['carousel'][] = $carousel_item;

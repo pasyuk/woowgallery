@@ -241,7 +241,7 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 			$source_tag = false;
 			$true_limit = ( 'each' === $query['limit_type'] ) ? $limit * count( $sources ) : $limit;
 			$data       = [];
-			$url        = 'https://api.instacloud.io/v1';
+			$url        = 'https://api.instacloud.io/';
 			// media_path: '/media/shortcode/B5sJCwup9Ln'.
 			foreach ( $sources as $source ) {
 				$source_type = '@' === substr( $source, 0, 1 ) ? 'users' : 'tags';
@@ -252,7 +252,7 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 				$url         = add_query_arg(
 					[
 						'count' => $limit,
-						'path'  => "/{$source_type}/{$source_term}/media/recent/",
+						'path'  => rawurlencode( "/v1/{$source_type}/{$source_term}/media/recent/" ),
 					],
 					$url
 				);
@@ -260,8 +260,8 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 				$remote_get = wp_remote_get(
 					$url,
 					[
-						'timeout'     => 30,
-						'redirection' => 2,
+						'timeout'     => 60,
+						'redirection' => 3,
 						'httpversion' => '1.1',
 						'user-agent'  => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36',
 						'blocking'    => true,

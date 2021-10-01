@@ -2,7 +2,7 @@
 Contributors: Rattus, WoowDev Team
 Tags: best gallery plugin, elementor, gallery, image gallery, photo gallery
 Requires at least: 5.3.0
-Tested up to: 5.6
+Tested up to: 5.8
 Requires PHP: 5.4
 Stable tag: /trunk
 License: GPLv2 or later
@@ -164,6 +164,9 @@ Watermarks
 Image Comments
 Image Likes
 More Galery Skins
+
+= 1.1.8 - 28.09 =
+* Fixed: Instagram gallery
 
 = 1.1.7 - 29.01 =
 * Fixed: RTL for skins
