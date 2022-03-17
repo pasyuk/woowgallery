@@ -12,6 +12,7 @@ $current_date = date( 'H:i:s - d/m/Y' );
 $mimetypes    = [ 'image/png', 'image/jpg', 'image/jpeg', 'image/gif', 'video/mp4' ];
 
 $request = wp_remote_get( $url );
+//echo '<pre>' . print_r($url, true) . '</pre>';
 $mime    = wp_remote_retrieve_header( $request, 'content-type' );
 
 $expires_offset = 2628000; // 1 month.

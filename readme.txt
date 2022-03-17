@@ -2,13 +2,13 @@
 Contributors: Rattus, WoowDev Team
 Tags: best gallery plugin, elementor, gallery, image gallery, photo gallery
 Requires at least: 5.3.0
-Tested up to: 5.8
+Tested up to: 5.9
 Requires PHP: 5.4
 Stable tag: /trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Fastest, easiest to use multifunctional image gallery plugin. Create Featured Posts Gallery, Dynamic Content Gallery, Instagram Gallery, Albums!
+Fastest, easiest to use multifunctional image gallery plugin. Create Featured Posts Gallery, Dynamic Content Gallery, Albums!
 
 == Description ==
 
@@ -33,7 +33,7 @@ You can also create/edit galleries right from the WordPress Gutenberg block edit
 If you've struggled with WordPress gallery plugins that take video tutorials to learn, you're going to love WoowGallery.<br>
 
 > <strong>With WoowGallery Premium you can</strong><br />
-> create WooCommerce galleries, create Instagram galleries, create Standalone galleries, add Standalone galleries inside Dynamic gallery, create presets for gallery skins, etc.
+> create WooCommerce galleries, create Standalone galleries, add Standalone galleries inside Dynamic gallery, create presets for gallery skins, etc.
 
 = Mobile Ready, SEO Friendly and Optimized for Speed =
 
@@ -51,7 +51,7 @@ Social media integrations, and WooCommerce store integration.
 * Beautiful **Gallery Skins** for Customization
 * **Albums Gallery** - Easily organize your photo galleries, choose cover photos, and more.
 * **Featured Content Gallery** - Easily create galleries based on posts, pages, products, testimonials, portfolios, and other custom post types.
-* **Dynamic Gallery** - Easily create dynamic content galleries from various different sources (WordPress, Instagram, Flagallery...). Show specific media category or folder in the gallery from other plugins like: "Media Library Assistant", "FileBird", "Real Media Library", etc..
+* **Dynamic Gallery** - Easily create dynamic content galleries from various different sources (WordPress, Flagallery...). Show specific media category or folder in the gallery from other plugins like: "Media Library Assistant", "FileBird", "Real Media Library", etc..
 * **Video Gallery** - Not just for photos! You can add local videos in your video gallery and link your photos with video from YouTube and Vimeo.
 * **Slideshow** - Add beautiful slideshow with autoplay, manual controls, and more.
 * **WooCommerce Product Gallery** - Replace default WooCommerce Product gallery template with WoowGallery skin.
@@ -68,7 +68,6 @@ Social media integrations, and WooCommerce store integration.
 = Premium WoowGallery Feature List =
 
 * **WooCommerce Integration** - Instantly display and sell your photos with the most popular eCommerce software on the web.
-* **Instagram** - Display images and video from Instagram.
 * **Standalone Gallery** - Create independent galleries that are not tied to your posts or pages.
 * **Password Protection** - Prevent unauthorized access to your WordPress standalone galleries.
 * **Skin Presets** - Speed up the creation process by saving your default settings and presets.
@@ -83,7 +82,6 @@ Social media integrations, and WooCommerce store integration.
 
 * <a href="https://woowgallery.com/examples/simple-photo-gallery/" rel="friend">Simple Photo Gallery</a>
 * <a href="https://woowgallery.com/examples/woowgallery-albums/" rel="friend">Albums Gallery</a>
-* <a href="https://woowgallery.com/examples/instagram-dynamic-gallery/" rel="friend">Instagram Gallery</a>
 * <a href="https://woowgallery.com/examples/woocommerce-dynamic-gallery/" rel="friend">WooCommerce Gallery</a>
 
 **MultiGrid skin:**
@@ -92,6 +90,10 @@ Social media integrations, and WooCommerce store integration.
 * <a href="https://woowgallery.com/examples/urban-grid/" rel="friend">Grid Gallery</a>
 * <a href="https://woowgallery.com/examples/justified/" rel="friend">Justified Gallery</a>
 * <a href="https://woowgallery.com/examples/urban-masonry/" rel="friend">Masonry Gallery</a>
+
+= PS =
+
+Proud to be ukrainian. Live in Mykolaiv, Ukraine. #NoWar #fckptn
 
 == Installation ==
 
@@ -108,7 +110,6 @@ Social media integrations, and WooCommerce store integration.
 5. Gallery Settings - Custom CSS and Gallery Description.
 6. WooComerce Integration - Select custom post types for Featured Content Gallery.
 7. Dynamic WordPress Gallery - Build Screen.
-8. Instagram Gallery - Select Parameters.
 9. General Settings - Media Settings and Skins Presets.
 10. General Settings - Standalone Settings.
 11. Galleries List.
@@ -135,7 +136,6 @@ e-Commerce Gallery
 Digital Downloads Gallery
 Featured Posts Gallery
 Content Gallery
-Instagram Gallery
 Mixed Photo Gallery
 Custom Posts Gallery with filter
 Image Gallery with Tags
@@ -164,6 +164,10 @@ Watermarks
 Image Comments
 Image Likes
 More Galery Skins
+
+= 1.1.9 - 17.03 =
+* Fixed: PHP 8 compatibility
+* Removed: Instagram gallery (temporary)
 
 = 1.1.8 - 28.09 =
 * Fixed: Instagram gallery
@@ -254,7 +258,6 @@ e-Commerce Gallery - sell images, product gallery.
 Digital Downloads Gallery - sell photos, sell products in gallery.
 Featured Posts Gallery - WordPress Post gallery.
 Content Gallery - custom post type gallery.
-Instagram Gallery - instagram feed, gallery from tag, user gallery.
 Mixed Photo Gallery - mixed content gallery.
 Custom Posts Gallery with filter - tag filter posts gallery.
 Image Gallery with Tags - tag filter gallery.

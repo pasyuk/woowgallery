@@ -44,8 +44,8 @@ $wg_query_type    = ! empty( $gallery['data']['query_type'] ) ? $gallery['data']
 			<div class="wg-radio-group">
 				<input type="radio" id="wgd-query-type-wp" value="wp" v-model="query_type">
 				<label for="wgd-query-type-wp"><?php echo esc_html__( 'WordPress', 'woowgallery' ); ?></label>
-				<input type="radio" id="wgd-query-type-ig" value="instagram" v-model="query_type">
-				<label for="wgd-query-type-ig"><?php echo esc_html__( 'Instagram', 'woowgallery' ); ?></label>
+				<!--<input type="radio" id="wgd-query-type-ig" value="instagram" v-model="query_type">
+				<label for="wgd-query-type-ig"><?php //echo esc_html__( 'Instagram', 'woowgallery' ); ?></label>-->
 				<?php if ( $wg_plugin_source['flagallery'] || 'flagallery' === $wg_query_type ) { ?>
 					<input type="radio" id="wgd-query-type-flagallery" value="flagallery" v-model="query_type">
 					<label for="wgd-query-type-flagallery"><?php echo esc_html__( 'Flagallery', 'woowgallery' ); ?></label>
@@ -57,9 +57,9 @@ $wg_query_type    = ! empty( $gallery['data']['query_type'] ) ? $gallery['data']
 			<?php Admin::load_template( 'query-wp' ); ?>
 		</template>
 
-		<template v-else-if="'instagram' === query_type">
-			<?php Admin::load_template( 'query-instagram' ); ?>
-		</template>
+		<!--<template v-else-if="'instagram' === query_type">
+			<?php //Admin::load_template( 'query-instagram' ); ?>
+		</template>-->
 
 		<?php if ( $wg_plugin_source['flagallery'] || 'flagallery' === $wg_query_type ) { ?>
 			<template v-else-if="'flagallery' === query_type">

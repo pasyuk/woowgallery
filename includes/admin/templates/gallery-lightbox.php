@@ -10,6 +10,9 @@ use WoowGallery\Assets;
 use WoowGallery\Gallery;
 use WoowGallery\Lightbox;
 
+/**
+ * @var $data array
+ */
 $wg = Gallery::get_instance( $data['post']->ID, $data['post']->post_type );
 
 $lightbox_list = Assets::lightboxes();

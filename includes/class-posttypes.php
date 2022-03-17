@@ -353,7 +353,7 @@ class Posttypes {
 			}
 		}
 		$wg_menu_order['last'] = $wg_menu_last;
-		$wg_menu_order         = call_user_func_array( 'array_merge', $wg_menu_order );
+		$wg_menu_order         = call_user_func_array( 'array_merge', array_values( $wg_menu_order ) );
 
 		$submenu[ 'edit.php?post_type=' . self::GALLERY_POSTTYPE ] = apply_filters( 'woowgallery_submenu_order', $wg_menu_order );
 

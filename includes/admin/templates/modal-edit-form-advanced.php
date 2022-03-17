@@ -136,6 +136,9 @@ iframe_header( 'WoowGallery' );
 	<div class="wrap">
 		<h1 class="wp-heading-inline">
 			<?php
+			/**
+			 * @var $title string
+			 */
 			echo esc_html( $title );
 			?>
 		</h1>

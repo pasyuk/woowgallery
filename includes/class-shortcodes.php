@@ -339,7 +339,7 @@ class Shortcodes {
 
 		if ( ! empty( $skin->info['styles'] ) ) {
 			foreach ( (array) $skin->info['styles'] as $style ) {
-				$handle = $skin->info['slug'] . '-' . sanitize_key( basename( $style ) );
+				$handle = 'wgskin_' . $skin->info['slug'];
 				wp_register_style( $handle, $style, $deps, $skin->info['version'] );
 				wp_enqueue_style( $handle );
 			}
@@ -359,7 +359,7 @@ class Shortcodes {
 
 		if ( ! empty( $skin->info['scripts'] ) ) {
 			foreach ( (array) $skin->info['scripts'] as $script ) {
-				$handle = $skin->info['slug'] . '-' . sanitize_key( basename( $script ) );
+				$handle = 'wgskin_' . $skin->info['slug'];
 				wp_register_script( $handle, $script, $deps, $skin->info['version'], true );
 				wp_enqueue_script( $handle );
 				//if ( 'ajax' === $request_type ) {
