@@ -30,6 +30,9 @@ class Frontend {
 		add_filter( 'woowgallery_pre_data', [ $this, 'filter_woowgallery_data' ], 10, 2 );
 		add_filter( 'rest_woowgallery_full_post_content', [ $this, 'filter_woowgallery_content' ] );
 		add_filter( 'the_preview', [ $this, 'set_preview' ] );
+		if ( current_theme_supports( 'block-templates' ) ) {
+			add_filter( 'render_block_core/post-content', [ $this, 'standalone_maybe_insert_shortcode_block' ], 10, 2 );
+		}
 	}
 
 	/**
@@ -109,6 +112,36 @@ class Frontend {
 		}
 	}
 
+
+	/**
+	 * Maybe inserts the WoowGallery shortcode into the content for the page being viewed.
+	 *
+	 * @param string $block_content
+	 * @param array  $block
+	 *
+	 * @return string
+	 */
+	public function standalone_maybe_insert_shortcode_block( $block_content, $block ) {
+		// Check we are on a single Post.
+		if ( ! is_singular() || is_admin() ) {
+			return $block_content;
+		}
+
+		$post_type  = get_query_var( 'post_type' );
+		$post_types = apply_filters( 'woowgallery_posttypes', [ Posttypes::GALLERY_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE, Posttypes::ALBUM_POSTTYPE ] );
+		// Bail if we're on the WoowGallery Post Type screen.
+		if ( ! in_array( $post_type, $post_types, true ) ) {
+			return $block_content;
+		}
+
+		$standalone = Settings::get_settings( 'standalone_' . $post_type );
+		if ( ! empty( $standalone ) ) {
+			return $this->standalone_insert_shortcode( $block_content );
+		}
+
+		return $block_content;
+	}
+
 	/**
 	 * Inserts the WoowGallery shortcode into the content for the page being viewed.
 	 *
@@ -118,6 +151,10 @@ class Frontend {
 	 */
 	public function standalone_insert_shortcode( $content ) {
 		global $post;
+
+		if( post_password_required( $post ) ) {
+			return $content;
+		}
 
 		$gallery_html = woowgallery( $post->ID, $post->post_type, [], true );
 

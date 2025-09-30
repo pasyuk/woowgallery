@@ -337,7 +337,7 @@ if ( ! function_exists( 'woowgallery_full_attachment_data' ) ) {
 			if ( ! function_exists( 'wp_read_image_metadata' ) ) {
 				include_once ABSPATH . 'wp-admin/includes/image.php';
 			}
-			$attachment['meta'] = wp_read_image_metadata( $attached_file );
+			$attachment['meta'] = @wp_read_image_metadata( $attached_file );
 			unset( $attachment['meta']['title'], $attachment['meta']['caption'], $attachment['meta']['orientation'] );
 			$attachment['meta'] = array_filter(
 				$attachment['meta'],
@@ -470,24 +470,24 @@ if ( ! function_exists( 'woowgallery_full_instagram_data' ) ) {
 			],
 			'slug'       => $media['code'],
 			'date'       => mysql_to_rfc3339( date( 'Y-m-d H:i:s', $media['created_time'] ) ),
-			'src'        => add_query_arg( [ 'url' => rawurlencode( $media['video_url'] ) ], $proxy ) ?: add_query_arg( [ 'url' => rawurlencode( $media['images']['__original']['url'] ) ], $proxy ),
+			'src'        => ! empty( $media['video_url'] ) ? add_query_arg( [ 'url' => rawurlencode( (string) $media['video_url'] ) ], $proxy ) : add_query_arg( [ 'url' => rawurlencode( (string) $media['images']['__original']['url'] ) ], $proxy ),
 			'thumb'      => [
-				add_query_arg( [ 'url' => rawurlencode( $media['images']['low_resolution']['url'] ) ], $proxy ),
+				add_query_arg( [ 'url' => rawurlencode( (string) $media['images']['low_resolution']['url'] ) ], $proxy ),
 				$media['images']['low_resolution']['width'],
 				$media['images']['low_resolution']['height'],
 			],
 			'image'      => [
-				add_query_arg( [ 'url' => rawurlencode( $media['images']['standard_resolution']['url'] ) ], $proxy ),
+				add_query_arg( [ 'url' => rawurlencode( (string) $media['images']['standard_resolution']['url'] ) ], $proxy ),
 				$media['images']['standard_resolution']['width'],
 				$media['images']['standard_resolution']['height'],
 			],
 			'_thumbnail' => [
-				add_query_arg( [ 'url' => rawurlencode( $media['images']['thumbnail']['url'] ) ], $proxy ),
+				add_query_arg( [ 'url' => rawurlencode( (string) $media['images']['thumbnail']['url'] ) ], $proxy ),
 				$media['images']['thumbnail']['width'],
 				$media['images']['thumbnail']['height'],
 			],
 			'_original'  => [
-				add_query_arg( [ 'url' => rawurlencode( $media['images']['__original']['url'] ) ], $proxy ),
+				add_query_arg( [ 'url' => rawurlencode( (string) $media['images']['__original']['url'] ) ], $proxy ),
 				$media['images']['__original']['width'],
 				$media['images']['__original']['height'],
 			],
@@ -506,18 +506,18 @@ if ( ! function_exists( 'woowgallery_full_instagram_data' ) ) {
 				];
 				foreach ( $item['display_resources'] as $src ) {
 					$carousel_item['sources'][] = [
-						add_query_arg( [ 'url' => rawurlencode( $src['src'] ) ], $proxy ),
+						add_query_arg( [ 'url' => rawurlencode( (string) $src['src'] ) ], $proxy ),
 						$src['config_width'],
 						$src['config_height'],
 					];
 				}
 
 				if ( $item['is_video'] ) {
-					$carousel_item['src']              = add_query_arg( [ 'url' => rawurlencode( $item['video_url'] ) ], $proxy );
+					$carousel_item['src']              = add_query_arg( [ 'url' => rawurlencode( (string) $item['video_url'] ) ], $proxy );
 					$carousel_item['video_view_count'] = $item['video_view_count'];
 				} else {
 					$last_source          = end( $item['display_resources'] );
-					$carousel_item['src'] = add_query_arg( [ 'url' => rawurlencode( $last_source['src'] ) ], $proxy );
+					$carousel_item['src'] = add_query_arg( [ 'url' => rawurlencode( (string) $last_source['src'] ) ], $proxy );
 				}
 
 				$attachment['carousel'][] = $carousel_item;

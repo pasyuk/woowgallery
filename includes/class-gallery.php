@@ -351,8 +351,11 @@ class Gallery {
 
 		if ( current_user_can( 'edit_posts' ) ) {
 			foreach ( $content as $i => $item ) {
-				if ( ( 'post' === $item['type'] || 'attachment' === $item['type'] ) && current_user_can( 'edit_post', (int) $item['id'] ) ) {
-					$content[ $i ]['edit_link'] = get_edit_post_link( (int) $item['id'], 'raw' );
+				if ( ( 'post' === $item['type'] || 'attachment' === $item['type'] ) ) {
+                    $post_type = get_post_type( (int) $item['id'] );
+                    if ( post_type_exists( $post_type ) ) {
+                        $content[$i]['edit_link'] = get_edit_post_link((int) $item['id'], 'raw');
+                    }
 				}
 			}
 		}

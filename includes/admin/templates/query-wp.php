@@ -18,10 +18,10 @@ foreach ( $_post_types as $_pt ) {
 
 $_authors   = get_users(
 	[
-		'orderby' => 'display_name',
-		'order'   => 'ASC',
-		'fields'  => [ 'ID', 'display_name' ],
-		'who'     => 'authors',
+		'orderby'    => 'display_name',
+		'order'      => 'ASC',
+		'fields'     => [ 'ID', 'display_name' ],
+		'capability' => 'edit_posts',
 	]
 );
 $wg_authors = [];
