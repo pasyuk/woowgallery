@@ -6,6 +6,8 @@
  * @author  Sergey Pasyuk
  */
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 /**
  * Template vars
  *
@@ -179,7 +181,7 @@
 														<label :for="'new-tag-' + bulkEditTagsTaxonomy()">Add New Tag</label>
 														<div class="woowgallery-flex">
 															<input :data-wp-taxonomy="bulkEditTagsTaxonomy()" type="text" :id="'new-tag-' + bulkEditTagsTaxonomy()" class="newtag form-input-tip" autocomplete="off" value=""/>
-															<input type="button" class="button tagadd" value="<?php esc_attr_e( 'Add' ); ?>"/>
+															<input type="button" class="button tagadd" value="<?php esc_attr_e( 'Add', 'woowgallery' ); ?>"/>
 														</div>
 													</div>
 													<div class="description">

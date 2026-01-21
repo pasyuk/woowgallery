@@ -8,9 +8,9 @@
 
 namespace WoowGallery\Admin;
 
-use WoowGallery\Skins;
-
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
+use WoowGallery\Skins;
 
 /**
  * Class Elementor

@@ -8,10 +8,10 @@
 
 namespace WoowGallery;
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 use WoowGallery\Admin\Settings;
 use WP_Post;
-
-defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 /**
  * Class Frontend.

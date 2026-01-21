@@ -403,9 +403,9 @@ class Post {
 		// Do nothing with $data if it's not WoowGallery CPT.
 		if ( ! in_array( $data['post_type'], self::$wg_post_types, true ) ) {
 			$_post_type             = woowgallery_POST( 'post_type' );
-			$_post_content_filtered = isset( $_POST['post_content_filtered'] ) ? sanitize_post_field( 'post_content_filtered', $_POST['post_content_filtered'], $data['ID'], 'db' ) : '';
+			$_post_content_filtered = woowgallery_POST( 'post_content_filtered' );
 			if ( in_array( $_post_type, self::$wg_post_types, true ) && ! empty( $_post_content_filtered ) ) {
-				$data['post_content_filtered'] = $_post_content_filtered;
+				$data['post_content_filtered'] = sanitize_post_field( 'post_content_filtered', $_post_content_filtered, $data['ID'], 'db' );
 			}
 		}
 

@@ -6,6 +6,8 @@
  * @author  Sergey Pasyuk
  */
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 use WoowGallery\Admin\Admin;
 
 /**
@@ -50,6 +52,7 @@ if ( woow_fs()->can_use_premium_code__premium_only() ) {
 					<!-- Top Header -->
 					<div class="woowgallery-top-buttons">
 						<div class="woowgallery-skin-preset-selector">
+							<?php /* translators: %s: skin name */ ?>
 							<h2><?php printf( esc_html_x( '%s Settings', 'SKIN_NAME Settings', 'woowgallery' ), '{{ skin_info.name }}' ); ?></h2>
 
 							<div class="woowgallery-skin-preset">
@@ -76,7 +79,9 @@ if ( woow_fs()->can_use_premium_code__premium_only() ) {
 						<div id="activity" class="woowgallery-action-buttons" :class="{'activity': activity}">
 							<button type="button" class="button button-secondary reset-changes-action" @click.prevent="resetSkinSettingsChanges" :disabled="!isSettingsChanged"><?php esc_html_e( 'Reset Changes', 'woowgallery' ); ?></button>
 							<button type="button" class="button button-secondary reset-to-defaults-action" @click.prevent="resetSkinSettings" :disabled="isSettingsDefault"><?php esc_html_e( 'Reset to Defaults', 'woowgallery' ); ?></button>
+							<?php /* translators: %s: preset name */ ?>
 							<button type="button" class="button button-primary save-action" @click.prevent="saveSkinSettings" v-if="new_preset" :disabled="new_preset_name === ''"><?php printf( esc_html__( 'Save `%s` Preset', 'woowgallery' ), '{{ new_preset_name || \'???\' }}' ); ?></button>
+							<?php /* translators: %s: preset name */ ?>
 							<button type="button" class="button button-primary save-action" @click.prevent="saveSkinSettings" v-else><?php printf( esc_html__( 'Save `%s` Preset', 'woowgallery' ), '{{ preset }}' ); ?></button>
 						</div>
 					</div>

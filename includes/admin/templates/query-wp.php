@@ -6,6 +6,8 @@
  * @author  Sergey Pasyuk
  */
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 $_post_types   = woowgallery_get_post_types();
 $wg_post_types = [];
 foreach ( $_post_types as $_pt ) {

@@ -9,6 +9,7 @@
 namespace WoowGallery\Skins;
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 if ( ! class_exists( 'WoowGallery\Skins\Amron' ) ) {
 	return;
 }
@@ -17,6 +18,12 @@ if ( ! class_exists( 'WoowGallery\Skins\Amron' ) ) {
  * Class Amron
  */
 class Amron {
+
+	public $slug;
+	public $info;
+	public $model;
+	public $schema;
+	public $preset_name;
 
 	const NAME        = 'Amron';
 	const SLUG        = 'amron';

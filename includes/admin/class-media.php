@@ -8,10 +8,10 @@
 
 namespace WoowGallery\Admin;
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 use WoowGallery\Taxonomies;
 use WP_Post;
-
-defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 /**
  * Class Media
@@ -292,12 +292,7 @@ class Media {
 			$portion_to_add .= $iptc_data;
 		}
 
-		$output_file = fopen( $destination_image, 'w' );
-		if ( $output_file ) {
-			return fwrite( $output_file, $portion_to_add . $destination_image_contents );
-		}
-
-		return false;
+		return woowgallery_put_contents( $destination_image, $portion_to_add . $destination_image_contents );
 	}
 
 	/**
@@ -545,14 +540,14 @@ class Media {
 		}
 
 		foreach ( [ 'title', 'caption', 'credit', 'copyright', 'model', 'iso', 'software' ] as $key ) {
-			if ( ! empty( $meta[ $key ] ) && ! seems_utf8( $meta[ $key ] ) ) {
-				$meta[ $key ] = utf8_encode( $meta[ $key ] );
+			if ( ! empty( $meta[ $key ] ) && ! woowgallery_is_valid_utf8( $meta[ $key ] ) ) {
+				$meta[ $key ] = woowgallery_utf8_encode( $meta[ $key ] );
 			}
 		}
 		if ( ! empty( $meta['keywords'] ) ) {
 			foreach ( $meta['keywords'] as $i => $key ) {
-				if ( ! seems_utf8( $key ) ) {
-					$meta['keywords'][ $i ] = utf8_encode( $key );
+				if ( ! woowgallery_is_valid_utf8( $key ) ) {
+					$meta['keywords'][ $i ] = woowgallery_utf8_encode( $key );
 				}
 			}
 		}
@@ -573,4 +568,41 @@ class Media {
 		return apply_filters( 'woow_read_image_metadata', $meta, $file, $source_image_type );
 	}
 
+	/** Get [latitude, longtitude] coordinates from EXIF
+	 *
+	 * @param array $gps Exif[GPS] array.
+	 *
+	 * @return array
+	 */
+	public function getGPSfromExif($gps)
+	{
+		$lat = $this->getGPS($gps['GPSLatitude'], $gps['GPSLatitudeRef']);
+		$lng = $this->getGPS($gps['GPSLongitude'], $gps['GPSLongitudeRef']);
+
+		return array('lat' => round($lat, 4), 'lng' => round($lng, 4));
+	}
+
+	/**
+	 * @param array $coordinate
+	 * @param string $hemisphere
+	 *
+	 * @return int
+	 */
+	public function getGPS($coordinate, $hemisphere)
+	{
+		for ($i = 0; $i < 3; $i++) {
+			$part = explode('/', $coordinate[$i]);
+			if (count($part) === 1) {
+				$coordinate[$i] = $part[0];
+			} elseif (count($part) === 2) {
+				$coordinate[$i] = floatval($part[0]) / floatval($part[1]);
+			} else {
+				$coordinate[$i] = 0;
+			}
+		}
+		list($degrees, $minutes, $seconds) = $coordinate;
+		$sign = ('W' === $hemisphere || 'S' === $hemisphere) ? -1 : 1;
+
+		return $sign * ((int) $degrees + (int) $minutes / 60 + (int) $seconds / 3600);
+	}
 }

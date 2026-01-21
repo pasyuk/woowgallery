@@ -6,12 +6,14 @@
  * @author  Sergey Pasyuk
  */
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 use WoowGallery\Assets;
 use WoowGallery\Gallery;
 use WoowGallery\Lightbox;
 
 /**
- * @var $data array
+ * @var array $data
  */
 $wg = Gallery::get_instance( $data['post']->ID, $data['post']->post_type );
 

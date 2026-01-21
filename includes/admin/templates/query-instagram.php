@@ -6,6 +6,8 @@
  * @author  Sergey Pasyuk
  */
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 ?>
 <div class="woowgallery-query-builder instagram-query-builder">
 	<div class="form-group field-multiselect">

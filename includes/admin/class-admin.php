@@ -8,9 +8,9 @@
 
 namespace WoowGallery\Admin;
 
-use WoowGallery\Posttypes;
-
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
+use WoowGallery\Posttypes;
 
 /**
  * Class Admin

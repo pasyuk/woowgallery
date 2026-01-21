@@ -8,13 +8,13 @@
 
 namespace WoowGallery\Admin;
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 use Walker;
 use Walker_CategoryDropdown;
 use WoowGallery\Taxonomies;
 use WP_Query;
 use WP_Tax_Query;
-
-defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 /**
  * Class Media_Library
@@ -184,10 +184,10 @@ class Media_Library {
 						];
 					} elseif ( 'not_in' === $query->query[ $taxname ] || 'in' === $query->query[ $taxname ] ) {
 						$terms = get_terms(
-							$taxname,
 							[
-								'fields' => 'ids',
-								'get'    => 'all',
+								'taxonomy' => $taxname,
+								'fields'  => 'ids',
+								'get'     => 'all',
 							]
 						);
 
@@ -239,7 +239,7 @@ class Media_Library {
 		$media_taxonomies_ready_for_script = [];
 		foreach ( $this->taxonomies as $taxname ) {
 			$taxonomy       = get_taxonomy( $taxname );
-			$_terms         = (array) get_terms( $taxonomy->name, [ 'get' => 'all' ] );
+			$_terms         = (array) get_terms( [ 'taxonomy' => $taxonomy->name, 'get' => 'all' ] );
 			$walker         = new Walker_WG_Taxonomy_Uploader_Filter();
 			$taxonomy_terms = call_user_func_array( [ $walker, 'walk' ], [ $_terms, 0 ] );
 

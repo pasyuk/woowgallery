@@ -6,7 +6,7 @@
  * @extends WP_Async_Request
  */
 
-defined( 'ABSPATH' ) || exit;
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 /**
  * Abstract WP_Background_Process class.

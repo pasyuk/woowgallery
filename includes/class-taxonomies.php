@@ -8,9 +8,9 @@
 
 namespace WoowGallery;
 
-use WoowGallery\Admin\Settings;
-
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
+use WoowGallery\Admin\Settings;
 
 /**
  * Class Taxonomies

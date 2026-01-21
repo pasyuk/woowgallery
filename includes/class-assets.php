@@ -64,7 +64,7 @@ class Assets {
 
 		$i_date = get_option( 'woowgallery_install_date' );
 		if ( $i_date ) {
-			$script_localize['i'] .= date( 'ymd', $i_date );
+			$script_localize['i'] .= gmdate( 'ymd', $i_date );
 		}
 		$script_localize['i'] .= 'v' . WOOWGALLERY_VERSION;
 		if ( woow_fs()->is__premium_only() ) {

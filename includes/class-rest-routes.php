@@ -136,7 +136,7 @@ class Rest_Routes {
 				},
 				'update_callback' => null,
 				'schema'          => [
-					'description' => __( 'WoowGallery Gallery data.' ),
+					'description' => __( 'WoowGallery Gallery data.', 'woowgallery' ),
 					'type'        => 'array',
 				],
 			]
@@ -177,7 +177,7 @@ class Rest_Routes {
 				},
 				'update_callback' => null,
 				'schema'          => [
-					'description' => __( 'WoowGallery Gallery content.' ),
+					'description' => __( 'WoowGallery Gallery content.', 'woowgallery' ),
 					'type'        => 'array',
 				],
 			]
@@ -201,7 +201,7 @@ class Rest_Routes {
 				},
 				'update_callback' => null,
 				'schema'          => [
-					'description' => __( 'WoowGallery Gallery shortcode HTML.' ),
+					'description' => __( 'WoowGallery Gallery shortcode HTML.', 'woowgallery' ),
 					'type'        => 'array',
 				],
 			]

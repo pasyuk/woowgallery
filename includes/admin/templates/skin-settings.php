@@ -5,6 +5,9 @@
  * @package woowgallery
  * @author  Sergey Pasyuk
  */
+
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 ?>
 	<div id="woowgallery-skin-settings" class="woowgallery-skin-settings">
 		<div class="woowgallery-no-skin" v-if="!skin" v-cloak>

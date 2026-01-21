@@ -242,7 +242,7 @@ class Settings {
 			delete_option( Lightbox::OPTIONS_KEY );
 
 			// Delete gallery taxonomies that must not exist.
-			$terms = (array) get_terms( Taxonomies::GALLERY_TAXONOMY_NAME, [ 'get' => 'all' ] );
+			$terms = (array) get_terms( [ 'taxonomy' => Taxonomies::GALLERY_TAXONOMY_NAME, 'get' => 'all' ] );
 			foreach ( $terms as $term ) {
 				$gallery_id   = get_term_meta( $term->term_id, '_woowgallery_id', true );
 				$gallery_post = get_post( $gallery_id );

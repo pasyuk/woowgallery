@@ -7,8 +7,8 @@
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
-date_default_timezone_set( 'UTC' );
-$current_date = date( 'H:i:s - d/m/Y' );
+// Use WordPress timezone instead of setting timezone directly
+$current_date = gmdate( 'H:i:s - d/m/Y' );
 $mimetypes    = [ 'image/png', 'image/jpg', 'image/jpeg', 'image/gif', 'video/mp4' ];
 
 $request = wp_remote_get( $url );
@@ -27,7 +27,8 @@ foreach ( $mimetypes as $mimetype ) {
 		header( "Cache-Control: public, max-age=$expires_offset" );
 		if ( isset( $url ) ) {
 			$response = wp_remote_retrieve_body( $request );
-			echo $response;
+			// Output the response directly as it's binary/image data
+			echo $response; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			die();
 		}
 	}

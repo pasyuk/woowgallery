@@ -6,6 +6,8 @@
  * @author  Sergey Pasyuk
  */
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 use WoowGallery\Admin\Settings;
 use WoowGallery\Assets;
 use WoowGallery\Lightbox;
@@ -465,7 +467,7 @@ $skins    = $data['skins'];
 		<div class="settings-actions inside">
 
 			<div class="alignright">
-				<button type="submit" name="woowgallery-settings-reset" class="button button-secondary" data-confirm="<?php esc_attr_e( 'This will reset plugin\'s settings and delete all skins presets.' ); ?>"><?php esc_html_e( 'Reset Plugin', 'woowgallery' ); ?></button>
+				<button type="submit" name="woowgallery-settings-reset" class="button button-secondary" data-confirm="<?php esc_attr_e( 'This will reset plugin\'s settings and delete all skins presets.', 'woowgallery' ); ?>"><?php esc_html_e( 'Reset Plugin', 'woowgallery' ); ?></button>
 				&nbsp;
 				<button type="submit" name="woowgallery-settings-submit" class="button button-primary"><?php esc_html_e( 'Save', 'woowgallery' ); ?></button>
 			</div>

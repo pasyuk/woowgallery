@@ -7,10 +7,7 @@
  * @package    woowgallery
  */
 
-// Don't load directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	die( '-1' );
-}
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 /**
  * @global string       $post_type
@@ -66,21 +63,22 @@ $messages = [];
 
 $scheduled_date   = sprintf(
 /* translators: Publish box date string. 1: Date, 2: Time. */
-	__( '%1$s at %2$s' ),
+	__( '%1$s at %2$s', 'woowgallery' ),
 	/* translators: Publish box date format, see https://www.php.net/date */
-	date_i18n( _x( 'M j, Y', 'publish box date format' ), strtotime( $post->post_date ) ),
+	date_i18n( _x( 'M j, Y', 'publish box date format', 'woowgallery' ), strtotime( $post->post_date ) ),
 	/* translators: Publish box time format, see https://www.php.net/date */
-	date_i18n( _x( 'H:i', 'publish box time format' ), strtotime( $post->post_date ) )
+	date_i18n( _x( 'H:i', 'publish box time format', 'woowgallery' ), strtotime( $post->post_date ) )
 );
 $messages['post'] = [
 	0  => '', // Unused. Messages start at index 1.
-	1  => __( 'Post updated.' ),
-	4  => __( 'Post updated.' ),
-	6  => __( 'Post published.' ),
-	7  => __( 'Post saved.' ),
-	8  => __( 'Post submitted.' ),
-	9  => sprintf( __( 'Post scheduled for: %s.' ), '<strong>' . $scheduled_date . '</strong>' ),
-	10 => __( 'Post draft updated.' ),
+	1  => __( 'Post updated.', 'woowgallery' ),
+	4  => __( 'Post updated.', 'woowgallery' ),
+	6  => __( 'Post published.', 'woowgallery' ),
+	7  => __( 'Post saved.', 'woowgallery' ),
+	8  => __( 'Post submitted.', 'woowgallery' ),
+	/* translators: %s: scheduled date */
+	9  => sprintf( __( 'Post scheduled for: %s.', 'woowgallery' ), '<strong>' . $scheduled_date . '</strong>' ),
+	10 => __( 'Post draft updated.', 'woowgallery' ),
 ];
 
 /**
@@ -90,13 +88,13 @@ $messages['post'] = [
  */
 $messages = apply_filters( 'post_updated_messages', $messages );
 
-$message = false;
-if ( isset( $_GET['message'] ) ) {
-	$_GET['message'] = absint( $_GET['message'] );
-	if ( isset( $messages[ $post_type ][ $_GET['message'] ] ) ) {
-		$message = $messages[ $post_type ][ $_GET['message'] ];
-	} elseif ( ! isset( $messages[ $post_type ] ) && isset( $messages['post'][ $_GET['message'] ] ) ) {
-		$message = $messages['post'][ $_GET['message'] ];
+$message     = false;
+$message_idx = absint( woowgallery_GET( 'message', 0 ) );
+if ( $message_idx ) {
+	if ( isset( $messages[ $post_type ][ $message_idx ] ) ) {
+		$message = $messages[ $post_type ][ $message_idx ];
+	} elseif ( ! isset( $messages[ $post_type ] ) && isset( $messages['post'][ $message_idx ] ) ) {
+		$message = $messages['post'][ $message_idx ];
 	}
 }
 
@@ -122,6 +120,9 @@ if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql
 }
 
 $post_type_object = get_post_type_object( $post_type );
+if ( ! $post_type_object ) {
+	return;
+}
 
 // All meta boxes should be defined and added before the first do_meta_boxes() call (or potentially during the do_meta_boxes action).
 require_once ABSPATH . 'wp-admin/includes/meta-boxes.php';
@@ -146,11 +147,11 @@ iframe_header( 'WoowGallery' );
 		<hr class="wp-header-end">
 
 		<?php if ( $message ) : ?>
-			<div id="message" class="updated notice notice-success is-dismissible"><p><?php echo $message; ?></p></div>
+			<div id="message" class="updated notice notice-success is-dismissible"><p><?php echo wp_kses_post( $message ); ?></p></div>
 		<?php endif; ?>
 		<div id="lost-connection-notice" class="error hidden">
-			<p><span class="spinner"></span> <?php _e( '<strong>Connection lost.</strong> Saving has been disabled until you&#8217;re reconnected.' ); ?>
-				<span class="hide-if-no-sessionstorage"><?php _e( 'We&#8217;re backing up this post in your browser, just in case.' ); ?></span>
+			<p><span class="spinner"></span> <?php esc_html_e( '<strong>Connection lost.</strong> Saving has been disabled until you&#8217;re reconnected.', 'woowgallery' ); ?>
+				<span class="hide-if-no-sessionstorage"><?php esc_html_e( 'We&#8217;re backing up this post in your browser, just in case.', 'woowgallery' ); ?></span>
 			</p>
 		</div>
 		<form name="post" action="post.php" method="post" id="post"
@@ -182,7 +183,7 @@ iframe_header( 'WoowGallery' );
 				wp_original_referer_field( true, 'previous' );
 			}
 
-			echo $form_extra;
+			echo $form_extra; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped 
 
 			wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 			wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
@@ -213,9 +214,9 @@ iframe_header( 'WoowGallery' );
 									 * @param string  $text Placeholder text. Default 'Add title'.
 									 * @param WP_Post $post Post object.
 									 */
-									$title_placeholder = apply_filters( 'enter_title_here', __( 'Add title' ), $post );
+									$title_placeholder = apply_filters( 'enter_title_here', __( 'Add title', 'woowgallery' ), $post );
 									?>
-									<label class="screen-reader-text" id="title-prompt-text" for="title"><?php echo $title_placeholder; ?></label>
+									<label class="screen-reader-text" id="title-prompt-text" for="title"><?php echo esc_html( $title_placeholder ); ?></label>
 									<input type="text" name="post_title" size="30" value="<?php echo esc_attr( $post->post_title ); ?>" id="title" spellcheck="true" autocomplete="off"/>
 								</div>
 								<?php

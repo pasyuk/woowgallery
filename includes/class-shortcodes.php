@@ -8,9 +8,9 @@
 
 namespace WoowGallery;
 
-use WoowGallery\Admin\Settings;
-
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
+use WoowGallery\Admin\Settings;
 
 /**
  * Class Shortcodes
@@ -486,7 +486,7 @@ class Shortcodes {
 		$description = convert_smilies( $description );
 		$description = wpautop( $description );
 		$description = prepend_attachment( $description );
-		$description = wp_make_content_images_responsive( $description );
+		$description = woowgallery_filter_content_tags( $description );
 
 		// Filter the gallery description.
 		$description = apply_filters( 'woowgallery_description', $description, $gallery );

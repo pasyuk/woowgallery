@@ -6,6 +6,8 @@
  * @author  Sergey Pasyuk
  */
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 $wg_orderby = [
 	[
 		'label' => __( 'sorted by default', 'woowgallery' ),

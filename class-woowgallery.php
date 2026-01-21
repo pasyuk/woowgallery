@@ -8,12 +8,12 @@
 
 namespace WoowGallery;
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 use WoowGallery\Admin\Admin;
 use WoowGallery\Admin\Elementor;
 use WoowGallery\Admin\Gutenberg;
 use WoowGallery\Woocommerce\Woocommerce;
-
-defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 /**
  * Class WoowGallery
@@ -29,6 +29,7 @@ class WoowGallery {
 		require_once WOOWGALLERY_PATH . '/includes/class-autoload.php';
 		Autoload::add_namespace( 'WoowGallery', WOOWGALLERY_PATH . '/includes' );
 
+		require_once WOOWGALLERY_PATH . '/functions/compat.php';
 		require_once WOOWGALLERY_PATH . '/functions/utils.php';
 		require_once WOOWGALLERY_PATH . '/functions/setup.php';
 		require_once WOOWGALLERY_PATH . '/functions/helpers.php';

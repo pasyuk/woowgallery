@@ -6,6 +6,8 @@
  * @author  Sergey Pasyuk
  */
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 if ( ! function_exists( 'woowgallery_is_mobile' ) ) {
 
 	/**
@@ -92,7 +94,14 @@ if ( ! function_exists( 'woowgallery_GET' ) ) {
 	 * @return mixed
 	 */
 	function woowgallery_GET( $key, $default = false, $empty_is_false = false ) {
-		return isset( $_GET[ $key ] ) ? ( ( $empty_is_false && woowgallery_empty( $_GET[ $key ] ) ) ? false : stripslashes_from_strings_only( $_GET[ $key ] ) ) : $default;
+		if ( ! isset( $_GET[ $key ] ) ) {
+			return $default;
+		}
+		$value = wp_unslash( $_GET[ $key ] );
+		if ( $empty_is_false && woowgallery_empty( $value ) ) {
+			return false;
+		}
+		return $value;
 	}
 }
 
@@ -121,7 +130,10 @@ if ( ! function_exists( 'woowgallery_POST' ) ) {
 	 * @return mixed
 	 */
 	function woowgallery_POST( $key, $default = false ) {
-		return isset( $_POST[ $key ] ) ? stripslashes_from_strings_only( $_POST[ $key ] ) : $default;
+		if ( ! isset( $_POST[ $key ] ) ) {
+			return $default;
+		}
+		return wp_unslash( $_POST[ $key ] );
 	}
 }
 

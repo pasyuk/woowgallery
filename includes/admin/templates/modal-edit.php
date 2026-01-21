@@ -7,14 +7,19 @@
  * @package    woowgallery
  */
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 wp_reset_vars( [ 'action' ] );
 
-if ( isset( $_GET['post'] ) && isset( $_POST['post_ID'] ) && (int) $_GET['post'] !== (int) $_POST['post_ID'] ) {
-	wp_die( __( 'A post ID mismatch has been detected.' ), __( 'Sorry, you are not allowed to edit this item.' ), 400 );
-} elseif ( isset( $_GET['post'] ) ) {
-	$post_id = $post_ID = (int) $_GET['post'];
-} elseif ( isset( $_POST['post_ID'] ) ) {
-	$post_id = $post_ID = (int) $_POST['post_ID'];
+$_get_post       = woowgallery_GET( 'post' );
+$_post_post_ID   = woowgallery_POST( 'post_ID' );
+$_post_post_type = woowgallery_POST( 'post_type' );
+if ( ! empty( $_get_post ) && ! empty( $_post_post_ID ) && (int) $_get_post !== (int) $_post_post_ID ) {
+	wp_die( esc_html__( 'A post ID mismatch has been detected.', 'woowgallery' ), esc_html__( 'Sorry, you are not allowed to edit this item.', 'woowgallery' ), 400 );
+} elseif ( ! empty( $_get_post ) ) {
+	$post_id = $post_ID = (int) $_get_post;
+} elseif ( ! empty( $_post_post_ID ) ) {
+	$post_id = $post_ID = (int) $_post_post_ID;
 } else {
 	$post_id = $post_ID = 0;
 }
@@ -36,8 +41,8 @@ if ( $post ) {
 	$post_type_object = get_post_type_object( $post_type );
 }
 
-if ( isset( $_POST['post_type'] ) && $post && $post_type !== $_POST['post_type'] ) {
-	wp_die( __( 'A post type mismatch has been detected.' ), __( 'Sorry, you are not allowed to edit this item.' ), 400 );
+if ( ! empty( $_post_post_type ) && $post && $post_type !== $_post_post_type ) {
+	wp_die( esc_html__( 'A post type mismatch has been detected.', 'woowgallery' ), esc_html__( 'Sorry, you are not allowed to edit this item.', 'woowgallery' ), 400 );
 }
 
 switch ( $action ) {
@@ -45,30 +50,30 @@ switch ( $action ) {
 		$editing = true;
 
 		if ( empty( $post_id ) || ! $post ) {
-			wp_die( __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' ) );
+			wp_die( esc_html__( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?', 'woowgallery' ) );
 			exit();
 		}
 
 		if ( ! $post_type_object ) {
-			wp_die( __( 'Invalid post type.' ) );
+			wp_die( esc_html__( 'Invalid post type.', 'woowgallery' ) );
 		}
 
 		if ( ! in_array( $typenow, get_post_types( [ 'show_ui' => true ] ) ) ) {
-			wp_die( __( 'Sorry, you are not allowed to edit posts in this post type.' ) );
+			wp_die( esc_html__( 'Sorry, you are not allowed to edit posts in this post type.', 'woowgallery' ) );
 		}
 
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			wp_die( __( 'Sorry, you are not allowed to edit this item.' ) );
+			wp_die( esc_html__( 'Sorry, you are not allowed to edit this item.', 'woowgallery' ) );
 		}
 
 		if ( 'trash' == $post->post_status ) {
-			wp_die( __( 'You can&#8217;t edit this item because it is in the Trash. Please restore it and try again.' ) );
+			wp_die( esc_html__( 'You can&#8217;t edit this item because it is in the Trash. Please restore it and try again.', 'woowgallery' ) );
 		}
 
 		if ( ! empty( $_GET['get-post-lock'] ) ) {
 			check_admin_referer( 'lock-post_' . $post_id );
 			wp_set_post_lock( $post_id );
-			wp_redirect( get_edit_post_link( $post_id, 'url' ) );
+			wp_safe_redirect( get_edit_post_link( $post_id, 'url' ) );
 			exit();
 		}
 
@@ -103,7 +108,7 @@ switch ( $action ) {
 		exit();
 
 	default:
-		wp_die( __( 'Action does not exist.', 'woowgallery' ) );
+		wp_die( esc_html__( 'Action does not exist.', 'woowgallery' ) );
 		exit();
 } // End switch.
 

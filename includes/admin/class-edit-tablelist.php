@@ -8,10 +8,10 @@
 
 namespace WoowGallery\Admin;
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 use WoowGallery\Gallery;
 use WoowGallery\Posttypes;
-
-defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 /**
  * Class Edit_Tablelist
@@ -184,7 +184,7 @@ abstract class Edit_Tablelist {
 					$t_time = __( 'Unpublished', 'woowgallery' );
 					$h_time = $t_time;
 				} else {
-					$t_time = get_the_modified_time( __( 'Y/m/d g:i:s a' ) );
+					$t_time = get_the_modified_time( __( 'Y/m/d g:i:s a', 'woowgallery' ) );
 					$m_time = $post->post_modified;
 					$time   = get_post_modified_time( 'G', true, $post );
 
@@ -194,7 +194,7 @@ abstract class Edit_Tablelist {
 						// translators: time ago.
 						$h_time = sprintf( __( '%s ago', 'woowgallery' ), human_time_diff( $time ) );
 					} else {
-						$h_time = mysql2date( __( 'Y/m/d' ), $m_time );
+						$h_time = mysql2date( __( 'Y/m/d', 'woowgallery' ), $m_time );
 					}
 				}
 				echo '<abbr title="' . esc_attr( $t_time ) . '">' . esc_html( apply_filters( 'post_date_column_time', $h_time, $post, 'date', $mode ) ) . '</abbr>';

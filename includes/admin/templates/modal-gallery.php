@@ -6,6 +6,8 @@
  * @author  Sergey Pasyuk
  */
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 use WoowGallery\Posttypes;
 
 /**
@@ -71,7 +73,7 @@ $hide_menu = ( Posttypes::ALBUM_POSTTYPE === $post->post_type ) ? 'hide-menu' : 
 												<div class="woowgallery-page-of woowgallery-btn-group">
 													<span class="woowgallery-btn-addon"><?php esc_html_e( 'Page', 'woowgallery' ); ?></span>
 													<input class="woowgallery-pager-current-page" type="number" v-model="page" min="1" :max="pages" step="1">
-													<span class="woowgallery-btn-addon"><?php echo esc_html_x( 'of', 'paging: (Page 1 of 100)' ); ?> {{ pages }}</span>
+													<span class="woowgallery-btn-addon"><?php echo esc_html_x( 'of', 'paging: (Page 1 of 100)', 'woowgallery' ); ?> {{ pages }}</span>
 												</div>
 												<div class="woowgallery-btn-group">
 													<a class="woowgallery-btn" :class="{disabled: (page > (pages - 1))}" @click.prevent="page++" href="#"><span class="step-forward">›</span></a>
@@ -121,10 +123,10 @@ $hide_menu = ( Posttypes::ALBUM_POSTTYPE === $post->post_type ) ? 'hide-menu' : 
 											</li>
 										</ul>
 										<div class="no-entries-found" :class="{'still-loading': loading}" v-else-if="get_post_type">
-											<h3><?php esc_html_e( 'There is nothing to show :(', 'gmtd' ); ?></h3>
+											<h3><?php esc_html_e( 'There is nothing to show :(', 'woowgallery' ); ?></h3>
 										</div>
 										<div class="no-entries-found" v-else>
-											<h3><?php esc_html_e( 'Select Post Type in the menu.', 'gmtd' ); ?></h3>
+											<h3><?php esc_html_e( 'Select Post Type in the menu.', 'woowgallery' ); ?></h3>
 										</div>
 									</div>
 								</div>

@@ -8,10 +8,10 @@
 
 namespace WoowGallery\Admin;
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 use WoowGallery\Gallery;
 use WoowGallery\Posttypes;
-
-defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 /**
  * Class Edit_Galleries

@@ -5,6 +5,8 @@
  * @package woowgallery
  */
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 use WoowGallery\Admin\Settings;
 use WoowGallery\Gallery;
 use WoowGallery\Posttypes;
@@ -469,7 +471,7 @@ if ( ! function_exists( 'woowgallery_full_instagram_data' ) ) {
 				'avatar'   => ! empty( $media['user']['profile_picture'] ) ? $media['user']['profile_picture'] : '',
 			],
 			'slug'       => $media['code'],
-			'date'       => mysql_to_rfc3339( date( 'Y-m-d H:i:s', $media['created_time'] ) ),
+			'date'       => mysql_to_rfc3339( gmdate( 'Y-m-d H:i:s', $media['created_time'] ) ),
 			'src'        => ! empty( $media['video_url'] ) ? add_query_arg( [ 'url' => rawurlencode( (string) $media['video_url'] ) ], $proxy ) : add_query_arg( [ 'url' => rawurlencode( (string) $media['images']['__original']['url'] ) ], $proxy ),
 			'thumb'      => [
 				add_query_arg( [ 'url' => rawurlencode( (string) $media['images']['low_resolution']['url'] ) ], $proxy ),
@@ -539,7 +541,7 @@ if ( ! function_exists( 'woowgallery_full_flagallery_data' ) ) {
 	/**
 	 * Get Full Flagallery Data Model
 	 *
-	 * @param array $media Flagallery media object.
+	 * @param object $media Flagallery media object.
 	 *
 	 * @return array|void Array of attachment details.
 	 */

@@ -1,10 +1,10 @@
-=== WoowGallery - image gallery / content gallery / ecommerce gallery / social gallery / video gallery / album photo gallery ===
-Contributors:
-Tags: best gallery plugin, elementor, gallery, image gallery, photo gallery
-Requires at least: 5.3.0
-Tested up to: 6.7
+=== WoowGallery ===
+Contributors: pasyuk
+Tags: gallery, elementor, images, photos, album
+Requires at least: 5.4.0
+Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: /trunk
+Stable tag: 1.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,102 +17,98 @@ Fastest, easiest to use multifunctional image gallery plugin. Create Featured Po
 It's not necessary to hire a developer to create a WordPress gallery. All you need is <a href="https://woowgallery.com/" rel="friend">WoowGallery</a>, a drag & drop **photo gallery plugin** that's EASY, FAST and POWERFUL.
 
 WoowGallery is highly optimized for web and server performance because we understand the importance of speed when it comes to image and gallery load times, as well as SEO and conversion.<br />
-With WoowGallery you can show the blog posts on your website and displays them in a masonry layout with tags filter. You can customize the way your posts look and manage settings like the featured image, the content you want to display, etc.<br />
+With WoowGallery you can show the blog posts on your website and display them in a masonry layout with tags filter. You can customize the way your posts look and manage settings like the featured image, the content you want to display, etc.<br />
 WooCommerce Products in a masonry layout looks fantastic. You can show any post type in a gallery with a link to their pages.
 
-> <strong>Free WoowGallery includes everything you need and expect from the gallery:</strong><br />
-> albums, tags, social media integration, gallery templates / gallery layouts, lazy load, content galleries with your posts, dynamic galleries, and tons more.
+> <strong>Free version includes everything you need and expect from the gallery:</strong><br />
+> albums, tags, social media integration, various templates and layouts, lazy load, content galleries with your posts, dynamic galleries, and tons more.
 
-And with WoowGallery gallery widget you can put your best gallery anywhere on the page. Easily add gallery to your page via Elementor Editor, Classic Editor, Gutenberg or any other editor which support widgets or shortcodes.
+And with our widget you can put your best work anywhere on the page. Easily add it to your page via Elementor Editor, Classic Editor, Gutenberg or any other editor which support widgets or shortcodes.
 
-= Drag & Drop Gallery Builder =
+= Drag & Drop Builder =
 
-WoowGallery adapt to your workflow and allow you to create in minutes. By using our easy to use drag and drop builder, you can upload your photos, rearrange them, and create an image gallery with just a few clicks.
+WoowGallery adapts to your workflow and allows you to create in minutes. By using our easy to use drag and drop builder, you can upload your photos, rearrange them, and create an impressive gallery with just a few clicks.
 
-You can also create/edit galleries right from the WordPress Gutenberg block editor.<br />
-If you've struggled with WordPress gallery plugins that take video tutorials to learn, you're going to love WoowGallery.<br>
+You can also create and edit right from the WordPress Gutenberg block editor.<br />
+If you've struggled with complex plugins that take video tutorials to learn, you're going to love WoowGallery.<br>
 
 > <strong>With WoowGallery Premium you can</strong><br />
-> create WooCommerce galleries, create Standalone galleries, add Standalone galleries inside Dynamic gallery, create presets for gallery skins, etc.
+> create WooCommerce integrations, create Standalone gallery pages, add Standalone views inside Dynamic galleries, create presets for skins, etc.
 
 = Mobile Ready, SEO Friendly and Optimized for Speed =
 
-WoowGallery is 100% responsive and mobile-friendly by default. We optimized every query on the front-end and the back-end to ensure maximum speed.
+Our solution is 100% responsive and mobile-friendly by default. We optimized every query on the front-end and the back-end to ensure maximum speed.
 
 = Sharing and Selling Photos Made EASY =
 
 Social media integrations, and WooCommerce store integration.
 
-= Built in WoowGallery Feature List =
+= Built-in Feature List =
 
-* **Guttenberg Blocks** for WordPress 5.0
+* **Gutenberg Blocks** for WordPress 5.0+
 * **Drag & Drop** Photo Gallery Builder
 * **100% Responsive** - Mobile Friendly
-* Beautiful **Gallery Skins** for Customization
-* **Albums Gallery** - Easily organize your photo galleries, choose cover photos, and more.
-* **Featured Content Gallery** - Easily create galleries based on posts, pages, products, testimonials, portfolios, and other custom post types.
-* **Dynamic Gallery** - Easily create dynamic content galleries from various different sources (WordPress, Flagallery...). Show specific media category or folder in the gallery from other plugins like: "Media Library Assistant", "FileBird", "Real Media Library", etc..
-* **Video Gallery** - Not just for photos! You can add local videos in your video gallery and link your photos with video from YouTube and Vimeo.
-* **Slideshow** - Add beautiful slideshow with autoplay, manual controls, and more.
-* **WooCommerce Product Gallery** - Replace default WooCommerce Product gallery template with WoowGallery skin.
-* **Image Tags** - Organize your WordPress photos with tags for easy search and display that also filtrable.
+* Beautiful **Skins** for Customization
+* **Albums** - Easily organize your collections, choose cover photos, and more.
+* **Featured Content Gallery** - Easily create displays based on posts, pages, products, testimonials, portfolios, and other custom post types.
+* **Dynamic Gallery** - Create content from various different sources (WordPress, Flagallery...). Show specific media category or folder from other plugins like: "Media Library Assistant", "FileBird", "Real Media Library", etc.
+* **Video Support** - Not just for photos! You can add local videos and link your photos with video from YouTube and Vimeo.
+* **Slideshow** - Add beautiful slideshows with autoplay, manual controls, and more.
+* **WooCommerce Product Integration** - Replace default WooCommerce product display template with our skin.
+* **Image Tags** - Organize your WordPress photos with tags for easy search and display that are also filterable.
 * **Social Sharing** - Share your photos on Facebook, Twitter and Pinterest.
-* **Image Protection** - Protect your images from theft by disabling right mouse click on images.
-* **Lazy Load** - Load of your large galleries with lazy loading to improve page speed and user experience.
-* **Deeplinking** - Make your gallery and images SEO friendly and easily link to individual images with deeplinking.
+* **Image Protection** - Protect your images from theft by disabling right mouse click.
+* **Lazy Load** - Load large collections with lazy loading to improve page speed and user experience.
+* **Deeplinking** - Make your content SEO friendly and easily link to individual items.
 * **FullScreen Display** - Take advantage of the native fullscreen and Lightbox display.
-* **Photo Zoom** - Zoom images in your gallery for up close browsing.
+* **Photo Zoom** - Zoom images for up close browsing.
 * **EXIF Meta Data** - Display your EXIF data including camera model, aperture, shutter speed, and more.
-* **Downloads** - Ability to download your images and galleries with an easy to use download button.
+* **Downloads** - Ability to download your images and collections with an easy to use download button.
 
-= Premium WoowGallery Feature List =
+= Premium Feature List =
 
 * **WooCommerce Integration** - Instantly display and sell your photos with the most popular eCommerce software on the web.
-* **Standalone Gallery** - Create independent galleries that are not tied to your posts or pages.
-* **Password Protection** - Prevent unauthorized access to your WordPress standalone galleries.
-* **Skin Presets** - Speed up the creation process by saving your default settings and presets.
+* **Standalone Gallery** - Create independent galleries that are not tied to your posts.
+* **Password Protection** - Prevent unauthorized access to your standalone galleries.
+* **Skin Presets** - Speed up the creation process by saving your default settings.
 * **Custom CSS Styles** - Customize your portfolio by adding custom CSS and styles.
 * Want us to add something else? **Suggest a feature** and we'll get it added!
 
-> When it comes to WordPress gallery plugins, nevermind free or premium, <strong>WoowGallery has no equal</strong>.
+> When it comes to WordPress media plugins, <strong>WoowGallery has no equal</strong>.
 
 = Demos =
 
 **Amron skin:**
 
 * <a href="https://woowgallery.com/examples/simple-photo-gallery/" rel="friend">Simple Photo Gallery</a>
-* <a href="https://woowgallery.com/examples/woowgallery-albums/" rel="friend">Albums Gallery</a>
-* <a href="https://woowgallery.com/examples/woocommerce-dynamic-gallery/" rel="friend">WooCommerce Gallery</a>
+* <a href="https://woowgallery.com/examples/woowgallery-albums/" rel="friend">Albums Display</a>
+* <a href="https://woowgallery.com/examples/woocommerce-dynamic-gallery/" rel="friend">WooCommerce Showcase</a>
 
 **MultiGrid skin:**
 
-* <a href="https://woowgallery.com/examples/youtube-gallery/" rel="friend">YouTube Video Gallery</a>
-* <a href="https://woowgallery.com/examples/urban-grid/" rel="friend">Grid Gallery</a>
-* <a href="https://woowgallery.com/examples/justified/" rel="friend">Justified Gallery</a>
-* <a href="https://woowgallery.com/examples/urban-masonry/" rel="friend">Masonry Gallery</a>
-
-= PS =
-
-Proud to be ukrainian. Live in Mykolaiv, Ukraine. #NoWar #fckptn
+* <a href="https://woowgallery.com/examples/youtube-gallery/" rel="friend">YouTube Video Display</a>
+* <a href="https://woowgallery.com/examples/urban-grid/" rel="friend">Grid Layout</a>
+* <a href="https://woowgallery.com/examples/justified/" rel="friend">Justified Layout</a>
+* <a href="https://woowgallery.com/examples/urban-masonry/" rel="friend">Masonry Layout</a>
 
 == Installation ==
 
-1. Install WoowGallery either via the WordPress.org plugin repository or by uploading the files to your server. (See instructions on <a href="http://www.wpbeginner.com/beginners-guide/step-by-step-guide-to-install-a-wordpress-plugin-for-beginners/" rel="friend">how to install a WordPress plugin</a>)
-2. Activate WoowGallery.
-3. Navigate to the WoowGallery tab at the admin menu and click the "Add New" button to begin creating, or you can create directly inside the post/page/custom post type of your choice.
+1. Install WoowGallery either via the WordPress.org plugin repository or by uploading the files to your server.
+2. Activate the plugin.
+3. Navigate to the WoowGallery tab in the admin menu and click "Add New" to begin creating, or you can create directly inside any post/page.
 
 == Screenshots ==
 
-1. Gallery Edit - Grid Media View.
-2. Gallery Edit - List Media View.
-3. Gallery Item - Edit Data.
-4. Gallery Skin - Edit Settings.
-5. Gallery Settings - Custom CSS and Gallery Description.
-6. WooComerce Integration - Select custom post types for Featured Content Gallery.
+1. Edit View - Grid Media.
+2. Edit View - List Media.
+3. Item Details - Edit Data.
+4. Skin Settings - Customization.
+5. Custom CSS and Description.
+6. WooCommerce Integration - Select custom post types.
 7. Dynamic WordPress Gallery - Build Screen.
-9. General Settings - Media Settings and Skins Presets.
-10. General Settings - Standalone Settings.
-11. Galleries List.
+9. General Settings - Media and Presets.
+10. General Settings - Standalone.
+11. List of Items.
 
 == Frequently Asked Questions ==
 
@@ -120,50 +116,50 @@ Proud to be ukrainian. Live in Mykolaiv, Ukraine. #NoWar #fckptn
 
 WoowGallery is perfect for photographers, designers, bloggers, and small businesses.
 
-= Do I need to have coding skills to use WoowGallery? =
+= Do I need to have coding skills? =
 
 Absolutely not. You can create and customize beautiful image and video galleries without any coding knowledge. We made it super easy.
 
 = What kind of galleries can I create with WoowGallery? =
 
-Here are the types of galleries you can create:
+Here are the types of content you can manage:
 
-Photo Gallery
-Video Gallery
-Audio Gallery
-Image Gallery with Albums
-e-Commerce Gallery
-Digital Downloads Gallery
-Featured Posts Gallery
+Photo Showcase
+Video Collection
+Audio Playlist
+Image Albums
+e-Commerce Store
+Digital Downloads
+Featured Posts
 Content Gallery
-Mixed Photo Gallery
-Custom Posts Gallery with filter
-Image Gallery with Tags
-WooCommerce Product Gallery
-Portfolio Gallery
-Albums Gallery
-Protected Gallery
-Private Gallery
-Standalone Gallery
-Gutenberg Gallery
-Flagallery Gallery
+Mixed Media
+Custom Posts with filter
+Image Tags
+WooCommerce Products
+Portfolio
+Protected Content
+Private Display
+Standalone Page
+Gutenberg Block
+Flagallery Integration
 
-= Is WoowGallery translation ready? =
+= Is it translation ready? =
 
-Yes, WoowGallery has full translation and localization support via the `woowgallery` textdomain.
+Yes, it has full translation and localization support via the `woowgallery` textdomain.
 
 
 == Changelog ==
 
-= TODO =
-Show content from Gmedia plugin
-Show content from NextGen plugin
-Show content from Google Photos
-Import/Export galleries
-Watermarks
-Image Comments
-Image Likes
-More Galery Skins
+= 1.2.2 - 21.01 =
+* Fixed: Keyword stuffing in readme.txt and plugin name to comply with WordPress.org guidelines.
+* Updated: Tested up to WordPress 6.7.1.
+* Enhanced: Added additional checks for PHP 8 compatibility.
+* Updated: Switched to `gmdate()` for timezone-independent date handling.
+* Improved: Translations updated and corrected text domains to `woowgallery`.
+* Improved: Input sanitization and validation in admin actions.
+* Added: New helper methods for EXIF GPS data extraction.
+* Improved: Used taxonomy-specific `get_terms()` parameters.
+* Miscellaneous: Minor code refactors and cleanup.
 
 = 1.2.1 - 27.01 =
 * Freemius SDK update
@@ -255,25 +251,3 @@ More Galery Skins
 
 = 1.0.0 =
 * Initial release.
-
-= DONE =
-Photo Gallery - simple image gallery.
-Video Gallery - YouTube video gallery, Vimeo video gallery.
-Audio Gallery - mp3 album gallery with artwork.
-Image Gallery with Albums - photo albums with multi galleries.
-e-Commerce Gallery - sell images, product gallery.
-Digital Downloads Gallery - sell photos, sell products in gallery.
-Featured Posts Gallery - WordPress Post gallery.
-Content Gallery - custom post type gallery.
-Mixed Photo Gallery - mixed content gallery.
-Custom Posts Gallery with filter - tag filter posts gallery.
-Image Gallery with Tags - tag filter gallery.
-WooCommerce Product Gallery - gallery with prices.
-Albums Gallery - tag filter album, multiple filtered galleries.
-Protected Gallery - gallery password.
-Private Gallery - gallery for logged in users.
-Standalone Gallery - gallery template, gallery link.
-Gallery Widget - sidebar gallery.
-Gutenberg Gallery - gallery block for gutenberg.
-Elementor Gallery - elementor widget with gallery
-Flagallery Gallery - show images from other plugins.

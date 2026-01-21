@@ -65,13 +65,11 @@ class Ajax {
 					];
 					unset( $query[ $taxname ] );
 				} elseif ( 'not_in' === $query[ $taxname ] || 'in' === $query[ $taxname ] ) {
-					$terms = get_terms(
-						$taxname,
-						[
-							'fields' => 'ids',
-							'get'    => 'all',
-						]
-					);
+					$terms = get_terms( [
+						'taxonomy' => $taxname,
+						'fields'   => 'ids',
+						'get'      => 'all',
+					] );
 
 					$tax_query[] = [
 						'taxonomy' => $taxname,
@@ -318,7 +316,7 @@ class Ajax {
 		$default_reset = woowgallery_POST( 'default_reset' );
 
 		if ( ! $skin || ! $preset ) {
-			wp_send_json_error( __( 'Something went wrong.', 'woowbox' ) );
+			wp_send_json_error( __( 'Something went wrong.', 'woowgallery' ) );
 		}
 
 		$skins_data = get_option( Skins::PRESETS_KEY, [] );
@@ -332,7 +330,8 @@ class Ajax {
 
 		update_option( Skins::PRESETS_KEY, $skins_data );
 
-		wp_send_json_success( sprintf( __( 'Settings saved (`%s` preset)', 'woowbox' ), $preset ) );
+		/* translators: %s: preset name */
+		wp_send_json_success( sprintf( __( 'Settings saved (`%s` preset)', 'woowgallery' ), $preset ) );
 	}
 
 	/**
@@ -346,7 +345,7 @@ class Ajax {
 		$preset = woowgallery_POST( 'preset', 'default' );
 
 		if ( ! $skin || 'default' === $preset ) {
-			wp_send_json_error( __( 'Something went wrong.', 'woowbox' ) );
+			wp_send_json_error( __( 'Something went wrong.', 'woowgallery' ) );
 		}
 
 		$settings_skin  = Settings::get_settings( 'default_skin' );
@@ -355,7 +354,7 @@ class Ajax {
 		$default_preset = isset( $settings_skin[1] ) ? trim( $settings_skin[1] ) : 'default';
 
 		if ( $skin === $default_skin && $preset === $default_preset ) {
-			wp_send_json_error( __( 'You can\'t delete skin/preset chosen by default', 'woowbox' ) );
+			wp_send_json_error( __( 'You can\'t delete skin/preset chosen by default', 'woowgallery' ) );
 		}
 
 		$skins_data = get_option( Skins::PRESETS_KEY, [] );
@@ -363,6 +362,7 @@ class Ajax {
 
 		update_option( Skins::PRESETS_KEY, $skins_data );
 
-		wp_send_json_success( sprintf( __( '`%s` preset was deleted', 'woowbox' ), $preset ) );
+		/* translators: %s: preset name */
+		wp_send_json_success( sprintf( __( '`%s` preset was deleted', 'woowgallery' ), $preset ) );
 	}
 }

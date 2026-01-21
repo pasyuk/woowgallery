@@ -6,6 +6,8 @@
  * @author  Sergey Pasyuk
  */
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 // @formatter:off
 ?>
 <script type="text/html" id="tmpl-woowgallery-select-switchers">

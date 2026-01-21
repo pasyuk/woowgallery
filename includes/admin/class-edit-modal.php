@@ -8,9 +8,9 @@
 
 namespace WoowGallery\Admin;
 
-use WoowGallery\Posttypes;
-
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
+use WoowGallery\Posttypes;
 
 /**
  * Class Edit_Album
@@ -25,7 +25,7 @@ class Edit_Modal {
 
 		add_action( 'admin_menu', [ $this, 'admin_menu' ] );
 
-		$in_modal = isset( $_GET['page'] ) && 'woowgallery-edit' === $_GET['page'];
+		$in_modal = 'woowgallery-edit' === woowgallery_GET( 'page' );
 		if ( 'admin.php' === $pagenow && $in_modal ) {
 			add_action( 'admin_init', [ $this, 'edit_modal_frame' ] );
 		}
@@ -60,9 +60,9 @@ class Edit_Modal {
 
 			require __DIR__ . '/templates/modal-edit.php';
 		} else {
-			$post_type = isset( $_GET['post_type'] ) && in_array( $_GET['post_type'], [ Posttypes::GALLERY_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE, Posttypes::ALBUM_POSTTYPE ], true ) ? $_GET['post_type'] : '';
-			if ( empty( $post_type ) ) {
-				wp_die( __( 'Sorry, you are not allowed to edit posts in this post type.' ) );
+			$post_type = woowgallery_GET( 'post_type', '' );
+			if ( ! in_array( $post_type, [ Posttypes::GALLERY_POSTTYPE, Posttypes::DYNAMIC_POSTTYPE, Posttypes::ALBUM_POSTTYPE ], true) ) {
+				wp_die( esc_html__( 'Sorry, you are not allowed to edit posts in this post type.', 'woowgallery' ) );
 			}
 
 			global $current_screen;
@@ -84,7 +84,7 @@ class Edit_Modal {
 	 * @return string
 	 */
 	public function redirect_location( $location, $post_id ) {
-		if ( isset( $_POST['woowgallery_modal_flag'] ) ) {
+		if ( woowgallery_POST( 'woowgallery_modal_flag' ) ) {
 			$location = str_replace( 'post.php', 'admin.php', $location );
 			$location = add_query_arg( 'page', 'woowgallery-edit', $location );
 		}
@@ -103,7 +103,7 @@ class Edit_Modal {
 	 * @return string
 	 */
 	public function edit_post_link( $link, $post_id, $context ) {
-		if ( isset( $_POST['woowgallery_modal_flag'] ) || ( isset( $_GET['page'] ) && 'woowgallery-edit' === $_GET['page'] ) ) {
+		if ( woowgallery_POST( 'woowgallery_modal_flag' ) || 'woowgallery-edit' === woowgallery_GET( 'page' ) ) {
 			$link = str_replace( 'post.php', 'admin.php', $link );
 			$link = add_query_arg( 'page', 'woowgallery-edit', $link );
 		}

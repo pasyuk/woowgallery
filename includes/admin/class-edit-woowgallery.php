@@ -435,7 +435,13 @@ class Edit_Woowgallery {
 			$att_ids = [ $att_ids ];
 		}
 
-		$found_ids = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s", "_woowgallery_{$wgpost_id}" ) );
+		$found_ids = get_posts( [
+			'post_type'      => 'any',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+			'meta_key'       => "_woowgallery_{$wgpost_id}",
+			'meta_compare'   => '=',
+		] );
 
 		$att_ids   = array_map( 'absint', $att_ids );
 		$found_ids = array_map( 'absint', $found_ids );

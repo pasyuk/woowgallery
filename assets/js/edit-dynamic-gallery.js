@@ -175,7 +175,7 @@
 
       this.query_type = query.query_type || 'wp';
       if ('wp' === query.query_type) {
-        this.wp_taxonomy_terms_options.data = JSON.parse(window.wp_taxonomy_terms_options);
+        this.wp_taxonomy_terms_options.data = window.wp_taxonomy_terms_options;
         this.wp = $.extend({}, this.wp, query);
       }
       else if ('instagram' === query.query_type) {

@@ -6,6 +6,8 @@
  * @author  Sergey Pasyuk
  */
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 use WoowGallery\Admin\Admin;
 use WoowGallery\Admin\Settings;
 use WoowGallery\Posttypes;
@@ -89,7 +91,7 @@ use WoowGallery\Posttypes;
 				<div class="woowgallery-select-options" v-if="selected.length">
 					<div class="woowgallery-label"><?php esc_html_e( 'Select Action:', 'woowgallery' ); ?>&nbsp;</div>
 					<?php do_action( 'woowgallery_bulk_actions', $data['post'] ); ?>
-					<a @click.prevent="bulkEditSet()" v-if="'gallery' == woowgallery_type" href="#" class="button woowgallery-media-bulk-edit" :class="{disabled: (selected_types.length > 1)}" :title="(selected_types.length > 1)? '<?php echo esc_js( __( 'Can\'t bulk edit multiple types of media', 'wgdt' ) ); ?>' : null"><?php esc_html_e( 'Bulk Edit', 'woowgallery' ); ?></a>
+					<a @click.prevent="bulkEditSet()" v-if="'gallery' == woowgallery_type" href="#" class="button woowgallery-media-bulk-edit" :class="{disabled: (selected_types.length > 1)}" :title="(selected_types.length > 1)? '<?php echo esc_js( __( 'Can\'t bulk edit multiple types of media', 'woowgallery' ) ); ?>' : null"><?php esc_html_e( 'Bulk Edit', 'woowgallery' ); ?></a>
 					<a @click="removeSelectedItems($event)" href="#" class="button button-danger woowgallery-media-delete" data-confirm="<?php esc_attr_e( 'Are you sure you want to remove selected items from the gallery?', 'woowgallery' ); ?>"><?php esc_html_e( 'Delete from Gallery', 'woowgallery' ); ?></a>
 				</div>
 			</nav>

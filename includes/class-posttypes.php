@@ -278,6 +278,9 @@ class Posttypes {
 	 */
 	public function dynamic_new_submenu() {
 		$obj = get_post_type_object( self::DYNAMIC_POSTTYPE );
+		if ( ! $obj ) {
+			return;
+		}
 		add_submenu_page( $obj->show_in_menu, $obj->labels->add_new_item, $obj->labels->add_new, $obj->cap->edit_post, 'post-new.php?post_type=' . self::DYNAMIC_POSTTYPE );
 	}
 
@@ -286,6 +289,9 @@ class Posttypes {
 	 */
 	public function album_new_submenu() {
 		$obj = get_post_type_object( self::ALBUM_POSTTYPE );
+		if ( ! $obj ) {
+			return;
+		}
 		add_submenu_page( $obj->show_in_menu, $obj->labels->add_new_item, $obj->labels->add_new, $obj->cap->edit_post, 'post-new.php?post_type=' . self::ALBUM_POSTTYPE );
 	}
 
@@ -308,11 +314,13 @@ class Posttypes {
 			2  => __( 'Gallery custom field updated.', 'woowgallery' ),
 			3  => __( 'Gallery custom field deleted.', 'woowgallery' ),
 			4  => __( 'Gallery updated.', 'woowgallery' ),
+			/* translators: %s: revision title */
 			5  => $revision ? sprintf( __( 'Gallery restored to revision from %s.', 'woowgallery' ), wp_post_revision_title( (int) $revision, false ) ) : false,
 			6  => __( 'Gallery published.', 'woowgallery' ),
 			7  => __( 'Gallery saved.', 'woowgallery' ),
 			8  => __( 'Gallery submitted.', 'woowgallery' ),
-			9  => sprintf( __( 'WoowGallery scheduled for: <strong>%1$s</strong>.', 'woowgallery' ), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ) ),
+			/* translators: %s: scheduled date */
+			9  => sprintf( __( 'WoowGallery scheduled for: <strong>%1$s</strong>.', 'woowgallery' ), date_i18n( __( 'M j, Y @ G:i', 'woowgallery' ), strtotime( $post->post_date ) ) ),
 			10 => __( 'Gallery draft updated.', 'woowgallery' ),
 		];
 

@@ -6,6 +6,8 @@
  * @author  Sergey Pasyuk
  */
 
+defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 use WoowGallery\Admin\Admin;
 use WoowGallery\Admin\Notice;
 use WoowGallery\Gallery;
@@ -30,7 +32,7 @@ $wg_plugin_source = [
 $wg_query_type    = ! empty( $gallery['data']['query_type'] ) ? $gallery['data']['query_type'] : 'wp';
 ?>
 	<script type="text/javascript">
-		<?php echo 'var wp_taxonomy_terms_options = "' . wp_slash( wp_json_encode( $wg_taxonomies ) ) . '";'; ?>
+		var wp_taxonomy_terms_options = <?php echo wp_json_encode( $wg_taxonomies ); ?>;
 	</script>
 
 	<div id="woowgallery-dynamic-query" class="woowgallery-dynamic-query">

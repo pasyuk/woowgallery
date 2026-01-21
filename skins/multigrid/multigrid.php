@@ -9,6 +9,7 @@
 namespace WoowGallery\Skins;
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
+
 if ( ! class_exists( 'WoowGallery\Skins\MultiGrid' ) ) {
 	return;
 }
@@ -17,6 +18,12 @@ if ( ! class_exists( 'WoowGallery\Skins\MultiGrid' ) ) {
  * Class MultiGrid
  */
 class MultiGrid {
+
+	public $slug;
+	public $info;
+	public $model;
+	public $schema;
+	public $preset_name;
 
 	const NAME        = 'MultiGrid';
 	const SLUG        = 'multigrid';
@@ -80,6 +87,7 @@ class MultiGrid {
 			return ob_get_clean();
 		}
 
+		/* translators: %s: URL to WoowGallery Premium upgrade page */
 		return '<div class="woowgallery-multigrid">' . esc_html( sprintf( __( '<a href="%s">WoowGallery Premium</a> required.', 'woowgallery' ), 'https://woowgallery.com/' ) ) . '</div>';
 	}
 
@@ -95,7 +103,8 @@ class MultiGrid {
 				'fields' => [
 					'_skin_info' => [
 						'tag'  => 'html',
-						'html' => sprintf( __( '<a href="%s">WoowGallery Premium</a> required.', 'woowgallery' ), woow_fs()->get_upgrade_url() ),
+						/* translators: %s: URL to WoowGallery Premium upgrade page */
+					'html' => sprintf( __( '<a href="%s">WoowGallery Premium</a> required.', 'woowgallery' ), woow_fs()->get_upgrade_url() ),
 					],
 				],
 			],
