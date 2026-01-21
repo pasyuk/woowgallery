@@ -102,7 +102,11 @@ $wg     = Gallery::get_instance( $data['post']->ID, $data['post']->post_type );
 	<div class="field-wrap">
 		<div class="wrapper" style="width: 100%; max-width: 800px;">
 			<textarea name="_woowgallery[settings][custom_css]" id="wg-custom-css" class="form-control" rows="10" cols="60"><?php echo esc_textarea( stripslashes( $wg->get_settings( 'custom_css' ) ) ); ?></textarea>
-			<?php woowgallery_is_premium_feature(); ?>
+			<?php
+			if ( woow_fs()->is__premium_only() ) {
+				woowgallery_is_premium_feature();
+			}
+			?>
 		</div>
 	</div>
 	<div class="hint"><code>.wg-id-<?php echo (int) $data['post']->ID; ?></code> - <?php echo wp_kses( __( 'use this classname or any of <strong>`Custom Gallery Classes`</strong> for each styles you added. It is the main WoowGallery wrapper.', 'woowgallery' ), '' ); ?></div>

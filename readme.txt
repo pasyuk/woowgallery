@@ -4,7 +4,7 @@ Tags: gallery, elementor, images, photos, album
 Requires at least: 5.4.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -150,7 +150,7 @@ Yes, it has full translation and localization support via the `woowgallery` text
 
 == Changelog ==
 
-= 1.2.2 - 21.01 =
+= 1.2.3 - 21.01 =
 * Fixed: Keyword stuffing in readme.txt and plugin name to comply with WordPress.org guidelines.
 * Updated: Tested up to WordPress 6.7.1.
 * Enhanced: Added additional checks for PHP 8 compatibility.

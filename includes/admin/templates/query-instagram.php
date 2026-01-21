@@ -68,5 +68,9 @@ defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 		<button type="button" class="button button-primary" @click.prevent="wp_fetchQuery()"><?php esc_html_e( 'Fetch Gallery Data', 'woowgallery' ); ?></button>
 	</div>
 
-	<?php woowgallery_is_premium_feature(); ?>
+	<?php
+	if ( woow_fs()->is__premium_only() ) {
+		woowgallery_is_premium_feature();
+	}
+	?>
 </div>

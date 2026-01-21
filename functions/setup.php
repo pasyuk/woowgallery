@@ -16,8 +16,7 @@ register_activation_hook( WOOWGALLERY_FILE, 'woowgallery_activation_hook' );
 // Fire a hook for plugin deactivation.
 register_deactivation_hook( WOOWGALLERY_FILE, 'woowgallery_deactivation_hook' );
 
-// Fire a hook for plugin uninstall.
-register_uninstall_hook( __FILE__, 'woowgallery_uninstall_hook' );
+// Fire a hook for plugin uninstall - handled by Freemius after_uninstall action.
 
 // Check setup.
 add_action( 'admin_init', 'woowgallery_check_environment', 0 );
@@ -83,11 +82,12 @@ function woowgallery_deactivation_hook( $network_wide ) {
 
 /**
  * Fired when the plugin is uninstalled.
+ * This function is hooked to Freemius after_uninstall action.
  *
  * @global int    $wp_version The version of WordPress for this install.
  * @global object $wpdb       The WordPress database object.
  */
-function woowgallery_uninstall_hook() {
+function woow_fs_uninstall_cleanup() {
 
 	if ( is_multisite() ) {
 		$site_list = get_sites();

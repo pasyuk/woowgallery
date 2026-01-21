@@ -5,7 +5,7 @@
  * Description: WoowGallery is the fastest, easiest to use WordPress multifunctional image gallery plugin. Create Featured Posts Gallery and Dynamic Content Gallery with a few click.
  * Author:      Serhii Pasyuk
  * Author URI:  https://profiles.wordpress.org/pasyuk/
- * Version:     1.2.2
+ * Version:     1.2.3
  * Text Domain: woowgallery
  * License: GPLv2 or later
  *
@@ -35,7 +35,7 @@ if ( function_exists( 'woow_fs' ) ) {
 	/**
 	 * WoowGallery Constants.
 	 */
-	define( 'WOOWGALLERY_VERSION', '1.2.2' );
+	define( 'WOOWGALLERY_VERSION', '1.2.3' );
 	define( 'WOOWGALLERY_SLUG', 'woowgallery' );
 	define( 'WOOWGALLERY_FILE', __FILE__ );
 	define( 'WOOWGALLERY_PATH', __DIR__ );
@@ -55,7 +55,7 @@ if ( function_exists( 'woow_fs' ) ) {
 
 			if ( ! isset( $woow_fs ) ) {
 				// Include Freemius SDK.
-				require_once WOOWGALLERY_PATH . '/freemius/start.php';
+				require_once dirname(__FILE__) . '/vendor/freemius/start.php';
 
 				$woow_fs = fs_dynamic_init(
 					[
@@ -68,14 +68,17 @@ if ( function_exists( 'woow_fs' ) ) {
 						'has_premium_version' => true,
 						'has_addons'          => false,
 						'has_paid_plans'      => true,
+						// Automatically removed in the free version. If you're not using the
+						// auto-generated free version, delete this line before uploading to wp.org.
+						'wp_org_gatekeeper'   => 'OA7#BoRiBNqdf52FvzEf!!074aRLPs8fspif$7K1#4u4Csys1fQlCecVcUTOs2mcpeVHi#C2j9d09fOTvbC0HloPT7fFee5WdS3G',
 						'trial'               => [
 							'days'               => 7,
 							'is_require_payment' => true,
 						],
-						'has_affiliation'     => 'selected',
+						'has_affiliation'     => 'all',
 						'menu'                => [
-							'slug'   => 'woowgallery-settings',
-							'parent' => [
+							'slug'           => 'woowgallery-settings',
+							'parent'         => [
 								'slug' => 'edit.php?post_type=woowgallery',
 							],
 						],
@@ -90,6 +93,9 @@ if ( function_exists( 'woow_fs' ) ) {
 		woow_fs();
 		// Signal that SDK was initiated.
 		do_action( 'woow_fs_loaded' );
+
+		// Hook uninstall cleanup to Freemius after_uninstall action.
+		woow_fs()->add_action( 'after_uninstall', 'woowgallery_uninstall_hook' );
 
 		/**
 		 * Custom product icon
