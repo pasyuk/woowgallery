@@ -206,6 +206,7 @@
           ajaxurl,
           {
             action: 'woowgallery_dynamic_refresh_taxonomy_terms',
+            _nonce_woowgallery_ajax: $('#_nonce_woowgallery_ajax').val(),
             post_type: _.pluck(this.wp.post_type, 'name'),
             terms_relation: this.wp.terms_relation
           },
@@ -234,6 +235,7 @@
           // },
           data: {
             action: 'woowgallery_dynamic_fetch_query',
+            _nonce_woowgallery_ajax: $('#_nonce_woowgallery_ajax').val(),
             gallery_id: post_id,
             json: json
           }
@@ -269,7 +271,8 @@
         $.getJSON(
           ajaxurl,
           {
-            action: 'woowgallery_dynamic_refresh_flagallery_source'
+            action: 'woowgallery_dynamic_refresh_flagallery_source',
+            _nonce_woowgallery_ajax: $('#_nonce_woowgallery_ajax').val()
           },
           (r) => {
             this.flagallery_source_options.loading = false;

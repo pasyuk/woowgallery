@@ -112,6 +112,7 @@
           ajaxurl,
           {
             action: 'woowgallery_get_media_data',
+            _nonce_woowgallery_ajax: $('#_nonce_woowgallery_ajax').val(),
             // make this a JSON string so we can send larger amounts of data (images), otherwise max is around 20 by default for most server configs
             media: JSON.stringify(media)
           },
