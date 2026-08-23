@@ -12,17 +12,24 @@ defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
 /**
  * Backward compatibility for UTF-8 encoding
- * Uses mb_convert_encoding() if available (PHP 8.2+), otherwise falls back to utf8_encode()
+ * Uses mb_convert_encoding() if available, otherwise a manual ISO-8859-1 to UTF-8 conversion.
  *
  * @param string $string String to encode to UTF-8.
  * @return string|false Encoded string or false on failure.
  */
 function woowgallery_utf8_encode( $string ) {
 	if ( function_exists( 'mb_convert_encoding' ) ) {
-		return mb_convert_encoding( $string, 'UTF-8', 'ISO-8859-1' );  // PHP 8.2+ compatible
-	} else {
-		return utf8_encode( $string );  // Older PHP versions
+		return mb_convert_encoding( $string, 'UTF-8', 'ISO-8859-1' );
 	}
+
+	// Manual ISO-8859-1 to UTF-8 conversion when ext/mbstring is unavailable.
+	$out = '';
+	for ( $i = 0, $len = strlen( $string ); $i < $len; $i++ ) {
+		$byte = ord( $string[ $i ] );
+		$out .= $byte < 0x80 ? $string[ $i ] : chr( 0xC0 | ( $byte >> 6 ) ) . chr( 0x80 | ( $byte & 0x3F ) );
+	}
+
+	return $out;
 }
 
 /**
@@ -33,26 +40,25 @@ function woowgallery_utf8_encode( $string ) {
  * @return bool
  */
 function woowgallery_is_valid_utf8( $string ) {
-	if ( function_exists( 'wp_is_valid_utf8' ) ) {
-		return wp_is_valid_utf8( $string );  // WP 6.9+
-	} else {
-		return function_exists( 'seems_utf8' ) ? seems_utf8( $string ) : true;  // Older WP
+	// Variable dispatch: wp_is_valid_utf8() only exists on WP 6.9+, the guard below keeps older versions working.
+	$utf8_check = 'wp_is_valid_utf8';
+	if ( function_exists( $utf8_check ) ) {
+		return $utf8_check( $string );
 	}
+
+	// phpcs:ignore WordPress.WP.DeprecatedFunctions.seems_utf8Found -- fallback for WP < 6.9 where wp_is_valid_utf8() does not exist.
+	return function_exists( 'seems_utf8' ) ? seems_utf8( $string ) : true;
 }
 
 /**
- * Backward compatibility for content filtering
- * Uses wp_filter_content_tags() if available (WP 5.5+), otherwise falls back to wp_make_content_images_responsive()
+ * Content filtering wrapper.
+ * wp_filter_content_tags() exists since WP 5.5, the plugin's minimum supported version.
  *
  * @param string $content Content to filter.
  * @return string
  */
 function woowgallery_filter_content_tags( $content ) {
-	if ( function_exists( 'wp_filter_content_tags' ) ) {
-		return wp_filter_content_tags( $content );  // WP 5.5+
-	} else {
-		return function_exists( 'wp_make_content_images_responsive' ) ? wp_make_content_images_responsive( $content ) : $content;  // Older WP
-	}
+	return wp_filter_content_tags( $content );
 }
 
 /**
@@ -75,14 +81,17 @@ function woowgallery_put_contents( $file, $content ) {
 	// Try WP_Filesystem first (modern approach)
 	if ( $wp_filesystem && method_exists( $wp_filesystem, 'put_contents' ) ) {
 		return $wp_filesystem->put_contents( $file, $content );
-	} else {
-		// Fallback to direct file operations (older WordPress)
-		$output_file = fopen( $file, 'w' );
-		if ( $output_file ) {
-			$result = fwrite( $output_file, $content );
-			fclose( $output_file );
-			return $result;
-		}
-		return false;
 	}
+
+	// Fallback when WP_Filesystem could not initialize (e.g. non-direct transport without credentials).
+	// phpcs:disable WordPress.WP.AlternativeFunctions.file_system_operations_fopen, WordPress.WP.AlternativeFunctions.file_system_operations_fwrite, WordPress.WP.AlternativeFunctions.file_system_operations_fclose
+	$output_file = fopen( $file, 'w' );
+	if ( $output_file ) {
+		$result = fwrite( $output_file, $content );
+		fclose( $output_file );
+		return $result;
+	}
+	// phpcs:enable
+
+	return false;
 }
