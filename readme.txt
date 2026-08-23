@@ -2,7 +2,7 @@
 Contributors: pasyuk
 Tags: gallery, elementor, images, photos, album
 Requires at least: 5.5
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 1.2.5
 License: GPLv2 or later
@@ -156,7 +156,7 @@ Yes, it has full translation and localization support via the `woowgallery` text
 * Fixed: Button icons were misaligned in the admin under recent WordPress core button styles.
 * Fixed: An empty caption bar was painted over gallery thumbnails in the editor on recent WordPress versions.
 * Improved: Resolved all Plugin Check code errors and raised the minimum supported WordPress version to 5.5.
-* Updated: Tested up to WordPress 7.0.
+* Updated: Tested up to WordPress 7.1.
 
 = 1.2.4 - 22.01 =
 * Fixed: Keyword stuffing in readme.txt and plugin name to comply with WordPress.org guidelines.
