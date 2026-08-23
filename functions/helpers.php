@@ -189,7 +189,9 @@ if ( ! function_exists( 'woowgallery_full_post_data' ) ) {
 			$attachment['alt'] = $attachment['title'];
 		}
 
-		if ( 'excerpt' === $attachment['caption_src'] ) {
+		if ( post_password_required( $post ) ) {
+			$attachment['caption'] = '';
+		} elseif ( 'excerpt' === $attachment['caption_src'] ) {
 			$attachment['caption'] = Posttypes::GALLERY_POSTTYPE === $post->post_type ? $post->post_content : $post->post_excerpt;
 		} elseif ( 'content' === $attachment['caption_src'] ) {
 			$attachment['caption'] = $post->post_content;

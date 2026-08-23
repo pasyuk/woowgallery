@@ -45,6 +45,7 @@ jQuery(function($) {
       ajaxurl,
       {
         action: 'woowgallery_cache_clear',
+        _nonce_woowgallery_ajax: WoowGalleryAdmin.ajaxNonce,
         id: id
       }
     ).done((response) => {

@@ -68,7 +68,7 @@ if ( $post_thumbnail_id ) {
 	?>
 
 	<div class="<?php echo esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>">
-		<?php echo $wg_sc->shortcode( [ 'gallery' => $gallery ], $product_posttype ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?>
+		<?php echo $wg_sc->shortcode( [ 'gallery' => $gallery ], $product_posttype ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- shortcode() returns gallery HTML built with escaped values. ?>
 	</div>
 
 	<?php

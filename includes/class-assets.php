@@ -297,6 +297,7 @@ class Assets {
 			'l10n'         => apply_filters( 'woowgallery_admin_scripts_l10n', [] ),
 			'wpApiRoot'    => esc_url_raw( rest_url() ),
 			'wpApiNonce'   => wp_create_nonce( 'wp_rest' ),
+			'ajaxNonce'    => wp_create_nonce( 'ajax' ),
 			'createNew'    => esc_url( admin_url( 'post-new.php?post_type=' ) ),
 			'editModalSrc' => esc_url( admin_url( 'admin.php?page=woowgallery-edit' ) ),
 			'post_types'   => $post_types,
