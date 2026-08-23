@@ -220,3 +220,29 @@
   z-index: 9999;
   background-color: #fff;
 }
+
+/**
+ * WordPress core compatibility.
+ *
+ * Our admin markup reuses core class names, so new core rules land on it.
+ * Each override is scoped to a WoowGallery container so core UI elsewhere
+ * on the screen keeps its own styling.
+ */
+
+/* Core (wp-includes/css/buttons.css) gives button dashicons line-height: 1.9
+   and vertical-align: top, which drops the glyph out of alignment in our
+   icon + label buttons. Dashicons' own metric is line-height: 1. */
+.wp-core-ui .woowgallery-add-media .dashicons,
+.wp-core-ui .woowgallery-wrap .button .dashicons,
+.wp-core-ui .woowgallery-wrap .button-primary .dashicons,
+.wp-core-ui .woowgallery-wrap .button-secondary .dashicons {
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* Core (wp-includes/css/media-views.css) paints an aria-label caption over
+   every .attachment that has no .filename child. Our gallery items carry no
+   aria-label, so it renders as an empty bar across the thumbnail. */
+.wp-core-ui .woowgallery-attachments-wrapper ul.attachments li.attachment::after {
+  content: none;
+}
