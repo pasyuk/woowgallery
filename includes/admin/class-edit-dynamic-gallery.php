@@ -119,7 +119,10 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 	public static function get_dynamic_wp_query( $query ) {
 		$query_backup = $query;
 
-		$query['post_type']   = wp_list_pluck( (array) $query['post_type'], 'name' ) ?: 'any';
+		$query['post_type'] = wp_list_pluck( (array) $query['post_type'], 'name' ) ?: 'any';
+		if ( 'any' !== $query['post_type'] ) {
+			$query['post_type'] = array_values( array_intersect( (array) $query['post_type'], get_post_types() ) ) ?: 'any';
+		}
 		$query['post_author'] = wp_list_pluck( (array) $query['post_author'], 'id' );
 		if ( ! empty( $query['taxonomy_terms'] ) ) {
 			$post_type = ( 'any' === $query['post_type'] ) ? [] : $query['post_type'];
@@ -161,6 +164,7 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 
 		$query['offset']      = (int) $query['offset'];
 		$query['post_status'] = wp_list_pluck( $query['post_status'], 'value' ) ?: [ 'publish' ];
+		$query['post_status'] = array_values( array_intersect( $query['post_status'], get_post_stati() ) ) ?: [ 'publish' ];
 		if ( 'any' === $query['post_type'] || in_array( 'attachment', (array) $query['post_type'], true ) ) {
 			$query['post_status'][] = 'inherit';
 		}
@@ -198,6 +202,7 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 		$query['cache_results']          = false;
 		$query['update_post_meta_cache'] = false;
 		$query['update_post_term_cache'] = false;
+		$query['perm']                   = 'readable';
 
 		$data = [];
 
@@ -206,6 +211,10 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 		if ( $wg_query->have_posts() ) {
 			while ( $wg_query->have_posts() ) {
 				$wg_query->the_post();
+				// Non-public statuses require per-post read capability.
+				if ( ! in_array( $post->post_status, [ 'publish', 'inherit' ], true ) && ! current_user_can( 'read_post', $post->ID ) ) {
+					continue;
+				}
 				$attachment_data      = woowgallery_prepare_post_data( $post );
 				$attachment_full_data = woowgallery_full_post_data( $attachment_data );
 
@@ -215,7 +224,7 @@ class Edit_Dynamic_Gallery extends Edit_Woowgallery {
 		wp_reset_postdata();
 
 		return [
-			'post_count' => $wg_query->post_count,
+			'post_count' => count( $data ),
 			'query'      => $wg_query->query,
 			'posts'      => $data,
 			'errors'     => [],
