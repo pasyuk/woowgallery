@@ -223,6 +223,12 @@ class Ajax {
 	 * Fetch Query for Dynamic Galeries
 	 */
 	public function dynamic_fetch_query() {
+		// Bail out if we fail a security check.
+		woowgallery_verify_nonce( 'ajax' );
+
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			wp_die( -1, 403 );
+		}
 
 		$json = woowgallery_GET( 'json' );
 		if ( empty( $json ) ) {
@@ -230,6 +236,9 @@ class Ajax {
 		}
 
 		$gallery_id = (int) woowgallery_GET( 'gallery_id', 0 );
+		if ( $gallery_id && ! current_user_can( 'edit_post', $gallery_id ) ) {
+			$gallery_id = 0;
+		}
 		$query      = (array) json_decode( $json, true );
 		try {
 			$query_content = Edit_Dynamic_Gallery::get_dynamic_query( $query );
