@@ -94,6 +94,13 @@ class Ajax {
 	 * WoowGallery Media Data.
 	 */
 	public function get_media_data() {
+		// Bail out if we fail a security check.
+		woowgallery_verify_nonce( 'ajax' );
+
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			wp_die( -1, 403 );
+		}
+
 		$media_post_data = json_decode( woowgallery_POST( 'media', '[]' ) );
 
 		$media_data = [];
@@ -197,6 +204,12 @@ class Ajax {
 	 * Refreshes the taxonomy terms list to show available terms for the selected post types.
 	 */
 	public function refresh_taxonomy_terms() {
+		// Bail out if we fail a security check.
+		woowgallery_verify_nonce( 'ajax' );
+
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			wp_die( -1, 403 );
+		}
 
 		$post_type      = (array) woowgallery_GET( 'post_type', [] );
 		$terms_ralation = woowgallery_GET( 'terms_relation', 'IN' );
@@ -209,6 +222,13 @@ class Ajax {
 	 * Refreshes the available Flagallery galleries.
 	 */
 	public function refresh_flagallery_source() {
+		// Bail out if we fail a security check.
+		woowgallery_verify_nonce( 'ajax' );
+
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			wp_die( -1, 403 );
+		}
+
 		global $flagdb;
 
 		$gallerylist = $flagdb->find_all_galleries( 'title', 'ASC', true );
@@ -275,9 +295,11 @@ class Ajax {
 	 * Clear cache for gallery ID
 	 */
 	public function gallery_cache_clear() {
+		// Bail out if we fail a security check.
+		woowgallery_verify_nonce( 'ajax' );
 
 		$cache_clear_id = (int) woowgallery_POST( 'id' );
-		if ( ! empty( $cache_clear_id ) ) {
+		if ( ! empty( $cache_clear_id ) && current_user_can( 'edit_post', $cache_clear_id ) ) {
 			if ( metadata_exists( 'post', $cache_clear_id, Gallery::GALLERY_UPDATE_META_KEY ) ) {
 				update_post_meta( $cache_clear_id, Gallery::GALLERY_UPDATE_META_KEY, 1 );
 			}

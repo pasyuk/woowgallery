@@ -38,7 +38,7 @@ class Edit_Dynamic_Galleries extends Edit_Tablelist {
 		if ( $this->post_type === $current_screen->post_type && 'edit' === $current_screen->base ) {
 			// Clear cache for gallery ID.
 			$cache_clear_id = (int) woowgallery_GET( 'wg_cache_clear' );
-			if ( ! empty( $cache_clear_id ) ) {
+			if ( ! empty( $cache_clear_id ) && current_user_can( 'edit_post', $cache_clear_id ) ) {
 				update_post_meta( $cache_clear_id, Gallery::GALLERY_UPDATE_META_KEY, 1 );
 				// translators: gallery ID.
 				Notice::add_message( sprintf( __( 'Cache cleared for gallery with ID #%d', 'woowgallery' ), $cache_clear_id ), Notice::TYPE_SUCCESS );
