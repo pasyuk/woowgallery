@@ -1,0 +1,47 @@
+# Files and directories that are never part of a distributed WoowGallery build.
+# Consumed by `wp dist-archive` and by build tooling that honours this format;
+# WordPress.org SVN does not read it, so keep these out of the SVN checkout too.
+
+# Version control
+.git
+.gitignore
+.gitattributes
+.gitmodules
+.github
+
+# Operating system and editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea
+.vscode
+node_modules
+
+# Local environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# AI agent tooling and generated knowledge graph
+.agents
+.claude
+.devin
+AGENTS.md
+AGENTS.override.md
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.local.md
+graphify-out
+
+# Development documentation (implementation plans, not user documentation)
+docs/superpowers
+
+# Asset build configuration. The Sass sources and source maps are deliberately
+# NOT excluded: they are the human-readable sources for the minified assets we
+# ship, which WordPress.org expects to be available.
+assets/.config.codekit3
+
+# This file
+.distignore
