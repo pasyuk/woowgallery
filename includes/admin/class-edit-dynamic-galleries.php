@@ -38,6 +38,9 @@ class Edit_Dynamic_Galleries extends Edit_Tablelist {
 		if ( $this->post_type === $current_screen->post_type && 'edit' === $current_screen->base ) {
 			// Clear cache for gallery ID.
 			$cache_clear_id = (int) woowgallery_GET( 'wg_cache_clear' );
+			if ( ! empty( $cache_clear_id ) ) {
+				check_admin_referer( 'bulk-posts' );
+			}
 			if ( ! empty( $cache_clear_id ) && current_user_can( 'edit_post', $cache_clear_id ) ) {
 				update_post_meta( $cache_clear_id, Gallery::GALLERY_UPDATE_META_KEY, 1 );
 				// translators: gallery ID.
@@ -74,11 +77,17 @@ class Edit_Dynamic_Galleries extends Edit_Tablelist {
 		$redirect = remove_query_arg( [ 'wg_bulk_cache_clear' ], $redirect );
 
 		if ( 'wg_bulk_cache_clear' === $doaction ) {
+			$cleared = 0;
 			foreach ( $object_ids as $post_id ) {
-				update_post_meta( (int) $post_id, Gallery::GALLERY_UPDATE_META_KEY, 1 );
+				$post_id = (int) $post_id;
+				if ( ! current_user_can( 'edit_post', $post_id ) ) {
+					continue;
+				}
+				update_post_meta( $post_id, Gallery::GALLERY_UPDATE_META_KEY, 1 );
+				$cleared++;
 			}
 			// translators: number of galleries.
-			Notice::add_message( sprintf( _n( 'Cache cleared for %d gallery', 'Cache cleared for %d galleries', count( $object_ids ), 'woowgallery' ), count( $object_ids ) ), Notice::TYPE_SUCCESS );
+			Notice::add_message( sprintf( _n( 'Cache cleared for %d gallery', 'Cache cleared for %d galleries', $cleared, 'woowgallery' ), $cleared ), Notice::TYPE_SUCCESS );
 		}
 
 		return $redirect;
