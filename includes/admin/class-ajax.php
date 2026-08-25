@@ -107,7 +107,7 @@ class Ajax {
 		foreach ( $media_post_data as $item_id ) {
 			$media = get_post( $item_id );
 
-			if ( ! $media ) {
+			if ( ! $media || ! current_user_can( 'read_post', $media->ID ) ) {
 				continue;
 			}
 			if ( 'attachment' === $media->post_type ) {
@@ -132,7 +132,7 @@ class Ajax {
 		woowgallery_verify_nonce( 'ajax' );
 
 		$media_id = (int) woowgallery_POST( 'media_id', 0 );
-		if ( $media_id ) {
+		if ( $media_id && current_user_can( 'edit_post', $media_id ) ) {
 			$copyright_trim = wp_strip_all_tags( woowgallery_POST( 'copyright', '' ) );
 			update_metadata( 'post', $media_id, '_media_copyright', $copyright_trim );
 
@@ -150,7 +150,7 @@ class Ajax {
 		woowgallery_verify_nonce( 'ajax' );
 
 		$media_id = (int) woowgallery_POST( 'media_id', 0 );
-		if ( $media_id ) {
+		if ( $media_id && current_user_can( 'edit_post', $media_id ) ) {
 			$taxonomy   = woowgallery_POST( 'taxonomy', 'post_tag' );
 			$taxonomies = get_post_taxonomies( $media_id );
 			if ( in_array( $taxonomy, $taxonomies, true ) ) {
@@ -173,11 +173,16 @@ class Ajax {
 
 		$medias = json_decode( woowgallery_POST( 'media', '[]' ) );
 		if ( $medias ) {
+			$processed      = false;
 			$terms          = array_filter( array_map( 'trim', explode( ',', woowgallery_POST( 'tags', '' ) ) ) );
 			$copyright      = woowgallery_POST( 'copyright', '' );
 			$copyright_trim = wp_strip_all_tags( $copyright );
 			foreach ( $medias as $media ) {
 				$media_id = (int) $media->id;
+				if ( ! $media_id || ! current_user_can( 'edit_post', $media_id ) ) {
+					continue;
+				}
+				$processed = true;
 				if ( ! empty( $terms ) ) {
 					if ( 'attachment' === $media->type ) {
 						wp_set_object_terms( $media_id, $terms, 'media_tag', true );
@@ -194,7 +199,9 @@ class Ajax {
 				}
 			}
 
-			wp_send_json_success();
+			if ( $processed ) {
+				wp_send_json_success();
+			}
 		}
 
 		wp_send_json_error();
@@ -341,6 +348,10 @@ class Ajax {
 		// Bail out if we fail a security check.
 		woowgallery_verify_nonce( 'skin_settings_save' );
 
+		if ( ! current_user_can( apply_filters( 'woowgallery_menu_cap', 'manage_options' ) ) ) {
+			wp_die( -1, 403 );
+		}
+
 		$skin          = woowgallery_POST( 'skin' );
 		$preset        = trim( woowgallery_POST( 'preset', 'default' ) );
 		$data          = woowgallery_POST( 'data', '{}' );
@@ -371,6 +382,10 @@ class Ajax {
 	public function delete_skin_preset() {
 		// Bail out if we fail a security check.
 		woowgallery_verify_nonce( 'skin_settings_save' );
+
+		if ( ! current_user_can( apply_filters( 'woowgallery_menu_cap', 'manage_options' ) ) ) {
+			wp_die( -1, 403 );
+		}
 
 		$skin   = woowgallery_POST( 'skin' );
 		$preset = woowgallery_POST( 'preset', 'default' );

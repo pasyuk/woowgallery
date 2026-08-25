@@ -1,0 +1,17 @@
+# dependencies
+node_modules/
+
+# misc
+.idea/
+.gitignore
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.vscode
+desktop.ini
+/graphify-out/
+/docs/superpowers/
+/.devin/
+/.claude/
