@@ -1,7 +1,7 @@
 === WoowGallery ===
 Contributors: pasyuk
 Tags: gallery, elementor, images, photos, album
-Requires at least: 5.5
+Requires at least: 5.8
 Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 1.2.5
@@ -45,7 +45,7 @@ Social media integrations, and WooCommerce store integration.
 
 = Built-in Feature List =
 
-* **Gutenberg Blocks** for WordPress 5.0+
+* **Gutenberg Blocks** for WordPress 5.8+
 * **Drag & Drop** Photo Gallery Builder
 * **100% Responsive** - Mobile Friendly
 * Beautiful **Skins** for Customization

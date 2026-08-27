@@ -37,6 +37,7 @@ graphify-out
 
 # Development documentation (implementation plans, not user documentation)
 docs/superpowers
+tests
 
 # Asset build configuration. The Sass sources and source maps are deliberately
 # NOT excluded: they are the human-readable sources for the minified assets we
