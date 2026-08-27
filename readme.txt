@@ -45,7 +45,7 @@ Social media integrations, and WooCommerce store integration.
 
 = Built-in Feature List =
 
-* **Gutenberg Blocks** for WordPress 5.0+
+* **Gutenberg Blocks** for WordPress 5.8+
 * **Drag & Drop** Photo Gallery Builder
 * **100% Responsive** - Mobile Friendly
 * Beautiful **Skins** for Customization
