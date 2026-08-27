@@ -51,7 +51,14 @@ class Edit_Modal {
 	 * Load edit pages in wpless interface
 	 */
 	public function edit_modal_frame() {
+		global $hook_suffix;
+
 		define( 'IFRAME_REQUEST', true );
+
+		// This request exits during admin_init, before admin.php sets the page hook.
+		if ( ! is_string( $hook_suffix ) || '' === $hook_suffix ) {
+			$hook_suffix = 'admin_page_woowgallery-edit';
+		}
 
 		$wg_post_id = woowgallery_GET( 'post' );
 		if ( ! empty( $wg_post_id ) ) {

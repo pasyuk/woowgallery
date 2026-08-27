@@ -1,7 +1,7 @@
 === WoowGallery ===
 Contributors: pasyuk
 Tags: gallery, elementor, images, photos, album
-Requires at least: 5.5
+Requires at least: 5.8
 Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 1.2.5

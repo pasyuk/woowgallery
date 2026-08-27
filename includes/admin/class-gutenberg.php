@@ -37,6 +37,15 @@ class Gutenberg {
 			return;
 		}
 
+		$wp_version = get_bloginfo( 'version' );
+		if ( version_compare( $wp_version, '6.3', '>=' ) ) {
+			$block_api_version = 3;
+		} elseif ( version_compare( $wp_version, '5.6', '>=' ) ) {
+			$block_api_version = 2;
+		} else {
+			$block_api_version = 1;
+		}
+
 		// Gutenberg assets.
 		wp_register_style(
 			WOOWGALLERY_SLUG . '-block-style',
@@ -50,23 +59,39 @@ class Gutenberg {
 			[
 				WOOWGALLERY_SLUG . '-editor-modal-script',
 				WOOWGALLERY_SLUG . '-script',
+				'wp-api-fetch',
+				'wp-block-editor',
 				'wp-blocks',
 				'wp-components',
 				'wp-element',
 				'wp-i18n',
-				'wp-editor',
 			],
 			WOOWGALLERY_VERSION,
 			true
 		);
+		wp_add_inline_script(
+			WOOWGALLERY_SLUG . '-block-script',
+			'window.woowgalleryBlockSettings = ' . wp_json_encode(
+				[
+					'apiVersion' => $block_api_version,
+					'iconUrl'    => plugins_url( 'assets/images/woowgallery-icon.svg', WOOWGALLERY_FILE ),
+				]
+			) . ';',
+			'before'
+		);
+
+		$block_args = [
+			'editor_script' => WOOWGALLERY_SLUG . '-block-script',
+			'editor_style'  => WOOWGALLERY_SLUG . '-block-style',
+		];
+		if ( version_compare( $wp_version, '5.6', '>=' ) ) {
+			$block_args['api_version'] = $block_api_version;
+		}
 
 		// Register our block, and explicitly define the attributes we accept.
 		register_block_type(
 			'woowplugins/woowgallery',
-			[
-				'editor_script' => WOOWGALLERY_SLUG . '-block-script',
-				'editor_style'  => WOOWGALLERY_SLUG . '-block-style',
-			]
+			$block_args
 		);
 	}
 }
