@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+test "${1:-}" = dist-archive || {
+  printf 'fake wp-dev: unsupported command\n' >&2
+  exit 1
+}
+test "$#" = 4 && test "$4" = --create-target-dir || {
+  printf 'fake wp-dev: unsupported command\n' >&2
+  exit 1
+}
+
+repo=$2
+target=$3
+stage=$(mktemp -d)
+trap 'rm -rf "$stage"' EXIT
+mkdir -p "$stage/woowgallery"
+cp -R "$repo/." "$stage/woowgallery"
+
+while IFS= read -r ignored; do
+  case $ignored in
+    ''|'#'*) continue ;;
+    /*|../*|*'/../'*) printf 'fake wp-dev: invalid .distignore path\n' >&2; exit 1 ;;
+  esac
+  rm -rf "$stage/woowgallery/$ignored"
+done < "$repo/.distignore"
+
+mkdir -p "$(dirname "$target")"
+(
+  cd "$stage"
+  /usr/bin/zip -qr "$target" woowgallery
+)
