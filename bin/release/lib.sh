@@ -325,13 +325,20 @@ build_source_zip() {
 	local wp_cli archive entries top_levels
 	wp_cli=$(resolve_wp_cli) || return 1
 	archive="$work_dir/woowgallery-$version-source.zip"
-	"$wp_cli" dist-archive "$repo" "$archive" --create-target-dir || return 1
+	"$wp_cli" dist-archive "$repo" "$archive" --create-target-dir >&2 || return 1
 	entries=$(unzip -Z1 "$archive") || return 1
 	top_levels=$(printf '%s\n' "$entries" | awk -F/ 'NF { print $1 }' | sort -u)
-	test "$top_levels" = "$WOOWGALLERY_SLUG" || die 'Source archive must contain exactly one woowgallery/ top-level directory'
-	printf '%s\n' "$entries" | grep -qx 'woowgallery/' || die 'Source archive is missing woowgallery/ top-level directory'
-	if printf '%s\n' "$entries" | grep -Eq '^woowgallery/(\.git|bin|tests|graphify-out|\.superpowers)(/|$)|^woowgallery/docs/superpowers(/|$)|^woowgallery/\.distignore$'; then
+	test "$top_levels" = "$WOOWGALLERY_SLUG" || {
+		die 'Source archive must contain exactly one woowgallery/ top-level directory'
+		return 1
+	}
+	printf '%s\n' "$entries" | grep -x 'woowgallery/' >/dev/null || {
+		die 'Source archive is missing woowgallery/ top-level directory'
+		return 1
+	}
+	if printf '%s\n' "$entries" | grep -E '^woowgallery/(\.git|bin|tests|graphify-out|\.superpowers)(/|$)|^woowgallery/docs/superpowers(/|$)|^woowgallery/\.distignore$' >/dev/null; then
 		die 'Source archive contains excluded development files'
+		return 1
 	fi
 	printf '%s\n' "$archive"
 }

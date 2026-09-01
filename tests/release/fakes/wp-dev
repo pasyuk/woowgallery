@@ -12,21 +12,25 @@ test "$#" = 4 && test "$4" = --create-target-dir || {
 
 repo=$2
 target=$3
+root=${FAKE_WP_DIST_ROOT:-woowgallery}
 stage=$(mktemp -d)
 trap 'rm -rf "$stage"' EXIT
-mkdir -p "$stage/woowgallery"
-cp -R "$repo/." "$stage/woowgallery"
+mkdir -p "$stage/$root"
+cp -R "$repo/." "$stage/$root"
 
-while IFS= read -r ignored; do
-  case $ignored in
-    ''|'#'*) continue ;;
-    /*|../*|*'/../'*) printf 'fake wp-dev: invalid .distignore path\n' >&2; exit 1 ;;
-  esac
-  rm -rf "$stage/woowgallery/$ignored"
-done < "$repo/.distignore"
+if test "${FAKE_WP_SKIP_DISTIGNORE:-0}" != 1; then
+  while IFS= read -r ignored; do
+    case $ignored in
+      ''|'#'*) continue ;;
+      /*|../*|*'/../'*) printf 'fake wp-dev: invalid .distignore path\n' >&2; exit 1 ;;
+    esac
+    rm -rf "$stage/$root/$ignored"
+  done < "$repo/.distignore"
+fi
 
 mkdir -p "$(dirname "$target")"
 (
   cd "$stage"
-  /usr/bin/zip -qr "$target" woowgallery
+  /usr/bin/zip -qr "$target" "$root"
 )
+printf 'Success: Created %s\n' "$(basename "$target")"
