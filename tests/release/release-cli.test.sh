@@ -3,6 +3,8 @@ set -u
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
 CLI="$ROOT/bin/woowgallery-release"
+TEST_LOCAL_ACTIVATION_RUNNER="$ROOT/bin/release/runners/test-local-activate"
+TEST_LOCAL_PLUGIN_CHECK_RUNNER="$ROOT/bin/release/runners/test-local-plugin-check"
 PASS=0
 FAIL=0
 TEST_FILTER=${1:-}
@@ -901,6 +903,161 @@ test_verify_accepts_exact_free_artifact_and_records_evidence() {
     ' "$manifest" >/dev/null || return 1
   assert_contains "$output" "verified_root=$root" || return 1
   assert_contains "$output" "transformation_summary=$summary"
+}
+
+test_verify_installs_before_plugin_check() {
+  local fixture order
+  fixture=$(mktemp -d)
+  make_artifact_fixture "$fixture" || return 1
+  order="$fixture/runner-order.log"
+  printf '%s\n' '#!/usr/bin/env bash' 'printf "activation\\n" >> "$RUNNER_ORDER_LOG"' > "$fixture/activate-check"
+  printf '%s\n' '#!/usr/bin/env bash' 'test "$(tail -n 1 "$RUNNER_ORDER_LOG")" = activation || exit 71' 'printf "plugin-check\\n" >> "$RUNNER_ORDER_LOG"' > "$fixture/plugin-check"
+  chmod +x "$fixture/activate-check" "$fixture/plugin-check"
+  RUNNER_ORDER_LOG="$order" run_artifact_verify "$fixture" >/dev/null || return 1
+  test "$(cat "$order")" = "$(printf 'activation\nplugin-check')"
+}
+
+make_test_local_runner_fixture() {
+  local fixture=$1
+  local fake_bin="$fixture/bin"
+  mkdir -p "$fixture/artifact" "$fixture/wp-content/plugins/plugin-check" "$fake_bin"
+  printf 'artifact\n' > "$fixture/artifact/woowgallery.php"
+  printf 'cli bootstrap\n' > "$fixture/wp-content/plugins/plugin-check/cli.php"
+  printf '%s' '#!/usr/bin/env bash
+set -u
+printf "%s\n" "$*" >> "$FAKE_WP_TEST_LOG"
+case "$*" in
+  "option get home") printf "%s\n" "${FAKE_WP_HOME:-https://test.local}" ;;
+  "option get siteurl") printf "%s\n" "${FAKE_WP_SITEURL:-https://test.local}" ;;
+  "eval echo WP_PLUGIN_DIR;") printf "%s\n" "$FAKE_WP_PLUGIN_DIR" ;;
+  "plugin activate woowgallery") printf "active\n" > "$FAKE_WP_ACTIVE_MARKER" ;;
+  "plugin is-active woowgallery") test -f "$FAKE_WP_ACTIVE_MARKER" ;;
+  "plugin is-active plugin-check") exit 0 ;;
+  "plugin get plugin-check --field=version") printf "%s\n" "${FAKE_PLUGIN_CHECK_VERSION:-2.1.0}" ;;
+  plugin\ check\ *) printf "%s\n" "${FAKE_PLUGIN_CHECK_OUTPUT:-[]}"; exit "${FAKE_PLUGIN_CHECK_EXIT:-0}" ;;
+  *) exit 90 ;;
+esac
+' > "$fake_bin/wp-test"
+  chmod +x "$fake_bin/wp-test"
+}
+
+run_test_local_runner() {
+  local fixture=$1
+  local runner=$2
+  shift 2
+  PATH="$fixture/bin:$PATH" \
+    FAKE_WP_TEST_LOG="$fixture/wp-test.log" \
+    FAKE_WP_PLUGIN_DIR="$fixture/wp-content/plugins" \
+    FAKE_WP_ACTIVE_MARKER="$fixture/woowgallery.active" \
+    "$runner" "$fixture/artifact" "$@"
+}
+
+test_test_local_activation_runner_installs_exact_artifact() {
+  local fixture target
+  fixture=$(mktemp -d)
+  make_test_local_runner_fixture "$fixture" || return 1
+  target="$fixture/wp-content/plugins/woowgallery"
+  run_test_local_runner "$fixture" "$TEST_LOCAL_ACTIVATION_RUNNER" >/dev/null || return 1
+  diff -qr "$fixture/artifact" "$target" || return 1
+  test -f "$fixture/woowgallery.active" || return 1
+  grep -Fx 'plugin activate woowgallery' "$fixture/wp-test.log" >/dev/null || return 1
+  grep -Fx 'plugin is-active woowgallery' "$fixture/wp-test.log" >/dev/null
+}
+
+test_test_local_runners_reject_wrong_site_without_mutation() {
+  local fixture output rc runner url_field
+  for runner in "$TEST_LOCAL_ACTIVATION_RUNNER" "$TEST_LOCAL_PLUGIN_CHECK_RUNNER"; do
+    for url_field in home siteurl; do
+      fixture=$(mktemp -d)
+      make_test_local_runner_fixture "$fixture" || return 1
+      if test "$runner" = "$TEST_LOCAL_PLUGIN_CHECK_RUNNER"; then
+        cp -R "$fixture/artifact" "$fixture/wp-content/plugins/woowgallery"
+      fi
+      if test "$url_field" = home; then
+        output=$(FAKE_WP_HOME='https://production.example' \
+          run_test_local_runner "$fixture" "$runner" 2>&1)
+      else
+        output=$(FAKE_WP_SITEURL='https://production.example' \
+          run_test_local_runner "$fixture" "$runner" 2>&1)
+      fi
+      rc=$?
+      test "$rc" -ne 0 || return 1
+      assert_contains "$output" 'wp-test does not target https://test.local' || return 1
+      if test "$runner" = "$TEST_LOCAL_ACTIVATION_RUNNER"; then
+        ! test -e "$fixture/wp-content/plugins/woowgallery" || return 1
+        ! grep -F 'plugin activate woowgallery' "$fixture/wp-test.log" >/dev/null || return 1
+      else
+        diff -qr "$fixture/artifact" "$fixture/wp-content/plugins/woowgallery" >/dev/null || return 1
+        ! grep -F 'plugin check ' "$fixture/wp-test.log" >/dev/null || return 1
+      fi
+    done
+  done
+}
+
+test_test_local_activation_runner_refuses_overwrite() {
+  local fixture output rc sentinel
+  fixture=$(mktemp -d)
+  make_test_local_runner_fixture "$fixture" || return 1
+  mkdir "$fixture/wp-content/plugins/woowgallery"
+  sentinel="$fixture/wp-content/plugins/woowgallery/preserve.txt"
+  printf 'preserve\n' > "$sentinel"
+  output=$(run_test_local_runner "$fixture" "$TEST_LOCAL_ACTIVATION_RUNNER" 2>&1)
+  rc=$?
+  test "$rc" -ne 0 || return 1
+  assert_contains "$output" 'WoowGallery is already installed on test.local' || return 1
+  test "$(cat "$sentinel")" = preserve || return 1
+  ! grep -F 'plugin activate woowgallery' "$fixture/wp-test.log" >/dev/null
+}
+
+test_test_local_plugin_check_runner_allows_warnings() {
+  local fixture output
+  fixture=$(mktemp -d)
+  make_test_local_runner_fixture "$fixture" || return 1
+  cp -R "$fixture/artifact" "$fixture/wp-content/plugins/woowgallery"
+  output=$(FAKE_PLUGIN_CHECK_OUTPUT='[{"type":"WARNING","code":"example_warning"}]' \
+    run_test_local_runner "$fixture" "$TEST_LOCAL_PLUGIN_CHECK_RUNNER") || return 1
+  assert_contains "$output" 'Plugin Check: 0 errors, 1 warnings' || return 1
+  grep -F -- '--require=' "$fixture/wp-test.log" >/dev/null || return 1
+  grep -F -- '--mode=update' "$fixture/wp-test.log" >/dev/null || return 1
+  grep -F -- '--format=strict-json' "$fixture/wp-test.log" >/dev/null
+}
+
+test_test_local_plugin_check_runner_rejects_errors() {
+  local fixture output rc
+  fixture=$(mktemp -d)
+  make_test_local_runner_fixture "$fixture" || return 1
+  cp -R "$fixture/artifact" "$fixture/wp-content/plugins/woowgallery"
+  output=$(FAKE_PLUGIN_CHECK_OUTPUT='[{"type":"ERROR","code":"example_error"}]' \
+    run_test_local_runner "$fixture" "$TEST_LOCAL_PLUGIN_CHECK_RUNNER" 2>&1)
+  rc=$?
+  test "$rc" -ne 0 || return 1
+  assert_contains "$output" 'Plugin Check: 1 errors, 0 warnings'
+}
+
+test_test_local_plugin_check_runner_rejects_wrong_version() {
+  local fixture output rc
+  fixture=$(mktemp -d)
+  make_test_local_runner_fixture "$fixture" || return 1
+  cp -R "$fixture/artifact" "$fixture/wp-content/plugins/woowgallery"
+  output=$(FAKE_PLUGIN_CHECK_VERSION='2.0.0' \
+    run_test_local_runner "$fixture" "$TEST_LOCAL_PLUGIN_CHECK_RUNNER" 2>&1)
+  rc=$?
+  test "$rc" -ne 0 || return 1
+  assert_contains "$output" 'Plugin Check 2.1.0 is required on test.local' || return 1
+  ! grep -F 'plugin check ' "$fixture/wp-test.log" >/dev/null
+}
+
+test_test_local_plugin_check_runner_rejects_installed_mismatch() {
+  local fixture output rc
+  fixture=$(mktemp -d)
+  make_test_local_runner_fixture "$fixture" || return 1
+  cp -R "$fixture/artifact" "$fixture/wp-content/plugins/woowgallery"
+  printf 'different\n' > "$fixture/wp-content/plugins/woowgallery/woowgallery.php"
+  output=$(run_test_local_runner "$fixture" "$TEST_LOCAL_PLUGIN_CHECK_RUNNER" 2>&1)
+  rc=$?
+  test "$rc" -ne 0 || return 1
+  assert_contains "$output" 'Installed WoowGallery does not match the verified Freemius artifact' || return 1
+  ! grep -F 'plugin check ' "$fixture/wp-test.log" >/dev/null
 }
 
 test_verify_rejects_broken_provenance_and_invalidates_dependents() {
@@ -2113,6 +2270,8 @@ test_operator_guide_documents_safe_and_protected_workflow() {
   grep -F 'WoowGallery is closed on WordPress.org pending review' "$guide" >/dev/null || return 1
   grep -F 'FREEMIUS_API_TOKEN' "$guide" >/dev/null || return 1
   grep -F 'WOOWGALLERY_ARTIFACT_ACTIVATION_CMD' "$guide" >/dev/null || return 1
+  grep -F 'bin/release/runners/test-local-activate' "$guide" >/dev/null || return 1
+  grep -F 'bin/release/runners/test-local-plugin-check' "$guide" >/dev/null || return 1
   grep -F '<manifest-path>' "$guide" >/dev/null || return 1
   grep -F '<svn-checkout-path>' "$guide" >/dev/null || return 1
   grep -F 'freemius-transformations.txt' "$guide" >/dev/null || return 1
@@ -2158,6 +2317,14 @@ run_if_selected 'freemius' 'Freemius upload attempt is one shot' test_freemius_u
 run_if_selected 'freemius' 'Freemius upload ambiguity preserves attempt and blocks retry' test_freemius_upload_ambiguity_preserves_attempt_and_blocks_retry
 run_if_selected 'freemius' 'Freemius download is one shot and bound to upload' test_freemius_download_is_one_shot_and_bound_to_upload
 run_if_selected 'verify' 'verify accepts exact free artifact and records evidence' test_verify_accepts_exact_free_artifact_and_records_evidence
+run_if_selected 'verify-order' 'verify installs before Plugin Check' test_verify_installs_before_plugin_check
+run_if_selected 'test-local-runners' 'test.local activation runner installs exact artifact' test_test_local_activation_runner_installs_exact_artifact
+run_if_selected 'test-local-runner-guards' 'test.local runners reject wrong home and siteurl without mutation' test_test_local_runners_reject_wrong_site_without_mutation
+run_if_selected 'test-local-runner-guards' 'test.local activation runner refuses overwrite' test_test_local_activation_runner_refuses_overwrite
+run_if_selected 'test-local-runners' 'test.local Plugin Check runner allows warnings' test_test_local_plugin_check_runner_allows_warnings
+run_if_selected 'test-local-runners' 'test.local Plugin Check runner rejects errors' test_test_local_plugin_check_runner_rejects_errors
+run_if_selected 'test-local-runners' 'test.local Plugin Check runner rejects installed mismatch' test_test_local_plugin_check_runner_rejects_installed_mismatch
+run_if_selected 'test-local-runner-guards' 'test.local Plugin Check runner rejects wrong version' test_test_local_plugin_check_runner_rejects_wrong_version
 run_if_selected 'verify' 'verify rejects broken provenance and invalidates dependents' test_verify_rejects_broken_provenance_and_invalidates_dependents
 run_if_selected 'verify' 'verify rejects each premium-only path' test_verify_rejects_each_premium_only_path
 run_if_selected 'verify' 'verify rejects gatekeeper string' test_verify_rejects_gatekeeper_string

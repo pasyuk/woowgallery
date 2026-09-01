@@ -17,12 +17,25 @@ stages. Keep an existing checkout of
 `https://plugins.svn.wordpress.org/woowgallery/` outside the plugin repository.
 Never install a generated ZIP over the Git checkout.
 
-Configure two executable artifact runners. `WOOWGALLERY_ARTIFACT_PLUGIN_CHECK_CMD`
-must run Plugin Check against the extracted path passed as its only argument.
-`WOOWGALLERY_ARTIFACT_ACTIVATION_CMD` must install that same path into a
-disposable WordPress environment, activate `woowgallery`, and exit non-zero on
-installation, activation, or bootstrap errors. Neither runner may install over
-the Git checkout.
+Configure an executable `wp-test` command that targets the disposable
+`https://test.local` WordPress installation. Plugin Check 2.1.0 must be active
+there, and WoowGallery must not already exist in its plugin directory. The
+bundled `bin/release/runners/test-local-activate` runner installs the extracted
+Freemius artifact without overwriting an existing copy and activates it. The
+`bin/release/runners/test-local-plugin-check` runner then confirms the installed
+copy is byte-identical and runs Plugin Check in update mode with static and
+runtime checks. Plugin Check errors fail verification; warnings remain visible
+in the log for human review. Neither runner installs over the Git checkout.
+
+The `wp-test` command must support `wp eval`, `wp plugin activate`, `wp plugin
+is-active`, and `wp plugin check`, using the Local site's PHP runtime, PHP
+configuration, WordPress root, and database socket. Test it before starting:
+
+```bash
+wp-test core version
+wp-test plugin get plugin-check --fields=name,status,version --format=json
+test ! -e "$(wp-test eval 'echo WP_PLUGIN_DIR;')/woowgallery"
+```
 
 Provide `FREEMIUS_API_TOKEN` through the environment or an operator-owned
 secret runner. The runner may inject an already-exported variable, or use the
@@ -44,14 +57,17 @@ bin/woowgallery-release preflight --repo . --version <version>
 bin/woowgallery-release build --repo . --version <version> --work-dir <new-work-dir>
 bin/woowgallery-release freemius-upload --manifest <manifest-path>
 bin/woowgallery-release freemius-download --manifest <manifest-path>
-WOOWGALLERY_ARTIFACT_PLUGIN_CHECK_CMD='<plugin-check-runner>' \
-WOOWGALLERY_ARTIFACT_ACTIVATION_CMD='<isolated-install-activation-runner>' \
+WOOWGALLERY_ARTIFACT_PLUGIN_CHECK_CMD="$PWD/bin/release/runners/test-local-plugin-check" \
+WOOWGALLERY_ARTIFACT_ACTIVATION_CMD="$PWD/bin/release/runners/test-local-activate" \
   bin/woowgallery-release verify --manifest <manifest-path>
 bin/woowgallery-release svn-prepare --manifest <manifest-path> --checkout <svn-checkout-path>
 ```
 
 At this point Freemius remains `pending` and SVN remains uncommitted. There is
-no catch-all release command.
+no catch-all release command. The verified free build remains installed and
+active on `test.local` for browser smoke testing. The activation runner refuses
+to overwrite it on a later run; remove that disposable copy explicitly only
+after preserving the logs and artifact evidence you need.
 
 Inspect the non-secret evidence before requesting either protected action:
 

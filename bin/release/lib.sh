@@ -499,6 +499,21 @@ run_artifact_gate() (
 		die 'Artifact PHP lint failed'
 		return 1
 	fi
+	rm -f "$activation_temporary" || return 1
+	if "$activation_runner" "$root" > "$activation_temporary" 2>&1; then
+		rc=0
+	else
+		rc=$?
+	fi
+	mv "$activation_temporary" "$activation_log" || return 1
+	if test "$rc" -ne 0; then
+		manifest_set "$manifest" \
+			--arg activation_log "$activation_log" \
+			--argjson activation_exit "$rc" \
+			'.verification = { activation: { exit_code: $activation_exit, log: $activation_log } }' || return 1
+		die "artifact isolated activation failed with exit code $rc; see $activation_log"
+		return 1
+	fi
 	rm -f "$temporary" || return 1
 	if "$runner" "$root" > "$temporary" 2>&1; then
 		rc=0
@@ -509,28 +524,13 @@ run_artifact_gate() (
 	if test "$rc" -ne 0; then
 		manifest_set "$manifest" \
 			--arg plugin_check_log "$log" \
-			--argjson plugin_check_exit "$rc" \
-			'.verification = { plugin_check: { exit_code: $plugin_check_exit, log: $plugin_check_log } }' || return 1
-		die "artifact Plugin Check failed with exit code $rc; see $log"
-		return 1
-	fi
-	rm -f "$activation_temporary" || return 1
-	if "$activation_runner" "$root" > "$activation_temporary" 2>&1; then
-		rc=0
-	else
-		rc=$?
-	fi
-	mv "$activation_temporary" "$activation_log" || return 1
-	if test "$rc" -ne 0; then
-		manifest_set "$manifest" \
-			--arg plugin_check_log "$log" \
 			--arg activation_log "$activation_log" \
-			--argjson activation_exit "$rc" \
+			--argjson plugin_check_exit "$rc" \
 			'.verification = {
-			  plugin_check: { exit_code: 0, log: $plugin_check_log },
-			  activation: { exit_code: $activation_exit, log: $activation_log }
+			  activation: { exit_code: 0, log: $activation_log },
+			  plugin_check: { exit_code: $plugin_check_exit, log: $plugin_check_log }
 			}' || return 1
-		die "artifact isolated activation failed with exit code $rc; see $activation_log"
+		die "artifact Plugin Check failed with exit code $rc; see $log"
 		return 1
 	fi
 	trap - EXIT HUP INT TERM
