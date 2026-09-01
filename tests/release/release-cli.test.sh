@@ -66,14 +66,18 @@ test_preflight_rejects_version_mismatch() {
 }
 
 test_bypass_does_not_skip_git_worktree_checks() {
-  local fixture output rc
+  local fixture fake_bin output rc
   fixture=$(mktemp -d)
   cp "$ROOT/woowgallery.php" "$ROOT/readme.txt" "$fixture/"
   printf 'gitdir: %s/.git\n' "$ROOT" > "$fixture/.git"
-  output=$(WOOWGALLERY_TEST_SKIP_GIT=1 "$CLI" preflight --repo "$fixture" --version 1.2.5 2>&1)
+  fake_bin=$(mktemp -d)
+  printf '#!/usr/bin/env bash\ncase "$*" in *" branch --show-current"*) printf "feature/test-bypass\\n"; exit 0;; esac\nexec /usr/bin/git "$@"\n' > "$fake_bin/git"
+  chmod +x "$fake_bin/git"
+  output=$(PATH="$fake_bin:$PATH" WOOWGALLERY_TEST_SKIP_GIT=1 \
+    "$CLI" preflight --repo "$fixture" --version 1.2.5 2>&1)
   rc=$?
   test "$rc" -ne 0 || return 1
-  assert_contains "$output" 'Current branch feature/release-automation is not master'
+  assert_contains "$output" 'Current branch feature/test-bypass is not master'
 }
 
 test_preflight_rejects_git_status_error() {
@@ -1427,7 +1431,7 @@ run_svn_prepare() (
   export FAKE_SVN_STATE="$fixture/svn-state"
   export FAKE_SVN_COMMIT_MARKER="$fixture/svn-commit.marker"
   export FAKE_SVN_MODE="${FAKE_SVN_MODE:-}"
-  export FAKE_SVN_REPOSITORY_ROOT="${FAKE_SVN_REPOSITORY_ROOT:-https://plugins.svn.wordpress.org/woowgallery}"
+  export FAKE_SVN_REPOSITORY_ROOT="${FAKE_SVN_REPOSITORY_ROOT:-https://plugins.svn.wordpress.org}"
   export FAKE_SVN_REVISION="${FAKE_SVN_REVISION:-4321}"
   export FAKE_SVN_REVISION_AFTER_UPDATE="${FAKE_SVN_REVISION_AFTER_UPDATE:-4322}"
   export FAKE_SVN_URL="${FAKE_SVN_URL:-https://plugins.svn.wordpress.org/woowgallery}"
@@ -1482,7 +1486,7 @@ test_svn_prepare_mirrors_verified_root_and_never_commits() {
     --arg free_root "$free_root" '
       .stages.svn_prepare == "passed" and
       .svn.checkout == $checkout and
-      .svn.repository_root == "https://plugins.svn.wordpress.org/woowgallery" and
+      .svn.repository_root == "https://plugins.svn.wordpress.org" and
       .svn.start_revision == "4322" and
       .svn.url == "https://plugins.svn.wordpress.org/woowgallery" and
       .svn.verified_root == $free_root and
@@ -1938,7 +1942,7 @@ test_public_safe_sequence_stops_before_both_publications() {
   PATH="$ROOT/tests/release/fakes:$PATH" \
     FAKE_SVN_CHECKOUT="$checkout" FAKE_SVN_LOG="$fixture/svn.log" \
     FAKE_SVN_STATE="$fixture/svn-state" FAKE_SVN_COMMIT_MARKER="$fixture/svn-commit.marker" \
-    FAKE_SVN_MODE='' FAKE_SVN_REPOSITORY_ROOT='https://plugins.svn.wordpress.org/woowgallery' \
+    FAKE_SVN_MODE='' FAKE_SVN_REPOSITORY_ROOT='https://plugins.svn.wordpress.org' \
     FAKE_SVN_REVISION=4321 FAKE_SVN_REVISION_AFTER_UPDATE=4322 \
     FAKE_SVN_URL='https://plugins.svn.wordpress.org/woowgallery' FAKE_SVN_VERSION=1.2.5 \
     FAKE_SVN_MISSING_PATH='trunk/obsolete file.txt' FAKE_SVN_COPY_CORRUPT=0 \
@@ -1990,7 +1994,7 @@ run_svn_publish() (
   export FAKE_SVN_COMMIT_MARKER="$fixture/svn-commit.marker"
   export FAKE_SVN_COMMIT_COUNT="$fixture/svn-commit.count"
   export FAKE_SVN_MODE="${FAKE_SVN_MODE:-}"
-  export FAKE_SVN_REPOSITORY_ROOT="${FAKE_SVN_REPOSITORY_ROOT:-https://plugins.svn.wordpress.org/woowgallery}"
+  export FAKE_SVN_REPOSITORY_ROOT="${FAKE_SVN_REPOSITORY_ROOT:-https://plugins.svn.wordpress.org}"
   export FAKE_SVN_REVISION="${FAKE_SVN_REVISION:-4321}"
   export FAKE_SVN_REVISION_AFTER_UPDATE="${FAKE_SVN_REVISION_AFTER_UPDATE:-4322}"
   export FAKE_SVN_COMMIT_REVISION="${FAKE_SVN_COMMIT_REVISION:-5001}"

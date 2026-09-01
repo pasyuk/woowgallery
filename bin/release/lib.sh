@@ -2,6 +2,8 @@
 
 WOOWGALLERY_SLUG=woowgallery
 FREEMIUS_PRODUCT_ID=6026
+WORDPRESS_ORG_SVN_REPOSITORY_ROOT=https://plugins.svn.wordpress.org
+WORDPRESS_ORG_SVN_WORKING_COPY_URL=$WORDPRESS_ORG_SVN_REPOSITORY_ROOT/$WOOWGALLERY_SLUG
 
 die() { printf 'ERROR: %s\n' "$*" >&2; return 1; }
 
@@ -739,10 +741,10 @@ assert_clean_svn_checkout() {
 }
 
 remote_tag_exists() {
-	local repository_root=$1
+	local repository_url=$1
 	local version=$2
 	local tags
-	tags=$(svn list "$repository_root/tags") || { die 'Unable to list remote SVN tags'; return 2; }
+	tags=$(svn list "$repository_url/tags") || { die 'Unable to list remote SVN tags'; return 2; }
 	printf '%s\n' "$tags" | grep -Fqx "$version/"
 }
 
@@ -943,12 +945,12 @@ svn_prepare() (
 	cd "$checkout" || return 1
 	assert_clean_svn_checkout . || return 1
 	repository_root=$(svn info --show-item repos-root-url .) || { die 'Unable to read SVN repository root'; return 1; }
-	test "$repository_root" = 'https://plugins.svn.wordpress.org/woowgallery' || {
+	test "$repository_root" = "$WORDPRESS_ORG_SVN_REPOSITORY_ROOT" || {
 		die 'SVN repository root does not match WoowGallery'
 		return 1
 	}
 	working_copy_url=$(svn info --show-item url .) || { die 'Unable to read SVN working-copy URL'; return 1; }
-	test "$working_copy_url" = 'https://plugins.svn.wordpress.org/woowgallery' || {
+	test "$working_copy_url" = "$WORDPRESS_ORG_SVN_WORKING_COPY_URL" || {
 		die 'SVN working-copy URL does not match WoowGallery'
 		return 1
 	}
@@ -959,7 +961,7 @@ svn_prepare() (
 	assert_clean_svn_checkout . || return 1
 	start_revision=$(svn info --show-item revision .) || { die 'Unable to read starting SVN revision'; return 1; }
 	case $start_revision in ''|*[!0-9]*) die 'Starting SVN revision is invalid'; return 1 ;; esac
-	if remote_tag_exists "$repository_root" "$version"; then
+	if remote_tag_exists "$working_copy_url" "$version"; then
 		die "SVN tag $version already exists remotely"
 		return 1
 	else
@@ -971,7 +973,7 @@ svn_prepare() (
 
 	rsync -a --delete --exclude=.svn "$fresh_root/" trunk/ || { die 'Unable to mirror verified free root into SVN trunk'; return 1; }
 	schedule_svn_changes || return 1
-	if remote_tag_exists "$repository_root" "$version"; then
+	if remote_tag_exists "$working_copy_url" "$version"; then
 		die "SVN tag $version already exists remotely"
 		return 1
 	else
@@ -1149,8 +1151,8 @@ svn_publish() (
 	svn_source_sha=$(jq -r '.svn.source_zip_sha256 // empty' "$manifest") || return 1
 	svn_deployment_id=$(jq -r '.svn.deployment_id // empty' "$manifest") || return 1
 	svn_free_sha=$(jq -r '.svn.free_zip_sha256 // empty' "$manifest") || return 1
-	test "$repository_root" = 'https://plugins.svn.wordpress.org/woowgallery' || { die 'Recorded SVN repository root does not match WoowGallery'; return 1; }
-	test "$working_copy_url" = "$repository_root" || { die 'Recorded SVN working-copy URL does not match WoowGallery'; return 1; }
+	test "$repository_root" = "$WORDPRESS_ORG_SVN_REPOSITORY_ROOT" || { die 'Recorded SVN repository root does not match WoowGallery'; return 1; }
+	test "$working_copy_url" = "$WORDPRESS_ORG_SVN_WORKING_COPY_URL" || { die 'Recorded SVN working-copy URL does not match WoowGallery'; return 1; }
 	case $start_revision in ''|*[!0-9]*) die 'Recorded SVN revision is invalid'; return 1 ;; esac
 	trunk="$checkout/trunk"
 	tag="$checkout/tags/$version"
@@ -1198,7 +1200,7 @@ svn_publish() (
 	test "$current_status" = "$recorded_status" || { die 'SVN status drifted after preparation'; return 1; }
 	test "$current_diff" = "$recorded_diff" || { die 'SVN diff drifted after preparation'; return 1; }
 	svn_status_has_scheduled_tag "$current_status" "$version" || { die 'Current SVN status does not contain the scheduled tag'; return 1; }
-	if remote_tag_exists "$repository_root" "$version"; then
+	if remote_tag_exists "$working_copy_url" "$version"; then
 		die "SVN tag $version now exists remotely; refusing to overwrite it"
 		return 1
 	else

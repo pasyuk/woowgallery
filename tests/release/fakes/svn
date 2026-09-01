@@ -36,7 +36,7 @@ case $command in
     case $2 in
       repos-root-url)
         test "$(normalize "$3")" = . || { printf 'fake svn: info target must be checkout root\n' >&2; exit 64; }
-        printf '%s\n' "${FAKE_SVN_REPOSITORY_ROOT:-https://plugins.svn.wordpress.org/woowgallery}"
+        printf '%s\n' "${FAKE_SVN_REPOSITORY_ROOT:-https://plugins.svn.wordpress.org}"
         ;;
       revision)
         test "$(normalize "$3")" = . || { printf 'fake svn: info target must be checkout root\n' >&2; exit 64; }
