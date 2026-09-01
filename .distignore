@@ -28,6 +28,7 @@ node_modules
 .agents
 .claude
 .devin
+.superpowers
 AGENTS.md
 AGENTS.override.md
 CLAUDE.md
@@ -38,6 +39,10 @@ graphify-out
 # Development documentation (implementation plans, not user documentation)
 docs/superpowers
 tests
+
+# Release operator tooling is not part of the distributed plugin.
+bin
+docs/release-automation.md
 
 # Asset build configuration. The Sass sources and source maps are deliberately
 # NOT excluded: they are the human-readable sources for the minified assets we
