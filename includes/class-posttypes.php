@@ -307,6 +307,11 @@ class Posttypes {
 		global $post;
 
 		$revision = woowgallery_GET( 'revision' );
+		/* translators: %s: revision title */
+		$revision_message = $revision ? sprintf( __( 'Gallery restored to revision from %s.', 'woowgallery' ), wp_post_revision_title( (int) $revision, false ) ) : false;
+		/* translators: %s: scheduled date */
+		$scheduled_message = sprintf( __( 'WoowGallery scheduled for: <strong>%1$s</strong>.', 'woowgallery' ), date_i18n( __( 'M j, Y @ G:i', 'woowgallery' ), strtotime( $post->post_date ) ) );
+
 		// Contextualize the messages for WoowGallery Galleries.
 		$woowgallery_messages = [
 			0  => '',
@@ -314,13 +319,11 @@ class Posttypes {
 			2  => __( 'Gallery custom field updated.', 'woowgallery' ),
 			3  => __( 'Gallery custom field deleted.', 'woowgallery' ),
 			4  => __( 'Gallery updated.', 'woowgallery' ),
-			/* translators: %s: revision title */
-			5  => $revision ? sprintf( __( 'Gallery restored to revision from %s.', 'woowgallery' ), wp_post_revision_title( (int) $revision, false ) ) : false,
+			5  => $revision_message,
 			6  => __( 'Gallery published.', 'woowgallery' ),
 			7  => __( 'Gallery saved.', 'woowgallery' ),
 			8  => __( 'Gallery submitted.', 'woowgallery' ),
-			/* translators: %s: scheduled date */
-			9  => sprintf( __( 'WoowGallery scheduled for: <strong>%1$s</strong>.', 'woowgallery' ), date_i18n( __( 'M j, Y @ G:i', 'woowgallery' ), strtotime( $post->post_date ) ) ),
+			9  => $scheduled_message,
 			10 => __( 'Gallery draft updated.', 'woowgallery' ),
 		];
 

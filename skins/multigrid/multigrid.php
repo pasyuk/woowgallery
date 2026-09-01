@@ -97,14 +97,16 @@ class MultiGrid {
 	 * @return array
 	 */
 	public static function settings() {
+		/* translators: %s: URL to WoowGallery Premium upgrade page */
+		$premium_required_message = sprintf( __( '<a href="%s">WoowGallery Premium</a> required.', 'woowgallery' ), woow_fs()->get_upgrade_url() );
+
 		$schema = [
 			'common' => [
 				'label'  => __( 'Premium', 'woowgallery' ),
 				'fields' => [
 					'_skin_info' => [
 						'tag'  => 'html',
-						/* translators: %s: URL to WoowGallery Premium upgrade page */
-					'html' => sprintf( __( '<a href="%s">WoowGallery Premium</a> required.', 'woowgallery' ), woow_fs()->get_upgrade_url() ),
+						'html' => $premium_required_message,
 					],
 				],
 			],

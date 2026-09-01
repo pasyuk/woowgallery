@@ -269,7 +269,7 @@ download_free() (
 	rm -f "$partial" || return 1
 	trap 'rm -f "$partial" "$zip"' EXIT
 	trap 'exit 1' HUP INT TERM
-	if ! freemius_request --request GET --output "$partial" "https://api.freemius.com/v1/products/$FREEMIUS_PRODUCT_ID/tags/$deployment_id.zip?is_premium=false"; then
+	if ! freemius_request --request GET --location --output "$partial" "https://api.freemius.com/v1/products/$FREEMIUS_PRODUCT_ID/tags/$deployment_id.zip?is_premium=false"; then
 		die 'Freemius free download failed'
 		return 1
 	fi
