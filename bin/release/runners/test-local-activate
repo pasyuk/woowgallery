@@ -18,7 +18,11 @@ test -f "$root/woowgallery.php" || die 'Extracted plugin root is not WoowGallery
 
 home_url=$(wp-test option get home) || die 'Unable to resolve test.local home URL'
 site_url=$(wp-test option get siteurl) || die 'Unable to resolve test.local site URL'
-test "$home_url" = 'https://test.local' && test "$site_url" = 'https://test.local' || die 'wp-test does not target https://test.local'
+test "$home_url" = "$site_url" || die 'wp-test does not target test.local'
+case $home_url in
+	http://test.local|https://test.local) ;;
+	*) die 'wp-test does not target test.local' ;;
+esac
 plugins_dir=$(wp-test eval 'echo WP_PLUGIN_DIR;') || die 'Unable to resolve test.local plugin directory'
 case $plugins_dir in /*) ;; *) die 'test.local plugin directory is not absolute' ;; esac
 test -d "$plugins_dir" && ! test -L "$plugins_dir" || die 'test.local plugin directory is missing or unsafe'

@@ -998,6 +998,19 @@ test_test_local_activation_runner_installs_exact_artifact() {
   grep -Fx 'plugin is-active woowgallery' "$fixture/wp-test.log" >/dev/null
 }
 
+test_test_local_runners_accept_http_test_local() {
+  local fixture runner
+  for runner in "$TEST_LOCAL_ACTIVATION_RUNNER" "$TEST_LOCAL_PLUGIN_CHECK_RUNNER"; do
+    fixture=$(mktemp -d)
+    make_test_local_runner_fixture "$fixture" || return 1
+    if test "$runner" = "$TEST_LOCAL_PLUGIN_CHECK_RUNNER"; then
+      cp -R "$fixture/artifact" "$fixture/wp-content/plugins/woowgallery"
+    fi
+    FAKE_WP_HOME='http://test.local' FAKE_WP_SITEURL='http://test.local' \
+      run_test_local_runner "$fixture" "$runner" >/dev/null || return 1
+  done
+}
+
 test_test_local_runners_reject_wrong_site_without_mutation() {
   local fixture output rc runner url_field
   for runner in "$TEST_LOCAL_ACTIVATION_RUNNER" "$TEST_LOCAL_PLUGIN_CHECK_RUNNER"; do
@@ -1016,7 +1029,7 @@ test_test_local_runners_reject_wrong_site_without_mutation() {
       fi
       rc=$?
       test "$rc" -ne 0 || return 1
-      assert_contains "$output" 'wp-test does not target https://test.local' || return 1
+      assert_contains "$output" 'wp-test does not target test.local' || return 1
       if test "$runner" = "$TEST_LOCAL_ACTIVATION_RUNNER"; then
         ! test -e "$fixture/wp-content/plugins/woowgallery" || return 1
         ! grep -F 'plugin activate woowgallery' "$fixture/wp-test.log" >/dev/null || return 1
@@ -2355,6 +2368,7 @@ run_if_selected 'freemius' 'Freemius download is one shot and bound to upload' t
 run_if_selected 'verify' 'verify accepts exact free artifact and records evidence' test_verify_accepts_exact_free_artifact_and_records_evidence
 run_if_selected 'verify-order' 'verify installs before Plugin Check' test_verify_installs_before_plugin_check
 run_if_selected 'test-local-runners' 'test.local activation runner installs exact artifact' test_test_local_activation_runner_installs_exact_artifact
+run_if_selected 'test-local-runner-guards' 'test.local runners accept http test.local' test_test_local_runners_accept_http_test_local
 run_if_selected 'test-local-runner-guards' 'test.local runners reject wrong home and siteurl without mutation' test_test_local_runners_reject_wrong_site_without_mutation
 run_if_selected 'test-local-runner-guards' 'test.local activation runner refuses overwrite' test_test_local_activation_runner_refuses_overwrite
 run_if_selected 'test-local-runners' 'test.local Plugin Check runner allows warnings' test_test_local_plugin_check_runner_allows_warnings
