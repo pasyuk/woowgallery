@@ -127,6 +127,36 @@ test_build_creates_verified_source_archive_and_manifest() {
   assert_contains "$output" "$archive"
 }
 
+test_build_rejects_invalid_source_archive_root() {
+  local fixture repo work manifest output rc
+  fixture=$(mktemp -d)
+  make_clean_fixture "$fixture" || return 1
+  repo="$fixture/repo"
+  work="$fixture/work"
+  manifest="$work/release-manifest.json"
+  output=$(FAKE_WP_DIST_ROOT=wrong-root PATH="$ROOT/tests/release/fakes:$PATH" \
+    WOOWGALLERY_WP_CLI=wp-dev "$CLI" build --repo "$repo" --version 1.2.5 --work-dir "$work" 2>&1)
+  rc=$?
+  test "$rc" -ne 0 || return 1
+  assert_contains "$output" 'Source archive must contain exactly one woowgallery/ top-level directory' || return 1
+  ! jq -e '.stages.build == "passed"' "$manifest" >/dev/null
+}
+
+test_build_rejects_excluded_development_files() {
+  local fixture repo work manifest output rc
+  fixture=$(mktemp -d)
+  make_clean_fixture "$fixture" || return 1
+  repo="$fixture/repo"
+  work="$fixture/work"
+  manifest="$work/release-manifest.json"
+  output=$(FAKE_WP_SKIP_DISTIGNORE=1 PATH="$ROOT/tests/release/fakes:$PATH" \
+    WOOWGALLERY_WP_CLI=wp-dev "$CLI" build --repo "$repo" --version 1.2.5 --work-dir "$work" 2>&1)
+  rc=$?
+  test "$rc" -ne 0 || return 1
+  assert_contains "$output" 'Source archive contains excluded development files' || return 1
+  ! jq -e '.stages.build == "passed"' "$manifest" >/dev/null
+}
+
 test_build_rejects_non_empty_work_dir_without_matching_resume_manifest() {
   local fixture repo work output rc
   fixture=$(mktemp -d)
@@ -2291,6 +2321,8 @@ run_if_selected 'preflight' 'preflight rejects version mismatch' test_preflight_
 run_if_selected 'preflight' 'test bypass does not skip Git worktree checks' test_bypass_does_not_skip_git_worktree_checks
 run_if_selected 'preflight' 'preflight rejects git status error' test_preflight_rejects_git_status_error
 run_if_selected 'build' 'build creates verified source archive and manifest' test_build_creates_verified_source_archive_and_manifest
+run_if_selected 'build' 'build rejects invalid source archive root' test_build_rejects_invalid_source_archive_root
+run_if_selected 'build' 'build rejects excluded development files' test_build_rejects_excluded_development_files
 run_if_selected 'build' 'build rejects non-empty work dir without matching resume manifest' test_build_rejects_non_empty_work_dir_without_matching_resume_manifest
 run_if_selected 'build' 'build rejects resume manifest with wrong source identity' test_build_rejects_resume_manifest_with_wrong_source_identity
 run_if_selected 'build' 'build rejects resume manifest outside work dir' test_build_rejects_resume_manifest_outside_work_dir
